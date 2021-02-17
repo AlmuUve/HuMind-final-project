@@ -1,63 +1,45 @@
-# WebApp boilerplate with React JS
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/4GeeksAcademy/react-flask-hello.git)
+<h1>🧠 HuMind</h1>
 
-<p align="center">
-<a href="https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b"><img src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/how-to.png?raw=true?raw=true" /></a>
-</p>
+We are @AlmuUve, @Jose and @Rafaela; and...
 
-### Styles
-You can update the `styles/index.scss` or create new `.scss` files inside `styles/` and import them into your current scss or js files depending on your needs.
+<h2>We connect companies with psycologists</h2>
 
-### Components
-Add more files into your `./src/js/components` or styles folder as you need them and import them into your current files as needed.
+We believe in the **importance of putting mental health and well-being first**.
 
-💡Note: There is an example using the Context API inside `views/demo.js`;
+We want to **promote training from within companies** that leads to **improvement in the well-being of their employees** that is reflected both personally and at work.
 
-### Views (Components)
-Add more files into your `./src/js/views` and import them in `./src/js/layout.jsx`.
+<h2>How will we get it?</h2>
 
-### Context
-This boilerplate comes with a centralized general Context API. The file `./src/js/store/flux.js` has a base structure for the store, we encourage you to change it and adapt it to your needs.
+<ul>
 
-React Context [docs](https://reactjs.org/docs/context.html)
-BreathCode Lesson [view](https://content.breatheco.de/lesson/react-hooks-explained)
+<li>Offering a service that adds value to companies without investing more than the training-oriented budget.</li>
 
-The `Provider` is already set. You can consume from any component using the useContext hook to get the `store` and `actions` from the Context. Check `/views/demo.js` to see a demo.
+<li>Helping psychologists increase their business, growing their client base.</li>
 
-```jsx
-import { Context } from "../store/appContext";
-const MyComponentSuper = () => {
-  //here you use useContext to get store and actions
-  const { store, actions } = useContext(Context);
-  return <div>{/* you can use your actions or store inside the html */}</div>
-}
-```
+<li>Supporting the management of emotions and stress that can be generated in the highly competitive work environments in which we operate today.</li>
 
-### Back-End Manual Installation:
+<li>Facilitate in the same platform that companies can connect with psychologists and decide on the one that best suits their needs.</li>
 
-It is recomended to install the backend first, make sure you have Python 3.8, Pipenv and a database engine (Posgress recomended)
+<li>Offer piscologists a platform where they can offer their services in the business environment. They can generate content to have more visibility, provide their services on the platform itself, offer workshops, etc.</li>
 
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure yo replace the valudes with your database information:
+</ul>
 
-| Engine	| DATABASE_URL 						|
-| ------------- | ----------------------------------------------------- |
-| SQLite	| sqlite:////test.db	 				|
-| MySQL		| mysql://username:password@localhost:port/example	|
-| Postgress	| postgres://username:password@localhost:5432/example 	|
+<h2>We care about UX</h2>
 
-3. Run the migrations: `$ pipenv run upgrade`
-4. Run the application: `$ pipenv run start
+<a href="https://docs.google.com/spreadsheets/d/1NWv5SgCesns6P1_ouWTNXsxmUScqznRlC5mTGrUVZS4/edit#gid=0" target="_blank"><img align="center" src="https://i.imgur.com/RM1CqUM.png" alt="UX" border="0" /></a>
 
+<a href="https://docs.google.com/spreadsheets/d/1NWv5SgCesns6P1_ouWTNXsxmUScqznRlC5mTGrUVZS4/edit#gid=0" target="_blank"><img align="center" src="https://i.imgur.com/vnFxZWn.png" alt="UX" border="0" /></a>
 
-### Front-End Manual Installation:
+<h2>We care about our data</h2>
 
-- Make sure you are using node version 14+ and that you have already successfully installed and runned the backend.
+<a href="https://docs.google.com/spreadsheets/d/1NWv5SgCesns6P1_ouWTNXsxmUScqznRlC5mTGrUVZS4/edit#gid=0" target="_blank"><img align="center" src="https://i.imgur.com/chmLIxA.png" alt="UX" border="0" /></a>
 
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
+<h2>We care about our look & feel</h2>
 
-## Publish your website!
+<img align="center" src="https://i.imgur.com/H535bUI.png" alt="UX" border="0" />
 
-This boilerplate it's 100% integrate with Herkou, just by pushing your changes to the heroku repository it will deploy: `$ git push heroku main`
+<h2>We care about our own mental health</h2>
+
+And organize our work in order not to get nuts!
+
+<img align="center" src="https://i.imgur.com/d1YY9g7.png" alt="UX" border="0" />
