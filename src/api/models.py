@@ -8,15 +8,14 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(250), unique=True)
-    _password = db.Column(db.String(250))
+    password = db.Column(db.String(250))
     is_active = db.Column(db.Boolean)
     image = db.Column(db.String(250))
     description = db.Column(db.Text)
-    is_psychologist = db.Column(db.Boolean)
+    is_psychologyst = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
-    user_psychologist = db.relationship('User_psychologist', lazy=True)
+    user_psychologyst = db.relationship('User_psychologyst', lazy=True)
     
-
     def __repr__(self):
         return f'User {self.email}'
 
@@ -26,8 +25,12 @@ class User(db.Model):
             "email": self.email,
             "is_active": True,
             "description": self.description,
-            "is_psychologist": self.is_psychologist
+            "is_psychologyst": self.is_psychologyst
         }
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -47,11 +50,15 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
+            "is_psychologyst": self.is_psychologyst
         }
+
+    def add(self):
+        db.session.add()
+        db.session.commit()
     
-class User_psychologist(db.Model):
-    __tablename__ = 'user_psychologist'
+class User_psychologyst(db.Model):
+    __tablename__ = 'user_psychologyst'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250))
@@ -64,7 +71,7 @@ class User_psychologist(db.Model):
 
  
     def __repr__(self):
-        return f'User psychologist {self.name}'
+        return f'User psychologyst {self.name}'
 
     def to_dict(self):
         return {
@@ -75,6 +82,10 @@ class User_psychologist(db.Model):
             "speciality": self.speciality,
             "user_id": self.user_id
         }
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Category(db.Model):
     __tablename__ = 'category'
@@ -137,12 +148,12 @@ class Workshop(db.Model):
     is_active = db.Column(db.Boolean)
     max_people = db.Column(db.Integer)
     description = db.Column(db.Text)
-    user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
+    user_psychologyst_id = db.Column(db.Integer, db.ForeignKey("user_psychologyst.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
         backref=db.backref("workshops", lazy=True))
  
     def __repr__(self):
-        return f'Workshop {self.title} and owner {self.user_psychologist_id}'
+        return f'Workshop {self.title} and owner {self.user_psychologyst_id}'
 
     def to_dict(self):
         return {
@@ -154,7 +165,7 @@ class Workshop(db.Model):
             "is_active": True,
             "max_people": self.max_people,
             "description": self.description,
-            "user_psychologist_id": self.user_psychologist_id,
+            "user_psychologyst_id": self.user_psychologyst_id,
             "category_info": self.category_info
         }
 
