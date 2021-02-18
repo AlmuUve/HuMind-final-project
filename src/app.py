@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User, User_company, User_psychologyst, Category, Search_workshop, Workshop 
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
@@ -49,15 +49,41 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = os.path.join(path, 'index.html')
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0 # avoid cache memory
-    return response
+@app.route('/user', methods=['POST'])
+def add_user():
+    body = request.get_json()
+    if body.get("email", None):
+        new_user = User(
+            email = body.get("email"),
+            password = body.get("_password"),
+            description = body.get("description"),
+            is_psychologyst = body.get("is_psychologyst"),
+            is_active = body.get("is_active")
+        )
+        print("hola", new_user)
+        new_user.add()
+        return jsonify(new_user.to_dict()), 200
+    return "NO SE CREA NADA AMIGO MIO", 400
+
+@app.route('/user/<int:id>/psychologist', methods=['POST'])
+def add_user_psychologist(id):
+    body = request.get_json()
+    if body.get("association_number", None):
+        new_user = User_psychologyst(
+            name = body.get("name"),
+            lastname = body.get("_password"),
+            identity_number = body.get("identity_number"),
+            association_number = body.get("association_number"),
+            speciality = body.get("speciality"),
+            user_id = id,            
+        )
+        new_user.add()
+        return jsonify(new_user.to_dict()), 200
+    return "NO SE CREA NADA AMIGO MIO", 400
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+
+
