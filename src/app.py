@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologyst, Category, Search_workshop, Workshop 
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop 
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
@@ -55,9 +55,9 @@ def add_user():
     if body.get("email", None):
         new_user = User(
             email = body.get("email"),
-            password = body.get("_password"),
+            password = body.get("password"),
             description = body.get("description"),
-            is_psychologyst = body.get("is_psychologyst"),
+            is_psychologist = body.get("is_psychologist"),
             is_active = body.get("is_active")
         )
         print("hola", new_user)
@@ -69,9 +69,9 @@ def add_user():
 def add_user_psychologist(id):
     body = request.get_json()
     if body.get("association_number", None):
-        new_user = User_psychologyst(
+        new_user = User_psychologist(
             name = body.get("name"),
-            lastname = body.get("_password"),
+            lastname = body.get("lastname"),
             identity_number = body.get("identity_number"),
             association_number = body.get("association_number"),
             speciality = body.get("speciality"),
@@ -80,6 +80,19 @@ def add_user_psychologist(id):
         new_user.add()
         return jsonify(new_user.to_dict()), 200
     return "NO SE CREA NADA AMIGO MIO", 400
+
+@app.route('/user/<int:id>', methods=['GET'])
+def get_user_information(id):
+    user = User.get_by_id(id)
+    if user:
+        return jsonify(user.to_dict()), 200
+    else: "User nor found", 404
+
+# @app.route('/user/<int:id>/psychologist', methods=['GET'])
+# def get_user_psychologist_information(id):
+#     user = User.get_by_id(id)
+#     user_psychologist = User_psychologist.get_by_user_id(user.id)
+#     return jsonify(user_psychologist.to_dict()), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
