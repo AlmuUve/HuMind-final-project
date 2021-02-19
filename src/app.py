@@ -88,11 +88,12 @@ def get_user_information(id):
         return jsonify(user.to_dict()), 200
     else: "User nor found", 404
 
-# @app.route('/user/<int:id>/psychologist', methods=['GET'])
-# def get_user_psychologist_information(id):
-#     user = User.get_by_id(id)
-#     user_psychologist = User_psychologist.get_by_user_id(user.id)
-#     return jsonify(user_psychologist.to_dict()), 200
+@app.route('/user/<int:id>/company', methods=['PUT'])
+def update_company_user(id):
+    body = request.get_json()
+    user = User_company.update_company_user(body, id)
+    change_user = User_company.get_by_id(id)
+    return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['DELETE'])
 def delete_one_user(id):
