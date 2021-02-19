@@ -102,6 +102,15 @@ def update_psychologist_user(id):
     change_user = User_psychologist.get_by_user_id(id)
     return jsonify(change_user.to_dict())
 
+  
+@app.route('/user/<int:id>/company', methods=['PUT'])
+def update_company_user(id):
+    body = request.get_json()
+    user = User_company.update_company_user(body, id)
+    change_user = User_company.get_by_id(id)
+    return jsonify(change_user.to_dict())
+  
+  
 @app.route('/user/<int:id>', methods=['DELETE'])
 def delete_one_user(id):
     User.delete_user(id)
