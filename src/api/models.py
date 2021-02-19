@@ -14,7 +14,7 @@ class User(db.Model):
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
-    user_psychologist = db.relationship('User_psychologist', lazy=True)
+    user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
     
     def __repr__(self):
         return f'User {self.email}'
@@ -37,6 +37,7 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
+
     def update_single_user(user_data, id):
         user= User.query.filter_by(id = id).first()
         user.email= user_data["email"]
@@ -46,6 +47,11 @@ class User(db.Model):
         user.is_active= user.is_active
         db.session.commit()
  
+    @classmethod
+    def delete_user(cls, id):
+        target = cls.query.filter_by(id = id).first()
+        db.session.delete(target)
+        db.session.commit()
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
