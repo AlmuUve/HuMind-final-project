@@ -55,11 +55,10 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
         }
 
     def add(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
     
 class User_psychologist(db.Model):
@@ -78,15 +77,20 @@ class User_psychologist(db.Model):
     def __repr__(self):
         return f'User psychologist {self.name}'
 
-    def to_dict(self):
+    def to_dict(self, User):
         return {
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
             "association_number": self.association_number,
             "speciality": self.speciality,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "email": User.email,
+            "is_active": True,
+            "description": User.description,
+            "is_psychologist": User.is_psychologist
         }
+        
 
     def add(self):
         db.session.add(self)
@@ -94,7 +98,7 @@ class User_psychologist(db.Model):
 
     @classmethod
     def get_by_user_id(cls, user):
-        user_psychologit = cls.query.filter_by(user_id=user)
+        user_psychologit = cls.query.filter_by(user_id=user).first()
         return user_psychologit
 
 class Category(db.Model):

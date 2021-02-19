@@ -1,46 +1,25 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			urlGetUser: "https://3001-aquamarine-cattle-vxa3ls0l.ws-eu03.gitpod.io/user/9",
+			urlGetUserPsychologist: "https://3001-aquamarine-cattle-vxa3ls0l.ws-eu03.gitpod.io/user/11/psychologist",
+			user: [],
+			userPsychologist: [],
+			userCompany: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			getMessage: () => {
-				// fetching data from the backend
-				fetch(process.env.BACKEND_URL + "/api/hello")
-					.then(resp => resp.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
+			getUser: () => {
+				fetch(getStore().urlGetUser).then(async res => {
+					const response = await res.json();
+					setStore({ user: response });
 				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			},
+			getUserPsychologist: () => {
+				fetch(getStore().urlGetUserPsychologist).then(async res => {
+					const response = await res.json();
+					setStore({ userPsychologist: response });
+					console.log(getStore().userPsychologist);
+				});
 			}
 		}
 	};

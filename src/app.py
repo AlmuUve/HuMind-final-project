@@ -67,6 +67,7 @@ def add_user():
 
 @app.route('/user/<int:id>/psychologist', methods=['POST'])
 def add_user_psychologist(id):
+    user = User.get_by_id(id)
     body = request.get_json()
     if body.get("association_number", None):
         new_user = User_psychologist(
@@ -75,6 +76,19 @@ def add_user_psychologist(id):
             identity_number = body.get("identity_number"),
             association_number = body.get("association_number"),
             speciality = body.get("speciality"),
+            user_id = id,     
+        )
+        new_user.add()
+        return jsonify(new_user.to_dict(user)), 200
+    return "NO SE CREA NADA AMIGO MIO", 400
+
+@app.route('/user/<int:id>/company', methods=['POST'])
+def add_user_company(id):
+    body = request.get_json()
+    if body.get("company_number", None):
+        new_user = User_company(
+            company_name = body.get("company_name"),
+            company_number = body.get("company_number"),
             user_id = id,            
         )
         new_user.add()
@@ -88,11 +102,12 @@ def get_user_information(id):
         return jsonify(user.to_dict()), 200
     else: "User nor found", 404
 
-# @app.route('/user/<int:id>/psychologist', methods=['GET'])
-# def get_user_psychologist_information(id):
-#     user = User.get_by_id(id)
-#     user_psychologist = User_psychologist.get_by_user_id(user.id)
-#     return jsonify(user_psychologist.to_dict()), 200
+@app.route('/user/<int:id>/psychologist', methods=['GET'])
+def get_user_psychologist_information(id):
+    user = User.get_by_id(id)
+    user_psychologist = User_psychologist.get_by_user_id(user.id)
+    print(user_psychologist)
+    return jsonify(user_psychologist.to_dict(user)), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
