@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b86d3e5cd485
+Revision ID: 03527bd9a6eb
 Revises: 
-Create Date: 2021-02-18 11:04:05.811661
+Create Date: 2021-02-18 18:05:31.111101
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b86d3e5cd485'
+revision = '03527bd9a6eb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,6 +21,7 @@ def upgrade():
     op.create_table('category',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('category_name', sa.String(length=250), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('category_name')
     )
@@ -31,7 +32,7 @@ def upgrade():
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('image', sa.String(length=250), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('is_psychologyst', sa.Boolean(), nullable=True),
+    sa.Column('is_psychologist', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -39,20 +40,20 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('company_name', sa.String(length=250), nullable=True),
     sa.Column('company_number', sa.String(length=80), nullable=True),
-    sa.Column('User_Id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['User_Id'], ['user.id'], ),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('company_number')
     )
-    op.create_table('user_psychologyst',
+    op.create_table('user_psychologist',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=250), nullable=True),
     sa.Column('lastname', sa.String(length=250), nullable=True),
     sa.Column('identity_number', sa.String(length=250), nullable=True),
     sa.Column('association_number', sa.String(length=250), nullable=True),
     sa.Column('speciality', sa.String(length=250), nullable=True),
-    sa.Column('User_Id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['User_Id'], ['user.id'], ),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('association_number'),
     sa.UniqueConstraint('identity_number')
@@ -79,8 +80,8 @@ def upgrade():
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('max_people', sa.Integer(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('user_psychologyst_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_psychologyst_id'], ['user_psychologyst.id'], ),
+    sa.Column('user_psychologist_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_psychologist_id'], ['user_psychologist.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('workshop_has_category',
@@ -98,7 +99,7 @@ def downgrade():
     op.drop_table('workshop_has_category')
     op.drop_table('workshop')
     op.drop_table('search_workshop')
-    op.drop_table('user_psychologyst')
+    op.drop_table('user_psychologist')
     op.drop_table('user_company')
     op.drop_table('user')
     op.drop_table('category')
