@@ -37,6 +37,10 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
+    def user_is_psychologist(id):
+        user = User.get_by_id(id)
+        return user.is_psychologist
+
 
     def update_single_user(user_data, id):
         user= User.query.filter_by(id = id).first()
@@ -71,11 +75,10 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
         }
 
     def add(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
 
     def update_company_user(user_data, id):
