@@ -12,21 +12,30 @@ class User(db.Model):
     is_active = db.Column(db.Boolean)
     image = db.Column(db.String(250))
     description = db.Column(db.Text)
-    is_psychologyst = db.Column(db.Boolean)
+    is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
-    user_psychologyst = db.relationship('User_psychologyst', lazy=True)
+    user_psychologist = db.relationship('User_psychologist', lazy=True)
     
-
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'User {self.email}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "email": self.email,
-
-            # do not serialize the password, its a security breach
+            "is_active": True,
+            "description": self.description,
+            "is_psychologist": self.is_psychologist
         }
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first()
+        return user
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -34,22 +43,27 @@ class User_company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(250))
     company_number = db.Column(db.String(80), unique=True)
-    User_Id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     search_workshop = db.relationship('Search_workshop', lazy=True)
-
  
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'User company {self.company_name}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "company_name": self.company_name,
+            "company_number": self.company_number,
+            "user_id": self.user_id,
+            "is_psychologist": self.is_psychologist
         }
+
+    def add(self):
+        db.session.add()
+        db.session.commit()
     
-class User_psychologyst(db.Model):
-    __tablename__ = 'user_psychologyst'
+class User_psychologist(db.Model):
+    __tablename__ = 'user_psychologist'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250))
@@ -57,19 +71,31 @@ class User_psychologyst(db.Model):
     identity_number = db.Column(db.String(250), unique=True)
     association_number = db.Column(db.String(250), unique=True)
     speciality = db.Column(db.String(250))
-    User_Id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
 
  
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'User psychologist {self.name}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "name": self.name,
+            "lastname": self.lastname,
+            "association_number": self.association_number,
+            "speciality": self.speciality,
+            "user_id": self.user_id
         }
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_by_user_id(cls, user):
+        user_psychologit = cls.query.filter_by(user_id=user)
+        return user_psychologit
 
 class Category(db.Model):
     __tablename__ = 'category'
@@ -77,15 +103,16 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(250), unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
+    is_active = db.Column(db.Boolean)
      
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'Category {self.category_name}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "category_name": self.category_name,
+            "is_active":False
         }
 
 class Search_workshop(db.Model):
@@ -101,13 +128,18 @@ class Search_workshop(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
  
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'Search_workshop {self.user_company_id} and {self.id}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "duration": self.duration,
+            "max_price": self.max_price,
+            "date": self.date,
+            "max_people": self.max_people,
+            "is_active": True,
+            "user_company_id": self.user_company_id,
+            "category_id": self.category_id
         }
 
 workshop_has_category = db.Table('workshop_has_category',
@@ -126,17 +158,24 @@ class Workshop(db.Model):
     is_active = db.Column(db.Boolean)
     max_people = db.Column(db.Integer)
     description = db.Column(db.Text)
-    user_psychologyst_id = db.Column(db.Integer, db.ForeignKey("user_psychologyst.id"))
-    category_info_1 = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
+    user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
+    category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
         backref=db.backref("workshops", lazy=True))
  
     def __repr__(self):
-        return '<User %r>' % self.username
+        return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def serialize(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "title": self.title,
+            "duration": self.duration,
+            "price": self.price,
+            "date": self.date,
+            "is_active": True,
+            "max_people": self.max_people,
+            "description": self.description,
+            "user_psychologist_id": self.user_psychologist_id,
+            "category_info": self.category_info
         }
 
