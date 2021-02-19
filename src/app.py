@@ -54,13 +54,19 @@ def sitemap():
 def get_user_company_information(id):
     user = User.get_by_id(id)
     user_company = User_company.get_by_user_id(user.id)
-    return jsonify(user_company.to_dict()), 200
+    if user_company["is_active"]:
+        return jsonify(user_company.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
 
 @app.route('/user/psychologist/<int:id>', methods=['GET'])
 def get_user_company_information(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
-    return jsonify(user_psychologist.to_dict()), 200
+    if user_psychologist["is_active"]:
+        return jsonify(user_psychologist.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
