@@ -88,12 +88,33 @@ def get_user_information(id):
         return jsonify(user.to_dict()), 200
     else: "User nor found", 404
 
+@app.route('/user/<int:id>', methods=['PUT'])
+def update_user(id):
+    body = request.get_json()
+    user = User.update_single_user(body, id)
+    change_user = User.get_by_id(id)
+    return jsonify(change_user.to_dict())
+
+@app.route('/user/<int:id>/psychologist', methods=['PUT'])
+def update_psychologist_user(id):
+    body = request.get_json()
+    user = User_psychologist.update_psychologist_user(body, id)
+    change_user = User_psychologist.get_by_user_id(id)
+    return jsonify(change_user.to_dict())
+
+  
 @app.route('/user/<int:id>/company', methods=['PUT'])
 def update_company_user(id):
     body = request.get_json()
     user = User_company.update_company_user(body, id)
     change_user = User_company.get_by_id(id)
     return jsonify(change_user.to_dict())
+  
+  
+@app.route('/user/<int:id>', methods=['DELETE'])
+def delete_one_user(id):
+    User.delete_user(id)
+    return "User Deleted Successfully", 200
 
 @app.route('/user/<int:id>', methods=['DELETE'])
 def delete_one_user(id):
