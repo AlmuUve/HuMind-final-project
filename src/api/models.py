@@ -14,7 +14,7 @@ class User(db.Model):
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
-    user_psychologist = db.relationship('User_psychologist', lazy=True)
+    user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
     
     def __repr__(self):
         return f'User {self.email}'
@@ -35,7 +35,7 @@ class User(db.Model):
     @classmethod
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
-        return user
+        return user   
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -50,16 +50,25 @@ class User_company(db.Model):
         return f'User company {self.company_name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
 
     def add(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def get_by_user_id(cls, user):
+        user_company = cls.query.filter_by(user_id=user).first()
+        return user_company
     
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
@@ -72,12 +81,12 @@ class User_psychologist(db.Model):
     speciality = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
-
  
     def __repr__(self):
         return f'User psychologist {self.name}'
 
-    def to_dict(self, User):
+    def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "name": self.name,
@@ -85,10 +94,9 @@ class User_psychologist(db.Model):
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,
-            "email": User.email,
-            "is_active": True,
-            "description": User.description,
-            "is_psychologist": User.is_psychologist
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
         
 
@@ -98,8 +106,8 @@ class User_psychologist(db.Model):
 
     @classmethod
     def get_by_user_id(cls, user):
-        user_psychologit = cls.query.filter_by(user_id=user).first()
-        return user_psychologit
+        user_psychologist = cls.query.filter_by(user_id=user).first()
+        return user_psychologist
 
 class Category(db.Model):
     __tablename__ = 'category'
