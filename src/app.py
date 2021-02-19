@@ -94,6 +94,11 @@ def get_user_information(id):
 #     user_psychologist = User_psychologist.get_by_user_id(user.id)
 #     return jsonify(user_psychologist.to_dict()), 200
 
+@app.route('/user/<int:id>', methods=['DELETE'])
+def delete_one_user(id):
+    User.delete_user(id)
+    return "User Deleted Successfully", 200
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
