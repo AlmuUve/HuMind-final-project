@@ -116,11 +116,6 @@ def delete_one_user(id):
     User.delete_user(id)
     return "User Deleted Successfully", 200
 
-@app.route('/user/<int:id>', methods=['DELETE'])
-def delete_one_user(id):
-    User.delete_user(id)
-    return "User Deleted Successfully", 200
-
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
