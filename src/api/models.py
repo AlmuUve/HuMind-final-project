@@ -35,23 +35,7 @@ class User(db.Model):
     @classmethod
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
-        return user
-
-
-    def update_single_user(user_data, id):
-        user= User.query.filter_by(id = id).first()
-        user.email= user_data["email"]
-        user.password= user_data["password"]
-        user.description= user_data["description"]
-        user.is_psychologist= user.is_psychologist
-        user.is_active= user.is_active
-        db.session.commit()
- 
-    @classmethod
-    def delete_user(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        db.session.delete(target)
-        db.session.commit()
+        return user   
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -66,22 +50,25 @@ class User_company(db.Model):
         return f'User company {self.company_name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
 
     def add(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
 
-    def update_company_user(user_data, id):
-        user= User_company.query.filter_by(id = id).first()
-        user.company_name= user_data["company_name"]
-        db.session.commit()   
+    @classmethod
+    def get_by_user_id(cls, user):
+        user_company = cls.query.filter_by(user_id=user).first()
+        return user_company
     
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
@@ -94,19 +81,22 @@ class User_psychologist(db.Model):
     speciality = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
-
  
     def __repr__(self):
         return f'User psychologist {self.name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
             "association_number": self.association_number,
             "speciality": self.speciality,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
 
     def add(self):
@@ -117,14 +107,6 @@ class User_psychologist(db.Model):
     def get_by_user_id(cls, user):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
-    
-    
-    def update_psychologist_user(user_data, id):
-        user= User_psychologist.query.filter_by(user_id = id).first()
-        user.name= user_data["name"]
-        user.lastname= user_data["lastname"]
-        user.speciality= user_data["speciality"]
-        db.session.commit()   
 
 class Category(db.Model):
     __tablename__ = 'category'
