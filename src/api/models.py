@@ -37,6 +37,16 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
+
+    def update_single_user(user_data, id):
+        user= User.query.filter_by(id = id).first()
+        user.email= user_data["email"]
+        user.password= user_data["password"]
+        user.description= user_data["description"]
+        user.is_psychologist= user.is_psychologist
+        user.is_active= user.is_active
+        db.session.commit()
+ 
     @classmethod
     def delete_user(cls, id):
         target = cls.query.filter_by(id = id).first()
@@ -67,6 +77,11 @@ class User_company(db.Model):
     def add(self):
         db.session.add()
         db.session.commit()
+
+    def update_company_user(user_data, id):
+        user= User_company.query.filter_by(id = id).first()
+        user.company_name= user_data["company_name"]
+        db.session.commit()   
     
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
@@ -100,8 +115,16 @@ class User_psychologist(db.Model):
 
     @classmethod
     def get_by_user_id(cls, user):
-        user_psychologit = cls.query.filter_by(user_id=user)
-        return user_psychologit
+        user_psychologist = cls.query.filter_by(user_id=user).first()
+        return user_psychologist
+    
+    
+    def update_psychologist_user(user_data, id):
+        user= User_psychologist.query.filter_by(user_id = id).first()
+        user.name= user_data["name"]
+        user.lastname= user_data["lastname"]
+        user.speciality= user_data["speciality"]
+        db.session.commit()   
 
 class Category(db.Model):
     __tablename__ = 'category'
