@@ -48,56 +48,32 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
-# any other endpoint will try to serve it like a static file
-@app.route('/user', methods=['POST'])
-def add_user():
-    body = request.get_json()
-    if body.get("email", None):
-        new_user = User(
-            email = body.get("email"),
-            password = body.get("password"),
-            description = body.get("description"),
-            is_psychologist = body.get("is_psychologist"),
-            is_active = body.get("is_active")
-        )
-        print("hola", new_user)
-        new_user.add()
-        return jsonify(new_user.to_dict()), 200
-    return "NO SE CREA NADA AMIGO MIO", 400
+# @app.route('/user', methods=['POST'])
+# def add_user():
+#     body = request.get_json()
+#     if body.get("email", None):
+#         new_user = User(
+#             email = body.get("email"),
+#             password = body.get("password"),
+#             description = body.get("description"),
+#             is_psychologist = body.get("is_psychologist"),
+#             is_active = body.get("is_active")
+#         )
+#         print("hola", new_user)
+#         new_user.add()
+#         return jsonify(new_user.to_dict()), 200
+#     return "NO SE CREA NADA AMIGO MIO", 400
 
-@app.route('/user/<int:id>/psychologist', methods=['POST'])
-def add_user_psychologist(id):
-    body = request.get_json()
-    if body.get("association_number", None):
-        new_user = User_psychologist(
-            name = body.get("name"),
-            lastname = body.get("lastname"),
-            identity_number = body.get("identity_number"),
-            association_number = body.get("association_number"),
-            speciality = body.get("speciality"),
-            user_id = id,            
-        )
-        new_user.add()
-        return jsonify(new_user.to_dict()), 200
-    return "NO SE CREA NADA AMIGO MIO", 400
-
-@app.route('/user/<int:id>', methods=['GET'])
-def get_user_information(id):
-    user = User.get_by_id(id)
-    if user:
-        return jsonify(user.to_dict()), 200
-    else: "User nor found", 404
-
-# @app.route('/user/<int:id>/psychologist', methods=['GET'])
-# def get_user_psychologist_information(id):
+# @app.route('/user/<int:id>', methods=['GET'])
+# def get_user(id):
 #     user = User.get_by_id(id)
-#     user_psychologist = User_psychologist.get_by_user_id(user.id)
-#     return jsonify(user_psychologist.to_dict()), 200
+#     return jsonify(user.to_dict()), 200
 
-@app.route('/user/<int:id>', methods=['DELETE'])
+# any other endpoint will try to serve it like a static file
+@app.route('/user/<int:id>', methods=['PATCH'])
 def delete_one_user(id):
-    User.delete_user(id)
-    return "User Deleted Successfully", 200
+    user_target = User.delete_user(id)
+    return jsonify(user_target.to_dict()), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

@@ -11,3 +11,10 @@ $background_color: #f5f5f5;
 $title_font: 'Montserrat', sans-serif;
 $text_font:   'Oswald', sans-serif;
 
+/* Delete Button */
+.delete_profileButton{
+    color: $primary_blue;
+    border: none;
+    background-color: white;
+}
+
