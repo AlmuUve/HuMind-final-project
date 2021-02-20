@@ -6,10 +6,10 @@ import "../../styles/home.scss";
 import { Profiletemplate } from "../component/profilecard.jsx";
 import { Coverphoto } from "../component/coverphoto.jsx";
 
-export const Profilepsychologist = () => {
+export const Profilecompany = () => {
 	const { store, actions } = useContext(Context);
 
-	let profilePsychologist = store.userPsychologist.map((item, index) => {
+	let profileCompany = store.userCompany.map((item, index) => {
 		return <Profiletemplate item={item} key={index.toString()} />;
 	});
 
@@ -19,7 +19,7 @@ export const Profilepsychologist = () => {
 				<Coverphoto />
 			</div>
 			<div className="container">
-				<div className="row">{profilePsychologist}</div>
+				<div className="row">{profileCompany}</div>
 			</div>
 		</>
 	);

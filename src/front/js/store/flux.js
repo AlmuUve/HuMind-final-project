@@ -1,14 +1,14 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserPsychologist: "https://3001-cyan-rook-6ypn6m2g.ws-eu03.gitpod.io/user/psychologist/6",
-			userPsychologist: []
+			urlGetUserCompany: "https://3001-cyan-rook-6ypn6m2g.ws-eu03.gitpod.io/user/company/8",
+			userCompany: []
 		},
 		actions: {
-			getUserPsychologist: () => {
-				fetch(getStore().urlGetUserPsychologist).then(async res => {
+			getUserCompany: () => {
+				fetch(getStore().urlGetUserCompany).then(async res => {
 					const response = await res.json();
-					setStore({ userPsychologist: [response] });
+					setStore({ userCompany: [response] });
 				});
 			}
 		}

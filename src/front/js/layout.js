@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Profilepsychologist } from "./pages/profilePsychologist";
+import { Profilecompany } from "./pages/profileCompany";
 import injectContext from "./store/appContext";
 
 //create your first component
@@ -15,7 +15,7 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Switch>
 					<Route exact path="/">
-						<Profilepsychologist />
+						<Profilecompany />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>
