@@ -54,19 +54,55 @@ def sitemap():
 def get_user_company_information(id):
     user = User.get_by_id(id)
     user_company = User_company.get_by_user_id(user.id)
-    if user_company["is_active"]:
+    if user.is_active:
         return jsonify(user_company.to_dict()), 200
     else:
         return "This profile doesnt exists", 400
 
 @app.route('/user/psychologist/<int:id>', methods=['GET'])
-def get_user_company_information(id):
+def get_user_psychologist_information(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
-    if user_psychologist["is_active"]:
+    if user.is_active:
         return jsonify(user_psychologist.to_dict()), 200
     else:
         return "This profile doesnt exists", 400
+
+@app.route('/user', methods=['POST'])
+def add_user():
+    body = request.get_json()
+    if not body.get("email") or not body.get("password"):
+        return "Error!", 400
+
+    new_user = User(
+        email = body.get("email"),
+        password = body.get("password"),
+        description = body.get("description"),
+        is_psychologist = body.get("is_psychologist"),
+        is_active = body.get("is_active")
+    )
+    new_user.add()
+
+    if body.get("is_psychologist"):
+        new_user_psy = User_psychologist(
+            name = body.get("name"),
+            lastname = body.get("lastname"),
+            identity_number = body.get("number"),
+            association_number = body.get("association_number"),             
+            speciality = body.get("speciality"),
+            user_id = new_user.id
+        )
+        new_user_psy.add()
+        return jsonify(new_user_psy.to_dict()), 200
+
+    new_user_company = User_company(
+        company_name = body.get("company_name"),
+        company_number = body.get("company_number"),
+        user_id = new_user.id
+    )
+    new_user_company.add()
+    return jsonify(new_user_company.to_dict()), 200
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
