@@ -1,6 +1,6 @@
 <h1>🧠 HuMind</h1>
 
-We are @AlmuUve, @Jose and @Rafaela; and...
+We are @AlmuUve, @Jose and @Rafaelagcalves; and...
 
 <h2>We connect companies with psycologists</h2>
 
