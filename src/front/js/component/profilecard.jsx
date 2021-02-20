@@ -17,18 +17,11 @@ export const Profiletemplate = props => {
 	return (
 		<div className="col-lg-4 col-sm-12 profileCard">
 			<div className="imgProfile">
-				<img
-					className="avatar"
-					src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-				/>
+				<img className="avatar" src="https://assets.breatheco.de/apis/img/icon/4geeks.png" />
 			</div>
 			<div className="bodyCard">
-				<div className="titleCard">
-					{toUpperCase(props.item.name)} {toUpperCase(props.item.lastname)}
-				</div>
+				<div className="titleCard">{toUpperCase(props.item.company_name)}</div>
 				<div className="descriptionCard">
-					<p>{props.item.speciality}</p>
-					<p>{props.item.association_number}</p>
 					<p>{props.item.description}</p>
 				</div>
 				<div className="bottomCard">

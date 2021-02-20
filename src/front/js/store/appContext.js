@@ -22,7 +22,7 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
-			state.actions.getUserPsychologist();
+			state.actions.getUserCompany();
 		}, []);
 
 		return (
