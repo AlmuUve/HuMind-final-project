@@ -19,15 +19,6 @@ class User(db.Model):
     def __repr__(self):
         return f'User {self.email}'
 
-    # def to_dict(self):
-    #     return {
-    #         "id": self.id,
-    #         "email": self.email,
-    #         "is_active": True,
-    #         "description": self.description,
-    #         "is_psychologist": self.is_psychologist
-    #     }
-
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -66,12 +57,15 @@ class User_company(db.Model):
         return f'User company {self.company_name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
 
     def add(self):
@@ -100,13 +94,17 @@ class User_psychologist(db.Model):
         return f'User psychologist {self.name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
             "association_number": self.association_number,
             "speciality": self.speciality,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
         }
 
     def add(self):
@@ -117,7 +115,12 @@ class User_psychologist(db.Model):
     def get_by_user_id(cls, user):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
-    
+
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first()
+        return user
+       
     
     def update_psychologist_user(user_data, id):
         user= User_psychologist.query.filter_by(user_id = id).first()
@@ -201,10 +204,18 @@ class Workshop(db.Model):
             "duration": self.duration,
             "price": self.price,
             "date": self.date,
-            "is_active": True,
+            # "is_active": True, TENEMOS QUE PONERLO POR DEFAUL EN TRUE
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
             "category_info": self.category_info
         }
-
+    
+    @classmethod
+    def get_by_user_id(cls, user):
+        workshop_user_id = cls.query.filter_by(user_id=user).first()
+        return user_company
+    
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
