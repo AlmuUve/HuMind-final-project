@@ -1,47 +1,100 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			newUser: {},
+			psychologists: []
+			// companies: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			getMessage: () => {
-				// fetching data from the backend
-				fetch(process.env.BACKEND_URL + "/api/hello")
-					.then(resp => resp.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
+			addNewUser: (email, password, is_psychologist) => {
+				setStore({
+					newUser: {
+						email: email,
+						password: password,
+						is_psychologist: is_psychologist
+					}
 				});
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+			addPsychologist: async (
+				name,
+				lastname,
+				identity_number,
+				association_number,
+				speciality,
+				facebook,
+				instagram,
+				twitter,
+				linkedIn,
+				youTube,
+				description,
+				user_id
+			) => {
+				let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						email: getStore().newUser.email,
+						password: getStore().newUser.password,
+						is_psychologist: getStore().newUser.is_psychologist,
+						name: name,
+						lastname: lastname,
+						identity_number: identity_number,
+						association_number: association_number,
+						speciality: speciality,
+						facebook: facebook,
+						instagram: instagram,
+						twitter: twitter,
+						linkedIn: linkedIn,
+						youTube: youTube,
+						description: description,
+						user_id: user_id
+					})
+				});
+				response = await response.json();
+				getActions().addPsychologist();
 			}
+
+			// addCompany: async (
+			// 	company_name,
+			// 	company_number,
+			// 	facebook,
+			// 	instagram,
+			// 	twitter,
+			// 	linkedIn,
+			// 	youTube,
+			// 	description,
+			// 	user_id
+			// ) => {
+			// 	let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
+			// 		method: "POST",
+			// 		mode: "cors",
+			// 		redirect: "follow",
+			// 		headers: new Headers({
+			// 			"Content-Type": "application/json"
+			// 		}),
+			// 		body: JSON.stringify({
+			// 			email: getStore().newUser.email,
+			// 			password: getStore().newUser.password,
+			// 			is_psychologist: getStore().newUser.is_psychologist,
+			// 			company_name: company_name,
+			// 			company_number: company_number,
+			// 			facebook: facebook,
+			// 			instagram: instagram,
+			// 			twitter: twitter,
+			// 			linkedIn: linkedIn,
+			// 			youTube: youTube,
+			// 			description: description,
+			// 			user_id: user_id
+			// 		})
+			// 	});
+			// 	response = await response.json();
+			// 	getActions().addCompany();
+			// }
 		}
 	};
 };

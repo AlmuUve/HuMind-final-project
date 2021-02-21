@@ -58,7 +58,11 @@ def add_user():
     new_user = User(
         email = body.get("email"),
         password = body.get("password"),
-        description = body.get("description"),
+        facebook = body.get("facebook"),
+        instagram = body.get("instagram"),
+        twitter = body.get("twitter"),
+        linkedIn = body.get("linkedIn"),
+        youTube = body.get("youTube"),
         is_psychologist = body.get("is_psychologist"),
     )
     new_user.add()

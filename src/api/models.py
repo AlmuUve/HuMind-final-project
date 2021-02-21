@@ -11,6 +11,11 @@ class User(db.Model):
     password = db.Column(db.String(250))
     is_active = db.Column(db.Boolean)
     image = db.Column(db.String(250))
+    facebook = db.Column(db.String(250))
+    instagram = db.Column(db.String(250))
+    twitter = db.Column(db.String(250))
+    linkedIn = db.Column(db.String(250))
+    youTube = db.Column(db.String(250))
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
@@ -24,6 +29,11 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "is_active": True,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedIn": self.linkedIn,
+            "youTube": self.youTube,
             "description": self.description,
             "is_psychologist": self.is_psychologist
         }
