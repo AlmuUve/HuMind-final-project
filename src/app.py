@@ -52,46 +52,64 @@ def sitemap():
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
-    if body.get("email", None):
-        new_user = User(
-            email = body.get("email"),
-            password = body.get("password"),
-            description = body.get("description"),
-            is_psychologist = body.get("is_psychologist"),
-            is_active = body.get("is_active")
-        )
-        print("hola", new_user)
-        new_user.add()
-        return jsonify(new_user.to_dict()), 200
-    return "NO SE CREA NADA AMIGO MIO", 400
+    if not body.get("email") or not body.get("password"):
+        return "Error!", 400
 
-@app.route('/user/<int:id>/psychologist', methods=['POST'])
-def add_user_psychologist(id):
-    body = request.get_json()
-    if body.get("association_number", None):
-        new_user = User_psychologist(
+    new_user = User(
+        email = body.get("email"),
+        password = body.get("password"),
+        facebook = body.get("facebook"),
+        instagram = body.get("instagram"),
+        twitter = body.get("twitter"),
+        linkedIn = body.get("linkedIn"),
+        youTube = body.get("youTube"),
+        is_psychologist = body.get("is_psychologist"),
+    )
+    new_user.add()
+
+    if body.get("is_psychologist"):
+        new_user_psy = User_psychologist(
             name = body.get("name"),
             lastname = body.get("lastname"),
-            identity_number = body.get("identity_number"),
-            association_number = body.get("association_number"),
+            identity_number = body.get("number"),
+            association_number = body.get("association_number"),             
             speciality = body.get("speciality"),
-            user_id = id,            
+            user_id = new_user.id
         )
-        new_user.add()
-        return jsonify(new_user.to_dict()), 200
-    return "NO SE CREA NADA AMIGO MIO", 400
+        new_user_psy.add()
+        return jsonify(new_user_psy.to_dict()), 201
 
-@app.route('/user/<int:id>', methods=['GET'])
-def get_user_information(id):
-    user = User.get_by_id(id)
-    if user:
-        return jsonify(user.to_dict()), 200
-    else: "User nor found", 404
+    new_user_company = User_company(
+        company_name = body.get("company_name"),
+        company_number = body.get("company_number"),
+        user_id = new_user.id
+    )
+    new_user_company.add()
+    return jsonify(new_user_company.to_dict()), 201
 
-@app.route('/user/<int:id>', methods=['DELETE'])
-def delete_one_user(id):
-    User.delete_user(id)
-    return "User Deleted Successfully", 200
+@app.route('/user/<int:id>', methods=['PUT'])
+def update_user(id):
+    body = request.get_json()
+    user = User.update_single_user(body, id)
+    change_user = User.get_by_id(id)
+    return jsonify(change_user.to_dict())
+
+@app.route('/user/<int:id>/psychologist', methods=['PUT'])
+def update_psychologist_user(id):
+    body = request.get_json()
+    user = User_psychologist.update_psychologist_user(body, id)
+    change_user = User_psychologist.get_by_user_id(id)
+    return jsonify(change_user.to_dict())
+
+  
+@app.route('/user/<int:id>/company', methods=['PUT'])
+def update_company_user(id):
+    body = request.get_json()
+    user = User_company.update_company_user(body, id)
+    change_user = User_company.get_by_id(id)
+    return jsonify(change_user.to_dict())
+  
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
