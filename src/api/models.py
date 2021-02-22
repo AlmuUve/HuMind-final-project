@@ -19,14 +19,14 @@ class User(db.Model):
     def __repr__(self):
         return f'User {self.email}'
 
-    # def to_dict(self):
-    #     return {
-    #         "id": self.id,
-    #         "email": self.email,
-    #         "is_active": True,
-    #         "description": self.description,
-    #         "is_psychologist": self.is_psychologist
-    #     }
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "is_active": True,
+            "description": self.description,
+            "is_psychologist": self.is_psychologist
+        }
 
     def add(self):
         db.session.add(self)
@@ -37,9 +37,9 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
-
-    def update_single_user(user_data, id):
-        user= User.query.filter_by(id = id).first()
+    @classmethod
+    def update_single_user(cls, user_data, id):
+        user= cls.query.filter_by(id = id).first()
         user.email= user_data["email"]
         user.password= user_data["password"]
         user.description= user_data["description"]
@@ -78,8 +78,9 @@ class User_company(db.Model):
         db.session.add()
         db.session.commit()
 
-    def update_company_user(user_data, id):
-        user= User_company.query.filter_by(id = id).first()
+    @classmethod
+    def update_company_user(cls, user_data, id):
+        user= cls.query.filter_by(id = id).first()
         user.company_name= user_data["company_name"]
         db.session.commit()   
     
@@ -118,9 +119,9 @@ class User_psychologist(db.Model):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
     
-    
-    def update_psychologist_user(user_data, id):
-        user= User_psychologist.query.filter_by(user_id = id).first()
+    @classmethod
+    def update_psychologist_user(cls, user_data, id):
+        user= cls.query.filter_by(user_id = id).first()
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]

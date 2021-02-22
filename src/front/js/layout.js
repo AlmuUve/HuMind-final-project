@@ -1,12 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
-
-import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
+import { Home } from "./pages/home";
 import { SignUpLogInButton } from "./component/signUpLogInButton";
 import { YellowButton } from "./component/yellowButton";
 import { DeleteButton } from "./component/deleteButton";
@@ -20,13 +15,11 @@ const Layout = () => {
 	return (
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
-				<ScrollToTop>
-					<LandingButton />
-					<YellowButton />
-					<SignUpLogInButton />
-					<DeleteButton />
-					<EditButton />
-				</ScrollToTop>
+                <LandingButton />
+                <YellowButton />
+                <SignUpLogInButton />
+                <DeleteButton />
+                <EditButton />
 			</BrowserRouter>
 		</div>
 	);
