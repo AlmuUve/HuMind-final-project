@@ -79,3 +79,44 @@ $text_font:   'Oswald', sans-serif;
     width: 10rem;
     height: 5rem;
 }
+
+/* Workshop Card*/
+.workshopCard{
+    display: flex;
+    align-self: center;
+    width: 40%;
+    height: fit-content;
+    border-style: solid;
+    border: 3px;
+    border-color: $background_color;
+}
+
+
+.workshopTitle{
+    font-family: $text_font;
+    color: $text_color;
+    font-size: 1.5rem;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    font-family: $title_font;
+    color: $text_color;
+    font-size: 0.8rem;
+}
+
+.buttons_workshopCard{
+    margin-left: 1rem;
+}
+
+.deleteAndEditButtons{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 0.3rem;
+}
+
+.yellowButton_workshopCard{
+    display: flex;
+    align-self: flex-end;
+}
