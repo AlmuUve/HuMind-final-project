@@ -61,11 +61,6 @@ class User(db.Model):
         user.is_active= user.is_active
         db.session.commit()
  
-    @classmethod
-    def delete_user(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        db.session.delete(target)
-        db.session.commit()
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
