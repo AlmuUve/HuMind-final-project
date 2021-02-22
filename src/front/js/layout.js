@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
 import { Profilecompany } from "./pages/profileCompany";
 import { Profilepsychologist } from "./pages/profilePsychologist";
 import { Register } from "./pages/register";
+import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 
 import injectContext from "./store/appContext";
 
@@ -15,6 +15,9 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
+					<Route exact path="/user">
+						<PsychologistRegistrationForm />
+					</Route>
 					<Route exact path="/company">
 						<Profilecompany />
 					</Route>
