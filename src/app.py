@@ -86,6 +86,7 @@ def add_user():
     new_user.add()
 
     if body.get("is_psychologist"):
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         new_user_psy = User_psychologist(
             name = body.get("name"),
             lastname = body.get("lastname"),
