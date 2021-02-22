@@ -7,6 +7,8 @@ import { Link, useParams } from "react-router-dom";
 
 import "../../styles/home.scss";
 
+import EditButton from "../component/editButton.jsx"
+
 export const Profiletemplate = props => {
 	const { store, actions } = useContext(Context);
 
@@ -33,7 +35,7 @@ export const Profiletemplate = props => {
 				</div>
 				<div className="bottomCard">
 					<i className="fas fa-envelope fa-2x" href={props.item.email} />
-					<button className="btn btn-outline-warning">Edit Profile</button>
+					<EditButton />
 				</div>
 			</div>
 		</div>
