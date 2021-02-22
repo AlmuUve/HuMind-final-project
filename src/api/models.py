@@ -129,6 +129,14 @@ class User_psychologist(db.Model):
         user.speciality= user_data["speciality"]
         db.session.commit()   
 
+
+workshop_has_category = db.Table('workshop_has_category',
+    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
+    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
+)
+
+
+
 class Category(db.Model):
     __tablename__ = 'category'
 
@@ -144,8 +152,16 @@ class Category(db.Model):
         return {
             "id": self.id,
             "category_name": self.category_name,
-            "is_active":False
         }
+
+    @classmethod
+    def get_by_id(cls, id):
+        category = cls.query.filter_by(id = id).first()
+        return category
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
@@ -173,11 +189,6 @@ class Search_workshop(db.Model):
             "user_company_id": self.user_company_id,
             "category_id": self.category_id
         }
-
-workshop_has_category = db.Table('workshop_has_category',
-    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
-    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
-)
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
@@ -208,14 +219,18 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "category_info": self.category_info
+            # "category_info": self.category_info
         }
     
     @classmethod
     def get_by_user_id(cls, user):
         workshop_user_id = cls.query.filter_by(user_id=user).first()
         return user_company
-    
-    def add(self):
+
+    def add(self, category_info):
         db.session.add(self)
+        for category in category_info:
+            new_category = Category.get_by_id(category)
+            self.category_info.append(new_category) 
         db.session.commit()
+

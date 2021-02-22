@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop 
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
@@ -110,7 +110,9 @@ def delete_one_user(id):
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
+
     body = request.get_json()
+
     new_workshop = Workshop(
         title = body.get("title"),
         duration = body.get("duration"),
@@ -118,11 +120,20 @@ def add_workshop(id):
         date = body.get("date"),
         max_people = body.get("max_people"),
         description = body.get("description"),
-        # category_info = body.get("category_info"),
         user_psychologist_id = user_psychologist.id,
     )
-    new_workshop.add()
+    print(new_workshop)
+    new_workshop.add(body.get("category_info"))
     return jsonify(new_workshop.to_dict()), 200
+
+@app.route('/user/category', methods=['POST'])
+def add_category():
+    new_category = request.get_json()
+    new_category = Category (
+        category_name = new_category.get("category_name"),
+    )
+    new_category.add()
+    return jsonify(new_category.to_dict())
 
 
 # this only runs if `$ python src/main.py` is executed
