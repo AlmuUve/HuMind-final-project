@@ -122,11 +122,9 @@ def add_workshop(id):
         description = body.get("description"),
         user_psychologist_id = user_psychologist.id,
     )
-    print(new_workshop)
-    test = Workshop.get_prueba(body.get("category_info"))
-    print(test)
+    category_list = Workshop.get_category_by_name(body.get("category_info"))
     new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(test)), 200
+    return jsonify(new_workshop.to_dict(category_list)), 200
 
 @app.route('/user/category', methods=['POST'])
 def add_category():
