@@ -17,19 +17,18 @@ class User(db.Model):
     linkedIn = db.Column(db.VARCHAR)
     youTube = db.Column(db.VARCHAR)
     description = db.Column(db.Text)
-    is_psychologist = db.Column(db.Boolean, nullable=False)
-    user_company = db.relationship('User_company', cascade="all, delete", lazy=True)
+    is_psychologist = db.Column(db.Boolean)
+    user_company = db.relationship('User_company', lazy=True)
     user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
     
     def __repr__(self):
         return f'User {self.email}'
 
-
     def to_dict(self):
         return {
             "id": self.id,
             "email": self.email,
-            "is_active": True,
+            "is_active": self.is_active,
             "facebook": self.facebook,
             "instagram": self.instagram,
             "twitter": self.twitter,
@@ -38,7 +37,6 @@ class User(db.Model):
             "description": self.description,
             "is_psychologist": self.is_psychologist
         }
-
 
     def add(self):
         db.session.add(self)
@@ -131,7 +129,7 @@ class User_psychologist(db.Model):
     
     @classmethod
     def update_psychologist_user(cls, user_data, id):
-        user= User_psychologist.query.filter_by(user_id = id).first()
+        user= cls.query.filter_by(user_id = id).first()
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
@@ -143,7 +141,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
-    is_active = db.Column(db.Boolean)
      
     def __repr__(self):
         return f'Category {self.category_name}'
@@ -162,7 +159,7 @@ class Search_workshop(db.Model):
     duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
-    max_people = db.Column(db.Integer, nullable=False)
+    max_people = db.Column(db.Integer)
     is_active = db.Column(db.Boolean)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
