@@ -74,13 +74,14 @@ def add_user():
 
     new_user = User(
         email = body.get("email"),
-        password = body.get("password"),
+        _password = body.get("password"),
         facebook = body.get("facebook"),
         instagram = body.get("instagram"),
         twitter = body.get("twitter"),
         linkedIn = body.get("linkedIn"),
         youTube = body.get("youTube"),
         is_psychologist = body.get("is_psychologist"),
+        description = body.get("description")
     )
     new_user.add()
 
@@ -129,7 +130,7 @@ def update_company_user(id):
 @app.route('/user/<int:id>', methods=['PATCH'])
 def delete_one_user(id):
     user_target = User.delete_user(id)
-    return jsonify(user_target.to_dict()), 200
+    return "Your profile has been deleted", 200
 
 
 # this only runs if `$ python src/main.py` is executed

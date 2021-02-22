@@ -2,7 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.scss";
 
-export const PsychologistRegistrationForm = () => {
+export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
 	let name = document.querySelector("#name"); //.value
 	let lastname = document.querySelector("#lastname");
@@ -92,13 +92,7 @@ export const PsychologistRegistrationForm = () => {
 							<label htmlFor="facebook">
 								<b>Facebook</b>
 							</label>
-							<input
-								type="text"
-								placeholder="Your Facebook profile here"
-								name="facebook"
-								id="facebook"
-								required
-							/>
+							<input type="text" placeholder="Your Facebook profile here" name="facebook" id="facebook" />
 						</div>
 						<div className="col-12">
 							<label htmlFor="instagram">
@@ -109,44 +103,25 @@ export const PsychologistRegistrationForm = () => {
 								placeholder="Your Instagram profile here"
 								name="instagram"
 								id="instagram"
-								required
 							/>
 						</div>
 						<div className="col-12">
 							<label htmlFor="twitter">
 								<b>Twitter</b>
 							</label>
-							<input
-								type="text"
-								placeholder="Your Twitter profile here"
-								name="twitter"
-								id="twitter"
-								required
-							/>
+							<input type="text" placeholder="Your Twitter profile here" name="twitter" id="twitter" />
 						</div>
 						<div className="col-12">
 							<label htmlFor="linkedIn">
 								<b>LinkedIn</b>
 							</label>
-							<input
-								type="text"
-								placeholder="Your LinkedIn profile here"
-								name="linkedIn"
-								id="linkedIn"
-								required
-							/>
+							<input type="text" placeholder="Your LinkedIn profile here" name="linkedIn" id="linkedIn" />
 						</div>
 						<div className="col-12">
 							<label htmlFor="youTube">
 								<b>YouTube</b>
 							</label>
-							<input
-								type="text"
-								placeholder="Your YouTube profile here"
-								name="youTube"
-								id="youTube"
-								required
-							/>
+							<input type="text" placeholder="Your YouTube profile here" name="youTube" id="youTube" />
 						</div>
 						<div className="col-12">
 							<label htmlFor="description">
@@ -166,9 +141,11 @@ export const PsychologistRegistrationForm = () => {
 					<button
 						className="submit_button"
 						type="submit"
-						onClick={() => {
+						onClick={e => {
+							console.log(name);
+							e.preventDefault();
 							actions.addPsychologist(
-								name.value,
+								//name.value,
 								lastname.value,
 								email.value,
 								identitynumber.value,

@@ -8,8 +8,8 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
-    password = db.Column(db.VARCHAR)
-    is_active = db.Column(db.Boolean)
+    _password = db.Column(db.VARCHAR)
+    is_active = db.Column(db.Boolean, default=True)
     image = db.Column(db.VARCHAR)
     facebook = db.Column(db.VARCHAR)
     instagram = db.Column(db.VARCHAR)
@@ -26,16 +26,7 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "email": self.email,
-            "is_active": self.is_active,
-            "facebook": self.facebook,
-            "instagram": self.instagram,
-            "twitter": self.twitter,
-            "linkedIn": self.linkedIn,
-            "youTube": self.youTube,
-            "description": self.description,
-            "is_psychologist": self.is_psychologist
+        "is_active": self.is_active,
         }
 
     def add(self):
@@ -47,9 +38,9 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
-    def user_is_psychologist(id):
-        user = User.get_by_id(id)
-        return user.is_psychologist
+    # def user_is_psychologist(id):
+    #     user = User.get_by_id(id)
+    #     return user.is_psychologist
 
     @classmethod
     def delete_user(cls, id):
@@ -91,6 +82,11 @@ class User_company(db.Model):
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
+            "facebook": user.facebook,
+            "instagram": user.instagram,
+            "twitter": user.twitter,
+            "linkedIn": user.linkedIn,
+            "youTube": user.youTube,
         }
 
     def add(self):
@@ -135,6 +131,11 @@ class User_psychologist(db.Model):
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
+            "facebook": user.facebook,
+            "instagram": user.instagram,
+            "twitter": user.twitter,
+            "linkedIn": user.linkedIn,
+            "youTube": user.youTube,
         }
         
 
@@ -180,7 +181,7 @@ class Search_workshop(db.Model):
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
     max_people = db.Column(db.Integer)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
  
@@ -194,7 +195,7 @@ class Search_workshop(db.Model):
             "max_price": self.max_price,
             "date": self.date,
             "max_people": self.max_people,
-            "is_active": True,
+            "is_active": self.is_active,
             "user_company_id": self.user_company_id,
             "category_id": self.category_id
         }
@@ -212,7 +213,7 @@ class Workshop(db.Model):
     duration = db.Column(db.VARCHAR)
     price = db.Column(db.Float)
     date = db.Column(db.Date)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
     max_people = db.Column(db.Integer)
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
@@ -229,7 +230,7 @@ class Workshop(db.Model):
             "duration": self.duration,
             "price": self.price,
             "date": self.date,
-            "is_active": True,
+            "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
