@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop, workshop_has_category 
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
@@ -110,7 +110,7 @@ def delete_one_user(id):
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
-
+    
     body = request.get_json()
 
     new_workshop = Workshop(
@@ -123,8 +123,10 @@ def add_workshop(id):
         user_psychologist_id = user_psychologist.id,
     )
     print(new_workshop)
+    test = Workshop.get_prueba(body.get("category_info"))
+    print(test)
     new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict()), 200
+    return jsonify(new_workshop.to_dict(test)), 200
 
 @app.route('/user/category', methods=['POST'])
 def add_category():
