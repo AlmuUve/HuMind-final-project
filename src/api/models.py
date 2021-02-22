@@ -8,12 +8,17 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
-    _password = db.Column('password', db.VARCHAR)
-    is_active = db.Column(db.Boolean, default=True)
+    password = db.Column(db.VARCHAR)
+    is_active = db.Column(db.Boolean)
     image = db.Column(db.VARCHAR)
+    facebook = db.Column(db.VARCHAR)
+    instagram = db.Column(db.VARCHAR)
+    twitter = db.Column(db.VARCHAR)
+    linkedIn = db.Column(db.VARCHAR)
+    youTube = db.Column(db.VARCHAR)
     description = db.Column(db.Text)
-    is_psychologist = db.Column(db.Boolean, nullable=False)
-    user_company = db.relationship('User_company', cascade="all, delete", lazy=True)
+    is_psychologist = db.Column(db.Boolean)
+    user_company = db.relationship('User_company', lazy=True)
     user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
     
     def __repr__(self):
@@ -23,7 +28,12 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "is_active": True,
+            "is_active": self.is_active,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedIn": self.linkedIn,
+            "youTube": self.youTube,
             "description": self.description,
             "is_psychologist": self.is_psychologist
         }
@@ -36,6 +46,10 @@ class User(db.Model):
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
         return user
+
+    def user_is_psychologist(id):
+        user = User.get_by_id(id)
+        return user.is_psychologist
 
     @classmethod
     def update_single_user(cls, user_data, id):
@@ -71,11 +85,10 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
-            "is_psychologist": self.is_psychologist
         }
 
     def add(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
 
     @classmethod
@@ -151,7 +164,7 @@ class Search_workshop(db.Model):
     duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
-    max_people = db.Column(db.Integer, nullable=False)
+    max_people = db.Column(db.Integer)
     is_active = db.Column(db.Boolean)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))

@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+
+import React from "react";
 import { Context } from "../store/appContext";
+import { CompanyRegistrationForm } from "../component/companyRegistrationForm";
 import "../../styles/home.scss";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+	return <CompanyRegistrationForm />;
 
-	return (
-		<h1>Hello Rigo!</h1>
-	);
-};
+
+
