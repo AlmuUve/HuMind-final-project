@@ -18,12 +18,12 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
+			state.actions.getUserCompany();
 			state.actions.getUserPsychologist();
-			state.actions.addNewUser();
-			state.actions.addPsychologist();
-			state.actions.addCompany();
+			// state.actions.addNewUser();
+			// state.actions.addPsychologist();
+			// state.actions.addCompany();
 		}, []);
-
 
 		return (
 			<Context.Provider value={state}>

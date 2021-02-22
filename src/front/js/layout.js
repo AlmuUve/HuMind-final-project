@@ -1,13 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import { Profilecompany } from "./pages/profileCompany";
 import { Profilepsychologist } from "./pages/profilePsychologist";
-import injectContext from "./store/appContext";
-
-import injectContext from "./store/appContext";
 import { Register } from "./pages/register";
-import injectContext from "./store/appContext";
 
+import injectContext from "./store/appContext";
 
 //create your first component
 const Layout = () => {
@@ -17,10 +15,13 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
+					<Route exact path="/company">
+						<Profilecompany />
+					</Route>
 					<Route exact path="/psychologist">
 						<Profilepsychologist />
-                    </Route>
-                    <Route exact path="/register">
+					</Route>
+					<Route exact path="/register">
 						<Register />
 					</Route>
 					<Route>

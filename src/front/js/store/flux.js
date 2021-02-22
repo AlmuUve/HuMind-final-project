@@ -1,29 +1,37 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserPsychologist: "https://3001-cyan-rook-6ypn6m2g.ws-eu03.gitpod.io/user/psychologist/6",
-            userPsychologist: [],
-            newUser: {},
+			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
+			userCompany: [],
+			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
+			userPsychologist: [],
+			newUser: {},
 			psychologists: [],
 			companies: []
 		},
-		
+
 		actions: {
 			getUserPsychologist: () => {
 				fetch(getStore().urlGetUserPsychologist).then(async res => {
 					const response = await res.json();
 					setStore({ userPsychologist: [response] });
 				});
-		    },
+			},
+			getUserCompany: () => {
+				fetch(getStore().urlGetUserCompany).then(async res => {
+					const response = await res.json();
+					setStore({ userCompany: [response] });
+				});
+			},
 			addNewUser: (email, password, is_psychologist) => {
 				setStore({
 					newUser: {
-						email: email,
+						email: "hola@gmail.com",
 						password: password,
-						is_psychologist: is_psychologist
+						is_psychologist: true
 					}
 				});
-			},      
+			},
 			addPsychologist: async (
 				name,
 				lastname,
@@ -38,7 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				description,
 				user_id
 			) => {
-				let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
+				let response = await fetch("https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -101,8 +109,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				getActions().addCompany();
-            },
-            deleteProfile: async id => {
+			},
+			deleteProfile: async id => {
 				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
@@ -110,8 +118,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-                console.log("User deleted successfully");
-            }
+				console.log("User deleted successfully");
+			}
 		}
 	};
 };
