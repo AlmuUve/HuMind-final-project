@@ -48,8 +48,6 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
-# any other endpoint will try to serve it like a static file
-
 @app.route('/user/company/<int:id>', methods=['GET'])
 def get_user_company_information(id):
     user = User.get_by_id(id)
@@ -77,9 +75,12 @@ def add_user():
     new_user = User(
         email = body.get("email"),
         password = body.get("password"),
-        description = body.get("description"),
+        facebook = body.get("facebook"),
+        instagram = body.get("instagram"),
+        twitter = body.get("twitter"),
+        linkedIn = body.get("linkedIn"),
+        youTube = body.get("youTube"),
         is_psychologist = body.get("is_psychologist"),
-        is_active = body.get("is_active")
     )
     new_user.add()
 
@@ -93,7 +94,7 @@ def add_user():
             user_id = new_user.id
         )
         new_user_psy.add()
-        return jsonify(new_user_psy.to_dict()), 200
+        return jsonify(new_user_psy.to_dict()), 201
 
     new_user_company = User_company(
         company_name = body.get("company_name"),
@@ -101,7 +102,34 @@ def add_user():
         user_id = new_user.id
     )
     new_user_company.add()
-    return jsonify(new_user_company.to_dict()), 200
+    return jsonify(new_user_company.to_dict()), 201
+
+@app.route('/user/<int:id>', methods=['PUT'])
+def update_user(id):
+    body = request.get_json()
+    user = User.update_single_user(body, id)
+    change_user = User.get_by_id(id)
+    return jsonify(change_user.to_dict())
+
+@app.route('/user/<int:id>/psychologist', methods=['PUT'])
+def update_psychologist_user(id):
+    body = request.get_json()
+    user = User_psychologist.update_psychologist_user(body, id)
+    change_user = User_psychologist.get_by_user_id(id)
+    return jsonify(change_user.to_dict())
+
+  
+@app.route('/user/<int:id>/company', methods=['PUT'])
+def update_company_user(id):
+    body = request.get_json()
+    user = User_company.update_company_user(body, id)
+    change_user = User_company.get_by_id(id)
+    return jsonify(change_user.to_dict())
+
+@app.route('/user/<int:id>', methods=['PATCH'])
+def delete_one_user(id):
+    user_target = User.delete_user(id)
+    return jsonify(user_target.to_dict()), 200
 
 
 # this only runs if `$ python src/main.py` is executed
