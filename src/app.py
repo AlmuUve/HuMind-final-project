@@ -87,7 +87,6 @@ def add_user():
     new_user_company.add()
     return jsonify(new_user_company.to_dict()), 201
 
-
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):
     body = request.get_json()
