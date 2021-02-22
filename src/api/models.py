@@ -135,8 +135,6 @@ workshop_has_category = db.Table('workshop_has_category',
     db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
 )
 
-
-
 class Category(db.Model):
     __tablename__ = 'category'
 
@@ -187,7 +185,7 @@ class Search_workshop(db.Model):
             "max_people": self.max_people,
             "is_active": True,
             "user_company_id": self.user_company_id,
-            "category_id": self.category_id
+            # "category_id": query_workshop_has_category
         }
 
 class Workshop(db.Model):
@@ -203,29 +201,36 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy=True))
+        backref=db.backref("workshops", lazy='joined'))
  
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self):
+    def to_dict(self, prueba):
         return {
             "id": self.id,
             "title": self.title,
             "duration": self.duration,
             "price": self.price,
             "date": self.date,
-            # "is_active": True, TENEMOS QUE PONERLO POR DEFAUL EN TRUE
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            # "category_info": self.category_info
+            "categorys": prueba
         }
     
     @classmethod
-    def get_by_user_id(cls, user):
-        workshop_user_id = cls.query.filter_by(user_id=user).first()
-        return user_company
+    def get_by_id(cls, id):
+        workshop = cls.query.filter_by(id = id).first()
+        return workshop
+
+    @classmethod
+    def get_prueba(cls, category_info):
+        prueba = db.session.query(Category.id).filter((
+            workshop_has_category.c.workshop_id == Workshop.id) and (
+                workshop_has_category.c.category_id == Category.id)).all()
+        for prueba in category_info:
+            return prueba
 
     def add(self, category_info):
         db.session.add(self)
