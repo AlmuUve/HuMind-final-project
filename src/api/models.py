@@ -206,7 +206,7 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self, prueba):
+    def to_dict(self, category_list):
         return {
             "id": self.id,
             "title": self.title,
@@ -216,7 +216,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": prueba
+            "categorys": category_list
         }
     
     @classmethod
@@ -224,13 +224,12 @@ class Workshop(db.Model):
         workshop = cls.query.filter_by(id = id).first()
         return workshop
 
-    @classmethod
-    def get_prueba(cls, category_info):
-        prueba = db.session.query(Category.id).filter((
-            workshop_has_category.c.workshop_id == Workshop.id) and (
-                workshop_has_category.c.category_id == Category.id)).all()
-        for prueba in category_info:
-            return prueba
+    def get_category_by_name(category_info):
+        categorys = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categorys.append(new_category_list.category_name)
+        return categorys
 
     def add(self, category_info):
         db.session.add(self)
