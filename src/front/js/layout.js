@@ -12,6 +12,7 @@ import { YellowButton } from "./component/yellowButton";
 import { DeleteButton } from "./component/deleteButton";
 import { EditButton } from "./component/editButton";
 import { LandingButton } from "./component/landingButton";
+import { WorkshopCard } from "./component/workshopCard";
 
 //create your first component
 const Layout = () => {
@@ -21,11 +22,7 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
-					<LandingButton />
-					<YellowButton />
-					<SignUpLogInButton />
-					<DeleteButton />
-					<EditButton />
+					<WorkshopCard />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>
