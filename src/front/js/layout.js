@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import injectContext from "./store/appContext";
 import { Home } from "./pages/home";
+import injectContext from "./store/appContext";
+
 
 //create your first component
 const Layout = () => {

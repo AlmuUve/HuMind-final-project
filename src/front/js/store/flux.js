@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			newUser: {},
 			psychologists: []
-			// companies: []
+			companies: []
 		},
 		actions: {
 			addNewUser: (email, password, is_psychologist) => {
@@ -15,7 +15,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 			},
-
+      
 			addPsychologist: async (
 				name,
 				lastname,
@@ -59,42 +59,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().addPsychologist();
 			}
 
-			// addCompany: async (
-			// 	company_name,
-			// 	company_number,
-			// 	facebook,
-			// 	instagram,
-			// 	twitter,
-			// 	linkedIn,
-			// 	youTube,
-			// 	description,
-			// 	user_id
-			// ) => {
-			// 	let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
-			// 		method: "POST",
-			// 		mode: "cors",
-			// 		redirect: "follow",
-			// 		headers: new Headers({
-			// 			"Content-Type": "application/json"
-			// 		}),
-			// 		body: JSON.stringify({
-			// 			email: getStore().newUser.email,
-			// 			password: getStore().newUser.password,
-			// 			is_psychologist: getStore().newUser.is_psychologist,
-			// 			company_name: company_name,
-			// 			company_number: company_number,
-			// 			facebook: facebook,
-			// 			instagram: instagram,
-			// 			twitter: twitter,
-			// 			linkedIn: linkedIn,
-			// 			youTube: youTube,
-			// 			description: description,
-			// 			user_id: user_id
-			// 		})
-			// 	});
-			// 	response = await response.json();
-			// 	getActions().addCompany();
-			// }
+			addCompany: async (
+				company_name,
+				company_number,
+				facebook,
+				instagram,
+				twitter,
+				linkedIn,
+				youTube,
+				description,
+				user_id
+			) => {
+				let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						email: getStore().newUser.email,
+						password: getStore().newUser.password,
+						is_psychologist: getStore().newUser.is_psychologist,
+						company_name: company_name,
+						company_number: company_number,
+						facebook: facebook,
+						instagram: instagram,
+						twitter: twitter,
+						linkedIn: linkedIn,
+						youTube: youTube,
+						description: description,
+						user_id: user_id
+					})
+				});
+				response = await response.json();
+				getActions().addCompany();
+			}
 		}
 	};
 };
