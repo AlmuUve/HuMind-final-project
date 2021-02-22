@@ -132,7 +132,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
-    is_active = db.Column(db.Boolean)
      
     def __repr__(self):
         return f'Category {self.category_name}'
