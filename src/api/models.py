@@ -7,15 +7,15 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(250), unique=True)
-    password = db.Column(db.String(250))
+    email = db.Column(db.VARCHAR, unique=True)
+    password = db.Column(db.VARCHAR)
     is_active = db.Column(db.Boolean)
-    image = db.Column(db.String(250))
-    facebook = db.Column(db.String(250))
-    instagram = db.Column(db.String(250))
-    twitter = db.Column(db.String(250))
-    linkedIn = db.Column(db.String(250))
-    youTube = db.Column(db.String(250))
+    image = db.Column(db.VARCHAR)
+    facebook = db.Column(db.VARCHAR)
+    instagram = db.Column(db.VARCHAR)
+    twitter = db.Column(db.VARCHAR)
+    linkedIn = db.Column(db.VARCHAR)
+    youTube = db.Column(db.VARCHAR)
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean, nullable=False)
     user_company = db.relationship('User_company', cascade="all, delete", lazy=True)
@@ -53,9 +53,9 @@ class User(db.Model):
         user = User.get_by_id(id)
         return user.is_psychologist
 
-
-    def update_single_user(user_data, id):
-        user= User.query.filter_by(id = id).first()
+    @classmethod
+    def update_single_user(cls, user_data, id):
+        user= cls.query.filter_by(id = id).first()
         user.email= user_data["email"]
         user.password= user_data["password"]
         user.description= user_data["description"]
@@ -63,11 +63,6 @@ class User(db.Model):
         user.is_active= user.is_active
         db.session.commit()
  
-    @classmethod
-    def delete_user(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        db.session.delete(target)
-        db.session.commit()
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -93,8 +88,9 @@ class User_company(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_company_user(user_data, id):
-        user= User_company.query.filter_by(id = id).first()
+    @classmethod
+    def update_company_user(cls, user_data, id):
+        user= cls.query.filter_by(id = id).first()
         user.company_name= user_data["company_name"]
         db.session.commit()   
     
@@ -133,8 +129,8 @@ class User_psychologist(db.Model):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
     
-    
-    def update_psychologist_user(user_data, id):
+    @classmethod
+    def update_psychologist_user(cls, user_data, id):
         user= User_psychologist.query.filter_by(user_id = id).first()
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]

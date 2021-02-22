@@ -88,13 +88,6 @@ def add_user():
     return jsonify(new_user_company.to_dict()), 200
 
 
-@app.route('/user/<int:id>', methods=['GET'])
-def get_user_information(id):
-    user = User.get_by_id(id)
-    if user:
-        return jsonify(user.to_dict()), 200
-    else: "User nor found", 404
-
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):
     body = request.get_json()
@@ -117,11 +110,6 @@ def update_company_user(id):
     change_user = User_company.get_by_id(id)
     return jsonify(change_user.to_dict())
   
-  
-@app.route('/user/<int:id>', methods=['DELETE'])
-def delete_one_user(id):
-    User.delete_user(id)
-    return "User Deleted Successfully", 200
 
 
 # this only runs if `$ python src/main.py` is executed
