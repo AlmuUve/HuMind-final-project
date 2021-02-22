@@ -7,15 +7,15 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(250), unique=True)
-    password = db.Column(db.String(250))
+    email = db.Column(db.VARCHAR, unique=True)
+    password = db.Column(db.VARCHAR)
     is_active = db.Column(db.Boolean)
-    image = db.Column(db.VARCHAR(250))
-    facebook = db.Column(db.VARCHAR(250))
-    instagram = db.Column(db.VARCHAR(250))
-    twitter = db.Column(db.VARCHAR(250))
-    linkedIn = db.Column(db.VARCHAR(250))
-    youTube = db.Column(db.VARCHAR(250))
+    image = db.Column(db.VARCHAR)
+    facebook = db.Column(db.VARCHAR)
+    instagram = db.Column(db.VARCHAR)
+    twitter = db.Column(db.VARCHAR)
+    linkedIn = db.Column(db.VARCHAR)
+    youTube = db.Column(db.VARCHAR)
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', lazy=True)
@@ -71,8 +71,8 @@ class User_company(db.Model):
     __tablename__ = 'user_company'
 
     id = db.Column(db.Integer, primary_key=True)
-    company_name = db.Column(db.String(250))
-    company_number = db.Column(db.String(80), unique=True)
+    company_name = db.Column(db.VARCHAR)
+    company_number = db.Column(db.VARCHAR, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     search_workshop = db.relationship('Search_workshop', lazy=True)
  
@@ -100,11 +100,11 @@ class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250))
-    lastname = db.Column(db.String(250))
-    identity_number = db.Column(db.String(250), unique=True)
-    association_number = db.Column(db.String(250), unique=True)
-    speciality = db.Column(db.String(250))
+    name = db.Column(db.VARCHAR)
+    lastname = db.Column(db.VARCHAR)
+    identity_number = db.Column(db.VARCHAR, unique=True)
+    association_number = db.Column(db.VARCHAR, unique=True)
+    speciality = db.Column(db.VARCHAR)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
 
@@ -143,7 +143,7 @@ class Category(db.Model):
     __tablename__ = 'category'
 
     id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(250), unique=True)
+    category_name = db.Column(db.VARCHAR, unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
      
     def __repr__(self):
@@ -160,7 +160,7 @@ class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
 
     id = db.Column(db.Integer, primary_key=True)
-    duration = db.Column(db.String(250))
+    duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
     max_people = db.Column(db.Integer)
@@ -192,8 +192,8 @@ class Workshop(db.Model):
     __tablename__ = 'workshop'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250))
-    duration = db.Column(db.String(250))
+    title = db.Column(db.VARCHAR)
+    duration = db.Column(db.VARCHAR)
     price = db.Column(db.Float)
     date = db.Column(db.Date)
     is_active = db.Column(db.Boolean)
