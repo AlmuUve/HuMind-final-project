@@ -77,7 +77,7 @@ def add_user():
             user_id = new_user.id
         )
         new_user_psy.add()
-        return jsonify(new_user_psy.to_dict()), 200
+        return jsonify(new_user_psy.to_dict()), 201
 
     new_user_company = User_company(
         company_name = body.get("company_name"),
@@ -85,7 +85,7 @@ def add_user():
         user_id = new_user.id
     )
     new_user_company.add()
-    return jsonify(new_user_company.to_dict()), 200
+    return jsonify(new_user_company.to_dict()), 201
 
 
 @app.route('/user/<int:id>', methods=['PUT'])
