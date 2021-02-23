@@ -251,7 +251,7 @@ class Workshop(db.Model):
             "title": self.title,
             "duration": self.duration,
             "price": self.price,
-            "date": self.date,
+            "date": self.date.isoformat(),
             "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
