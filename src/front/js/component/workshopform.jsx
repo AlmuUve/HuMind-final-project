@@ -15,18 +15,16 @@ export const Workshopform = () => {
 		description: ""
 	});
 
-	const [price, setPrice] = useState(null);
+	let listOfCategory = [];
 
-	// const title = document.querySelector("#title");
-	// const price = document.querySelector("#price");
+	const [price, setPrice] = useState(null);
+	const inputPrice = document.querySelector("#price");
 
 	const inputChange = event => {
 		setWorkshop({ ...workshop, [event.target.name]: event.target.value });
 	};
 
 	//SET THE CATEGORY LIST NEXT 3 FUNCTIONS
-
-	let listOfCategory = [];
 
 	const onCheckBox = event => {
 		listOfCategory.push(parseInt(event.target.value));
@@ -48,10 +46,8 @@ export const Workshopform = () => {
 
 	//FUNCTIONS TO VALIDATIONS
 
-	const checkPrice = () => {
-		setPrice(workshop.price);
-		console.log("holaaa", price);
-		//Number(event.target.value) && event.target.value < 10000 ? isValid(input) : isInvalid(input);
+	const checkPrice = (value, input) => {
+		Number(value) && value < 10000 ? isValid(input) : isInvalid(input);
 	};
 
 	const isInvalid = input => {
@@ -102,11 +98,15 @@ export const Workshopform = () => {
 							<p>Price</p>
 						</label>
 						<input
-							className="workshopInput"
+							className="workshopInput form-control"
 							type="text"
-							onChange={inputChange}
+							onChange={e => {
+								inputChange(e);
+								setPrice(e.target.value);
+							}}
 							placeholder="In €"
 							name="price"
+							id="price"
 							required
 						/>
 					</div>
@@ -304,9 +304,10 @@ export const Workshopform = () => {
 						text="Submit"
 						onClickAddWorkshop={e => {
 							e.preventDefault();
-							checkPrice();
-							setCategoryWorkshop(listOfCategory);
-							actions.addNewWorkshop(workshop);
+							console.log(price);
+							checkPrice(price, inputPrice);
+							// setCategoryWorkshop(listOfCategory);
+							// actions.addNewWorkshop(workshop);
 						}}
 					/>
 				</div>
