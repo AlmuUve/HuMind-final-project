@@ -1,10 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useReducer } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
 import { UserSignUp } from "../component/usersignup.js";
+
 export const SignUp = () => {
 	const { store, actions } = useContext(Context);
+
 	const [user, setUser] = useState({
 		email: "",
 		password: "",
@@ -18,33 +19,39 @@ export const SignUp = () => {
 		company_name: "",
 		company_number: ""
 	});
-	const [help, setHelp] = useState(false);
+
+	const [submit, setSubmit] = useState(false);
+
 	const createUser = () => {
 		setUser({ ...user, [event.target.name]: event.target.value });
 	};
+
 	const isPsychologistFalse = state => {
 		setUser({ ...user, is_psychologist: state });
 	};
 
-	useEffect(
-		() => {
-			if (user.is_psychologist == true) {
-			} else {
-				console.log("soy una compañia");
-			}
-		},
-		[help]
-	);
-	const userTest = () => {
-		setHelp(!help);
+	const [firstStep, setFirstStep] = useState(true);
+
+	const submitUserInformation = () => {
+		setFirstStep(false);
 	};
-	return (
-		<>
+
+	if (firstStep) {
+		return (
 			<UserSignUp
+				key="0"
+				id="firstStep"
+				className=""
 				onMyClick={state => isPsychologistFalse(state)}
 				onMyChange={event => createUser(event)}
-				onMyclickUser={() => userTest()}
+				onMyclickUser={() => submitUserInformation()}
 			/>
-		</>
-	);
+		);
+	}
+
+	if (!firstStep && user.is_psychologist) {
+		return <div>Prueba 1</div>;
+	} else {
+		return <div>Prueba 2</div>;
+	}
 };
