@@ -161,11 +161,6 @@ def add_category():
     new_category.add()
     return jsonify(new_category.to_dict())
 
-@app.route('/user/all_category', methods=['GET'])
-def get_all_categories():
-    categories = Category.get_all()
-    return jsonify(categories.to_dict()), 200
-
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
