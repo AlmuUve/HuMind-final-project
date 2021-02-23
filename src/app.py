@@ -2,20 +2,32 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory,current_app
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
+# from flask_login import current_user, login_user
+import datetime
+# from datetime import timedelta
+from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies)
+# from passlib.hash import sha256_crypt
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop 
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
+
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
+
+jwt = JWTManager(app)
 
 # database condiguration
 if os.getenv("DATABASE_URL") is not None:
@@ -48,7 +60,51 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
+@app.route("/register", methods=["POST"])
+def register():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if not email: 
+        return "Missing email", 400  
+    if not password: 
+        return "Missing password", 400  
+
+    user = User(email=email, hash=hashed)
+    db.session.add(user)
+    db.session.commit()
+
+    access_token = create_access_token(identity={"email": email})
+    return {"access_token": access_token}, 200
+    
+    # return "User Already Exists", 400
+   
+
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if not email or not password:
+        return "Could not verify Email or Password", 400  
+    
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return "User not found", 404 # make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
+
+    if user: # check_password_hash(user.password, auth.password):
+        #token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=60)})
+        access_token = create_access_token(
+            identity={"email": email}, 
+            expires_delta=datetime.timedelta(minutes=60)
+        )
+        #return jsonify({'token' : token.decode('UTF-8')})
+        return {"access_token": access_token}, 200
+    else:
+        return "Invalid Login Info!", 400
+    
+
+
 @app.route('/user/company/<int:id>', methods=['GET'])
+@jwt_required()
 def get_user_company_information(id):
     user = User.get_by_id(id)
     user_company = User_company.get_by_user_id(user.id)
@@ -58,6 +114,7 @@ def get_user_company_information(id):
         return "This profile doesnt exists", 400
 
 @app.route('/user/psychologist/<int:id>', methods=['GET'])
+@jwt_required()
 def get_user_psychologist_information(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)

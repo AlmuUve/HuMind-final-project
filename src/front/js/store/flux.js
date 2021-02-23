@@ -6,8 +6,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
 			User: {}
-			// newpsychologists: {},
-			// newcompanies: {}
 		},
 
 		actions: {
@@ -54,6 +52,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+			},
+
+			login: async data => {
+				// console.log("esto es una mierdaaaaaa", user);
+				let response = await fetch("https://3001-tomato-guppy-s135rtbn.ws-eu03.gitpod.io/login", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						email: data.email,
+						password: data.password
+					})
+				});
+				response = await response.json();
+				console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + response);
 			},
 
 			deleteProfile: async id => {
