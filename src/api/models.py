@@ -192,6 +192,10 @@ class Category(db.Model):
         category = cls.query.filter_by(id = id).first()
         return category
 
+    @classmethod
+    def get_all(cls):
+        return cls
+
     def add(self):
         db.session.add(self)
         db.session.commit()

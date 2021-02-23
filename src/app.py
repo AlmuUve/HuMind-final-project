@@ -131,6 +131,7 @@ def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
+#METODOS PARA CATEGORYS Y WORKSHOPS
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
@@ -160,6 +161,10 @@ def add_category():
     new_category.add()
     return jsonify(new_category.to_dict())
 
+@app.route('/user/all_category', methods=['GET'])
+def get_all_categories():
+    categories = Category.get_all()
+    return jsonify(categories.to_dict()), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
