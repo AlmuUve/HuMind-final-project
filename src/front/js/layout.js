@@ -1,42 +1,39 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
-
-import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
-import { Single } from "./pages/single";
+import { Profilecompany } from "./pages/profileCompany";
+import { Profilepsychologist } from "./pages/profilePsychologist";
+import { Register } from "./pages/register";
+import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import injectContext from "./store/appContext";
-
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
 
 //create your first component
 const Layout = () => {
-	//the basename is used when your project is published in a subdirectory and not in the root of the domain
-	// you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
 	const basename = process.env.BASENAME || "";
 
 	return (
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
-				<ScrollToTop>
-					<Navbar />
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route exact path="/demo">
-							<Demo />
-						</Route>
-						<Route exact path="/single/:theid">
-							<Single />
-						</Route>
-						<Route>
-							<h1>Not found!</h1>
-						</Route>
-					</Switch>
-					<Footer />
-				</ScrollToTop>
+				<Switch>
+					<Route exact path="/">
+						<PsychologistRegistrationForm />
+					</Route>
+					<Route exact path="/user">
+						<CompanyRegistrationForm />
+					</Route>
+					<Route exact path="/company">
+						<Profilecompany />
+					</Route>
+					<Route exact path="/psychologist">
+						<Profilepsychologist />
+					</Route>
+					<Route exact path="/register">
+						<Register />
+					</Route>
+					<Route>
+						<h1>Not found!</h1>
+					</Route>
+				</Switch>
 			</BrowserRouter>
 		</div>
 	);
