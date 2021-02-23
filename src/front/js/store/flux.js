@@ -56,6 +56,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				response = await response.json();
 			},
 
+			addNewWorkshop: async workshop => {
+				let response = await fetch(
+					"https://3001-fuchsia-newt-wdec1aw8.ws-eu03.gitpod.io/user/psychologist/workshop/1",
+					{
+						method: "POST",
+						mode: "cors",
+						redirect: "follow",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							title: workshop.title,
+							category_info: workshop.category,
+							duration: workshop.duration,
+							price: workshop.price,
+							dates: workshop.dates,
+							max_people: workshop.max_people,
+							description: workshop.description
+						})
+					}
+				);
+				response = await response.json();
+				console.log(response);
+			},
+
 			deleteProfile: async id => {
 				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",

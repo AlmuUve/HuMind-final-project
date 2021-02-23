@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 import PropTypes from "prop-types";
 

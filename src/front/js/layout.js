@@ -6,6 +6,7 @@ import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import injectContext from "./store/appContext";
+import { Addworkshop } from "./pages/addworkshop";
 
 //create your first component
 const Layout = () => {
@@ -15,11 +16,14 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
-					<Route exact path="/">
+					{/* <Route exact path="/">
 						<PsychologistRegistrationForm />
 					</Route>
 					<Route exact path="/user">
 						<CompanyRegistrationForm />
+					</Route> */}
+					<Route exact path="/add_workshop">
+						<Addworkshop />
 					</Route>
 					<Route exact path="/company">
 						<Profilecompany />
