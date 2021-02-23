@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 export const UserSignUp = props => (
-	<body className="signUp_body">
+	<div className="signUp_body">
 		<div className="signUp_leftColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0">
 			<h1>HuMind</h1>
 		</div>
@@ -68,7 +69,7 @@ export const UserSignUp = props => (
 				</button>
 			</form>
 		</div>
-	</body>
+	</div>
 );
 UserSignUp.propTypes = {
 	onMyClick: PropTypes.any,
