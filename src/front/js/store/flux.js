@@ -103,6 +103,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
+			setLogedUser: (new_email, new_password) => {
+				setStore({
+					LogedUser: {
+						email: new_email,
+						password: new_password
+					}
+				});
+			},
+
 			deleteProfile: async id => {
 				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
