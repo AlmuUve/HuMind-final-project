@@ -134,44 +134,40 @@ def delete_one_user(id):
 
 #     #METODOS PARA CATEGORYS Y WORKSHOPS
 
-# @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
-# def get_psychologist_workshops(user_id):
-#     psychologist = User.get_by_id(user_id).serialize()
-#     workshops = Workshop.get_by_id(user.get('id'))
-#     workshops_list = [workshop.serialize() for workshop in workshops if workshops is not None]
-#     return jsonify(workshops_list), 200
+@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+def get_psychologist_workshops(id):
+    psychologist = User.get_by_id(id)
+    workshops = Workshop.get_workshop_by_id(psychologist.get('id'))
+    workshops_list = [workshop.serialize() for workshop in workshops if workshops is not None]
+    return jsonify(workshops_list), 200
 
-# @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
-# def add_workshop(id):
-#     user_psychologist = User_psychologist.get_by_id(id)
+@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
+def add_workshop(id):
+    user_psychologist = User_psychologist.get_by_id(id)
     
-#     body = request.get_json()
+    body = request.get_json()
 
-#     new_workshop = Workshop(
-#         title = body.get("title"),
-#         duration = body.get("duration"),
-#         price = body.get("price"),
-#         date = body.get("date"),
-#         max_people = body.get("max_people"),
-#         description = body.get("description"),
-#         user_psychologist_id = user_psychologist.id,
-#     )
-#     category_list = Workshop.get_category_by_name(body.get("category_info"))
-#     new_workshop.add(body.get("category_info"))
-#     return jsonify(new_workshop.to_dict(category_list)), 200
+    new_workshop = Workshop(
+        title = body.get("title"),
+        duration = body.get("duration"),
+        price = body.get("price"),
+        date = body.get("date"),
+        max_people = body.get("max_people"),
+        description = body.get("description"),
+        user_psychologist_id = user_psychologist.id,
+    )
+    category_list = Workshop.get_category_by_name(body.get("category_info"))
+    new_workshop.add(body.get("category_info"))
+    return jsonify(new_workshop.to_dict(category_list)), 200
 
-# @app.route('/user/category', methods=['POST'])
-# def add_category():
-#     new_category = request.get_json()
-#     new_category = Category (
-#         category_name = new_category.get("category_name"),
-#     )
-#     new_category.add()
-#     return jsonify(new_category.to_dict())
-
-
-
-
+@app.route('/user/category', methods=['POST'])
+def add_category():
+    new_category = request.get_json()
+    new_category = Category (
+        category_name = new_category.get("category_name"),
+    )
+    new_category.add()
+    return jsonify(new_category.to_dict())
 
 
 # this only runs if `$ python src/main.py` is executed
