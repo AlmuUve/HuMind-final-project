@@ -26,7 +26,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch(
 					"https://3001-amber-chinchilla-9slf7s2d.ws-eu03.gitpod.io/user/psychologist/workshop/1",
 					{
@@ -60,8 +59,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewWorkshop: async workshop => {
+				let body = {
+					title: workshop.title,
+					category_info: workshop.category,
+					duration: workshop.duration,
+					price: workshop.price,
+					date: workshop.date,
+					max_people: workshop.max_people,
+					description: workshop.description
+				};
+				console.log(body);
 				let response = await fetch(
-					"https://3001-amber-chinchilla-9slf7s2d.ws-eu03.gitpod.io/user/psychologist/workshop/1",
+					"https://3001-indigo-cat-5kxsdybx.ws-eu03.gitpod.io/user/psychologist/workshop/1",
 					{
 						method: "POST",
 						mode: "cors",
@@ -69,17 +78,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: new Headers({
 							"Content-Type": "application/json"
 						}),
-						body: JSON.stringify({
-							title: workshop.title,
-							category_info: workshop.category,
-							duration: workshop.duration,
-							price: workshop.price,
-							dates: workshop.dates,
-							max_people: workshop.max_people,
-							description: workshop.description
-						})
+						body: JSON.stringify(body)
 					}
 				);
+
 				response = await response.json();
 				console.log(response);
 			},
