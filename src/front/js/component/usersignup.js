@@ -3,10 +3,40 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const UserSignUp = props => {
-	// const [clicked, setClicked] = useState({
-	// 	isPsychologist: "isPsychologistOff",
-	// 	isCompany: "isCompanyOff"
-	// });
+	const [clicked, setClicked] = useState({
+		isPsychologist: "isPsychologistOff",
+		isCompany: "isCompanyOff"
+	});
+	const [show, setShow] = useState("notShow");
+	const signUpButtons = document.querySelector("#signUpButtons");
+	const email = document.querySelector("#email");
+	const password = document.querySelector("#password");
+
+	// checkEmail(email);
+	// checkPassword(password);
+
+	const checkButtons = buttons => {
+		if (buttons.isPsychologist == "isPsychologistOff" && buttons.isCompany == "isCompanyOff") {
+			return false;
+		}
+		return true;
+	};
+
+	// const checkEmail = input => {
+	// 	input.addEventListener("focusout", () => {
+	// 		let myRegexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	// 		myRegexEmail.test(input.value);
+	// 		getCheck(input);
+	// 	});
+	// };
+
+	// const checkPassword = input => {
+	// 	input.addEventListener("focusout", () => {
+	// 		let myRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	// 		myRegexPassword.test(input.value);
+	// 		getCheck(input);
+	// 	});
+	// };
 
 	return (
 		<div className="signUp_body">
@@ -19,38 +49,31 @@ export const UserSignUp = props => {
 				</Link>
 				<h2>Sign Up</h2>
 				<h3>Choose your HuMind account</h3>
+				<h3 className={show}>You need to choose one</h3>
 				<form className="signUp_form">
-					<div
-						className={
-							"signUp_buttons"
-							// + clicked.isPsychologist
-						}>
-						{/* <PsychologistOrCompanyButtons /> */}
+					<div className="signUp_buttons" id="signUpButtons">
 						<button
-							className="signUp_psycologist_button"
+							className={"signUp_psycologist_button " + clicked.isPsychologist}
 							onClick={e => {
 								e.preventDefault();
 								props.onMyClick(true);
-								// setClicked({
-								// 	isPsychologist: "isPsychologist",
-								// 	isCompany: "isCompanyOff"
-								// });
+								setClicked({
+									isPsychologist: "isPsychologist",
+									isCompany: "isCompanyOff"
+								});
 							}}>
 							I AM A PSYCHOLOGIST
 						</button>
 						<button
-							className={
-								"signUp_company_button"
-								// + clicked.isCompany
-							}
+							className={"signUp_company_button " + clicked.isCompany}
 							name="is_psychologist"
 							onClick={e => {
 								e.preventDefault();
 								props.onMyClick(false);
-								// setClicked({
-								// 	isPsychologist: "isPsychologistOff",
-								// 	isCompany: "isCompany"
-								// });
+								setClicked({
+									isPsychologist: "isPsychologistOff",
+									isCompany: "isCompany"
+								});
 							}}>
 							{" "}
 							I AM A COMPANY
@@ -60,7 +83,7 @@ export const UserSignUp = props => {
 					<input
 						className="signUp_input"
 						type="text"
-						id="fname"
+						id="email"
 						name="email"
 						placeholder="Write your email here"
 						onChange={props.onMyChange}
@@ -69,7 +92,7 @@ export const UserSignUp = props => {
 					<input
 						className="signUp_input"
 						type="text"
-						id="fname"
+						id="password"
 						name="password"
 						placeholder="Write your password here"
 						onChange={props.onMyChange}
@@ -86,7 +109,13 @@ export const UserSignUp = props => {
 						className="signUp_submit"
 						onClick={e => {
 							e.preventDefault();
-							props.onMyclickUser();
+							let validation = checkButtons(clicked);
+							console.log(validation);
+							if (!validation) {
+								setShow("show");
+							} else {
+								props.onMyclickUser();
+							}
 						}}>
 						Get started!
 					</button>
