@@ -10,7 +10,7 @@ from flask_cors import CORS
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# from datetime import timedelta
+from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -76,7 +76,7 @@ def handle_login():
         return "Missing info", 400
 
     user = User.get_by_email(email)
-    if check_password_hash(user.get_password(), password):
+    if check_password_hash(user.password, password):
         access_token = create_access_token(
             identity=user.to_dict(),
             expires_delta=timedelta(minutes=60)
@@ -88,24 +88,24 @@ def handle_login():
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
-    email = body.get("email", None),
-    password = body.get("password", None),
-    facebook = body.get("facebook", None),
-    instagram = body.get("instagram", None),
-    twitter = body.get("twitter", None),
-    linkedIn = body.get("linkedIn", None),
-    youTube = body.get("youTube", None),
-    is_psychologist = body.get("is_psychologist", None),
+    email = body.get("email", None)
+    password = body.get("password", None)
+    facebook = body.get("facebook", None)
+    instagram = body.get("instagram", None)
+    twitter = body.get("twitter", None)
+    linkedIn = body.get("linkedIn", None)
+    youTube = body.get("youTube", None)
+    is_psychologist = body.get("is_psychologist", None)
     description = body.get("description", None)
 
     if not email or not password or not is_psychologist:
         return "Missing info", 400
 
-    password_hashed = generate_password_hash( body.get("password"), method='pbkdf2:sha256', salt_length=8)
+    password_hashed = generate_password_hash( password, method='pbkdf2:sha256', salt_length=8)
     print(password_hashed)
     user_id = User.add(
         email, 
-        password, 
+        password_hashed, 
         facebook,
         instagram, 
         twitter, 
@@ -114,7 +114,7 @@ def add_user():
         is_psychologist, 
         description
     )
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
     if is_psychologist:
         psychologist =  User_psychologist(
             name = body.get("name"),
@@ -124,7 +124,6 @@ def add_user():
             speciality = body.get("speciality"),
             user_id=user_id
         )
-        print(f' Psico{psychologist}')
         psychologist.add()
         return jsonify(psychologist.to_dict()), 201
 
@@ -135,27 +134,6 @@ def add_user():
     )
     company.add()
     return jsonify(company.to_dict()), 201
-
-@app.route("/login", methods=["POST"])
-def login():
-    email = request.json.get("email", None)
-    _password = request.json.get("_password", None)
-    if not email or not _password:
-        return "Could not verify Email or Password", 400  
-    
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        return "User not found", 404 
-    
-    if not werkzeug.security.check_password_hash(user._password, _password): 
-        return "Invalid Login Info!", 400
-    else: 
-        access_token = create_access_token(
-            identity={"email": email}, 
-            expires_delta=datetime.timedelta(minutes=60)
-        )
-        return {"access_token": access_token}, 200
-
 
 @app.route('/user/company/<int:id>', methods=['GET'])
 @jwt_required()

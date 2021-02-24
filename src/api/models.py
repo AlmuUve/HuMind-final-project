@@ -8,7 +8,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
-    _password = db.Column(db.VARCHAR)
+    password = db.Column(db.VARCHAR)
     is_active = db.Column(db.Boolean, default=True)
     image = db.Column(db.VARCHAR)
     facebook = db.Column(db.VARCHAR)
@@ -39,14 +39,19 @@ class User(db.Model):
             description = f'Error Bitch!'
         )
 
-    def get_password(self):
-        return self._password
+    # @classmethod
+    # def get_password(cls, email):
+    #     user = cls.query.filter_by(
+    #         email = email
+    #     )
+    #     print(user)
+    #     return user.password
 
     @classmethod
     def add(cls, email, password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
         user = cls(
             email=email, 
-            _password=password,
+            password=password,
             facebook=facebook,
             instagram=instagram, 
             twitter=twitter, 
@@ -63,10 +68,6 @@ class User(db.Model):
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
         return user
-
-    # def user_is_psychologist(id):
-    #     user = User.get_by_id(id)
-    #     return user.is_psychologist
 
     @classmethod
     def delete_user(cls, id):
