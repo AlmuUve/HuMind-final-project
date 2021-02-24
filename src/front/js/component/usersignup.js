@@ -3,17 +3,28 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const UserSignUp = props => {
+	const [signUpFirstStep, setSignUpFirstStep] = useState({
+		email: "",
+		password: ""
+	});
 	const [clicked, setClicked] = useState({
 		isPsychologist: "isPsychologistOff",
 		isCompany: "isCompanyOff"
 	});
 	const [show, setShow] = useState("notShow");
-	const signUpButtons = document.querySelector("#signUpButtons");
-	const email = document.querySelector("#email");
-	const password = document.querySelector("#password");
+	const [showError, setShowError] = useState("notShowError");
 
-	// checkEmail(email);
-	// checkPassword(password);
+	const [email, setEmail] = useState(null);
+	const inputEmail = document.querySelector("#email");
+
+	const [password, setPassword] = useState(null);
+	const inputPassword = document.querySelector("#password");
+
+	const inputChange = event => {
+		setSignUpFirstStep({ ...signUpFirstStep, [event.target.name]: event.target.value });
+	};
+
+	let isInvalidList = [];
 
 	const checkButtons = buttons => {
 		if (buttons.isPsychologist == "isPsychologistOff" && buttons.isCompany == "isCompanyOff") {
@@ -22,21 +33,54 @@ export const UserSignUp = props => {
 		return true;
 	};
 
-	// const checkEmail = input => {
-	// 	input.addEventListener("focusout", () => {
-	// 		let myRegexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	// 		myRegexEmail.test(input.value);
-	// 		getCheck(input);
-	// 	});
-	// };
+	const checkInputs = e => {
+		checkEmail(email, inputEmail);
+		checkPassword(password, inputPassword);
 
-	// const checkPassword = input => {
-	// 	input.addEventListener("focusout", () => {
-	// 		let myRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-	// 		myRegexPassword.test(input.value);
-	// 		getCheck(input);
-	// 	});
-	// };
+		if (isInvalidList.length > 0) {
+			setShowError("showError");
+		} else {
+			setShowError("notShow");
+		}
+	};
+
+	const checkEmail = (value, input) => {
+		let myRegexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if (value != null) {
+			if (value.length > 0 && myRegexEmail) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	const checkPassword = (value, input) => {
+		let myRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+		if (value != null) {
+			if (value > 0 && myRegexPassword) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	const isInvalid = input => {
+		if (input != null) {
+			input.classList.remove("is-valid");
+			input.classList.add("is-invalid");
+		}
+	};
+
+	const isValid = input => {
+		if (input != null) {
+			input.classList.add("is-valid");
+			input.classList.remove("is-invalid");
+		}
+	};
 
 	return (
 		<div className="signUp_body">
@@ -86,7 +130,10 @@ export const UserSignUp = props => {
 						id="email"
 						name="email"
 						placeholder="Write your email here"
-						onChange={props.onMyChange}
+						onChange={e => {
+							inputChange(e);
+							setEmail(e.target.value);
+						}}
 					/>
 					<label className="signUp_label_password">Password:</label>
 					<input
@@ -95,7 +142,10 @@ export const UserSignUp = props => {
 						id="password"
 						name="password"
 						placeholder="Write your password here"
-						onChange={props.onMyChange}
+						onChange={e => {
+							inputChange(e);
+							setPassword(e.target.value);
+						}}
 					/>
 					<label className="termsAndConditions">
 						<span className="checkmark" />
@@ -105,13 +155,17 @@ export const UserSignUp = props => {
 							<span className="linkTermsAndConditions">Terms and Conditions</span>
 						</span>
 					</label>
+					<span className={showError}>Some fields are missing!</span>
 					<button
 						className="signUp_submit"
 						onClick={e => {
 							e.preventDefault();
+							let checkingInputs = checkInputs(e);
 							let validation = checkButtons(clicked);
 							console.log(validation);
 							if (!validation) {
+								setShow("show");
+							} else if (!checkingInputs) {
 								setShow("show");
 							} else {
 								props.onMyclickUser();
