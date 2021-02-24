@@ -1,9 +1,13 @@
-import React, { Component, Fragment, useState } from "react";
+import React, { Component, useState, useContext } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../../styles/index.scss";
 
 export const UserLogIn = props => {
+	const { actions, store } = useContext(Context);
+	const [user, setUser] = useState("");
+
 	return (
 		<div className="logIn_body">
 			<div className="logIn_leftColumn col-md-5 col-sm-12">
@@ -20,7 +24,9 @@ export const UserLogIn = props => {
 						id="fname"
 						name="email"
 						placeholder="Write your email here"
-						onChange={props.onMyChange}
+						onChange={e => {
+							setUser(e.target.value);
+						}}
 					/>
 					<label className="logIn_label_password">Password:</label>
 					<input
@@ -29,13 +35,15 @@ export const UserLogIn = props => {
 						id="fname"
 						name="password"
 						placeholder="Write your password here"
-						onChange={props.onMyChange}
+						onChange={e => {
+							setUser(e.target.value);
+						}}
 					/>
 					<button
 						className="logIn_submit"
 						onClick={e => {
 							e.preventDefault();
-							props.onMyclickUser();
+							actions.login();
 						}}>
 						Get started!
 					</button>
@@ -46,8 +54,4 @@ export const UserLogIn = props => {
 			</div>
 		</div>
 	);
-};
-UserLogIn.propTypes = {
-	onMyChange: PropTypes.any,
-	onMyclickUser: PropTypes.any
 };

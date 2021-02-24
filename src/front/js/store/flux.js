@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -5,7 +7,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userCompany: [],
 			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
-			User: {}
+			User: {},
+			LogedUser: {}
 		},
 
 		actions: {
@@ -54,22 +57,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 				response = await response.json();
 			},
 
-			login: async data => {
-				// console.log("esto es una mierdaaaaaa", user);
+			login: async (email, password) => {
 				let response = await fetch("https://3001-tomato-guppy-s135rtbn.ws-eu03.gitpod.io/login", {
 					method: "POST",
-					mode: "cors",
+					mode: "no-cors",
 					redirect: "follow",
 					headers: new Headers({
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
-						email: data.email,
-						password: data.password
+						email: email,
+						password: password
 					})
 				});
-				response = await response.json();
-				console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + response);
+				if (!response.ok) {
+					throw new Error(`${response.message} status: ${response.status}`);
+				}
+				localStorage.setItem("token", response.json().token);
+				getActions().decode();
+			},
+
+			decode: () => {
+				let token = localStorage.getItem("token");
+				const decoded = jwt_decode(token);
+				console.log(decoded);
+				getActions().setLogedUser(decoded.email, decoded.id);
+			},
+
+			register: async (email, password) => {
+				let response = await fetch("https://3001-tomato-guppy-s135rtbn.ws-eu03.gitpod.io/user", {
+					method: "POST",
+					mode: "no-cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						email: email,
+						password: password
+					})
+				});
+				if (!response.ok) {
+					throw new Error(`${response.message} status: ${response.status}`);
+				}
+				return true;
 			},
 
 			deleteProfile: async id => {
