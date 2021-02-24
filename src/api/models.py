@@ -149,6 +149,11 @@ class User_psychologist(db.Model):
         return user_psychologist
     
     @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id=id).first()
+        return user
+    
+    @classmethod
     def update_psychologist_user(cls, user_data, id):
         user= cls.query.filter_by(user_id = id).first()
         user.name= user_data["name"]
@@ -156,26 +161,35 @@ class User_psychologist(db.Model):
         user.speciality= user_data["speciality"]
         db.session.commit()   
 
+workshop_has_category = db.Table('workshop_has_category',
+    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
+    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
+)
 class Category(db.Model):
     __tablename__ = 'category'
-
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
-     
     def __repr__(self):
         return f'Category {self.category_name}'
-
     def to_dict(self):
         return {
             "id": self.id,
             "category_name": self.category_name,
-            "is_active":False
         }
+    @classmethod
+    def get_by_id(cls, id):
+        category = cls.query.filter_by(id = id).first()
+        return category
+    @classmethod
+    def get_all(cls):
+        return cls
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
-
     id = db.Column(db.Integer, primary_key=True)
     duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
@@ -184,10 +198,8 @@ class Search_workshop(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
- 
     def __repr__(self):
         return f'Search_workshop {self.user_company_id} and {self.id}'
-
     def to_dict(self):
         return {
             "id": self.id,
@@ -197,17 +209,11 @@ class Search_workshop(db.Model):
             "max_people": self.max_people,
             "is_active": self.is_active,
             "user_company_id": self.user_company_id,
-            "category_id": self.category_id
+            # "category_id": query_workshop_has_category
         }
-
-workshop_has_category = db.Table('workshop_has_category',
-    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
-    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
-)
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
-
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.VARCHAR)
     duration = db.Column(db.VARCHAR)
@@ -218,12 +224,10 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy=True))
- 
+        backref=db.backref("workshops", lazy='joined'))
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
-
-    def to_dict(self):
+    def to_dict(self, category_list):
         return {
             "id": self.id,
             "title": self.title,
@@ -234,26 +238,27 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "category_info": self.category_info
+            "categorys": category_list
         }
-    # @classmethod
-    # def get_by_id(cls, id):
-    #     workshop = cls.query.filter_by(id = id).first()
-    #     return workshop
+    @classmethod
+    def get_workshop_by_id(cls, id):
+        workshop = cls.query.filter_by(id = id).first()
+        return workshop
 
-    # @classmethod
-    # def get_category_by_name(category_info):
-    #     categorys = []
-    #     for category in category_info:
-    #         new_category_list = Category.get_by_id(category)
-    #         categorys.append(new_category_list.category_name)
-    #     return categorys
+    def get_category_by_name(category_info):
+        categorys = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categorys.append(new_category_list.category_name)
+        return categorys
 
-    # @classmethod
-    # def add(self, category_info):
-    #     db.session.add(self)
-    #     for category in category_info:
-    #         new_category = Category.get_by_id(category)
-    #         self.category_info.append(new_category) 
-    #     db.session.commit()
+    def add(self, category_info):
+        db.session.add(self)
+        for category in category_info:
+            new_category = Category.get_by_id(category)
+            self.category_info.append(new_category) 
+        db.session.commit()
+
+
+    
 
