@@ -59,16 +59,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewWorkshop: async workshop => {
-				let body = {
-					title: workshop.title,
-					category_info: workshop.category,
-					duration: workshop.duration,
-					price: workshop.price,
-					date: workshop.date,
-					max_people: workshop.max_people,
-					description: workshop.description
-				};
-				console.log(body);
 				let response = await fetch(
 					"https://3001-indigo-cat-5kxsdybx.ws-eu03.gitpod.io/user/psychologist/workshop/1",
 					{
@@ -78,10 +68,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: new Headers({
 							"Content-Type": "application/json"
 						}),
-						body: JSON.stringify(body)
+						body: JSON.stringify({
+							title: workshop.title,
+							category_info: workshop.category,
+							duration: workshop.duration,
+							price: workshop.price,
+							date: workshop.date,
+							max_people: workshop.max_people,
+							description: workshop.description
+						})
 					}
 				);
 
+				response = await response.json();
+				console.log(response);
+			},
+
+			addNewSearchWorkshop: async searchWorkshop => {
+				let response = await fetch(
+					"https://3001-teal-cow-br27iie4.ws-eu03.gitpod.io/user/company/searchworkshop/2",
+					{
+						method: "POST",
+						mode: "cors",
+						redirect: "follow",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							category_id: parseInt(searchWorkshop.category),
+							duration: searchWorkshop.duration,
+							price: searchWorkshop.price,
+							date: searchWorkshop.date,
+							max_people: searchWorkshop.max_people
+						})
+					}
+				);
 				response = await response.json();
 				console.log(response);
 			},

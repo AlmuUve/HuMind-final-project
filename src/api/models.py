@@ -98,6 +98,11 @@ class User_company(db.Model):
         user_company = cls.query.filter_by(user_id=user).first()
         return user_company
 
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first()
+        return user
+
     @classmethod    
     def update_company_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
@@ -216,16 +221,21 @@ class Search_workshop(db.Model):
         return f'Search_workshop {self.user_company_id} and {self.id}'
 
     def to_dict(self):
+        new_category_list = Category.get_by_id(self.category_id)
         return {
             "id": self.id,
             "duration": self.duration,
             "max_price": self.max_price,
-            "date": self.date,
+            "date": self.date.isoformat(),
             "max_people": self.max_people,
             "is_active": self.is_active,
             "user_company_id": self.user_company_id,
-            # "category_id": query_workshop_has_category
+            "category": new_category_list.category_name
         }
+    
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'

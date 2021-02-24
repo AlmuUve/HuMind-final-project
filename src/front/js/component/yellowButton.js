@@ -8,7 +8,8 @@ export const YellowButton = props => (
 	<button
 		className="yellowButton"
 		onClick={e => {
-			props.onClickAddWorkshop(e);
+			//props.onClickAddWorkshop(e);
+			props.AddSearchWorkshop(e);
 		}}>
 		{props.text}
 	</button>
@@ -16,5 +17,6 @@ export const YellowButton = props => (
 
 YellowButton.propTypes = {
 	text: PropTypes.string,
-	onClickAddWorkshop: PropTypes.func
+	onClickAddWorkshop: PropTypes.func,
+	AddSearchWorkshop: PropTypes.func
 };
