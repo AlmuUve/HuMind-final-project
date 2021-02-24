@@ -43,6 +43,16 @@ h3{
     font-size: 1rem;
 }
 
+.show{
+    padding: 0.5;
+    background-color: rgb(223, 60, 60);
+    color: white;
+}
+
+.notShow{
+    display: none;
+}
+
 .signUp_body{
     display: flex;
 }
@@ -80,7 +90,7 @@ h3{
     background-color: $primary_yellow;
 }
 
-.signUp_psycologist_button:focus{
+.isPsychologist{
     outline: none;
     background-image: none;
     background-color: $primary_yellow;
@@ -106,7 +116,7 @@ h3{
     background-color: $primary_blue;
 }
 
-.signUp_company_button:focus{
+.isCompany{
     outline: none;
     background-image: none;
     background-color: $primary_blue;
