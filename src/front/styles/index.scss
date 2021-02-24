@@ -44,12 +44,24 @@ h3{
 }
 
 .show{
-    padding: 0.5;
-    background-color: rgb(223, 60, 60);
-    color: white;
+    font-family: $title_font;
+    color: rgb(223, 60, 60);
+    font-size: 1.2rem;
 }
 
 .notShow{
+    display: none;
+}
+
+.showError{
+    display: flex;
+    align-self: center;
+    font-family: $title_font;
+    color: rgb(223, 60, 60);
+    font-size: 1.2rem;
+}
+
+.notShowError{
     display: none;
 }
 
