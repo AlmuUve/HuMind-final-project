@@ -26,12 +26,38 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-        "is_active": self.is_active,
+            "id": self.id,
+            "email": self.email,
+            "is_psychologist": self.is_psychologist,
         }
+    
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(
+            email = email
+        ).first_or_404(
+            description = f'Error Bitch!'
+        )
 
-    def add(self):
-        db.session.add(self)
+    def get_password(self):
+        return self._password
+
+    @classmethod
+    def add(cls, email, password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
+        user = cls(
+            email=email, 
+            _password=password,
+            facebook=facebook,
+            instagram=instagram, 
+            twitter=twitter, 
+            linkedIn=linkedIn, 
+            youTube=youTube, 
+            is_psychologist=True, 
+            description=description
+        )
+        db.session.add(user)
         db.session.commit()
+        return user.id
 
     @classmethod
     def get_by_id(cls, id):
@@ -125,6 +151,7 @@ class User_psychologist(db.Model):
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
+            "identity_number": self.identity_number,
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,

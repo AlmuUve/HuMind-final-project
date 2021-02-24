@@ -8,8 +8,13 @@ from flask_swagger import swagger
 from flask_cors import CORS
 # from flask_login import current_user, login_user
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+
 # from datetime import timedelta
-from flask_jwt_extended import ( JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies)
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 # from passlib.hash import sha256_crypt
 from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
@@ -60,47 +65,96 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
-@app.route("/register", methods=["POST"])
-def register():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    if not email: 
-        return "Missing email", 400  
-    if not password: 
-        return "Missing password", 400  
+@app.route('/login', methods=['POST'])
+def handle_login():
+    email, password = request.json.get(
+            "email", None
+        ), request.json.get(
+            "password", None
+        )
+    if not email or not password:
+        return "Missing info", 400
 
-    user = User(email=email, hash=hashed)
-    db.session.add(user)
-    db.session.commit()
+    user = User.get_by_email(email)
+    if check_password_hash(user.get_password(), password):
+        access_token = create_access_token(
+            identity=user.to_dict(),
+            expires_delta=timedelta(minutes=60)
+        )
+        return jsonify({'token': access_token}), 200
 
-    access_token = create_access_token(identity={"email": email})
-    return {"access_token": access_token}, 200
-    
-    # return "User Already Exists", 400
-   
+    return "Invalid info", 400
+
+@app.route('/user', methods=['POST'])
+def add_user():
+    body = request.get_json()
+    email = body.get("email", None),
+    password = body.get("password", None),
+    facebook = body.get("facebook", None),
+    instagram = body.get("instagram", None),
+    twitter = body.get("twitter", None),
+    linkedIn = body.get("linkedIn", None),
+    youTube = body.get("youTube", None),
+    is_psychologist = body.get("is_psychologist", None),
+    description = body.get("description", None)
+
+    if not email or not password or not is_psychologist:
+        return "Missing info", 400
+
+    password_hashed = generate_password_hash( body.get("password"), method='pbkdf2:sha256', salt_length=8)
+    print(password_hashed)
+    user_id = User.add(
+        email, 
+        password, 
+        facebook,
+        instagram, 
+        twitter, 
+        linkedIn, 
+        youTube, 
+        is_psychologist, 
+        description
+    )
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    if is_psychologist:
+        psychologist =  User_psychologist(
+            name = body.get("name"),
+            lastname = body.get("lastname"),
+            identity_number = body.get("identity_number"),
+            association_number = body.get("association_number") ,            
+            speciality = body.get("speciality"),
+            user_id=user_id
+        )
+        print(f' Psico{psychologist}')
+        psychologist.add()
+        return jsonify(psychologist.to_dict()), 201
+
+    company =  User_company(
+        company_name = body.get("company_name"),
+        company_number = body.get("company_number"),
+        user_id = user_id
+    )
+    company.add()
+    return jsonify(company.to_dict()), 201
 
 @app.route("/login", methods=["POST"])
 def login():
     email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    if not email or not password:
+    _password = request.json.get("_password", None)
+    if not email or not _password:
         return "Could not verify Email or Password", 400  
     
     user = User.query.filter_by(email=email).first()
     if not user:
-        return "User not found", 404 # make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
-
-    if user: # check_password_hash(user.password, auth.password):
-        #token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=60)})
+        return "User not found", 404 
+    
+    if not werkzeug.security.check_password_hash(user._password, _password): 
+        return "Invalid Login Info!", 400
+    else: 
         access_token = create_access_token(
             identity={"email": email}, 
             expires_delta=datetime.timedelta(minutes=60)
         )
-        #return jsonify({'token' : token.decode('UTF-8')})
         return {"access_token": access_token}, 200
-    else:
-        return "Invalid Login Info!", 400
-    
 
 
 @app.route('/user/company/<int:id>', methods=['GET'])
@@ -123,44 +177,6 @@ def get_user_psychologist_information(id):
     else:
         return "This profile doesnt exists", 400
 
-@app.route('/user', methods=['POST'])
-def add_user():
-    body = request.get_json()
-    if not body.get("email") or not body.get("password"):
-        return "Error!", 400
-
-    new_user = User(
-        email = body.get("email"),
-        _password = body.get("password"),
-        facebook = body.get("facebook"),
-        instagram = body.get("instagram"),
-        twitter = body.get("twitter"),
-        linkedIn = body.get("linkedIn"),
-        youTube = body.get("youTube"),
-        is_psychologist = body.get("is_psychologist"),
-        description = body.get("description")
-    )
-    new_user.add()
-
-    if body.get("is_psychologist"):
-        new_user_psy = User_psychologist(
-            name = body.get("name"),
-            lastname = body.get("lastname"),
-            identity_number = body.get("number"),
-            association_number = body.get("association_number"),             
-            speciality = body.get("speciality"),
-            user_id = new_user.id
-        )
-        new_user_psy.add()
-        return jsonify(new_user_psy.to_dict()), 201
-
-    new_user_company = User_company(
-        company_name = body.get("company_name"),
-        company_number = body.get("company_number"),
-        user_id = new_user.id
-    )
-    new_user_company.add()
-    return jsonify(new_user_company.to_dict()), 201
 
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):
