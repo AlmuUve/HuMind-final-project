@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop 
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop, workshop_has_category
 from api.routes import api
 from api.admin import setup_admin
 #from models import Person
@@ -136,10 +136,15 @@ def delete_one_user(id):
 
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
-    psychologist = User.get_by_id(id)
-    workshops = Workshop.get_workshop_by_id(psychologist.get('id'))
-    workshops_list = [workshop.serialize() for workshop in workshops if workshops is not None]
-    return jsonify(workshops_list), 200
+    # psychologist = User_psychologist.get_by_id(id)
+    # print(psychologist, "soy psychologistttttstststtstststststtststststst@@@@@@@@@@@@@@@")
+    workshops = Workshop.get_workshop_by_psychologist_id(id)
+
+    # categories = Category.get_all_categories()
+    # workshop_has_category = db.session.query(workshop_has_category).all()
+    print(workshops, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #workshops_list = [workshop.to_dict() for workshop in workshops if workshops is not None]
+    return jsonify(workshops.to_dict()), 200
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):

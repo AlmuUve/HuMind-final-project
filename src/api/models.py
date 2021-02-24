@@ -165,6 +165,7 @@ workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
     db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
 )
+
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
@@ -177,13 +178,17 @@ class Category(db.Model):
             "id": self.id,
             "category_name": self.category_name,
         }
+
     @classmethod
     def get_by_id(cls, id):
         category = cls.query.filter_by(id = id).first()
         return category
+
     @classmethod
-    def get_all(cls):
-        return cls
+    def get_all_categories(cls):
+        all_categories = cls.query.all()
+        return all_categories
+
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -227,7 +232,10 @@ class Workshop(db.Model):
         backref=db.backref("workshops", lazy='joined'))
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
-    def to_dict(self, category_list):
+
+    def to_dict(self):
+    # , category_list
+    
         return {
             "id": self.id,
             "title": self.title,
@@ -238,13 +246,20 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": category_list
+            # "categorys": category_list
         }
+
+    @classmethod
+    def get_workshop_by_psychologist_id(cls, user_psychologist_id):
+        workshop_by_psychologist_id = Workshop.query.get(user_psychologist_id)
+        return workshop_by_psychologist_id
+
     @classmethod
     def get_workshop_by_id(cls, id):
         workshop = cls.query.filter_by(id = id).first()
         return workshop
 
+    @classmethod
     def get_category_by_name(category_info):
         categorys = []
         for category in category_info:
@@ -252,6 +267,7 @@ class Workshop(db.Model):
             categorys.append(new_category_list.category_name)
         return categorys
 
+    @classmethod
     def add(self, category_info):
         db.session.add(self)
         for category in category_info:
