@@ -10,54 +10,154 @@ export const Workshopform = () => {
 		category: [],
 		duration: "",
 		price: "",
-		dates: "",
+		date: "",
 		max_people: "",
 		description: ""
 	});
 
-	let listOfCategory = [];
+	const [title, setTitle] = useState(null);
+	const inputTitle = document.querySelector("#title");
+
+	const [duration, setDuration] = useState(null);
+	const inputDuration = document.querySelector("#duration");
 
 	const [price, setPrice] = useState(null);
 	const inputPrice = document.querySelector("#price");
+
+	const [dates, setDates] = useState(null);
+	const inputDates = document.querySelector("#dates");
+
+	const [people, setPeople] = useState(null);
+	const inputPeople = document.querySelector("#people");
+
+	const [description, setDescription] = useState(null);
+	const inputDescription = document.querySelector("#description");
+
+	const [showError, setShowError] = useState("notShow");
+
+	//**SETEAR EL OBJETO**\\
 
 	const inputChange = event => {
 		setWorkshop({ ...workshop, [event.target.name]: event.target.value });
 	};
 
-	//SET THE CATEGORY LIST NEXT 3 FUNCTIONS
+	//**FUNCTIONS FOR VALIDATIONS**\\
 
-	const onCheckBox = event => {
-		listOfCategory.push(parseInt(event.target.value));
+	let isInvalidList = [];
+
+	const checkInputs = e => {
+		e.preventDefault();
+		checkTitle(title, inputTitle);
+		checkDuration(duration, inputDuration);
+		checkDates(dates, inputDates);
+		checkPrice(price, inputPrice);
+		checkPeople(people, inputPeople);
+		checkDescription(description, inputDescription);
+
+		if (isInvalidList.length > 0) {
+			setShowError("showError");
+		} else {
+			setShowError("notShow");
+			checkBoxes();
+			actions.addNewWorkshop(workshop);
+		}
 	};
 
-	const removeDuplicates = arr => {
-		const uniques = [];
-		arr.forEach(element => {
-			if (!uniques.includes(element)) {
-				uniques.push(element);
+	const checkBoxes = () => {
+		let boxes = document.querySelectorAll("#category");
+		let listOfCategorys = [];
+		for (let i = 0; i < boxes.length; i++) {
+			if (boxes[i].checked) {
+				listOfCategorys.push(parseInt(boxes[i].value));
 			}
-		});
-		return uniques;
+		}
+		setWorkshop((workshop.category = listOfCategorys));
 	};
 
-	const setCategoryWorkshop = arr => {
-		setWorkshop((workshop.category = removeDuplicates(arr)));
+	const checkTitle = (value, input) => {
+		if (value != null) {
+			if (value.length > 0) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
 	};
 
-	//FUNCTIONS TO VALIDATIONS
+	const checkDuration = (value, input) => {
+		if (value != null) {
+			if (isNumber(value) && value > 0) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
 
 	const checkPrice = (value, input) => {
-		Number(value) && value < 10000 ? isValid(input) : isInvalid(input);
+		if (value != null) {
+			if (Number(value) && value < 10000) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	const checkDates = (value, input) => {
+		if (value != null) {
+			if (value != 0) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	const checkPeople = (value, input) => {
+		if (value != null) {
+			if (isNumber(value) && value > 0) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	const checkDescription = (value, input) => {
+		if (value != null) {
+			if (value.length > 0 && value.length < 1500) {
+				isValid(input);
+			}
+		} else {
+			isInvalid(input);
+			isInvalidList.push(value);
+		}
+	};
+
+	//**AUX FUNCTIONS**\\
+
+	const isNumber = value => {
+		return Number(value) % 1 == 0;
 	};
 
 	const isInvalid = input => {
-		input.classList.remove("is-valid");
-		input.classList.add("is-invalid");
+		if (input != null) {
+			input.classList.remove("is-valid");
+			input.classList.add("is-invalid");
+		}
 	};
 
 	const isValid = input => {
-		input.classList.add("is-valid");
-		input.classList.remove("is-invalid");
+		if (input != null) {
+			input.classList.add("is-valid");
+			input.classList.remove("is-invalid");
+		}
 	};
 
 	return (
@@ -69,9 +169,12 @@ export const Workshopform = () => {
 							<p>Workshop Name</p>
 						</label>
 						<input
-							className="workshopInput"
+							className="workshopInput form-control"
 							type="text"
-							onChange={inputChange}
+							onChange={e => {
+								inputChange(e);
+								setTitle(e.target.value);
+							}}
 							placeholder="Max. 50 characters"
 							name="title"
 							id="title"
@@ -85,11 +188,15 @@ export const Workshopform = () => {
 							<p>Duration</p>
 						</label>
 						<input
-							className="workshopInput"
+							className="workshopInput form-control"
 							type="text"
-							onChange={inputChange}
+							onChange={e => {
+								inputChange(e);
+								setDuration(e.target.value);
+							}}
 							placeholder="In minutes"
 							name="duration"
+							id="duration"
 							required
 						/>
 					</div>
@@ -117,11 +224,14 @@ export const Workshopform = () => {
 							<p>Availabre Dates</p>
 						</label>
 						<input
-							className="workshopInput"
+							className="workshopInput form-control"
 							type="date"
-							onChange={inputChange}
-							placeholder="mm/dd/yyyy"
-							name="dates"
+							onChange={e => {
+								inputChange(e);
+								setDates(e.target.value);
+							}}
+							name="date"
+							id="dates"
 							required
 						/>
 					</div>
@@ -132,10 +242,14 @@ export const Workshopform = () => {
 							<p>Maximun participants</p>
 						</label>
 						<input
-							className="workshopInput"
+							className="workshopInput form-control"
 							type="text"
-							onChange={inputChange}
+							onChange={e => {
+								inputChange(e);
+								setPeople(e.target.value);
+							}}
 							name="max_people"
+							id="people"
 							required
 						/>
 					</div>
@@ -146,11 +260,15 @@ export const Workshopform = () => {
 							<p>Description</p>
 						</label>
 						<textarea
-							className="workshopTextArea"
+							className="workshopTextArea form-control"
 							name="description"
-							onChange={inputChange}
+							onChange={e => {
+								inputChange(e);
+								setDescription(e.target.value);
+							}}
 							placeholder="Max. 500 caracteres"
 							form="usrform"
+							id="description"
 							required
 						/>
 					</div>
@@ -168,8 +286,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={1}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Estres
@@ -181,8 +299,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={2}
-										id="category2"
-										onChange={onCheckBox}
+										id="category"
+										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Ansiedad
@@ -194,8 +312,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={3}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Mindfulness
@@ -207,8 +325,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={4}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestion de equipos
@@ -220,8 +338,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={5}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Risoterapia
@@ -235,8 +353,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={6}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Sueño
@@ -248,8 +366,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={7}
-										id="category2"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Somos la ostia
@@ -261,8 +379,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={8}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Terminamos mañana
@@ -274,8 +392,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={9}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Psicologia positiva
@@ -287,8 +405,8 @@ export const Workshopform = () => {
 										name="category"
 										type="checkbox"
 										value={10}
-										id="category1"
-										onChange={onCheckBox}
+										id="category"
+										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestión del tiempo
@@ -298,16 +416,15 @@ export const Workshopform = () => {
 						</div>
 					</div>
 				</div>
+				<div className="row d-flex justify-content-center">
+					<span className={showError}>All fields are mandatory!</span>
+				</div>
 				<div className="row d-flex justify-content-center mb-5">
 					<YellowButton
 						type="submit"
 						text="Submit"
 						onClickAddWorkshop={e => {
-							e.preventDefault();
-							console.log(price);
-							checkPrice(price, inputPrice);
-							// setCategoryWorkshop(listOfCategory);
-							// actions.addNewWorkshop(workshop);
+							checkInputs(e);
 						}}
 					/>
 				</div>

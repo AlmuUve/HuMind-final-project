@@ -188,3 +188,15 @@ i{
     font-family: $title_font;
     margin: 2rem 0 2rem 0;
 }
+
+.notShow {
+    display: none;
+}
+
+.showError {
+    padding: 0.5;
+    color: red;
+    font-family: $title_font;
+    font-size: 1.25rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
