@@ -152,6 +152,25 @@ def add_workshop(id):
     new_workshop.add(body.get("category_info"))
     return jsonify(new_workshop.to_dict(category_list)), 200
 
+@app.route('/user/company/searchworkshop/<int:id>', methods=['POST'])
+def add_search_workshop(id):
+    user_company = User_company.get_by_id(id)
+    
+    body = request.get_json()
+
+    new_search_workshop = Search_workshop(
+        duration = body.get("duration"),
+        max_price = body.get("price"),
+        date = body.get("date"),
+        max_people = body.get("max_people"),
+        user_company_id = user_company.id,
+        category_id = body.get("category_id")
+    )
+ 
+    new_search_workshop.add()
+
+    return jsonify(new_search_workshop.to_dict()), 200
+
 @app.route('/user/category', methods=['POST'])
 def add_category():
     new_category = request.get_json()
