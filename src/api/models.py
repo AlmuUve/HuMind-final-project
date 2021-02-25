@@ -194,6 +194,11 @@ class Category(db.Model):
         category = cls.query.filter_by(category_name = id).first()
         return category_name
 
+    @classmethod
+    def get_all(cls):
+        list_of_categories = cls.query.all()
+        return list_of_categories
+
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -288,14 +293,29 @@ class Workshop(db.Model):
 
     def update_workshop(self, new_title, new_duration, 
     new_price, new_date, new_max_people, 
-    new_description, new_categories):
+    new_description, category_info):
         self.title = new_title
         self.duration = new_duration
         self.price = new_price
         self.date = new_date
         self.max_people = new_max_people
         self.description = new_description
-        categorys = new_categories
+        list_of_categories = Category.get_all()
+        stay = []
+        remove = []
+        for category in category_info:
+            new_categories = Category.get_by_id(category)
+            for categories in list_of_categories:
+                if categories == new_categories:
+                    stay.append(new_categories)
+                else:
+                    remove.append(categories)
+                    # print(stay, "lo que queda")
+                    # print(new_categories, "el cambio que llega")
+                    # print(categories, "todas las categorias")
+                    print(remove, "lo que se va")
+            print(remove)
+            self.category_info.append(new_categories)
         db.session.commit()
         return self 
 
@@ -303,7 +323,7 @@ class Workshop(db.Model):
     def add(self, category_info):
         db.session.add(self)
         for category in category_info:
-            new_category = Category.get_by_id(category)
+            new_category = Category.get_all()
             self.category_info.append(new_category) 
         db.session.commit()
 
