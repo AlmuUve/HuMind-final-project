@@ -1,0 +1,123 @@
+data = {
+    "Workshop": [{
+        "id": 1,
+        "title": "How to deal with motivational issues",
+        "duration": "200",
+        "price": "2.000 €",
+        "date": 2021/3/15,
+        "is_active": True,
+        "max_people": 15,
+        "description": "When we don’t know which step is next or why we’re doing what we’re doing, we can quickly become de-motivated. We will learn to deal with these struggles.",
+        "user_psychologist_id": 2,
+        "categorys": [10]
+    },
+    {
+        "id": 2,
+        "title": "Anxiety and stress management",
+        "duration": "40",
+        "price": "1.000 €",
+        "date": 2021/4/1,
+        "is_active": True,
+        "max_people": 25,
+        "description": "If you're stressed, whether by your job or something more personal, the first step to feeling better is to identify the cause. The most unhelpful thing you can do is turn to something unhealthy to help you cope, such as smoking or drinking.In life, there's always a solution to a problem, says Professor Cary Cooper, an occupational health expert at the University of Lancaster.",
+        "user_psychologist_id": 1,
+        "categorys": [3, 5]
+    },
+    {
+        "id": 3,
+        "title": "Gender identity workshop",
+        "duration": "10",
+        "price": "1.500 €",
+        "date": 2021/4/19,
+        "is_active": True,
+        "max_people": 10,
+        "description": "The workshop was designed to provide an opportunity to explore concepts, terminology and data needs together with members of the trans community and users of gender identity data. It also provided the opportunity for participants to learn more about our research and testing plans for the gender identity topic.",
+        "user_psychologist_id": 3,
+        "categorys": [4]
+    },   
+    {
+        "id": 4,
+        "title": "Be a leader not just a boss",
+        "duration": "8",
+        "price": "2.000 €",
+        "date": 2021/4/12,
+        "is_active": True,
+        "max_people": 5,
+        "description": "Whether you have a group of new supervisors r an experienced team that needs some skills sharpening, our management training courses, workshops, seminars, and multi-session programs can provide your people with opportunities to learn and practice a range of skills.",
+        "user_psychologist_id": 2,
+        "categorys": [1]
+    },  
+    {
+        "id": 5,
+        "title": "Mindfulness workshop",
+        "duration": "20",
+        "price": "1.200 €",
+        "date": 2021/4/1,
+        "is_active": True,
+        "max_people": 15,
+        "description": "Mindfulness means to remember to observe how mind's attention moves from one thing to another. The first part of Mindfulness is to remember to watch the mind and remember to return to your object of meditation when you have wandered off.",
+        "user_psychologist_id": 4,
+        "categorys": [2, 3, 5]
+    },
+    {
+        "id": 6,
+        "title": "Flourish Wellbeing Workshops",
+        "duration": "10",
+        "price": "1.200 €",
+        "date": 2021/5/1,
+        "is_active": True,
+        "max_people": 30,
+        "description": "FLOURISH is a programme designed to help you optimise your physical, emotional and mental wellbeing thereby dramatically improving your quality of life.",
+        "user_psychologist_id": 5,
+        "categorys": [3, 5, 9]
+    },
+    {
+        "id": 7,
+        "title": "Sleep well to perform better",
+        "duration": "8",
+        "price": "1.200 €",
+        "date": 2021/5/10,
+        "is_active": True,
+        "max_people": 15,
+        "description": "During this workshop you’ll be able to identify habits and behaviours which may be affecting your sleep pattern and explore some proven solutions to help you relax and sleep peacefully.",
+        "user_psychologist_id": 4,
+        "categorys": [3, 5, 7]
+    },
+    {
+        "id": 8,
+        "title": "Digital Wellbeing",
+        "duration": "25",
+        "price": "3.000 €",
+        "date": 2021/4/12,
+        "is_active": True,
+        "max_people": 50,
+        "description": "Over the past ten years technology has revolutionised our lives. It has brought many amazing benefits, but not without a cost on wellbeing.  Digital Wellbeing builds awareness of how we use technology and offers practical tips and strategies to take back control.",
+        "user_psychologist_id": 5,
+        "categorys": [5]
+    },
+    {
+        "id": 9,
+        "title": "Stress Less",
+        "duration": "4",
+        "price": "950 €",
+        "date": 2021/4/1,
+        "is_active": True,
+        "max_people": 25,
+        "description": "No one can deny that we are living in demanding and stressful times and the risks of becoming over anxious, stressed and exhausted are high. Come along to this workshop and get lots of practical tools, tips and strategies on reducing stress and feeling back in control.",
+        "user_psychologist_id": 4,
+        "categorys": [3, 5]
+    },
+    {
+        "id": 10,
+        "title": "Time management workshop",
+        "duration": "6",
+        "price": "1.200 €",
+        "date": 2021/4/1,
+        "is_active": True,
+        "max_people": 40,
+        "description": "Personal Time Management Skills are essential for professional success in any workplace. Those able to successfully implement time management strategies are able to control their workload rather than spend each day in a frenzy activity reacting to crisis after crisis - stress declines and personal productivity soars! These highly effective individuals are able to focus on the tasks with the greatest impact to them and their organization.",
+        "user_psychologist_id": 1,
+        "categorys": [8]
+    },
+    ]
+}
