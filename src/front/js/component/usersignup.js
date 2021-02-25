@@ -28,7 +28,10 @@ export const UserSignUp = props => {
 
 	const checkButtons = buttons => {
 		if (buttons.isPsychologist == "isPsychologistOff" && buttons.isCompany == "isCompanyOff") {
+			setShow("show");
 			return false;
+		} else {
+			setShow("notShow");
 		}
 		return true;
 	};
@@ -36,11 +39,13 @@ export const UserSignUp = props => {
 	const checkInputs = e => {
 		checkEmail(email, inputEmail);
 		checkPassword(password, inputPassword);
+		checkButtons(clicked);
 
 		if (isInvalidList.length > 0) {
 			setShowError("showError");
 		} else {
 			setShowError("notShow");
+			props.onMyclickUser();
 		}
 	};
 
@@ -93,7 +98,7 @@ export const UserSignUp = props => {
 				</Link>
 				<h2>Sign Up</h2>
 				<h3>Choose your HuMind account</h3>
-				<h3 className={show}>You need to choose one</h3>
+				{/* <h3 className={show}>You need to choose one</h3> */}
 				<form className="signUp_form">
 					<div className="signUp_buttons" id="signUpButtons">
 						<button
@@ -160,16 +165,7 @@ export const UserSignUp = props => {
 						className="signUp_submit"
 						onClick={e => {
 							e.preventDefault();
-							let checkingInputs = checkInputs(e);
-							let validation = checkButtons(clicked);
-							console.log(validation);
-							if (!validation) {
-								setShow("show");
-							} else if (!checkingInputs) {
-								setShow("show");
-							} else {
-								props.onMyclickUser();
-							}
+							checkInputs(e);
 						}}>
 						Get started!
 					</button>
