@@ -100,7 +100,7 @@ class User_company(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        user = cls.query.filter_by(id = id).first()
+        user = cls.query.filter_by(id = id).first_or_404()
         return user
 
     @classmethod    
@@ -155,7 +155,7 @@ class User_psychologist(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        user = cls.query.filter_by(id = id).first()
+        user = cls.query.filter_by(id = id).first_or_404()
         return user
        
     
@@ -196,10 +196,6 @@ class Category(db.Model):
     def get_by_id(cls, id):
         category = cls.query.filter_by(id = id).first()
         return category
-
-    @classmethod
-    def get_all(cls):
-        return cls
 
     def add(self):
         db.session.add(self)
@@ -250,7 +246,7 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy='joined'))
+        backref=db.backref("workshops", lazy=True))
  
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
@@ -271,7 +267,7 @@ class Workshop(db.Model):
     
     @classmethod
     def get_by_id(cls, id):
-        workshop = cls.query.filter_by(id = id).first()
+        workshop = cls.query.get(id)
         return workshop
 
     def get_category_by_name(category_info):
