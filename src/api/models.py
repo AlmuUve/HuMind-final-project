@@ -128,6 +128,7 @@ class User_psychologist(db.Model):
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,
+            "workshop": self.workshop,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
