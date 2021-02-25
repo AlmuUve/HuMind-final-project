@@ -79,9 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					}
 				);
-
 				response = await response.json();
-				console.log(response);
 			},
 
 			addNewSearchWorkshop: async searchWorkshop => {
@@ -104,7 +102,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
-				console.log(response);
 			},
 
 			deleteProfile: async id => {

@@ -133,7 +133,7 @@ def delete_one_user(id):
 
 #METODOS PARA CATEGORYS Y WORKSHOPS
 
-@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
+@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
     
@@ -152,7 +152,7 @@ def add_workshop(id):
     new_workshop.add(body.get("category_info"))
     return jsonify(new_workshop.to_dict(category_list)), 200
 
-@app.route('/user/company/searchworkshop/<int:id>', methods=['POST'])
+@app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
 def add_search_workshop(id):
     user_company = User_company.get_by_id(id)
     
