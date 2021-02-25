@@ -194,10 +194,6 @@ class Category(db.Model):
         category = cls.query.filter_by(category_name = id).first()
         return category_name
 
-    @classmethod
-    def get_all(cls):
-        return cls
-
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -249,7 +245,7 @@ class Workshop(db.Model):
 
     #categorys
 
-    def to_dict(self):
+    def to_dict(self, categorys):
         return {
             "id": self.id,
             "title": self.title,
@@ -260,7 +256,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            #"categorys": categorys
+            "categorys": categorys
         }
     
     @classmethod
@@ -286,19 +282,23 @@ class Workshop(db.Model):
         workshops = cls.query.all()
         for workshop in workshops:
             for category in workshop.category_info:
-                categorys.append(new_category_list.category_name)
+                categorys.append(category.category_name)
         return categorys
 
-    @classmethod
-    def update_workshop(cls, workshop_data, id):
-        workshop = cls.query.filter_by(id = id).first()
-        workshop.title = workshop_data["title"]
-        workshop.duration = workshop_data["duration"]
-        workshop.price= workshop_data["price"]
-        workshop.date= workshop_data["date"]
-        workshop.max_people= workshop_data["max_people"]
-        workshop.description= workshop_data["description"]
-        db.session.commit() 
+
+    def update_workshop(self, new_title, new_duration, 
+    new_price, new_date, new_max_people, 
+    new_description, new_categories):
+        self.title = new_title
+        self.duration = new_duration
+        self.price = new_price
+        self.date = new_date
+        self.max_people = new_max_people
+        self.description = new_description
+        categorys = new_categories
+        db.session.commit()
+        return self 
+
 
     def add(self, category_info):
         db.session.add(self)
