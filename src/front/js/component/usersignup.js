@@ -26,17 +26,18 @@ export const UserSignUp = props => {
 
 	let isInvalidList = [];
 
-	const checkButtons = buttons => {
+	const checkButtons = (buttons, input) => {
 		if (buttons.isPsychologist == "isPsychologistOff" && buttons.isCompany == "isCompanyOff") {
-			setShow("show");
-			return false;
+			isInvalid(input);
+			isInvalidList.push(buttons);
 		} else {
-			setShow("notShow");
+			isValid(input);
 		}
 		return true;
 	};
 
 	const checkInputs = e => {
+		e.preventDefault();
 		checkEmail(email, inputEmail);
 		checkPassword(password, inputPassword);
 		checkButtons(clicked);
@@ -153,8 +154,7 @@ export const UserSignUp = props => {
 						}}
 					/>
 					<label className="termsAndConditions">
-						<span className="checkmark" />
-						<input type="checkbox" />
+						<input id="termsAndConditionsCheckbox" type="checkbox" />
 						<span className="termsAndConditions_text">
 							I have read and accept the{" "}
 							<span className="linkTermsAndConditions">Terms and Conditions</span>
@@ -164,7 +164,6 @@ export const UserSignUp = props => {
 					<button
 						className="signUp_submit"
 						onClick={e => {
-							e.preventDefault();
 							checkInputs(e);
 						}}>
 						Get started!
