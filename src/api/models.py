@@ -119,7 +119,9 @@ class User_psychologist(db.Model):
     def __repr__(self):
         return f'User psychologist {self.name}'
 
-    def to_dict(self):
+    def to_dict(self
+    # , workshop_list
+    ):
         user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
@@ -136,6 +138,7 @@ class User_psychologist(db.Model):
             "twitter": user.twitter,
             "linkedIn": user.linkedIn,
             "youTube": user.youTube,
+            # "workshops": workshop_list
         }
         
 
@@ -160,6 +163,15 @@ class User_psychologist(db.Model):
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
         db.session.commit()   
+
+    @classmethod
+    def get_wokshops_list(cls, id):
+        workshops = []
+        psychologists = cls.query.filter_by(id = id).all()
+        for psychologist in psychologists:
+            for workshop in psychologist.workshop:
+                workshops.append(workshop.id)
+        return workshops
 
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
@@ -233,8 +245,7 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self):
-    # , category_list
+    def to_dict(self, category_list):
     
         return {
             "id": self.id,
@@ -246,12 +257,12 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            # "categorys": category_list
+            "categorys": category_list
         }
 
     @classmethod
-    def get_workshop_by_psychologist_id(cls, user_psychologist_id):
-        workshop_by_psychologist_id = Workshop.query.get(user_psychologist_id)
+    def get_workshop_by_psychologist_id(cls, id):
+        workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
 
     @classmethod
@@ -260,6 +271,15 @@ class Workshop(db.Model):
         return workshop
 
     @classmethod
+    def get_categories_by_workshop_id(cls, id):
+        categories = []
+        workshops = cls.query.filter_by(id = id).all()
+        # workshops = cls.query.all()
+        for workshop in workshops:
+            for category in workshop.category_info:
+                categories.append(category.category_name)
+        return categories
+
     def get_category_by_name(category_info):
         categorys = []
         for category in category_info:
@@ -267,7 +287,6 @@ class Workshop(db.Model):
             categorys.append(new_category_list.category_name)
         return categorys
 
-    @classmethod
     def add(self, category_info):
         db.session.add(self)
         for category in category_info:

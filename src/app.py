@@ -60,9 +60,10 @@ def get_user_company_information(id):
 @app.route('/user/psychologist/<int:id>', methods=['GET'])
 def get_user_psychologist_information(id):
     user = User.get_by_id(id)
+    workshops_list = User_psychologist.get_wokshops_list(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
     if user.is_active:
-        return jsonify(user_psychologist.to_dict()), 200
+        return jsonify(user_psychologist.to_dict(workshops_list)), 200
     else:
         return "This profile doesnt exists", 400
 
@@ -136,15 +137,14 @@ def delete_one_user(id):
 
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
-    # psychologist = User_psychologist.get_by_id(id)
-    # print(psychologist, "soy psychologistttttstststtstststststtststststst@@@@@@@@@@@@@@@")
     workshops = Workshop.get_workshop_by_psychologist_id(id)
+    workshops_categories = [Workshop.get_categories_by_workshop_id(workshop.id) for workshop in workshops]
+    print(workshops_categories, "soy una workshop list")
+    for workshop in workshops: 
+        for index, workshop in enumerate(workshops):
+            
 
-    # categories = Category.get_all_categories()
-    # workshop_has_category = db.session.query(workshop_has_category).all()
-    print(workshops, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    #workshops_list = [workshop.to_dict() for workshop in workshops if workshops is not None]
-    return jsonify(workshops.to_dict()), 200
+    return jsonify(workshops_list), 200
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
