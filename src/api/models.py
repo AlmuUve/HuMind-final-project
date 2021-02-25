@@ -247,7 +247,9 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self, categorys):
+    #categorys
+
+    def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
@@ -258,7 +260,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": categorys
+            #"categorys": categorys
         }
     
     @classmethod
@@ -286,6 +288,17 @@ class Workshop(db.Model):
             for category in workshop.category_info:
                 categorys.append(new_category_list.category_name)
         return categorys
+
+    @classmethod
+    def update_workshop(cls, workshop_data, id):
+        workshop = cls.query.filter_by(id = id).first()
+        workshop.title = workshop_data["title"]
+        workshop.duration = workshop_data["duration"]
+        workshop.price= workshop_data["price"]
+        workshop.date= workshop_data["date"]
+        workshop.max_people= workshop_data["max_people"]
+        workshop.description= workshop_data["description"]
+        db.session.commit() 
 
     def add(self, category_info):
         db.session.add(self)

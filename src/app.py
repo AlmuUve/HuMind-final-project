@@ -179,12 +179,14 @@ def get_workshop(id):
     else:
         return "This profile doesnt exists", 400
 
-@app.route('/user/psychologist/<int:id>/workshops', methods=['PUT'])
+@app.route('/user/workshop/<int:id>', methods=['PUT'])
 def update_workshop(id):
     body = request.get_json()
-    user = User_psychologist.update_psychologist_user(body, id)
-    change_user = User_psychologist.get_by_user_id(id)
-    return jsonify(change_user.to_dict())
+    print(body)
+    workshop = Workshop.update_workshop(body, id)
+    print(workshop)
+    change_workshop = Workshop.get_by_user_id(id)
+    return jsonify(change_workshop.to_dict())
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
