@@ -61,6 +61,7 @@ def get_user_company_information(id):
 def get_user_psychologist_information(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
+    print(user_psychologist)
     if user.is_active:
         return jsonify(user_psychologist.to_dict()), 200
     else:
@@ -160,6 +161,23 @@ def add_category():
     )
     new_category.add()
     return jsonify(new_category.to_dict())
+
+@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+def get_workshops(id):
+    workshops = Workshop.get_by_user_id(id)
+    test = Workshop.prueba()
+    workshops = [workshop.to_dict(test) for workshop in workshops]  
+    return jsonify(workshops), 200
+
+@app.route('/user/workshop/<int:id>', methods=['GET'])
+def get_workshop(id):
+    workshop = Workshop.get_by_id(id)
+    test = Workshop.prueba()
+
+    if workshop.is_active:
+        return jsonify(workshop.to_dict(test)), 200
+    else:
+        return "This profile doesnt exists", 400
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
