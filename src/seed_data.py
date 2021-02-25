@@ -1,7 +1,7 @@
 data = {
     "Search_workshop":[{
         "id": 1,
-	    "duration": "20 horas",
+	    "duration": "20 hours",
 	    "price": 550,
 	    "date": "2021/4/19",
 	    "max_people": 10,
@@ -11,7 +11,7 @@ data = {
     },
     {
         "id": 2,
-	    "duration": "15 horas",
+	    "duration": "15 hours",
 	    "price": 400,
 	    "date": "2021/4/21",
 	    "max_people": 12,
@@ -21,7 +21,7 @@ data = {
     },
    {
         "id": 3,
-	    "duration": "40 horas",
+	    "duration": "40 hours",
 	    "price": 950,
 	    "date": "2021/3/24",
 	    "max_people": 15,
@@ -31,7 +31,7 @@ data = {
     },
     {
         "id": 4,
-	    "duration": "20 horas",
+	    "duration": "20 hours",
 	    "price": 600,
 	    "date": "2021/3/24",
 	    "max_people": 10,
@@ -41,7 +41,7 @@ data = {
     },
     {
         "id": 5,
-	    "duration": "80 horas",
+	    "duration": "80 hours",
 	    "price": 1600,
 	    "date": "2021/5/19",
 	    "max_people": 15,
@@ -51,7 +51,7 @@ data = {
     },
     {
         "id": 6,
-	    "duration": "10 horas",
+	    "duration": "10 hours",
 	    "price": 350,
 	    "date": "2021/4/10",
 	    "max_people": 5,
@@ -61,7 +61,7 @@ data = {
     },
     {
         "id": 7,
-	    "duration": "160 horas",
+	    "duration": "160 hours",
 	    "price": 1350,
 	    "date": "2021/6/1",
 	    "max_people": 18,
@@ -71,7 +71,7 @@ data = {
     },
     {
         "id": 8,
-	    "duration": "25 horas",
+	    "duration": "25 hours",
 	    "price": 600,
 	    "date": "2021/5/23",
 	    "max_people": 12,
@@ -81,7 +81,7 @@ data = {
     },
     {
         "id": 9,
-	    "duration": "20 horas",
+	    "duration": "20 hours",
 	    "price": 550,
 	    "date": "2021/4/15",
 	    "max_people": 10,
@@ -91,7 +91,7 @@ data = {
     },
     {
         "id": 10,
-	    "duration": "30 horas",
+	    "duration": "30 hours",
 	    "price": 700,
 	    "date": "2021/6/19",
 	    "max_people": 8,
