@@ -18,7 +18,8 @@ $title_font:   'Oswald', sans-serif;
     background-color: $primary_yellow;
     border: none;
     font-family: $title_font;
-    color: $text_color;
+    font-size: 1.3rem;
+    color: white;
     width: 7rem;
     height: 2.5rem;
 }
@@ -135,4 +136,67 @@ $title_font:   'Oswald', sans-serif;
  
 i{
     color: $primary_blue;
+}
+
+//COMPONENT ADD WORKSHOP AND VIEW\\
+
+.formAddWorkshop {
+    font-family: $text_font;
+    font-size: 1rem;
+    color: $text_color;
+}
+
+.inputLabel{
+    display: flex;
+    flex-direction: column;
+}
+
+.titleInputs{
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.workshopInput{
+    height: 2.5rem;
+    border: none;
+    border-radius: 0%;
+    background-color: $secondary_blue;
+    padding-left: 1rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+}
+
+.workshopTextArea{
+    height: 10rem;
+    border: none;
+    background-color: $secondary_blue;
+    font-size: 0.8rem;
+    padding-left: 1rem;
+    padding-top: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.workshopInput, .workshopTextArea:focus{
+    outline: none;
+}
+
+.titleAddWorkshop{
+    display: flex;
+    justify-content: center;
+    font-family: $title_font;
+    margin: 2rem 0 2rem 0;
+}
+
+.notShow {
+    display: none;
+}
+
+.showError {
+    padding: 0.5;
+    color: red;
+    font-family: $title_font;
+    font-size: 1.25rem;
+    padding: 1rem 1rem 1rem 1rem;
 }
