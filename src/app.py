@@ -134,7 +134,7 @@ def delete_one_user(id):
 
 #METODOS PARA CATEGORYS Y WORKSHOPS
 
-@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
+@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
     
@@ -151,7 +151,7 @@ def add_workshop(id):
     )
     category_list = Workshop.get_category_by_name(body.get("category_info"))
     new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(category_list)), 200
+    return jsonify(new_workshop.to_dict()), 200
 
 @app.route('/user/category', methods=['POST'])
 def add_category():
@@ -182,11 +182,12 @@ def get_workshop(id):
 @app.route('/user/workshop/<int:id>', methods=['PUT'])
 def update_workshop(id):
     body = request.get_json()
-    print(body)
-    workshop = Workshop.update_workshop(body, id)
-    print(workshop)
-    change_workshop = Workshop.get_by_user_id(id)
-    return jsonify(change_workshop.to_dict())
+    workshop = Workshop.get_by_id(id)
+    new_workshop = workshop.update_workshop(body['title'], body['duration'], 
+    body['price'], body['date'], body['max_people'], 
+    body['description'], body['category_info'])
+    new_categories = Workshop.get_category_by_name(body['category_info'])
+    return jsonify(new_workshop.to_dict(new_categories))
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
