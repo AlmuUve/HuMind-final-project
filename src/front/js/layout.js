@@ -4,6 +4,8 @@ import { Profilecompany } from "./pages/profileCompany";
 import { Profilepsychologist } from "./pages/profilePsychologist";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { Landing } from "./component/landing";
+
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import injectContext from "./store/appContext";
 
@@ -16,7 +18,7 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Switch>
 					<Route exact path="/">
-						<PsychologistRegistrationForm />
+						<Landing />
 					</Route>
 					<Route exact path="/user">
 						<CompanyRegistrationForm />
