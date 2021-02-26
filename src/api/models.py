@@ -167,6 +167,7 @@ class User_psychologist(db.Model):
     @classmethod
     def get_wokshops_list(cls, id):
         workshops = []
+
         psychologists = cls.query.filter_by(id = id).all()
         for psychologist in psychologists:
             for workshop in psychologist.workshop:
@@ -245,8 +246,14 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self, category_list):
-    
+    def to_dict(self):
+        categories = []
+        print("soy una lista de categorías", categories)
+        cat = self.category_info.pop()
+        for category in cat:
+            for category in cat.category:
+                categories.append(cat.id)
+
         return {
             "id": self.id,
             "title": self.title,
@@ -257,7 +264,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": category_list
+            "categories": cat.category_name
         }
 
     @classmethod
@@ -281,11 +288,11 @@ class Workshop(db.Model):
         return categories
 
     def get_category_by_name(category_info):
-        categorys = []
+        categories = []
         for category in category_info:
             new_category_list = Category.get_by_id(category)
-            categorys.append(new_category_list.category_name)
-        return categorys
+            categories.append(new_category_list.category_name)
+        return categories
 
     def add(self, category_info):
         db.session.add(self)
@@ -293,7 +300,3 @@ class Workshop(db.Model):
             new_category = Category.get_by_id(category)
             self.category_info.append(new_category) 
         db.session.commit()
-
-
-    
-

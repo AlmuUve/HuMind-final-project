@@ -10,6 +10,7 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop, workshop_has_category
 from api.routes import api
 from api.admin import setup_admin
+from datetime import datetime
 #from models import Person
 
 ENV = os.getenv("FLASK_ENV")
@@ -63,7 +64,7 @@ def get_user_psychologist_information(id):
     workshops_list = User_psychologist.get_wokshops_list(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
     if user.is_active:
-        return jsonify(user_psychologist.to_dict(workshops_list)), 200
+        return jsonify(user_psychologist.to_dict()), 200
     else:
         return "This profile doesnt exists", 400
 
@@ -133,18 +134,37 @@ def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
-#     #METODOS PARA CATEGORYS Y WORKSHOPS
+#     #METODOS PARA CATEGORIES Y WORKSHOPS
 
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
     workshops = Workshop.get_workshop_by_psychologist_id(id)
     workshops_categories = [Workshop.get_categories_by_workshop_id(workshop.id) for workshop in workshops]
     print(workshops_categories, "soy una workshop list")
-    for workshop in workshops: 
-        for index, workshop in enumerate(workshops):
-            
-
+    # for workshop in workshops: 
+    #     for index, workshop in enumerate(workshops)
     return jsonify(workshops_list), 200
+
+@app.route("/prueba", methods=["GET"])
+def handle_prueba():
+    workshops = Workshop(
+        title = "Soy una prueba",
+        duration = "20h",
+        price = 20,
+        date = datetime.now(),
+        is_active = True,
+        max_people = 15,
+        description = "Lorem ipsun",
+        user_psychologist_id = 1,
+        # category_info = [1, 2]
+    )
+    # for category_info in workshops: 
+    #     workshop.category_info.append(Category.get_by_id(id))
+    #     print(category_info)    
+    #result = Workshop.query.join(workshop_has_category).join(Category).filter(workshop_has_category.c.workshop_id == workshop.id).all()
+    result = Workshop.query.with_parent(Category.get_by_id(1))
+    print("result", result)
+    return jsonify(workshop.to_dict()), 200
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
@@ -179,6 +199,3 @@ def add_category():
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
-
-
-
