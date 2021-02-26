@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Profilecompany } from "./pages/profileCompany";
-import { Profilepsychologist } from "./pages/profilePsychologist";
+import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
@@ -21,11 +20,8 @@ const Layout = () => {
 					<Route exact path="/user">
 						<CompanyRegistrationForm />
 					</Route>
-					<Route exact path="/company">
-						<Profilecompany />
-					</Route>
-					<Route exact path="/psychologist">
-						<Profilepsychologist />
+					<Route exact path="/profile">
+						<Profile />
 					</Route>
 					<Route exact path="/register">
 						<Register />
