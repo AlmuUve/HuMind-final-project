@@ -136,3 +136,38 @@ $title_font:   'Oswald', sans-serif;
 i{
     color: $primary_blue;
 }
+
+.footer{
+    background-color: $text_color;
+    color: $background_color;
+}
+
+.footer_row{
+    padding: 3rem;
+}
+
+.footer_column{
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_column_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.footer_column_img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.footer_img{
+    color: $background_color;
+    width: 3rem;
+    font-size: 2rem;
+}
