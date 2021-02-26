@@ -1,27 +1,20 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
-			userCompany: [],
-			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
-			userPsychologist: [],
-			User: {}
+			userCompany: {},
+			userPsychologist: {},
+			user: {},
+			help: null
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
 
 		actions: {
-			getUserPsychologist: () => {
-				fetch(getStore().urlGetUserPsychologist).then(async res => {
+			getUser: () => {
+				fetch("https://3001-gold-anaconda-czi4jfzk.ws-eu03.gitpod.io/user/4").then(async res => {
 					const response = await res.json();
-					setStore({ userPsychologist: [response] });
-				});
-			},
-
-			getUserCompany: () => {
-				fetch(getStore().urlGetUserCompany).then(async res => {
-					const response = await res.json();
-					setStore({ userCompany: [response] });
+					setStore({ user: response });
+					setStore({ help: response.is_psychologist });
 				});
 			},
 
