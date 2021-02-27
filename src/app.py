@@ -132,6 +132,48 @@ def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
+#METODOS PARA CATEGORYS Y WORKSHOPS
+
+@app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
+def add_search_workshop(id):
+    user_company = User_company.get_by_id(id)
+    
+    body = request.get_json()
+
+    new_search_workshop = Search_workshop(
+        duration = body.get("duration"),
+        max_price = body.get("price"),
+        date = body.get("date"),
+        max_people = body.get("max_people"),
+        user_company_id = user_company.id,
+        category_id = body.get("category_id")
+    )
+ 
+    new_search_workshop.add()
+
+    return jsonify(new_search_workshop.to_dict()), 200
+
+@app.route('/user/category', methods=['POST'])
+def add_category():
+    new_category = request.get_json()
+    new_category = Category (
+        category_name = new_category.get("category_name"),
+    )
+    new_category.add()
+    return jsonify(new_category.to_dict())
+
+##ACORDARSE DE QUITAR LOS METODOS DE ARRIBA PARA HACER PULL REQUEST Y LAS FUNCTION EN LOS MODELS!!
+
+@app.route('/user/search_workshop/<int:id>', methods=['PUT'])
+def update_workshop(id):
+    body = request.get_json()
+    search_workshop = Search_workshop.get_by_id(id)
+
+    new_search_workshop = search_workshop.update_search_workshop(body['duration'], 
+    body['price'], body['date'], body['max_people'], body['category_id'])
+
+    return jsonify(new_search_workshop.to_dict())
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
