@@ -97,6 +97,11 @@ class User_company(db.Model):
     def get_by_user_id(cls, user):
         user_company = cls.query.filter_by(user_id=user).first()
         return user_company
+    
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.get(id)
+        return user
 
     @classmethod    
     def update_company_user(cls, user_data, id):
@@ -156,6 +161,12 @@ class User_psychologist(db.Model):
         user.speciality= user_data["speciality"]
         db.session.commit()   
 
+
+workshop_has_category = db.Table('workshop_has_category',
+    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
+    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
+)
+
 class Category(db.Model):
     __tablename__ = 'category'
 
@@ -170,8 +181,16 @@ class Category(db.Model):
         return {
             "id": self.id,
             "category_name": self.category_name,
-            "is_active":False
         }
+
+    @classmethod
+    def get_by_id(cls, id):
+        category = cls.query.get(id)
+        return category
+    
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
@@ -189,21 +208,36 @@ class Search_workshop(db.Model):
         return f'Search_workshop {self.user_company_id} and {self.id}'
 
     def to_dict(self):
+        new_category = Category.get_by_id(self.category_id)
         return {
             "id": self.id,
             "duration": self.duration,
-            "max_price": self.max_price,
-            "date": self.date,
+            "price": self.max_price,
+            "date": self.date.isoformat(),
             "max_people": self.max_people,
             "is_active": self.is_active,
             "user_company_id": self.user_company_id,
-            "category_id": self.category_id
+            "category_id": new_category.category_name
         }
 
-workshop_has_category = db.Table('workshop_has_category',
-    db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
-    db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
-)
+    @classmethod
+    def get_by_id(cls, id):
+        search = cls.query.get(id)
+        return search
+
+    def update_search_workshop(self, new_duration, 
+    new_price, new_date, new_max_people, new_category):
+        self.duration = new_duration
+        self.max_price = new_price
+        self.date = new_date
+        self.max_people = new_max_people
+        self.category_id = new_category
+        db.session.commit()
+        return self 
+    
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
