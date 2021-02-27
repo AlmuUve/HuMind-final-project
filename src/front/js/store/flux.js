@@ -27,7 +27,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
@@ -37,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}),
 					body: JSON.stringify({
 						email: user.email,
-						password: "2437643756",
+						password: user.password,
 						is_psychologist: user.is_psychologist,
 						name: user.name,
 						lastname: user.lastname,
@@ -78,25 +77,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const decoded = jwt_decode(token);
 				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
 				console.log(getStore().LoggedUser, "@@@@2@@@@@@@@@");
-			},
-
-			register: async (email, password) => {
-				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
-					method: "POST",
-					mode: "no-cors",
-					redirect: "follow",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						email: email,
-						password: password
-					})
-				});
-				if (!response.ok) {
-					throw new Error(`${response.message} status: ${response.status}`);
-				}
-				return true;
 			},
 
 			setLoggedUser: (new_email, new_password) => {
