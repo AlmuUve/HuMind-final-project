@@ -27,6 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
+				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
