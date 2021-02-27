@@ -1,9 +1,8 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
-import { YellowButton } from "./yellowButton";
 import "../../styles/home.scss";
 
-export const CompanyRegistrationForm = () => {
+export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
 	const [user, setUser] = useState({
 		email: "",
@@ -27,157 +26,183 @@ export const CompanyRegistrationForm = () => {
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
 	};
+
 	return (
 		<Fragment>
-			<form className="container formAddWorkshop">
+			<form action="/action_page.php">
 				<div className="container">
-					<h2 className="row titleAddWorkshop">CREATE YOUR PROFILE</h2>
-					<div className="row d-flex justify-content-center mb-5">
-						<img
-							className="avatarButton"
-							src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-						/>
-					</div>
+					<h2 className="title_psy_registration">CREATE YOUR PROFILE</h2>
 					<div className="row">
-						<div className="col-6 inputLabel">
-							<label htmlFor="company_name" className="titleInputs">
-								<b>Company Name</b>
+						<div className="col-6">
+							<label htmlFor="name">
+								<b>Name</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
-								placeholder="Enter Your Company Name Here"
-								name="company_name"
-								id="company_name"
+								placeholder="Enter your name here"
+								name="name"
+								id="name"
 								required
 							/>
 						</div>
-						<div className="col-6 inputLabel">
-							<label htmlFor="company_number" className="titleInputs">
-								<b>Company Number</b>
+						<div className="col-6">
+							<label htmlFor="lastname">
+								<b>Lastname</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
-								placeholder="Enter Your Company Number Here"
-								name="company_number"
-								id="company_number"
+								placeholder="Enter your lastname here"
+								name="lastname"
+								id="lastname"
 								required
 							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-12 inputLabel">
-							<label htmlFor="email" className="titleInputs">
+						<div className="col-6">
+							<label htmlFor="email">
 								<b>E-mail</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
-								placeholder="Enter E-mail Here"
+								placeholder="Enter e-mail here"
 								name="email"
 								id="email"
 								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="facebook" className="titleInputs">
+						<div className="col-6">
+							<label htmlFor="identitynumber">
+								<b>Identity Number</b>
+							</label>
+							<input
+								type="text"
+								onChange={inputChange}
+								placeholder="Max.9 characters"
+								name="identitynumber"
+								id="identitynumber"
+								required
+							/>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-6">
+							<label htmlFor="association_number">
+								<b>Association of Psycologists Number</b>
+							</label>
+							<input
+								type="text"
+								onChange={inputChange}
+								placeholder="Max.9 characters"
+								name="association_number"
+								id="association_number"
+								required
+							/>
+						</div>
+						<div className="col-6">
+							<label htmlFor="speciality">
+								<b>Speciality</b>
+							</label>
+							<input
+								type="text"
+								onChange={inputChange}
+								placeholder="Your speciality here"
+								name="speciality"
+								id="speciality"
+								required
+							/>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-12">
+							<label htmlFor="facebook">
 								<b>Facebook</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
 								placeholder="Your Facebook profile here"
 								name="facebook"
 								id="facebook"
-								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="instagram" className="titleInputs">
+						<div className="col-12">
+							<label htmlFor="instagram">
 								<b>Instagram</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
 								placeholder="Your Instagram profile here"
 								name="instagram"
 								id="instagram"
-								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="twitter" className="titleInputs">
+						<div className="col-12">
+							<label htmlFor="twitter">
 								<b>Twitter</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
 								placeholder="Your Twitter profile here"
 								name="twitter"
 								id="twitter"
-								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="linkedIn" className="titleInputs">
+						<div className="col-12">
+							<label htmlFor="linkedIn">
 								<b>LinkedIn</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
 								placeholder="Your LinkedIn profile here"
 								name="linkedIn"
 								id="linkedIn"
-								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="youTube" className="titleInputs">
+						<div className="col-12">
+							<label htmlFor="youTube">
 								<b>YouTube</b>
 							</label>
 							<input
 								type="text"
 								onChange={inputChange}
-								className="workshopInput form-control"
 								placeholder="Your YouTube profile here"
 								name="youTube"
 								id="youTube"
-								required
 							/>
 						</div>
-						<div className="col-12 inputLabel">
-							<label htmlFor="description" className="titleInputs">
+						<div className="col-12">
+							<label htmlFor="description">
 								<b>Description</b>
 							</label>
 							<textarea
 								name="description"
 								onChange={inputChange}
-								className="workshopTextArea form-control"
 								placeholder="Write a description here"
 								form="usrform"
 								id="description"
 							/>
 						</div>
+						<div className="col-12">
+							<p>IMAGE</p>
+						</div>
 					</div>
-					<div className="row d-flex justify-content-center mb-5">
-						<YellowButton
-							type="submit"
-							text="Submit"
-							onClick={e => {
-								e.preventDefault();
-								actions.addNewUser(user);
-							}}>
-							Submit
-						</YellowButton>
-					</div>
+					<button
+						className="submit_button"
+						type="submit"
+						onClick={e => {
+							e.preventDefault();
+							console.log(user);
+							actions.addNewUser(user);
+						}}>
+						Submit
+					</button>
 				</div>
 			</form>
 		</Fragment>

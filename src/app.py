@@ -65,6 +65,7 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
+<<<<<<< HEAD
 @app.route('/login', methods=['POST'])
 def handle_login():
     email, password = request.json.get(
@@ -84,10 +85,30 @@ def handle_login():
         return jsonify({'token': access_token}), 200
 
     return "Invalid info", 400
+=======
+@app.route('/user/company/<int:id>', methods=['GET'])
+def get_user_company_information(id):
+    user = User.get_by_id(id)
+    user_company = User_company.get_by_user_id(user.id)
+    if user.is_active:
+        return jsonify(user_company.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
+
+@app.route('/user/psychologist/<int:id>', methods=['GET'])
+def get_user_psychologist_information(id):
+    user = User.get_by_id(id)
+    user_psychologist = User_psychologist.get_by_user_id(user.id)
+    if user.is_active:
+        return jsonify(user_psychologist.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
+>>>>>>> main
 
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
+<<<<<<< HEAD
     email = body.get("email", None)
     password = body.get("password", None)
     facebook = body.get("facebook", None)
@@ -113,6 +134,21 @@ def add_user():
         youTube, 
         is_psychologist, 
         description
+=======
+    if not body.get("email") or not body.get("password"):
+        return "Error!", 400
+
+    new_user = User(
+        email = body.get("email"),
+        _password = body.get("password"),
+        facebook = body.get("facebook"),
+        instagram = body.get("instagram"),
+        twitter = body.get("twitter"),
+        linkedIn = body.get("linkedIn"),
+        youTube = body.get("youTube"),
+        is_psychologist = body.get("is_psychologist"),
+        description = body.get("description")
+>>>>>>> main
     )
 
     if is_psychologist:
@@ -124,14 +160,20 @@ def add_user():
             speciality = body.get("speciality"),
             user_id=user_id
         )
+<<<<<<< HEAD
         psychologist.add()
         return jsonify(psychologist.to_dict()), 201
+=======
+        new_user_psy.add()
+        return jsonify(new_user_psy.to_dict()), 201
+>>>>>>> main
 
     company =  User_company(
         company_name = body.get("company_name"),
         company_number = body.get("company_number"),
         user_id = user_id
     )
+<<<<<<< HEAD
     company.add()
     return jsonify(company.to_dict()), 201
 
@@ -155,6 +197,10 @@ def get_user_psychologist_information(id):
     else:
         return "This profile doesnt exists", 400
 
+=======
+    new_user_company.add()
+    return jsonify(new_user_company.to_dict()), 201
+>>>>>>> main
 
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):

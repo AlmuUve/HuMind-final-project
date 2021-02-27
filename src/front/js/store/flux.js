@@ -24,7 +24,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch("https://3001-chocolate-vole-x619y5hf.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
@@ -53,42 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 			},
-			// addCompany: async (
-			// 	company_name,
-			// 	company_number,
-			// 	facebook,
-			// 	instagram,
-			// 	twitter,
-			// 	linkedIn,
-			// 	youTube,
-			// 	description,
-			// 	user_id
-			// ) => {
-			// 	let response = await fetch("https://3001-brown-snipe-snqhxa3v.ws-eu03.gitpod.io/", {
-			// 		method: "POST",
-			// 		mode: "cors",
-			// 		redirect: "follow",
-			// 		headers: new Headers({
-			// 			"Content-Type": "application/json"
-			// 		}),
-			// 		body: JSON.stringify({
-			// 			email: getStore().newUser.email,
-			// 			password: getStore().newUser.password,
-			// 			is_psychologist: getStore().newUser.is_psychologist,
-			// 			company_name: company_name,
-			// 			company_number: company_number,
-			// 			facebook: facebook,
-			// 			instagram: instagram,
-			// 			twitter: twitter,
-			// 			linkedIn: linkedIn,
-			// 			youTube: youTube,
-			// 			description: description,
-			// 			user_id: user_id
-			// 		})
-			// 	});
-			// 	response = await response.json();
-			// 	getActions().addCompany();
-			// },
+
 			deleteProfile: async id => {
 				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
