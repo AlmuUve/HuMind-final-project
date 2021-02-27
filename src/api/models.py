@@ -261,7 +261,7 @@ class Workshop(db.Model):
 
     #categorys
 
-    def to_dict(self):
+    def to_dict(self, categorys):
         return {
             "id": self.id,
             "title": self.title,
@@ -272,7 +272,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            #"categorys": categorys
+            "categorys": categorys
         }
     
     @classmethod
@@ -310,30 +310,18 @@ class Workshop(db.Model):
 
     def update_workshop(self, new_title, new_duration, 
     new_price, new_date, new_max_people, 
-    new_description):
+    new_description, category_info):
         self.title = new_title
         self.duration = new_duration
         self.price = new_price
         self.date = new_date
         self.max_people = new_max_people
         self.description = new_description
-        # # list_of_categories = Category.get_all()
-        # # stay = []
-        # # remove = []
-        # for category in category_info:
-        #     new_categories = Category.get_by_id(category)
-        #     self.category_info.remove(new_categories)
-        #     # for categories in list_of_categories:
-        #     #     if categories == new_categories:
-        #     #         stay.append(new_categories)
-        #     #     else:
-        #     #         remove.append(categories)
-        #     #         # print(stay, "lo que queda")
-        #     #         # print(new_categories, "el cambio que llega")
-        #     #         # print(categories, "todas las categorias")
-        #     #         print(remove, "lo que se va")
-        #     # print(remove)
-        #     # self.category_info.append(new_categories)
+        new_category_list = []
+        for category in category_info:
+            new_categories = Category.get_by_id(category)
+            new_category_list.append(new_categories)
+            self.category_info = new_category_list
         db.session.commit()
         return self 
 
