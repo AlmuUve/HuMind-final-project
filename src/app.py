@@ -139,32 +139,12 @@ def delete_one_user(id):
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
     workshops = Workshop.get_workshop_by_psychologist_id(id)
-    workshops_categories = [Workshop.get_categories_by_workshop_id(workshop.id) for workshop in workshops]
-    print(workshops_categories, "soy una workshop list")
-    # for workshop in workshops: 
-    #     for index, workshop in enumerate(workshops)
-    return jsonify(workshops_list), 200
+    # workshops_to_dict = list(map(lambda workshop: workshop.to_dict(), workshops))
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
 
-@app.route("/prueba", methods=["GET"])
-def handle_prueba():
-    workshops = Workshop(
-        title = "Soy una prueba",
-        duration = "20h",
-        price = 20,
-        date = datetime.now(),
-        is_active = True,
-        max_people = 15,
-        description = "Lorem ipsun",
-        user_psychologist_id = 1,
-        # category_info = [1, 2]
-    )
-    # for category_info in workshops: 
-    #     workshop.category_info.append(Category.get_by_id(id))
-    #     print(category_info)    
-    #result = Workshop.query.join(workshop_has_category).join(Category).filter(workshop_has_category.c.workshop_id == workshop.id).all()
-    result = Workshop.query.with_parent(Category.get_by_id(1))
-    print("result", result)
-    return jsonify(workshop.to_dict()), 200
+    return jsonify({"workshop_list": workshops_to_dict}), 200
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
@@ -181,9 +161,14 @@ def add_workshop(id):
         description = body.get("description"),
         user_psychologist_id = user_psychologist.id,
     )
-    category_list = Workshop.get_category_by_name(body.get("category_info"))
-    new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(category_list)), 200
+    # category_list = Workshop.get_category_by_name(body.get("category_info"))
+    print(body.get("category_info"))
+    category_list = body.get("category_info")
+    new_workshop.add(category_list)
+    # for category in category_list:
+
+    # new_workshop.add(body.get("category_info"))
+    return jsonify(new_workshop.to_dict()), 200
 
 @app.route('/user/category', methods=['POST'])
 def add_category():
