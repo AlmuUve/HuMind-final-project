@@ -145,6 +145,15 @@ class User_psychologist(db.Model):
         db.session.commit()
 
     @classmethod
+    def get_wokshops_list(cls, id):
+        workshops = []
+        psychologists = cls.query.filter_by(id = id).all()
+        for psychologist in psychologists:
+            for workshop in psychologist.workshop:
+                workshops.append(workshop.id)
+        return workshops
+
+    @classmethod
     def get_by_user_id(cls, user):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
@@ -160,7 +169,9 @@ class User_psychologist(db.Model):
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
-        db.session.commit()   
+        db.session.commit()
+
+       
 
 
 workshop_has_category = db.Table('workshop_has_category',
@@ -250,7 +261,7 @@ class Workshop(db.Model):
 
     #categorys
 
-    def to_dict(self, categorys):
+    def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
@@ -261,7 +272,7 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": categorys
+            #"categorys": categorys
         }
     
     @classmethod
@@ -274,6 +285,11 @@ class Workshop(db.Model):
         workshop_by_user = cls.query.filter_by(user_psychologist_id = id).all()
         return workshop_by_user
 
+    @classmethod
+    def get_workshop_by_psychologist_id(cls, id):
+        workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
+        return workshop_by_psychologist_id
+
     def get_category_by_name(category_info):
         categorys = []
         for category in category_info:
@@ -282,10 +298,11 @@ class Workshop(db.Model):
         return categorys
 
     @classmethod
-    def prueba(cls):
-        categorys = []       
-        workshops = cls.query.all()
+    def prueba(cls, id):       
+        #workshops = cls.query.all()
+        workshops = cls.query.filter_by(id = id).all()
         for workshop in workshops:
+            categorys = []
             for category in workshop.category_info:
                 categorys.append(category.category_name)
         return categorys
@@ -293,29 +310,30 @@ class Workshop(db.Model):
 
     def update_workshop(self, new_title, new_duration, 
     new_price, new_date, new_max_people, 
-    new_description, category_info):
+    new_description):
         self.title = new_title
         self.duration = new_duration
         self.price = new_price
         self.date = new_date
         self.max_people = new_max_people
         self.description = new_description
-        list_of_categories = Category.get_all()
-        stay = []
-        remove = []
-        for category in category_info:
-            new_categories = Category.get_by_id(category)
-            for categories in list_of_categories:
-                if categories == new_categories:
-                    stay.append(new_categories)
-                else:
-                    remove.append(categories)
-                    # print(stay, "lo que queda")
-                    # print(new_categories, "el cambio que llega")
-                    # print(categories, "todas las categorias")
-                    print(remove, "lo que se va")
-            print(remove)
-            self.category_info.append(new_categories)
+        # # list_of_categories = Category.get_all()
+        # # stay = []
+        # # remove = []
+        # for category in category_info:
+        #     new_categories = Category.get_by_id(category)
+        #     self.category_info.remove(new_categories)
+        #     # for categories in list_of_categories:
+        #     #     if categories == new_categories:
+        #     #         stay.append(new_categories)
+        #     #     else:
+        #     #         remove.append(categories)
+        #     #         # print(stay, "lo que queda")
+        #     #         # print(new_categories, "el cambio que llega")
+        #     #         # print(categories, "todas las categorias")
+        #     #         print(remove, "lo que se va")
+        #     # print(remove)
+        #     # self.category_info.append(new_categories)
         db.session.commit()
         return self 
 
@@ -323,7 +341,7 @@ class Workshop(db.Model):
     def add(self, category_info):
         db.session.add(self)
         for category in category_info:
-            new_category = Category.get_all()
+            new_category = Category.get_by_id(category)
             self.category_info.append(new_category) 
         db.session.commit()
 

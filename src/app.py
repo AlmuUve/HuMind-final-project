@@ -165,9 +165,25 @@ def add_category():
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_workshops(id):
     workshops = Workshop.get_by_user_id(id)
-    test = Workshop.prueba()
-    workshops = [workshop.to_dict(test) for workshop in workshops]  
-    return jsonify(workshops), 200
+    # print(workshops)
+    workshops_id = User_psychologist.get_wokshops_list(id)
+    print(workshops_id)
+    test2 = []
+    for workshop in workshops_id:
+        test = Workshop.prueba(workshop)
+        test2.append(test)
+        workshops_list = [Workshop.to_dict()]
+        return workshops_list
+    print(test2)
+        # print(workshops_list)
+    
+        # print(workshop_id)
+        
+        # print(workshops_list, "lista de workshops")
+    # test = Workshop.prueba(workshop.id)
+    # workshops_list = [Workshop.to_dict(test) for workshop in workshops]  
+    # print(workshops_list)
+    return jsonify(workshops_list), 200
 
 @app.route('/user/workshop/<int:id>', methods=['GET'])
 def get_workshop(id):
@@ -185,7 +201,7 @@ def update_workshop(id):
     workshop = Workshop.get_by_id(id)
     new_workshop = workshop.update_workshop(body['title'], body['duration'], 
     body['price'], body['date'], body['max_people'], 
-    body['description'], body['category_info'])
+    body['description'])
     new_categories = Workshop.get_category_by_name(body['category_info'])
     return jsonify(new_workshop.to_dict(new_categories))
 
