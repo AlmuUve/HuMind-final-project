@@ -247,12 +247,12 @@ class Workshop(db.Model):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
     def to_dict(self):
-        categories = []
-        print("soy una lista de categorías", categories)
-        cat = self.category_info.pop()
-        for category in cat:
-            for category in cat.category:
-                categories.append(cat.id)
+        # categories = []
+        # print("soy una lista de categorías", categories)
+        # cat = self.category_info.pop()
+        # for category in cat:
+        #     for category in cat.category:
+        #         categories.append(cat.id)
 
         return {
             "id": self.id,
@@ -264,7 +264,8 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categories": cat.category_name
+            "categories": list(map(lambda category: category.category_name, self.category_info))
+            # cat.category_name
         }
 
     @classmethod
@@ -287,7 +288,7 @@ class Workshop(db.Model):
                 categories.append(category.category_name)
         return categories
 
-    def get_category_by_name(category_info):
+    def get_category_by_name(self, category_info):
         categories = []
         for category in category_info:
             new_category_list = Category.get_by_id(category)
@@ -295,8 +296,14 @@ class Workshop(db.Model):
         return categories
 
     def add(self, category_info):
-        db.session.add(self)
         for category in category_info:
-            new_category = Category.get_by_id(category)
-            self.category_info.append(new_category) 
+            self.category_info.append(Category.get_by_id(category))
+        db.session.add(self)
         db.session.commit()
+        # db.session.add(self)
+        # db.session.add_all(category_info)
+
+        # for category in category_info:
+        #     new_category = Category.get_by_id(category)
+        #     self.category_info.append(new_category) 
+        # db.session.commit()
