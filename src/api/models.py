@@ -9,7 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
     password = db.Column(db.VARCHAR)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
     image = db.Column(db.VARCHAR)
     facebook = db.Column(db.VARCHAR)
     instagram = db.Column(db.VARCHAR)
@@ -18,7 +18,7 @@ class User(db.Model):
     youTube = db.Column(db.VARCHAR)
     description = db.Column(db.Text)
     is_psychologist = db.Column(db.Boolean)
-    user_company = db.relationship('User_company', lazy=True)
+    user_company = db.relationship('User_company', cascade="all, delete", lazy=True)
     user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
     
     def __repr__(self):
@@ -28,29 +28,54 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "is_active": self.is_active,
-            "facebook": self.facebook,
-            "instagram": self.instagram,
-            "twitter": self.twitter,
-            "linkedIn": self.linkedIn,
-            "youTube": self.youTube,
-            "description": self.description,
-            "is_psychologist": self.is_psychologist
+            "is_psychologist": self.is_psychologist,
         }
+    
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(
+            email = email
+        ).first_or_404(
+            description = f'Error Bitch!'
+        )
 
-    def add(self):
-        db.session.add(self)
+    # @classmethod
+    # def get_password(cls, email):
+    #     user = cls.query.filter_by(
+    #         email = email
+    #     )
+    #     print(user)
+    #     return user.password
+
+    @classmethod
+    def add(cls, email, password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
+        user = cls(
+            email=email, 
+            password=password,
+            facebook=facebook,
+            instagram=instagram, 
+            twitter=twitter, 
+            linkedIn=linkedIn, 
+            youTube=youTube, 
+            is_psychologist=True, 
+            description=description
+        )
+        db.session.add(user)
         db.session.commit()
+        return user.id
 
     @classmethod
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
         return user
 
-    def user_is_psychologist(id):
-        user = User.get_by_id(id)
-        return user.is_psychologist
-
+    @classmethod
+    def delete_user(cls, id):
+        target = cls.query.filter_by(id = id).first()
+        target.is_active=False        
+        db.session.commit()
+        return target.is_active
+    
     @classmethod
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
@@ -61,11 +86,6 @@ class User(db.Model):
         user.is_active= user.is_active
         db.session.commit()
  
-    @classmethod
-    def delete_user(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        db.session.delete(target)
-        db.session.commit()
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -80,11 +100,20 @@ class User_company(db.Model):
         return f'User company {self.company_name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
+            "facebook": user.facebook,
+            "instagram": user.instagram,
+            "twitter": user.twitter,
+            "linkedIn": user.linkedIn,
+            "youTube": user.youTube,
         }
 
     def add(self):
@@ -92,6 +121,11 @@ class User_company(db.Model):
         db.session.commit()
 
     @classmethod
+    def get_by_user_id(cls, user):
+        user_company = cls.query.filter_by(user_id=user).first()
+        return user_company
+
+    @classmethod    
     def update_company_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
         user.company_name= user_data["company_name"]
@@ -108,20 +142,30 @@ class User_psychologist(db.Model):
     speciality = db.Column(db.VARCHAR)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
-
  
     def __repr__(self):
         return f'User psychologist {self.name}'
 
     def to_dict(self):
+        user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
+            "identity_number": self.identity_number,
             "association_number": self.association_number,
             "speciality": self.speciality,
-            "user_id": self.user_id
+            "user_id": self.user_id,
+            "email": user.email,
+            "description": user.description,
+            "is_active": user.is_active,
+            "facebook": user.facebook,
+            "instagram": user.instagram,
+            "twitter": user.twitter,
+            "linkedIn": user.linkedIn,
+            "youTube": user.youTube,
         }
+        
 
     def add(self):
         db.session.add(self)
@@ -165,7 +209,7 @@ class Search_workshop(db.Model):
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
     max_people = db.Column(db.Integer)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
  
@@ -179,7 +223,7 @@ class Search_workshop(db.Model):
             "max_price": self.max_price,
             "date": self.date,
             "max_people": self.max_people,
-            "is_active": True,
+            "is_active": self.is_active,
             "user_company_id": self.user_company_id,
             "category_id": self.category_id
         }
@@ -197,7 +241,7 @@ class Workshop(db.Model):
     duration = db.Column(db.VARCHAR)
     price = db.Column(db.Float)
     date = db.Column(db.Date)
-    is_active = db.Column(db.Boolean)
+    is_active = db.Column(db.Boolean, default=True)
     max_people = db.Column(db.Integer)
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
@@ -214,7 +258,7 @@ class Workshop(db.Model):
             "duration": self.duration,
             "price": self.price,
             "date": self.date,
-            "is_active": True,
+            "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,

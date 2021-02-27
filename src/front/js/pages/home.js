@@ -1,11 +1,7 @@
-
 import React from "react";
-import { Context } from "../store/appContext";
-import { CompanyRegistrationForm } from "../component/companyRegistrationForm";
+import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import "../../styles/home.scss";
 
-export const Home = () => {
+export const Register = () => {
 	return <CompanyRegistrationForm />;
-
-
-
+};
