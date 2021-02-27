@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 22e5c6e598fc
+Revision ID: 3f53491a1657
 Revises: 
-Create Date: 2021-02-19 16:44:24.676902
+Create Date: 2021-02-22 14:42:24.605823
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '22e5c6e598fc'
+revision = '3f53491a1657'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,18 +21,22 @@ def upgrade():
     op.create_table('category',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('category_name', sa.VARCHAR(), nullable=True),
-    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('category_name')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.VARCHAR(), nullable=True),
-    sa.Column('password', sa.VARCHAR(), nullable=True),
+    sa.Column('_password', sa.VARCHAR(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('image', sa.VARCHAR(), nullable=True),
+    sa.Column('facebook', sa.VARCHAR(), nullable=True),
+    sa.Column('instagram', sa.VARCHAR(), nullable=True),
+    sa.Column('twitter', sa.VARCHAR(), nullable=True),
+    sa.Column('linkedIn', sa.VARCHAR(), nullable=True),
+    sa.Column('youTube', sa.VARCHAR(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('is_psychologist', sa.Boolean(), nullable=False),
+    sa.Column('is_psychologist', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -63,7 +67,7 @@ def upgrade():
     sa.Column('duration', sa.VARCHAR(), nullable=True),
     sa.Column('max_price', sa.Float(), nullable=True),
     sa.Column('date', sa.Date(), nullable=True),
-    sa.Column('max_people', sa.Integer(), nullable=False),
+    sa.Column('max_people', sa.Integer(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('user_company_id', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),

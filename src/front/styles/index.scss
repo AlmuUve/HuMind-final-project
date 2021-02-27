@@ -10,15 +10,15 @@ $text_color: #231F20;
 $background_color: #f5f5f5;
 
 /* Fonts */
-$title_font: 'Montserrat', sans-serif;
-$text_font:   'Oswald', sans-serif;
+$text_font: 'Montserrat', sans-serif;
+$title_font:   'Oswald', sans-serif;
 
 /* Yellow Button */
 .yellowButton{
     background-color: $primary_yellow;
     border: none;
-    font-family: $text_font;
-    color: white;
+    font-family: $title_font;
+    color: $text_color;
     width: 7rem;
     height: 2.5rem;
 }
@@ -78,4 +78,61 @@ $text_font:   'Oswald', sans-serif;
     font-size: 1.5rem;
     width: 10rem;
     height: 5rem;
+}
+
+// VIEW AND COMPONENTS PROFILE //
+
+.coverPhoto {
+    height: 20rem;
+    background-image: url("https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.profileCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: $background_color;
+}
+
+.imgProfile{
+    margin-top: -5rem;
+    display: flex;
+    justify-content: center; 
+}
+
+.avatar {
+    border-radius: 50%;
+    height: 10rem;
+    width: 10rem;
+}
+
+.titleCard {
+    font-family: $title_font;
+    font-size: 22px;
+}
+
+.bodyCard {
+    text-align: center;
+    font-family: $text_font;
+    font-size: 18px;
+}
+
+.descriptionCard > p {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+.bottomCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+ 
+i{
+    color: $primary_blue;
 }
