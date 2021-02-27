@@ -6,7 +6,8 @@ import "../../styles/index.scss";
 
 export const UserLogIn = props => {
 	const { actions, store } = useContext(Context);
-	const [user, setUser] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
 	return (
 		<div className="logIn_body">
@@ -25,7 +26,7 @@ export const UserLogIn = props => {
 						name="email"
 						placeholder="Write your email here"
 						onChange={e => {
-							setUser(e.target.value);
+							setEmail(e.target.value);
 						}}
 					/>
 					<label className="logIn_label_password">Password:</label>
@@ -36,14 +37,14 @@ export const UserLogIn = props => {
 						name="password"
 						placeholder="Write your password here"
 						onChange={e => {
-							setUser(e.target.value);
+							setPassword(e.target.value);
 						}}
 					/>
 					<button
 						className="logIn_submit"
 						onClick={e => {
 							e.preventDefault();
-							actions.login();
+							actions.login(email, password);
 						}}>
 						Get started!
 					</button>

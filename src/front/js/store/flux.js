@@ -3,12 +3,12 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
+			urlGetUserCompany: "https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user/company/5",
 			userCompany: [],
-			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
+			urlGetUserPsychologist: "https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
 			User: {},
-			LogedUser: {}
+			LoggedUser: {}
 		},
 
 		actions: {
@@ -28,7 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addNewUser: async user => {
 				console.log("esto es una mierdaaaaaa", user);
-				let response = await fetch("https://3001-violet-beetle-r3kgoico.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -58,10 +58,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://3001-tomato-guppy-s135rtbn.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/login", {
 					method: "POST",
-					mode: "no-cors",
-					redirect: "follow",
 					headers: new Headers({
 						"Content-Type": "application/json"
 					}),
@@ -70,22 +68,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: password
 					})
 				});
-				if (!response.ok) {
-					throw new Error(`${response.message} status: ${response.status}`);
-				}
-				localStorage.setItem("token", response.json().token);
+				let token = await response.json();
+				localStorage.setItem("token", token.token);
 				getActions().decode();
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
-				console.log(decoded);
-				getActions().setLogedUser(decoded.email, decoded.id);
+				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
+				console.log(getStore().LoggedUser, "@@@@2@@@@@@@@@");
 			},
 
 			register: async (email, password) => {
-				let response = await fetch("https://3001-tomato-guppy-s135rtbn.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "no-cors",
 					redirect: "follow",
@@ -103,9 +99,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
-			setLogedUser: (new_email, new_password) => {
+			setLoggedUser: (new_email, new_password) => {
 				setStore({
-					LogedUser: {
+					LoggedUser: {
 						email: new_email,
 						password: new_password
 					}
