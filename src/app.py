@@ -169,7 +169,7 @@ def add_category():
     new_category.add()
     return jsonify(new_category.to_dict())
 
-@app.route('/workshop/<int:id>', methods=['DELETE'])
+@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
 def delete_one_workshop(id):
     workshop = Workshop.get_workshop_by_id(id)
     workshop.delete()

@@ -36,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}),
 					body: JSON.stringify({
 						email: user.email,
-						password: "2437643756",
+						password: user.password,
 						is_psychologist: user.is_psychologist,
 						name: user.name,
 						lastname: user.lastname,
@@ -64,7 +64,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				console.log("User deleted successfully");
+				console.log("User has been deleted successfully");
+			},
+
+			deleteWorkshop: async id => {
+				let response = await fetch(
+					"https://3001-emerald-marlin-zsl9focy.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					{
+						method: "DELETE",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						})
+					}
+				);
+				response = await response.json();
 			}
 		}
 	};

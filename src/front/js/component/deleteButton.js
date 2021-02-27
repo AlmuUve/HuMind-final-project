@@ -1,8 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState, useContext } from "react";
+import { Context } from "../store/appContext";
 
-export const DeleteButton = () => (
-	<button className="deleteButton">
-		{" "}
-		<i className="far fa-trash-alt deleteButton" />{" "}
-	</button>
-);
+export const DeleteButton = () => {
+    const { actions, store } = useContext(Context);
+    
+    return (
+        <button 
+        className="deleteButton" 
+        onClick={e => {
+					e.preventDefault();
+					actions.deleteWorkshop(id);
+				}}>
+            <i className="far fa-trash-alt deleteButton" />
+        </button>
+    );
+};
