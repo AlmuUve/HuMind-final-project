@@ -1,30 +1,12 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
-			userCompany: [],
-			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
-			userPsychologist: [],
 			User: {}
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
 
 		actions: {
-			getUserPsychologist: () => {
-				fetch(getStore().urlGetUserPsychologist).then(async res => {
-					const response = await res.json();
-					setStore({ userPsychologist: [response] });
-				});
-			},
-
-			getUserCompany: () => {
-				fetch(getStore().urlGetUserCompany).then(async res => {
-					const response = await res.json();
-					setStore({ userCompany: [response] });
-				});
-			},
-
 			addNewUser: async user => {
 				let response = await fetch(
 					"https://3001-amber-chinchilla-9slf7s2d.ws-eu03.gitpod.io/user/psychologist/workshop/1",
@@ -95,6 +77,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				console.log("User deleted successfully");
+			},
+
+			editWorkshop: async workshop => {
+				let response = await fetch("https://3001-brown-crane-blq9ycj5.ws-eu03.gitpod.io/user/workshop/1", {
+					method: "PUT",
+					body: JSON.stringify({
+						title: workshop.title,
+						duration: workshop.duration,
+						price: workshop.price,
+						date: workshop.date,
+						max_people: workshop.max_people,
+						description: workshop.description,
+						category_info: workshop.category_info
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+				response = await response.json();
 			}
 		}
 	};

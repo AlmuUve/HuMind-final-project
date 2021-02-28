@@ -134,35 +134,6 @@ def delete_one_user(id):
 
 #METODOS PARA CATEGORYS Y WORKSHOPS
 
-@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
-def add_workshop(id):
-    user_psychologist = User_psychologist.get_by_id(id)
-    
-    body = request.get_json()
-
-    new_workshop = Workshop(
-        title = body.get("title"),
-        duration = body.get("duration"),
-        price = body.get("price"),
-        date = body.get("date"),
-        max_people = body.get("max_people"),
-        description = body.get("description"),
-        user_psychologist_id = user_psychologist.id,
-    )
-    category_list = Workshop.get_category_by_name(body.get("category_info"))
-    
-    new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(category_list)), 200
-
-@app.route('/user/category', methods=['POST'])
-def add_category():
-    new_category = request.get_json()
-    new_category = Category (
-        category_name = new_category.get("category_name"),
-    )
-    new_category.add()
-    return jsonify(new_category.to_dict())
-
 @app.route('/user/workshop/<int:id>', methods=['PUT'])
 def update_workshop(id):
     body = request.get_json()
