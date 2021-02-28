@@ -132,6 +132,11 @@ def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
+@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
+def delete_one_search_workshop(id):
+    search_workshop = Search_workshop.get_search_workshop_by_id(id)
+    search_workshop.delete()
+    return "Your search has been deleted", 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
