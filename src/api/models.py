@@ -297,16 +297,6 @@ class Workshop(db.Model):
             categorys.append(new_category_list.category_name)
         return categorys
 
-    @classmethod
-    def prueba(cls, id):       
-        #workshops = cls.query.all()
-        workshops = cls.query.filter_by(id = id).all()
-        for workshop in workshops:
-            categorys = []
-            for category in workshop.category_info:
-                categorys.append(category.category_name)
-        return categorys
-
 
     def update_workshop(self, new_title, new_duration, 
     new_price, new_date, new_max_people, 
