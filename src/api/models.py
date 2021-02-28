@@ -161,7 +161,7 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
-    search_workshop = db.relationship('Search_workshop', lazy=True)
+    search_workshop = db.relationship('Search_workshop', cascade="all, delete", lazy=True)
      
     def __repr__(self):
         return f'Category {self.category_name}'
@@ -199,6 +199,16 @@ class Search_workshop(db.Model):
             "user_company_id": self.user_company_id,
             "category_id": self.category_id
         }
+
+    @classmethod
+    def get_search_workshop_by_id(cls, id):
+        search_workshop = cls.query.filter_by(id = id).first()
+        return search_workshop
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
 
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
