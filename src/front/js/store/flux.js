@@ -1,30 +1,12 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
-			userCompany: [],
-			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
-			userPsychologist: [],
 			User: {}
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
 
 		actions: {
-			getUserPsychologist: () => {
-				fetch(getStore().urlGetUserPsychologist).then(async res => {
-					const response = await res.json();
-					setStore({ userPsychologist: [response] });
-				});
-			},
-
-			getUserCompany: () => {
-				fetch(getStore().urlGetUserCompany).then(async res => {
-					const response = await res.json();
-					setStore({ userCompany: [response] });
-				});
-			},
-
 			addNewUser: async user => {
 				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch("https://3001-violet-beetle-r3kgoico.ws-eu03.gitpod.io/user", {
@@ -65,6 +47,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				console.log("User deleted successfully");
+			},
+
+			editSearchWorkshop: async search_workshop => {
+				let response = await fetch(
+					"https://3001-purple-sole-h6d5x492.ws-eu03.gitpod.io/user/search_workshop/1",
+					{
+						method: "PUT",
+						body: JSON.stringify({
+							duration: search_workshop.duration,
+							price: search_workshop.price,
+							date: search_workshop.date,
+							max_people: search_workshop.max_people,
+							category_id: search_workshop.category_id
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);
+				response = await response.json();
 			}
 		}
 	};
