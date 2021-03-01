@@ -5,6 +5,7 @@ import { Profilepsychologist } from "./pages/profilePsychologist";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
+import { Footer } from "./component/footer";
 import injectContext from "./store/appContext";
 
 //create your first component
@@ -17,18 +18,23 @@ const Layout = () => {
 				<Switch>
 					<Route exact path="/">
 						<PsychologistRegistrationForm />
+						<Footer />
 					</Route>
 					<Route exact path="/user">
 						<CompanyRegistrationForm />
+						<Footer />
 					</Route>
 					<Route exact path="/company">
 						<Profilecompany />
+						<Footer />
 					</Route>
 					<Route exact path="/psychologist">
 						<Profilepsychologist />
+						<Footer />
 					</Route>
 					<Route exact path="/register">
 						<Register />
+						<Footer />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>
