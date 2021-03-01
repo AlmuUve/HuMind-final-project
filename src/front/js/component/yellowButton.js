@@ -7,37 +7,16 @@ import "../../styles/index.scss";
 export const YellowButton = props => (
 	<button
 		className="yellowButton"
-<<<<<<< HEAD
-		onClick={e => {
-			props.onClickAddWorkshop(e);
-		}}>
-=======
-<<<<<<< HEAD
-		onClick={e => {
-			props.onClickAddWorkshop(e);
-		}}>
-=======
 		// onClick={e => {
 		// 	props.onClickAddWorkshop(e);
 		// 	props.AddSearchWorkshop(e);
 		// }}
 	>
->>>>>>> main
->>>>>>> main
 		{props.text}
 	</button>
 );
 
 YellowButton.propTypes = {
 	text: PropTypes.string,
-<<<<<<< HEAD
 	onClickAddWorkshop: PropTypes.func
-=======
-<<<<<<< HEAD
-	onClickAddWorkshop: PropTypes.func
-=======
-	onClickAddWorkshop: PropTypes.func,
-	AddSearchWorkshop: PropTypes.func
->>>>>>> main
->>>>>>> main
 };
