@@ -152,10 +152,6 @@ class User_psychologist(db.Model):
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
         return user
-       
-    
-    def update_psychologist_user(user_data, id):
-        user= User_psychologist.query.filter_by(user_id = id).first()
     
     @classmethod
     def update_psychologist_user(cls, user_data, id):
@@ -240,7 +236,7 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy='joined'))
+        backref=db.backref("workshops", lazy=True))
  
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
