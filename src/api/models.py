@@ -38,10 +38,6 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
-    # def user_is_psychologist(id):
-    #     user = User.get_by_id(id)
-    #     return user.is_psychologist
-
     @classmethod
     def delete_user(cls, id):
         target = cls.query.filter_by(id = id).first()
@@ -119,9 +115,7 @@ class User_psychologist(db.Model):
     def __repr__(self):
         return f'User psychologist {self.name}'
 
-    def to_dict(self
-    # , workshop_list
-    ):
+    def to_dict(self):
         user = User.get_by_id(self.user_id)
         return {
             "id": self.id,
@@ -138,7 +132,6 @@ class User_psychologist(db.Model):
             "twitter": user.twitter,
             "linkedIn": user.linkedIn,
             "youTube": user.youTube,
-            # "workshops": workshop_list
         }
         
 
@@ -227,7 +220,6 @@ class Search_workshop(db.Model):
             "max_people": self.max_people,
             "is_active": self.is_active,
             "user_company_id": self.user_company_id,
-            # "category_id": query_workshop_has_category
         }
 
 class Workshop(db.Model):
@@ -247,13 +239,6 @@ class Workshop(db.Model):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
     def to_dict(self):
-        # categories = []
-        # print("soy una lista de categorías", categories)
-        # cat = self.category_info.pop()
-        # for category in cat:
-        #     for category in cat.category:
-        #         categories.append(cat.id)
-
         return {
             "id": self.id,
             "title": self.title,
@@ -265,7 +250,6 @@ class Workshop(db.Model):
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
             "categories": list(map(lambda category: category.category_name, self.category_info))
-            # cat.category_name
         }
 
     @classmethod
@@ -282,7 +266,6 @@ class Workshop(db.Model):
     def get_categories_by_workshop_id(cls, id):
         categories = []
         workshops = cls.query.filter_by(id = id).all()
-        # workshops = cls.query.all()
         for workshop in workshops:
             for category in workshop.category_info:
                 categories.append(category.category_name)
@@ -300,10 +283,3 @@ class Workshop(db.Model):
             self.category_info.append(Category.get_by_id(category))
         db.session.add(self)
         db.session.commit()
-        # db.session.add(self)
-        # db.session.add_all(category_info)
-
-        # for category in category_info:
-        #     new_category = Category.get_by_id(category)
-        #     self.category_info.append(new_category) 
-        # db.session.commit()
