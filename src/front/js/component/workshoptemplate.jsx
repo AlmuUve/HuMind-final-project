@@ -18,9 +18,13 @@ export const Workshops = props => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
 
+	const cutDescription = str => {
+		return str.substr(0, 125).concat(" ...");
+	};
+
 	useEffect(() => {
 		if (props.item.user_psychologist_id == 1) {
-			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
+			setAvatar("https://fotomanias.com.ar/wp-content/uploads/2019/03/foto-carnet-fondo-celeste-180x200.jpg");
 		} else if (props.item.user_psychologist_id == 2) {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg");
 		} else {
@@ -46,11 +50,11 @@ export const Workshops = props => {
 					<p>Price {props.item.price} €</p>
 				</div>
 				<div className="descriptionWorkshop">
-					<p>{props.item.description}</p>
+					<p>{cutDescription(props.item.description)}</p>
 				</div>
 				<div className="row d-flex">
-					<div className="col-lg-8 col-sm-12 d-flex flex-direction-column">{categoryLabels}</div>
-					<div className="col-lg-4 col-sm-12 buttonTemplateWorkshop">
+					<div className="col-lg-8 col-sm-12 d-flex flex-wrap">{categoryLabels}</div>
+					<div className="col-lg-4 col-sm-12 d-flex justify-content-lg-end justify-content-center">
 						<Link to="/">
 							<YellowButton text="View More" />
 						</Link>

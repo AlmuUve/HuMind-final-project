@@ -2,23 +2,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			User: {},
-			allWorkshops: []
-			// newpsychologists: {},
-			// newcompanies: {}
+			allWorkshops: [],
+			user: {},
+			help: null
 		},
 
 		actions: {
-			getUserPsychologist: () => {
-				fetch(getStore().urlGetUserPsychologist).then(async res => {
+			getUser: () => {
+				fetch("https://3001-crimson-wolf-btxv9yzs.ws-eu03.gitpod.io/user/4").then(async res => {
 					const response = await res.json();
-					setStore({ userPsychologist: [response] });
-				});
-			},
-
-			getUserCompany: () => {
-				fetch(getStore().urlGetUserCompany).then(async res => {
-					const response = await res.json();
-					setStore({ userCompany: [response] });
+					setStore({ user: response });
+					setStore({ help: response.is_psychologist });
 				});
 			},
 
@@ -65,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-fuchsia-cuckoo-tx5wfk7s.ws-eu03.gitpod.io/user/workshops").then(async res => {
+				fetch("https://3001-crimson-wolf-btxv9yzs.ws-eu03.gitpod.io/user/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allWorkshops: response });
 					console.log(getStore().allWorkshops[0].id);

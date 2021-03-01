@@ -169,15 +169,11 @@ $title_font:   'Oswald', sans-serif;
     font-size: 1.25rem;
 }
 
-.buttonTemplateWorkshop {
-    display: flex;
-    justify-content: end;
-}
-
 .avatarWorkshop {
     height: 3.7rem;
     width: 3.7rem;
     margin-right: 1rem;
+    border-radius: 100%;
 }
 
 .categoryLabel {
@@ -187,6 +183,29 @@ $title_font:   'Oswald', sans-serif;
     background-color: $background_color;
     margin: 0 0.5rem 0 0.5rem;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    height: 2.8rem;
     // width: 80%;
 }
 
+.profileFeed {
+    background-color: $background_color;
+    margin-top: 1rem;
+}
+
+.imgProfileFeed{
+    display: flex;
+    justify-content: center; 
+    margin-top: 1rem;
+}
+
+.bodyCardFeed {
+    text-align: center;
+    font-family: $text_font;
+    font-size: 18px;
+}
+
+
+.titleCardFeed {
+    font-family: $title_font;
+    font-size: 2rem;
+}

@@ -48,23 +48,15 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
-@app.route('/user/company/<int:id>', methods=['GET'])
-def get_user_company_information(id):
-    user = User.get_by_id(id)
-    user_company = User_company.get_by_user_id(user.id)
-    if user.is_active:
-        return jsonify(user_company.to_dict()), 200
-    else:
-        return "This profile doesnt exists", 400
-
-@app.route('/user/psychologist/<int:id>', methods=['GET'])
-def get_user_psychologist_information(id):
+@app.route('/user/<int:id>', methods=['GET'])
+def get_user(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
-    if user.is_active:
+    user_company = User_company.get_by_user_id(user.id)
+    if user.is_active and user.is_psychologist:
         return jsonify(user_psychologist.to_dict()), 200
-    else:
-        return "This profile doesnt exists", 400
+    if user.is_active and user.is_psychologist == False:
+        return jsonify(user_company.to_dict()), 200
 
 @app.route('/user', methods=['POST'])
 def add_user():
