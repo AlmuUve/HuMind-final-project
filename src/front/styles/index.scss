@@ -62,22 +62,22 @@ $title_font:   'Oswald', sans-serif;
 
 /* Landing Button */
 .landingButton{
-    background-color: $secondary_blue;
-    border: none;
-    font-family: $text_font;
-    color: $primary_blue;
-    font-size: 1.5rem;
-    width: 10rem;
-    height: 5rem;
-}
-
-.landingButton:hover{
     background-color: $primary_blue;
     border: none;
     font-family: $text_font;
     color: $secondary_blue;
-    font-size: 1.5rem;
-    width: 10rem;
+    font-size: 3rem;
+    width: 30%;
+    height: 5rem;
+}
+
+.landingButton:hover{
+    background-color: $secondary_blue;
+    border: none;
+    font-family: $text_font;
+    color: $primary_blue;
+    font-size: 3rem;
+    width: 30%;
     height: 5rem;
 }
 
