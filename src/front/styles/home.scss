@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Oswald&display=swap");
+
+/* Color Palette */
+$primary_blue: #47b4d2;
+$hover_blue: #18a8cf;
+$secondary_blue: #ECF7FA;
+$primary_yellow: #FEE440;
+$hover_yellow: rgb(243, 211, 0);
+$text_color: #231F20;
+$background_color: #f5f5f5;
+
+/* Fonts */
+$text_font: 'Montserrat', sans-serif;
+$title_font:   'Oswald', sans-serif;
+
+/* Yellow Button */
+.yellowButton{
+    background-color: $primary_yellow;
+    border: none;
+    font-family: $title_font;
+    font-size: 1.3rem;
+    color: white;
+    width: 7rem;
+    height: 2.5rem;
+}
+
+.yellowButton:hover{
+    background-color: $hover_yellow;
+}
+
+/* Landing */
+.coverPic{
+  object-fit: cover;
+  width: 100%;
+  height: 35rem;
+  margin-bottom: 3rem;
+}
+
+.coverText {
+    color: white;
+    width: 50%;
+    font-family: $title_font;
+    font-size: 3.5rem;
+    margin-left: 2rem;
+    margin-top: 9rem;
+}
+
+.landingDescription{
+    display: flex;
+    align-items: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.motto{
+    flex-direction: row-reverse;
+    font-family: $title_font;
+    font-size: 2rem;
+    text-align: right;
+    border-right: 3px solid $primary_yellow;
+
+}
+
+.description{
+    margin-left: 2rem;
+    font-family: $text_font;
+    font-size: 1.1rem;
+}
+
+.blueSpan{
+    color: $primary_blue;
+}
+
+.yellowSpan{
+    color: $primary_yellow;
+}
+
+.iAmAcompany{
+    margin: 3rem 0 0 0;
+}
+
+.iAmAcompany1{
+    display: flex;
+    justify-content: center;
+    background-image: url(https://i.imgur.com/tfYNMcz.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmAcompanyTitle{
+    color: white;
+    font-family: $title_font;
+    width: 70%;
+    font-size: 3rem;
+    text-align: center;
+    align-self: center;
+}
+
+.iAmAcompany2{
+    display: flex;
+    justify-content: center;
+    background-color: $background_color;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmAcompanyText1{
+    color: $text_color;
+    font-family: $text_font;
+    width: 70%;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: center;
+}
+
+.iAmAcompany3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmAcompanyText2{
+    color: $text_color;
+    font-family: $text_font;
+   width: 70%;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: center;
+}
+
+.iAmApsychologist{
+    margin: 0 0 0; 
+}
+
+.iAmApsychologist1{
+    display: flex;
+    justify-content: center;
+    background-image: url(https://i.imgur.com/HFsizRX.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmApsychologistTitle{
+    color: $text_color;
+    font-family: $title_font;
+    width: 70%;
+    font-size: 3rem;
+    text-align: center;
+    align-self: center;
+}
+
+.iAmApsychologist2{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmApsychologistText1{
+    color: $text_color;
+    font-family: $text_font;
+    width: 70%;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: center;
+}
+
+.iAmApsychologist3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $background_color;
+    height: 25rem;
+    width: 100%;
+}
+
+.iAmApsychologistText2{
+    color: $text_color;
+    font-family: $text_font;
+    width: 70%;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: center;
+}
+
+/* Psychologist Resgistration */
+
+.formAddWorkshop {
+    font-family: $text_font;
+    font-size: 1rem;
+    color: $text_color;
+}
+
+.inputLabel{
+    display: flex;
+    flex-direction: column;
+}
+
+.titleInputs{
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.workshopInput{
+    height: 2.5rem;
+    border: none;
+    border-radius: 0%;
+    background-color: $secondary_blue;
+    padding-left: 1rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+}
+
+.workshopTextArea{
+    height: 10rem;
+    border: none;
+    background-color: $secondary_blue;
+    font-size: 0.8rem;
+    padding-left: 1rem;
+    padding-top: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.workshopInput, .workshopTextArea:focus{
+    outline: none;
+}
+
+.titleAddWorkshop{
+    display: flex;
+    justify-content: center;
+    font-family: $title_font;
+    margin: 2rem 0 2rem 0;
+}
+
+.avatarButton{
+    height: 10rem;
+    width: 10rem;
+}
+
+.notShow {
+    display: none;
+}
+
+.showError {
+    padding: 0.5;
+    color: red;
+    font-family: $title_font;
+    font-size: 1.25rem;
+    padding: 1rem 1rem 1rem 1rem;
+}
