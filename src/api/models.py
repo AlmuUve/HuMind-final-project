@@ -157,10 +157,6 @@ class User_psychologist(db.Model):
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first_or_404()
         return user
-       
-    
-    def update_psychologist_user(user_data, id):
-        user= User_psychologist.query.filter_by(user_id = id).first()
     
     @classmethod
     def update_psychologist_user(cls, user_data, id):
@@ -169,7 +165,6 @@ class User_psychologist(db.Model):
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
         db.session.commit()   
-
 
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
@@ -232,6 +227,16 @@ class Search_workshop(db.Model):
     def add(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def get_search_workshop_by_id(cls, id):
+        search_workshop = cls.query.filter_by(id = id).first()
+        return search_workshop
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
