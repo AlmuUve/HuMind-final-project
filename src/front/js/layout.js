@@ -4,7 +4,10 @@ import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
+import { Footer } from "./component/footer";
 import injectContext from "./store/appContext";
+import { Addworkshop } from "./pages/addworkshop";
+import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 
 //create your first component
 const Layout = () => {
@@ -14,11 +17,11 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
-					<Route exact path="/">
-						<PsychologistRegistrationForm />
+					<Route exact path="/add_workshop">
+						<Addworkshop />
 					</Route>
-					<Route exact path="/user">
-						<CompanyRegistrationForm />
+					<Route exact path="/add_search_workshop">
+						<Addsearchworkshop />
 					</Route>
 					<Route exact path="/profile">
 						<Profile />
@@ -30,6 +33,7 @@ const Layout = () => {
 						<h1>Not found!</h1>
 					</Route>
 				</Switch>
+                <Footer />
 			</BrowserRouter>
 		</div>
 	);

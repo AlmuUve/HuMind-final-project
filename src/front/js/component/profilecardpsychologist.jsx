@@ -1,10 +1,7 @@
 import React, { Component, useContext } from "react";
 import { Context } from "../store/appContext";
-
 import { Link, useParams } from "react-router-dom";
-
 import "../../styles/index.scss";
-
 import { YellowButton } from "./yellowButton.js";
 
 export const Profiletemplatepsy = props => {
