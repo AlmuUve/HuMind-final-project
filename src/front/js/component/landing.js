@@ -55,6 +55,6 @@ export const Landing = () => (
 				</p>
 			</div>
 		</div>
-		<LandingButton className="landingButton" />
+		<LandingButton className="landingButton " />
 	</>
 );
