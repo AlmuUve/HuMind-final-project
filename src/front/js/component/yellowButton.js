@@ -7,9 +7,11 @@ import "../../styles/index.scss";
 export const YellowButton = props => (
 	<button
 		className="yellowButton"
-		onClick={e => {
-			props.onClickAddWorkshop(e);
-		}}>
+		// onClick={e => {
+		// 	props.onClickAddWorkshop(e);
+		// 	props.AddSearchWorkshop(e);
+		// }}
+	>
 		{props.text}
 	</button>
 );

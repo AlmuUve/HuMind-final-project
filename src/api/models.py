@@ -1,11 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Table, Column, Integer, ForeignKey, String, DateTime, Date, Time, Float
-
 db = SQLAlchemy()
-
 class User(db.Model):
     __tablename__ = 'user'
-
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
     _password = db.Column(db.VARCHAR)
@@ -20,27 +17,54 @@ class User(db.Model):
     is_psychologist = db.Column(db.Boolean)
     user_company = db.relationship('User_company', cascade="all, delete", lazy=True)
     user_psychologist = db.relationship("User_psychologist", cascade="all, delete", lazy=True)
-    
+
     def __repr__(self):
         return f'User {self.email}'
 
     def to_dict(self):
         return {
-        "is_active": self.is_active,
+            "id": self.id,
+            "email": self.email,
+            "is_psychologist": self.is_psychologist,
         }
+    
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(
+            email = email
+        ).first_or_404(
+            description = f'Error Bitch!'
+        )
 
-    def add(self):
-        db.session.add(self)
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(
+            email = email
+        ).first_or_404(
+            description = f'Error!'
+        )
+
+    @classmethod
+    def add(cls, email, _password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
+        user = cls(
+            email=email, 
+            _password=_password,
+            facebook=facebook,
+            instagram=instagram, 
+            twitter=twitter, 
+            linkedIn=linkedIn, 
+            youTube=youTube, 
+            is_psychologist=True, 
+            description=description
+        )
+        db.session.add(user)
         db.session.commit()
+        return user.id
 
     @classmethod
     def get_by_id(cls, id):
         user = cls.query.filter_by(id = id).first()
         return user
-
-    # def user_is_psychologist(id):
-    #     user = User.get_by_id(id)
-    #     return user.is_psychologist
 
     @classmethod
     def delete_user(cls, id):
@@ -48,27 +72,25 @@ class User(db.Model):
         target.is_active=False        
         db.session.commit()
         return target.is_active
-    
+
     @classmethod
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
         user.email= user_data["email"]
-        user.password= user_data["password"]
+        user._password= user_data["_password"]
         user.description= user_data["description"]
         user.is_psychologist= user.is_psychologist
         user.is_active= user.is_active
         db.session.commit()
- 
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
-
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.VARCHAR)
     company_number = db.Column(db.VARCHAR, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     search_workshop = db.relationship('Search_workshop', lazy=True)
- 
+
     def __repr__(self):
         return f'User company {self.company_name}'
 
@@ -79,6 +101,7 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -98,15 +121,24 @@ class User_company(db.Model):
         user_company = cls.query.filter_by(user_id=user).first()
         return user_company
 
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.get(id)
+        return user
+
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first_or_404()
+        return user
+
     @classmethod    
     def update_company_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
         user.company_name= user_data["company_name"]
         db.session.commit()   
-    
+
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.VARCHAR)
     lastname = db.Column(db.VARCHAR)
@@ -115,7 +147,7 @@ class User_psychologist(db.Model):
     speciality = db.Column(db.VARCHAR)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
- 
+
     def __repr__(self):
         return f'User psychologist {self.name}'
 
@@ -125,10 +157,11 @@ class User_psychologist(db.Model):
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
+            "identity_number": self.identity_number,
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,
-            #"workshop": self.workshop,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -138,7 +171,6 @@ class User_psychologist(db.Model):
             "linkedIn": user.linkedIn,
             "youTube": user.youTube,
         }
-        
 
     def add(self):
         db.session.add(self)
@@ -160,9 +192,9 @@ class User_psychologist(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        user = cls.query.filter_by(id = id).first()
+        user = cls.query.filter_by(id = id).first_or_404()
         return user
-    
+        
     @classmethod
     def update_psychologist_user(cls, user_data, id):
         user= cls.query.filter_by(user_id = id).first()
@@ -173,7 +205,6 @@ class User_psychologist(db.Model):
 
        
 
-
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
     db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
@@ -181,11 +212,10 @@ workshop_has_category = db.Table('workshop_has_category',
 
 class Category(db.Model):
     __tablename__ = 'category'
-
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
     search_workshop = db.relationship('Search_workshop', lazy=True)
-     
+
     def __repr__(self):
         return f'Category {self.category_name}'
 
@@ -197,7 +227,7 @@ class Category(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        category = cls.query.filter_by(id = id).first()
+        category = cls.query.get(id)
         return category
     
     @classmethod
@@ -216,7 +246,6 @@ class Category(db.Model):
 
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
-
     id = db.Column(db.Integer, primary_key=True)
     duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
@@ -225,25 +254,58 @@ class Search_workshop(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
- 
+
     def __repr__(self):
         return f'Search_workshop {self.user_company_id} and {self.id}'
 
     def to_dict(self):
+        new_category = Category.get_by_id(self.category_id)
         return {
             "id": self.id,
             "duration": self.duration,
-            "max_price": self.max_price,
-            "date": self.date,
+            "price": self.max_price,
+            "date": self.date.isoformat(),
             "max_people": self.max_people,
             "is_active": self.is_active,
             "user_company_id": self.user_company_id,
-            # "category_id": query_workshop_has_category
+            "category_id": new_category.category_name
         }
+
+    @classmethod
+    def get_by_id(cls, id):
+        search = cls.query.get(id)
+        return search
+
+    def update_search_workshop(self, 
+                            new_duration, 
+                            new_price, 
+                            new_date, 
+                            new_max_people, 
+                            new_category):
+        self.duration = new_duration
+        self.max_price = new_price
+        self.date = new_date
+        self.max_people = new_max_people
+        self.category_id = new_category
+        db.session.commit()
+        return self 
+
+    @classmethod
+    def get_search_workshop_by_id(cls, id):
+        search_workshop = cls.query.filter_by(id = id).first()
+        return search_workshop
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
-
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.VARCHAR)
     duration = db.Column(db.VARCHAR)
@@ -254,8 +316,8 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy='joined'))
- 
+        backref=db.backref("workshops", lazy=True))
+
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
@@ -274,10 +336,10 @@ class Workshop(db.Model):
             "user_psychologist_id": self.user_psychologist_id,
             "categorys": categorys
         }
-    
+
     @classmethod
     def get_by_id(cls, id):
-        workshop = cls.query.filter_by(id = id).first()
+        workshop = cls.query.get(id)
         return workshop
 
     @classmethod
@@ -296,7 +358,6 @@ class Workshop(db.Model):
             new_category_list = Category.get_by_id(category)
             categorys.append(new_category_list.category_name)
         return categorys
-
 
     def update_workshop(self, 
                         new_title, 
