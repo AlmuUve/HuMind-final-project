@@ -79,6 +79,7 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -101,6 +102,11 @@ class User_company(db.Model):
     @classmethod
     def get_by_id(cls, id):
         user = cls.query.get(id)
+        return user
+
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first_or_404()
         return user
 
     @classmethod    
@@ -133,6 +139,7 @@ class User_psychologist(db.Model):
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -152,6 +159,11 @@ class User_psychologist(db.Model):
     def get_by_user_id(cls, user):
         user_psychologist = cls.query.filter_by(user_id=user).first()
         return user_psychologist
+
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id = id).first_or_404()
+        return user
     
     @classmethod
     def update_psychologist_user(cls, user_data, id):
@@ -160,7 +172,6 @@ class User_psychologist(db.Model):
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
         db.session.commit()   
-
 
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
@@ -239,6 +250,16 @@ class Search_workshop(db.Model):
         db.session.commit()
         return self 
     
+    @classmethod
+    def get_search_workshop_by_id(cls, id):
+        search_workshop = cls.query.filter_by(id = id).first()
+        return search_workshop
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
+
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -261,17 +282,36 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self):
+    def to_dict(self, category_list):
         return {
             "id": self.id,
             "title": self.title,
             "duration": self.duration,
             "price": self.price,
-            "date": self.date,
+            "date": self.date.isoformat(),
             "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "category_info": self.category_info
+            "categorys": category_list
         }
+    
+    @classmethod
+    def get_by_id(cls, id):
+        workshop = cls.query.get(id)
+        return workshop
+
+    def get_category_by_name(category_info):
+        categorys = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categorys.append(new_category_list.category_name)
+        return categorys
+
+    def add(self, category_info):
+        db.session.add(self)
+        for category in category_info:
+            new_category = Category.get_by_id(category)
+            self.category_info.append(new_category) 
+        db.session.commit()
 
