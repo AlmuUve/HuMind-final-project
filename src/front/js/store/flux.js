@@ -1,11 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/company/5",
-			userCompany: [],
-			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
-			userPsychologist: [],
-			User: {}
+			User: {},
+			allWorkshops: []
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
@@ -65,6 +62,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				console.log("User deleted successfully");
+			},
+
+			getAllWorkshops: () => {
+				fetch("https://3001-pink-pig-srnzv6xu.ws-eu03.gitpod.io/user/workshops").then(async res => {
+					const response = await res.json();
+					console.log(response);
+					setStore({ allWorkshops: response });
+				});
 			}
 		}
 	};

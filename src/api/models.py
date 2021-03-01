@@ -79,6 +79,7 @@ class User_company(db.Model):
             "company_name": self.company_name,
             "company_number": self.company_number,
             "user_id": self.user_id,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -128,6 +129,7 @@ class User_psychologist(db.Model):
             "association_number": self.association_number,
             "speciality": self.speciality,
             "user_id": self.user_id,
+            "is_psychologist": user.is_psychologist,
             "email": user.email,
             "description": user.description,
             "is_active": user.is_active,
@@ -137,11 +139,11 @@ class User_psychologist(db.Model):
             "linkedIn": user.linkedIn,
             "youTube": user.youTube,
         }
-        
-
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
+       
+    @classmethod
+    def get_by_id(cls, id):
+        user = cls.query.filter_by(id=id).first()
+        return user
 
     @classmethod
     def get_by_user_id(cls, user):
@@ -154,7 +156,11 @@ class User_psychologist(db.Model):
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
-        db.session.commit()   
+        db.session.commit()           
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Category(db.Model):
     __tablename__ = 'category'
@@ -170,8 +176,21 @@ class Category(db.Model):
         return {
             "id": self.id,
             "category_name": self.category_name,
-            "is_active":False
         }
+
+    @classmethod
+    def get_by_id(cls, id):
+        category = cls.query.filter_by(id = id).first()
+        return category
+
+    @classmethod
+    def get_all_categories(cls):
+        all_categories = cls.query.all()
+        return all_categories
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
@@ -224,16 +243,30 @@ class Workshop(db.Model):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
     def to_dict(self):
+        user = User_psychologist.get_by_id(self.user_psychologist_id)
         return {
             "id": self.id,
             "title": self.title,
             "duration": self.duration,
             "price": self.price,
-            "date": self.date,
+            "date": self.date.isoformat(),
             "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "category_info": self.category_info
+            "owner_name": user.name,
+            "owner_lastname": user.lastname,
+            "categories": list(map(lambda category: category.category_name, self.category_info))
         }
+    
+    @classmethod
+    def get_all(cls):
+        workshops = cls.query.all()
+        return workshops
+    
+    def add(self, category_info):
+        for category in category_info:
+            self.category_info.append(Category.get_by_id(category))
+        db.session.add(self)
+        db.session.commit()
 

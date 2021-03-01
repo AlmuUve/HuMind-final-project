@@ -6,6 +6,7 @@ import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import injectContext from "./store/appContext";
+import { Feed } from "./pages/feed";
 
 //create your first component
 const Layout = () => {
@@ -29,6 +30,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/register">
 						<Register />
+					</Route>
+					<Route exact path="/feed">
+						<Feed />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>
