@@ -173,3 +173,20 @@ $title_font:   'Oswald', sans-serif;
     display: flex;
     justify-content: end;
 }
+
+.avatarWorkshop {
+    height: 3.7rem;
+    width: 3.7rem;
+    margin-right: 1rem;
+}
+
+.categoryLabel {
+    font-family: $title_font;
+    color: $text_color;
+    border: 1px solid $text_color;
+    background-color: $background_color;
+    margin: 0 0.5rem 0 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    // width: 80%;
+}
+

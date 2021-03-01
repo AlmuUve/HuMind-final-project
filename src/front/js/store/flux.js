@@ -65,10 +65,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-pink-pig-srnzv6xu.ws-eu03.gitpod.io/user/workshops").then(async res => {
+				fetch("https://3001-fuchsia-cuckoo-tx5wfk7s.ws-eu03.gitpod.io/user/workshops").then(async res => {
 					const response = await res.json();
-					console.log(response);
 					setStore({ allWorkshops: response });
+					console.log(getStore().allWorkshops[0].id);
 				});
 			}
 		}
