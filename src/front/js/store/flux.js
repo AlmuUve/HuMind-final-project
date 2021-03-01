@@ -3,11 +3,11 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-            user: {},
-            // User: {},
-            id: null,
-            help: null,
-            LoggedUser: {}
+			user: {},
+			// User: {},
+			id: null,
+			help: null,
+			LoggedUser: {}
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
@@ -17,9 +17,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch("https://3001-gold-anaconda-czi4jfzk.ws-eu03.gitpod.io/user/4").then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
-                    setStore({ help: response.is_psychologist });
-                    setStore({ id: response.id });
-                    
+					setStore({ help: response.is_psychologist });
+					setStore({ id: response.id });
 				});
 			},
 
@@ -49,10 +48,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						youTube: user.youTube,
 						description: user.description
 					})
-                });
+				});
 				response = await response.json();
-            },
-            
+			},
+
 			addNewWorkshop: async workshop => {
 				let response = await fetch(
 					"https://3001-indigo-cat-5kxsdybx.ws-eu03.gitpod.io/user/psychologist/workshop/1",
@@ -142,24 +141,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editSearchWorkshop: async search_workshop => {
-				let response = await fetch("https://3001-purple-sole-h6d5x492.ws-eu03.gitpod.io/user/search_workshop/1", {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        duration: search_workshop.duration,
-                        price: search_workshop.price,
-                        date: search_workshop.date,
-                        max_people: search_workshop.max_people,
-                        category_id: search_workshop.category_id
-                    }),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }
-            );
-            response = await response.json();
-        },
-            
-            deleteSearchWorkshop: async id => {
+				let response = await fetch(
+					"https://3001-purple-sole-h6d5x492.ws-eu03.gitpod.io/user/search_workshop/1",
+					{
+						method: "PUT",
+						body: JSON.stringify({
+							duration: search_workshop.duration,
+							price: search_workshop.price,
+							date: search_workshop.date,
+							max_people: search_workshop.max_people,
+							category_id: search_workshop.category_id
+						}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);
+				response = await response.json();
+			},
+
+			deleteSearchWorkshop: async id => {
 				let response = await fetch(
 					"https://3001-emerald-marlin-zsl9focy.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{

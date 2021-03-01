@@ -10,8 +10,8 @@ export const YellowButton = props => (
 		// onClick={e => {
 		// 	props.onClickAddWorkshop(e);
 		// 	props.AddSearchWorkshop(e);
-        // }}
-        >
+		// }}
+	>
 		{props.text}
 	</button>
 );
