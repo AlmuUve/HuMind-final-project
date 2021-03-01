@@ -225,8 +225,12 @@ class Search_workshop(db.Model):
         search = cls.query.get(id)
         return search
 
-    def update_search_workshop(self, new_duration, 
-    new_price, new_date, new_max_people, new_category):
+    def update_search_workshop(self, 
+                            new_duration, 
+                            new_price, 
+                            new_date, 
+                            new_max_people, 
+                            new_category):
         self.duration = new_duration
         self.max_price = new_price
         self.date = new_date
