@@ -298,9 +298,14 @@ class Workshop(db.Model):
         return categorys
 
 
-    def update_workshop(self, new_title, new_duration, 
-    new_price, new_date, new_max_people, 
-    new_description, category_info):
+    def update_workshop(self, 
+                        new_title, 
+                        new_duration, 
+                        new_price, 
+                        new_date, 
+                        new_max_people, 
+                        new_description, 
+                        category_info):
         self.title = new_title
         self.duration = new_duration
         self.price = new_price
@@ -311,7 +316,7 @@ class Workshop(db.Model):
         for category in category_info:
             new_categories = Category.get_by_id(category)
             new_category_list.append(new_categories)
-            self.category_info = new_category_list
+        self.category_info = new_category_list
         db.session.commit()
         return self 
 
