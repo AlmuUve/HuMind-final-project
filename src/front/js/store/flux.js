@@ -27,7 +27,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				console.log("esto es una mierdaaaaaa", user);
 				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
@@ -77,7 +76,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
 				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
-				console.log(getStore().LoggedUser, "@@@@2@@@@@@@@@");
 			},
 
 			setLoggedUser: (new_email, new_password) => {
@@ -97,7 +95,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				console.log("User deleted successfully");
 			}
 		}
 	};

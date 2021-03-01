@@ -8,7 +8,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
-    password = db.Column(db.VARCHAR)
+    _password = db.Column(db.VARCHAR)
     is_active = db.Column(db.Boolean, default=True)
     image = db.Column(db.VARCHAR)
     facebook = db.Column(db.VARCHAR)
@@ -36,7 +36,7 @@ class User(db.Model):
         return cls.query.filter_by(
             email = email
         ).first_or_404(
-            description = f'Error Bitch!'
+            description = f'Error!'
         )
 
     # @classmethod
@@ -45,13 +45,13 @@ class User(db.Model):
     #         email = email
     #     )
     #     print(user)
-    #     return user.password
+    #     return user._password
 
     @classmethod
-    def add(cls, email, password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
+    def add(cls, email, _password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
         user = cls(
             email=email, 
-            password=password,
+            _password=_password,
             facebook=facebook,
             instagram=instagram, 
             twitter=twitter, 
@@ -80,7 +80,7 @@ class User(db.Model):
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
         user.email= user_data["email"]
-        user.password= user_data["password"]
+        user._password= user_data["_password"]
         user.description= user_data["description"]
         user.is_psychologist= user.is_psychologist
         user.is_active= user.is_active

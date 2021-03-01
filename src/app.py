@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory,current_app
+from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -67,16 +67,16 @@ def sitemap():
 
 @app.route('/login', methods=['POST'])
 def handle_login():
-    email, password = request.json.get(
+    email, _password = request.json.get(
             "email", None
         ), request.json.get(
-            "password", None
+            "_password", None
         )
-    if not email or not password:
+    if not email or not _password:
         return "Missing info", 400
 
     user = User.get_by_email(email)
-    if check_password_hash(user.password, password):
+    if check_password_hash(user._password, _password):
         access_token = create_access_token(
             identity=user.to_dict(),
             expires_delta=timedelta(minutes=60)
@@ -89,7 +89,7 @@ def handle_login():
 def add_user():
     body = request.get_json()
     email = body.get("email", None)
-    password = body.get("password", None)
+    _password = body.get("_password", None)
     facebook = body.get("facebook", None)
     instagram = body.get("instagram", None)
     twitter = body.get("twitter", None)
@@ -98,11 +98,10 @@ def add_user():
     is_psychologist = body.get("is_psychologist", None)
     description = body.get("description", None)
 
-    if not email or not password or not is_psychologist:
+    if not email or not _password or not is_psychologist:
         return "Missing info", 400
 
-    password_hashed = generate_password_hash( password, method='pbkdf2:sha256', salt_length=8)
-    print(password_hashed)
+    password_hashed = generate_password_hash( _password, method='pbkdf2:sha256', salt_length=8)
     user_id = User.add(
         email, 
         password_hashed, 
@@ -157,6 +156,7 @@ def get_user_psychologist_information(id):
 
 
 @app.route('/user/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_user(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
@@ -164,6 +164,7 @@ def update_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>/psychologist', methods=['PUT'])
+@jwt_required()
 def update_psychologist_user(id):
     body = request.get_json()
     user = User_psychologist.update_psychologist_user(body, id)
@@ -172,6 +173,7 @@ def update_psychologist_user(id):
 
   
 @app.route('/user/<int:id>/company', methods=['PUT'])
+@jwt_required()
 def update_company_user(id):
     body = request.get_json()
     user = User_company.update_company_user(body, id)
@@ -179,6 +181,7 @@ def update_company_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
+@jwt_required()
 def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
