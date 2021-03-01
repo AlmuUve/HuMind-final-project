@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import { LandingButton } from "./landingButton";
+import React, { Component, Fragment } from "react";
+import { LandingButton } from "../component/landingButton";
+import "../../styles/home.scss";
 
 export const Landing = () => (
-	<>
+	<Fragment>
 		<div className="coverContainer">
 			<img className="coverPic" src="https://i.imgur.com/LsTHJu1.png" />
 			<h3 className="card-img-overlay coverText">FOR COMPANIES COMMITED TO THEIR EMPLOYEES</h3>
@@ -56,5 +57,5 @@ export const Landing = () => (
 			</div>
 		</div>
 		<LandingButton className="landingButton " />
-	</>
+	</Fragment>
 );

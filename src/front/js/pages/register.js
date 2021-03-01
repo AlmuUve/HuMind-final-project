@@ -4,8 +4,8 @@ import "../../styles/home.scss";
 
 export const Register = () => {
 	return (
-        <div className="row">
-            <PsychologistRegistrationForm />
-        </div>
+		<div className="row">
+			<PsychologistRegistrationForm />
+		</div>
 	);
 };
