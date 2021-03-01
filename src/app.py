@@ -132,7 +132,7 @@ def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
-@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
+@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
 def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
