@@ -1,12 +1,16 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Profilecompany } from "./pages/profileCompany";
-import { Profilepsychologist } from "./pages/profilePsychologist";
+import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { Landing } from "./component/landing";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
+import { Footer } from "./component/footer";
 import injectContext from "./store/appContext";
 import { LogIn } from "./pages/login";
+import { Addworkshop } from "./pages/addworkshop";
+import { Addsearchworkshop } from "./pages/addnewseachworkshop";
+import { Navbarpage } from "../component/navbar.jsx";
 
 //create your first component
 const Layout = () => {
@@ -15,18 +19,19 @@ const Layout = () => {
 	return (
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
+                <Navbarpage />
 				<Switch>
-					<Route exact path="/">
-						<PsychologistRegistrationForm />
+                    <Route exact path="/">
+						<Landing />
 					</Route>
-					<Route exact path="/user">
-						<CompanyRegistrationForm />
+					<Route exact path="/add_workshop">
+						<Addworkshop />
+                    </Route>
+					<Route exact path="/add_search_workshop">
+						<Addsearchworkshop />
 					</Route>
-					<Route exact path="/company">
-						<Profilecompany />
-					</Route>
-					<Route exact path="/psychologist">
-						<Profilepsychologist />
+					<Route exact path="/profile">
+						<Profile />
 					</Route>
 					<Route exact path="/register">
 						<Register />
@@ -38,6 +43,7 @@ const Layout = () => {
 						<h1>Not found!</h1>
 					</Route>
 				</Switch>
+                <Footer />
 			</BrowserRouter>
 		</div>
 	);
