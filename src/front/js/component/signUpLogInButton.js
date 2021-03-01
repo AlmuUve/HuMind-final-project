@@ -1,3 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 
-export const SignUpLogInButton = () => <button className="signUpLogInButton"> Click me!</button>;
+import PropTypes from "prop-types";
+
+export const SignUpLogInButton = props => <button className="signUpLogInButton">{props.text}</button>;
+
+SignUpLogInButton.propTypes = {
+	text: PropTypes.string
+};
