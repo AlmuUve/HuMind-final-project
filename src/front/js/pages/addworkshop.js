@@ -16,8 +16,6 @@ export const Addworkshop = () => {
 					<h2>ADD A NEW WORKSHOP</h2>
 				</div>
 				<Workshopform />
-				{/* EL EDIT BUTTON ESTA SOLO PARA PROBAR EL PUT */}
-				<EditButton />
 			</div>
 		</>
 	);

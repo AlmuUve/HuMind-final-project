@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			User: {}
+			user: {}
 			// newpsychologists: {},
 			// newcompanies: {}
 		},
@@ -63,9 +63,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(body)
 					}
 				);
-
 				response = await response.json();
-				console.log(response);
 			},
 
 			deleteProfile: async id => {
