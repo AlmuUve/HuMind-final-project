@@ -139,12 +139,11 @@ def delete_one_user(id):
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
     workshops = Workshop.get_workshop_by_psychologist_id(id)
-    # workshops_to_dict = list(map(lambda workshop: workshop.to_dict(), workshops))
     workshops_to_dict = []
     for workshop in workshops:
         workshops_to_dict.append(workshop.to_dict())
 
-    return jsonify({"workshop_list": workshops_to_dict}), 200
+    return jsonify(workshops_to_dict), 200
 
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):

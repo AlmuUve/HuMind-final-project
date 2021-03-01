@@ -87,10 +87,9 @@ $text_font:   'Oswald', sans-serif;
     width: 40%;
     height: fit-content;
     border-style: solid;
-    border: 3px;
-    border-color: $background_color;
+    border: 3px solid $background_color;
+    padding: 1.5rem;
 }
-
 
 .workshopTitle{
     font-family: $text_font;
@@ -107,16 +106,17 @@ $text_font:   'Oswald', sans-serif;
 }
 
 .buttons_workshopCard{
+    display: flex;
     margin-left: 1rem;
 }
 
 .deleteAndEditButtons{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    align-self: flex-start;
     margin-top: 0.3rem;
 }
 
-.yellowButton_workshopCard{
-    display: flex;
+.yellowButton{
     align-self: flex-end;
 }
