@@ -10,7 +10,7 @@ export const UserLogIn = props => {
 	const [password, setPassword] = useState("");
 
 	return (
-		<div className="logIn_body">
+		<div className="logIn_body d-flex justify-content-center ">
 			<div className="logIn_leftColumn col-md-5 col-sm-12">
 				<Link to={"/home"}>
 					<i className="fas fa-times" />
@@ -50,7 +50,7 @@ export const UserLogIn = props => {
 					</button>
 				</form>
 			</div>
-			<div className="logIn_rightColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0">
+			<div className="logIn_rightColumn col-md-2 col-sm-0 ">
 				<h1>HuMind</h1>
 			</div>
 		</div>
