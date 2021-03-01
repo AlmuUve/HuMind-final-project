@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { Landing } from "./component/landing";
+
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import { Footer } from "./component/footer";
 import injectContext from "./store/appContext";
@@ -17,9 +19,12 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
+                    <Route exact path="/">
+						<Landing />
+					</Route>
 					<Route exact path="/add_workshop">
 						<Addworkshop />
-					</Route>
+                    </Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
 					</Route>
