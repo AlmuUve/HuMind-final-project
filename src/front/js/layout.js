@@ -1,18 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
 
 import injectContext from "./store/appContext";
 
 import { SignUp } from "./pages/signup";
-import { Navbar } from "./component/navbar";
 import { Profile } from "./pages/profile";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { Landing } from "./pages/landing";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import { Footer } from "./component/footer";
-import injectContext from "./store/appContext";
 import { LogIn } from "./pages/login";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
@@ -31,7 +28,7 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/company/register">
 						<CompanyRegistrationForm />
-                    </Route>    
+					</Route>
 					<Route exact path="/">
 						<Landing />
 					</Route>

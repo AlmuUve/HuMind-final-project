@@ -13,12 +13,6 @@ $title_font:   'Oswald', sans-serif;
 
 /* Sign Up  */
 body{
-<<<<<<< HEAD
-    background-color: $background_color;
-    font-family: $text_font;
-}
-
-=======
     // background-color: $background_color;
     font-family: $text_font;
 }
@@ -34,7 +28,6 @@ body{
     height: 2.5rem;
 }
 
->>>>>>> main
 .fas{
     display: flex;
     justify-content: flex-end;
@@ -61,7 +54,6 @@ h3{
     font-size: 1rem;
 }
 
-<<<<<<< HEAD
 .show{
     font-family: $title_font;
     color: rgb(223, 60, 60);
@@ -84,7 +76,6 @@ h3{
     display: none;
 }
 
-=======
 /* Landing Button */
 .landingButton{
     background-color: $primary_blue;
@@ -196,7 +187,6 @@ h3{
 }
 
 //SIGNUP\\
->>>>>>> main
 .signUp_body{
     display: flex;
 }
@@ -234,11 +224,12 @@ h3{
     background-color: $primary_yellow;
 }
 
-<<<<<<< HEAD
 .isPsychologist{
-=======
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .signUp_psycologist_button:focus{
->>>>>>> main
     outline: none;
     background-image: none;
     background-color: $primary_yellow;
@@ -255,23 +246,19 @@ h3{
     font-family: $title_font;
     color: white;
     background-image: url(https://i.imgur.com/2V2MPvD.png);
-<<<<<<< HEAD
-    background-repeat: no-repeat;
-    background-size: cover;
-=======
->>>>>>> main
 }
+    
 
 .signUp_company_button:hover{
     background-image: none;
     background-color: $primary_blue;
 }
 
-<<<<<<< HEAD
 .isCompany{
-=======
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .signUp_company_button:focus{
->>>>>>> main
     outline: none;
     background-image: none;
     background-color: $primary_blue;
@@ -345,8 +332,6 @@ h3{
     outline: none;
     background-color: #288aa5;
 }
-<<<<<<< HEAD
-=======
 
 //LOGIN\\
 
@@ -529,4 +514,3 @@ h3{
     width: 3rem;
     font-size: 2rem;
 }
->>>>>>> main

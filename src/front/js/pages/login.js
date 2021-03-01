@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useReducer } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.scss";
 import { UserLogIn } from "../component/userLogIn";
+import { PsychologistRegistrationForm } from "../component/psychologistRegistrationForm";
+import { CompanyRegistrationForm } from "../component/companyRegistrationForm";
 
 export const LogIn = () => {
 	const { store, actions } = useContext(Context);
@@ -33,8 +35,8 @@ export const LogIn = () => {
 	}
 
 	if (!firstStep && user.is_psychologist) {
-		return <div>Prueba 1</div>;
+		return <PsychologistRegistrationForm />;
 	} else {
-		return <div>Prueba 2</div>;
+		return <CompanyRegistrationForm />;
 	}
 };
