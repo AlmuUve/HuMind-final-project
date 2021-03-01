@@ -1,9 +1,4 @@
 import React, { Fragment } from "react";
-// import {linkedin} from "../../img/linkedin.png";
-// import { facebook } from "../../img/facebook.png";
-// import { instagram } from "../../img/instagram.png";
-// import { youtube } from "../../img/youtube.png";
-// import { twitter } from "../../img/twitter.png";
 import "../../styles/index.scss";
 
 export const Footer = () => {
