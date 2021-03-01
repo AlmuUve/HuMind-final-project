@@ -160,6 +160,12 @@ def add_category():
     )
     new_category.add()
     return jsonify(new_category.to_dict())
+    
+@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
+def delete_one_search_workshop(id):
+    search_workshop = Search_workshop.get_search_workshop_by_id(id)
+    search_workshop.delete()
+    return "Your search has been deleted", 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
