@@ -150,7 +150,7 @@ def add_workshop(id):
     )
     category_list = Workshop.get_category_by_name(body.get("category_info"))
     new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(category_list)), 200
+    return jsonify(new_workshop.to_dict(category_list)), 201
 
 @app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
 def add_search_workshop(id):
@@ -169,7 +169,7 @@ def add_search_workshop(id):
  
     new_search_workshop.add()
 
-    return jsonify(new_search_workshop.to_dict()), 200
+    return jsonify(new_search_workshop.to_dict()), 201
 
 @app.route('/user/category', methods=['POST'])
 def add_category():
