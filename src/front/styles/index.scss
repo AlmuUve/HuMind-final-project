@@ -138,6 +138,7 @@ i{
     color: $primary_blue;
 }
 
+<<<<<<< HEAD
 //COMPONENT ADD WORKSHOP AND VIEW\\
 
 .formAddWorkshop {
@@ -147,10 +148,23 @@ i{
 }
 
 .inputLabel{
+=======
+.footer{
+    background-color: $text_color;
+    color: $background_color;
+}
+
+.footer_row{
+    padding: 3rem;
+}
+
+.footer_column{
+>>>>>>> main
     display: flex;
     flex-direction: column;
 }
 
+<<<<<<< HEAD
 .titleInputs{
     height: 2rem;
     display: flex;
@@ -199,4 +213,25 @@ i{
     font-family: $title_font;
     font-size: 1.25rem;
     padding: 1rem 1rem 1rem 1rem;
+=======
+.footer_column_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.footer_column_img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.footer_img{
+    color: $background_color;
+    width: 3rem;
+    font-size: 2rem;
+>>>>>>> main
 }

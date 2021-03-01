@@ -161,7 +161,6 @@ class User_psychologist(db.Model):
         user.speciality= user_data["speciality"]
         db.session.commit()   
 
-
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
     db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
@@ -223,6 +222,16 @@ class Search_workshop(db.Model):
             # "category_id": query_workshop_has_category
         }
 
+    @classmethod
+    def get_search_workshop_by_id(cls, id):
+        search_workshop = cls.query.filter_by(id = id).first()
+        return search_workshop
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
+
 class Workshop(db.Model):
     __tablename__ = 'workshop'
 
@@ -236,7 +245,7 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy=True))
+        backref=db.backref("workshops", lazy='joined'))
  
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'

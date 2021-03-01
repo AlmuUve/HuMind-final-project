@@ -6,8 +6,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			urlGetUserPsychologist: "https://3001-chocolate-raccoon-4tzuwjs2.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
 			User: {}
-			// newpsychologists: {},
-			// newcompanies: {}
 		},
 
 		actions: {
@@ -95,6 +93,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				console.log("User deleted successfully");
+            },
+            
+            deleteSearchWorkshop: async id => {
+				let response = await fetch(
+					"https://3001-emerald-marlin-zsl9focy.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					{
+						method: "DELETE",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						})
+					}
+				);
+				response = await response.json();
 			}
 		}
 	};
