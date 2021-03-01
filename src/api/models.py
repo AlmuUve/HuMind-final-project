@@ -172,10 +172,6 @@ class User_psychologist(db.Model):
             "youTube": user.youTube,
         }
 
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-
     @classmethod
     def get_wokshops_list(cls, id):
         workshops = []
@@ -184,6 +180,11 @@ class User_psychologist(db.Model):
             for workshop in psychologist.workshop:
                 workshops.append(workshop.id)
         return workshops
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
 
     @classmethod
     def get_by_user_id(cls, user):
