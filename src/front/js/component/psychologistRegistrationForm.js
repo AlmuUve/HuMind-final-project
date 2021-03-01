@@ -2,6 +2,7 @@ import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
 import "../../styles/home.scss";
+import { EditButton } from "./editButton";
 
 export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
