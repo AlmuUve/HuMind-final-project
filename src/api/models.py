@@ -8,11 +8,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.VARCHAR, unique=True)
-<<<<<<< HEAD
-    password = db.Column(db.VARCHAR)
-=======
     _password = db.Column(db.VARCHAR)
->>>>>>> main
     is_active = db.Column(db.Boolean, default=True)
     image = db.Column(db.VARCHAR)
     facebook = db.Column(db.VARCHAR)
@@ -30,13 +26,9 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-<<<<<<< HEAD
             "id": self.id,
             "email": self.email,
             "is_psychologist": self.is_psychologist,
-=======
-        "is_active": self.is_active,
->>>>>>> main
         }
     
     @classmethod
@@ -46,14 +38,6 @@ class User(db.Model):
         ).first_or_404(
             description = f'Error Bitch!'
         )
-
-    # @classmethod
-    # def get_password(cls, email):
-    #     user = cls.query.filter_by(
-    #         email = email
-    #     )
-    #     print(user)
-    #     return user.password
 
     @classmethod
     def add(cls, email, password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
@@ -77,20 +61,6 @@ class User(db.Model):
         user = cls.query.filter_by(id = id).first()
         return user
 
-<<<<<<< HEAD
-    @classmethod
-    def delete_user(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        target.is_active=False        
-        db.session.commit()
-        return target.is_active
-    
-=======
-    # def user_is_psychologist(id):
-    #     user = User.get_by_id(id)
-    #     return user.is_psychologist
-
->>>>>>> main
     @classmethod
     def delete_user(cls, id):
         target = cls.query.filter_by(id = id).first()
@@ -108,7 +78,6 @@ class User(db.Model):
         user.is_active= user.is_active
         db.session.commit()
  
-
 class User_company(db.Model):
     __tablename__ = 'user_company'
 
@@ -188,7 +157,6 @@ class User_psychologist(db.Model):
             "youTube": user.youTube,
         }
         
-
     def add(self):
         db.session.add(self)
         db.session.commit()
