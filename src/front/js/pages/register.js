@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PsychologistRegistrationForm } from "../component/psychologistRegistrationForm";
 import "../../styles/home.scss";
 
 export const Register = () => {
-	return <PsychologistRegistrationForm />;
+	return (
+		<div className="row">
+			<PsychologistRegistrationForm />
+		</div>
+	);
 };

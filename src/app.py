@@ -67,16 +67,16 @@ def sitemap():
 
 @app.route('/login', methods=['POST'])
 def handle_login():
-    email, password = request.json.get(
+    email, _password = request.json.get(
             "email", None
         ), request.json.get(
-            "password", None
+            "_password", None
         )
-    if not email or not password:
+    if not email or not _password:
         return "Missing info", 400
 
     user = User.get_by_email(email)
-    if check_password_hash(user.password, password):
+    if check_password_hash(user._password, _password):
         access_token = create_access_token(
             identity=user.to_dict(),
             expires_delta=timedelta(minutes=60)
@@ -89,7 +89,7 @@ def handle_login():
 def add_user():
     body = request.get_json()
     email = body.get("email", None)
-    password = body.get("password", None)
+    _password = body.get("_password", None)
     facebook = body.get("facebook", None)
     instagram = body.get("instagram", None)
     twitter = body.get("twitter", None)
@@ -98,11 +98,10 @@ def add_user():
     is_psychologist = body.get("is_psychologist", None)
     description = body.get("description", None)
 
-    if not email or not password or not is_psychologist:
+    if not email or not _password or not is_psychologist:
         return "Missing info", 400
 
-    password_hashed = generate_password_hash( password, method='pbkdf2:sha256', salt_length=8)
-    print(password_hashed)
+    password_hashed = generate_password_hash( _password, method='pbkdf2:sha256', salt_length=8)
     user_id = User.add(
         email, 
         password_hashed, 
@@ -135,7 +134,20 @@ def add_user():
     company.add()
     return jsonify(company.to_dict()), 201
 
+@app.route('/user/<int:id>', methods=['GET'])
+@jwt_required()
+def get_user(id):
+    user = User.get_by_id(id)
+    user_psychologist = User_psychologist.get_by_user_id(user.id)
+    user_company = User_company.get_by_user_id(user.id)
+    if user.is_active and user.is_psychologist:
+        return jsonify(user_psychologist.to_dict()), 200
+    if user.is_active and user.is_psychologist == False:
+        return jsonify(user_company.to_dict()), 200
+
+
 @app.route('/user/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_user(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
@@ -143,14 +155,15 @@ def update_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>/psychologist', methods=['PUT'])
+@jwt_required()
 def update_psychologist_user(id):
     body = request.get_json()
     user = User_psychologist.update_psychologist_user(body, id)
     change_user = User_psychologist.get_by_user_id(id)
     return jsonify(change_user.to_dict())
-
   
 @app.route('/user/<int:id>/company', methods=['PUT'])
+@jwt_required()
 def update_company_user(id):
     body = request.get_json()
     user = User_company.update_company_user(body, id)
@@ -158,10 +171,75 @@ def update_company_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
+@jwt_required()
 def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
+#METODOS PARA CATEGORYS Y WORKSHOPS
+
+@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
+def add_workshop(id):
+    user_psychologist = User_psychologist.get_by_id(id)
+    
+    body = request.get_json()
+
+    new_workshop = Workshop(
+        title = body.get("title"),
+        duration = body.get("duration"),
+        price = body.get("price"),
+        date = body.get("date"),
+        max_people = body.get("max_people"),
+        description = body.get("description"),
+        user_psychologist_id = user_psychologist.id,
+    )
+    category_list = Workshop.get_category_by_name(body.get("category_info"))
+    new_workshop.add(body.get("category_info"))
+    return jsonify(new_workshop.to_dict(category_list)), 201
+
+@app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
+def add_search_workshop(id):
+    user_company = User_company.get_by_id(id)
+    
+    body = request.get_json()
+
+    new_search_workshop = Search_workshop(
+        duration = body.get("duration"),
+        max_price = body.get("price"),
+        date = body.get("date"),
+        max_people = body.get("max_people"),
+        user_company_id = user_company.id,
+        category_id = body.get("category_id")
+    )
+ 
+    new_search_workshop.add()
+
+    return jsonify(new_search_workshop.to_dict()), 201
+
+@app.route('/user/category', methods=['POST'])
+def add_category():
+    new_category = request.get_json()
+    new_category = Category (
+        category_name = new_category.get("category_name"),
+    )
+    new_category.add()
+    return jsonify(new_category.to_dict())
+
+@app.route('/user/search_workshop/<int:id>', methods=['PUT'])
+def update_workshop(id):
+    body = request.get_json()
+    search_workshop = Search_workshop.get_by_id(id)
+
+    new_search_workshop = search_workshop.update_search_workshop(body['duration'], 
+    body['price'], body['date'], body['max_people'], body['category_id'])
+
+    return jsonify(new_search_workshop.to_dict())
+    
+@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
+def delete_one_search_workshop(id):
+    search_workshop = Search_workshop.get_search_workshop_by_id(id)
+    search_workshop.delete()
+    return "Your search has been deleted", 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
