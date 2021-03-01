@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Context } from "../store/appContext";
-
 import "../../styles/index.scss";
-
 import { Profiletemplatepsy } from "../component/profilecardpsychologist.jsx";
 import { Profiletemplatecompany } from "../component/profilecardcompany.jsx";
-
 import { Coverphoto } from "../component/coverphoto.jsx";
 
 export const Profile = () => {
