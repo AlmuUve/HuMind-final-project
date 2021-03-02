@@ -13,10 +13,10 @@ export const WorkshopCard = props => {
 		<div className="workshopCard">
 			<div className="cardInformation">
 				<p className="workshopTitle">{props.item.title}</p>
-				<div className="details">
+				<div className="workshopDetails">
 					<span className="date">Date: {props.item.date}</span>
 					<span className="duration">Duration: {props.item.duration} hours</span>
-					<span className="pax">Pax: {props.item.max_people}</span>
+					<span className="maxPeople">Pax: {props.item.max_people}</span>
 					<span className="description">Description: {props.item.description}</span>
 				</div>
 			</div>
