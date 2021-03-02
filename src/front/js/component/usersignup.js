@@ -1,8 +1,10 @@
-import React, { Component, Fragment, useState } from "react";
+import React, { useContext, Component, Fragment, useState } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const UserSignUp = props => {
+	const { store, actions } = useContext(Context);
 	const [signUpFirstStep, setSignUpFirstStep] = useState({
 		email: "",
 		password: ""
@@ -94,12 +96,11 @@ export const UserSignUp = props => {
 				<h1>HuMind</h1>
 			</div>
 			<div className="signUp_rightColumn col-md-5 col-sm-12">
-				<Link to={"/home"}>
+				<Link to={"/"}>
 					<i className="fas fa-times" />
 				</Link>
 				<h2>Sign Up</h2>
 				<h3>Choose your HuMind account</h3>
-				{/* <h3 className={show}>You need to choose one</h3> */}
 				<form className="signUp_form">
 					<div className="signUp_buttons" id="signUpButtons">
 						<button
@@ -144,7 +145,7 @@ export const UserSignUp = props => {
 					<label className="signUp_label_password">Password:</label>
 					<input
 						className="signUp_input"
-						type="text"
+						type="password"
 						id="password"
 						name="password"
 						placeholder="Write your password here"
@@ -164,7 +165,10 @@ export const UserSignUp = props => {
 					<button
 						className="signUp_submit"
 						onClick={e => {
+							e.preventDefault();
 							checkInputs(e);
+							actions.setEmailFlux(signUpFirstStep.email);
+							actions.setPasswordFlux(signUpFirstStep.password);
 						}}>
 						Get started!
 					</button>
