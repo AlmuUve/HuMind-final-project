@@ -360,8 +360,8 @@ export const Searchworkshopform = () => {
 				<div className="row d-flex justify-content-center mb-5">
 					<YellowButton
 						type="submit"
-						text="Hola"
-						AddSearchWorkshop={e => {
+						text="Submit"
+						onClickForm={e => {
 							checkInputs(e);
 						}}
 					/>

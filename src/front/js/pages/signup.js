@@ -45,7 +45,9 @@ export const SignUp = () => {
 				id="firstStep"
 				className=""
 				onMyClick={state => isPsychologistFalse(state)}
-				onMyChange={event => createUser(event)}
+				onMyChange={event => {
+					createUser(event);
+				}}
 				onMyclickUser={() => submitUserInformation()}
 			/>
 		);

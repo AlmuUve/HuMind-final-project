@@ -7,12 +7,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// User: {},
 			id: null,
 			help: null,
-			LoggedUser: {}
+			LoggedUser: {},
+			password: "",
+			email: "",
+			idForGetMethod: 39
 		},
 
 		actions: {
-			getUser: () => {
-				fetch("https://3001-gold-anaconda-czi4jfzk.ws-eu03.gitpod.io/user/4").then(async res => {
+			setEmailFlux: new_email => {
+				setStore({ email: new_email });
+			},
+			setPasswordFlux: new_password => {
+				setStore({ password: new_password });
+			},
+			getUser: id => {
+				console.log(id);
+				fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
@@ -21,7 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -30,7 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}),
 					body: JSON.stringify({
 						email: user.email,
-						password: user.password,
+						_password: user.password,
 						is_psychologist: user.is_psychologist,
 						name: user.name,
 						lastname: user.lastname,
@@ -48,11 +58,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				// setStore({ idForGetMethod: response.user_id });
+				//console.log(getStore().idForGetMethod, "id en el momento POST");
+				getActions().getUser(response.user_id);
+				console.log(getStore().user);
 			},
 
 			addNewWorkshop: async workshop => {
 				let response = await fetch(
-					"https://3001-indigo-cat-5kxsdybx.ws-eu03.gitpod.io/user/psychologist/workshop/1",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/psychologist/workshop/1",
 					{
 						method: "POST",
 						mode: "cors",
@@ -76,7 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addNewSearchWorkshop: async searchWorkshop => {
 				let response = await fetch(
-					"https://3001-teal-cow-br27iie4.ws-eu03.gitpod.io/user/company/searchworkshop/2",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/company/searchworkshop/2",
 					{
 						method: "POST",
 						mode: "cors",
@@ -97,14 +111,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/login", {
+				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
 						email: email,
-						password: password
+						_password: password
 					})
 				});
 				let token = await response.json();
@@ -127,19 +142,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
-			deleteProfile: async id => {
-				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
-					method: "PATCH",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					})
-				});
-				response = await response.json();
-				console.log("User deleted successfully");
-			},
-
 			editWorkshop: async workshop => {
-				let response = await fetch("https://3001-brown-crane-blq9ycj5.ws-eu03.gitpod.io/user/workshop/1", {
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/workshop/1", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -153,13 +157,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						"Content-Type": "application/json"
 					}
-                });
-                response = await response.json();
-            },
-            
+				});
+				response = await response.json();
+			},
+
 			editSearchWorkshop: async search_workshop => {
 				let response = await fetch(
-					"https://3001-purple-sole-h6d5x492.ws-eu03.gitpod.io/user/search_workshop/1",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/search_workshop/1",
 					{
 						method: "PUT",
 						body: JSON.stringify({
@@ -175,11 +179,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
-            },
-            
+			},
+
+			deleteProfile: async id => {
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id, {
+					method: "PATCH",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					})
+				});
+				response = await response.json();
+			},
+
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://3001-emerald-marlin-zsl9focy.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({

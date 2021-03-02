@@ -46,7 +46,7 @@ export const Workshopform = () => {
 	let isInvalidList = [];
 
 	const checkInputs = e => {
-		e.preventDefault();
+		e.preventDefault(e);
 		checkTitle(title, inputTitle);
 		checkDuration(duration, inputDuration);
 		checkDates(dates, inputDates);
@@ -287,7 +287,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={1}
 										id="category"
-										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Estres
@@ -300,7 +299,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={2}
 										id="category"
-										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Ansiedad
@@ -313,7 +311,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={3}
 										id="category"
-										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Mindfulness
@@ -326,7 +323,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={4}
 										id="category"
-										// onClick={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestion de equipos
@@ -339,7 +335,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={5}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Risoterapia
@@ -354,7 +349,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={6}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Sueño
@@ -367,7 +361,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={7}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Somos la ostia
@@ -380,7 +373,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={8}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Terminamos mañana
@@ -393,7 +385,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={9}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Psicologia positiva
@@ -406,7 +397,6 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={10}
 										id="category"
-										// onChange={onCheckBox}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestión del tiempo
@@ -423,7 +413,7 @@ export const Workshopform = () => {
 					<YellowButton
 						type="submit"
 						text="Submit"
-						onClickAddWorkshop={e => {
+						onClickForm={e => {
 							checkInputs(e);
 						}}
 					/>

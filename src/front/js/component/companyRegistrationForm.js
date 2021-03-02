@@ -1,14 +1,15 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
+import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
 	const [user, setUser] = useState({
-		email: "",
-		password: "",
-		is_psychologist: true,
+		email: store.email,
+		password: store.password,
+		is_psychologist: false,
 		name: "",
 		lastname: "",
 		identity_number: "",
@@ -34,8 +35,8 @@ export const CompanyRegistrationForm = () => {
 					<h2 className="row titleAddWorkshop">CREATE YOUR PROFILE</h2>
 					<div className="row d-flex justify-content-center mb-5">
 						<img
-							className="avatarButton"
-							src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+							className="formAvatar"
+							src="https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
 						/>
 					</div>
 					<div className="row">
@@ -75,12 +76,10 @@ export const CompanyRegistrationForm = () => {
 							</label>
 							<input
 								type="text"
-								onChange={inputChange}
+								defaultValue={store.email}
 								className="workshopInput form-control"
-								placeholder="Enter E-mail Here"
 								name="email"
 								id="email"
-								required
 							/>
 						</div>
 						<div className="col-12 inputLabel">
@@ -164,19 +163,20 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Write a description here"
 								form="usrform"
 								id="description"
+								required
 							/>
 						</div>
 					</div>
 					<div className="row d-flex justify-content-center mb-5">
-						<YellowButton
-							type="submit"
-							text="Submit"
-							onClick={e => {
-								e.preventDefault();
-								actions.addNewUser(user);
-							}}>
-							Submit
-						</YellowButton>
+						<Link to="/profile">
+							<YellowButton
+								type="submit"
+								text="Submit"
+								onClickForm={() => {
+									actions.addNewUser(user);
+								}}
+							/>
+						</Link>
 					</div>
 				</div>
 			</form>

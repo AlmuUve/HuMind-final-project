@@ -18,9 +18,6 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
-			// state.actions.addNewUser();
-			// state.actions.addPsychologist();
-			// state.actions.addCompany();
 			//state.actions.getUser();
 		}, []);
 

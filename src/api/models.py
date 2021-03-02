@@ -54,7 +54,7 @@ class User(db.Model):
             twitter=twitter, 
             linkedIn=linkedIn, 
             youTube=youTube, 
-            is_psychologist=True, 
+            is_psychologist=is_psychologist, 
             description=description
         )
         db.session.add(user)
