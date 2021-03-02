@@ -3,12 +3,13 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			urlGetUserCompany: "https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user/company/5",
+			urlGetUserCompany: "https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/user/company/5",
 			userCompany: [],
-			urlGetUserPsychologist: "https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user/psychologist/4",
+			urlGetUserPsychologist: "https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
 			User: {},
-			LoggedUser: {}
+			// LoggedUser: {}
+			LoggedUser: localStorage.getItem("LoggedUser") ? JSON.parse(localStorage.getItem("LoggedUser")) : false
 		},
 
 		actions: {
@@ -28,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addNewUser: async user => {
 				console.log("esto es una mierdaaaaaa", user);
-				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -58,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://3001-lavender-mockingbird-2k9elpyx.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -89,8 +90,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			logout: () => {
+				localStorage.removeItem("token");
+				localStorage.removeItem("LoggedUser");
+				setStore({
+					LoggedUser: false
+				});
+			},
+
 			deleteProfile: async id => {
-				let response = await fetch("https://3001-green-condor-domx3gwg.ws-eu03.gitpod.io/user/" + id, {
+				let response = await fetch("https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"

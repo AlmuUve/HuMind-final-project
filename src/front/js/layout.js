@@ -5,6 +5,7 @@ import { Profilepsychologist } from "./pages/profilePsychologist";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
+import { Navbarpage } from "../js/component/navbar.jsx";
 import injectContext from "./store/appContext";
 import { LogIn } from "./pages/login";
 
@@ -32,6 +33,7 @@ const Layout = () => {
 						<Register />
 					</Route>
 					<Route exact path="/login">
+						<Navbarpage />
 						<LogIn />
 					</Route>
 					<Route>
