@@ -14,17 +14,15 @@ export const WorkshopCard = props => {
 			<div className="cardInformation">
 				<p className="workshopTitle">{props.item.title}</p>
 				<div className="details">
-					<span className="date">{props.item.date}</span>
-					<span className="duration">{props.item.duration}</span>
-					<span className="pax">{props.item.max_people}</span>
-					<span className="description">{props.item.description}</span>
+					<span className="date">Date: {props.item.date}</span>
+					<span className="duration">Duration: {props.item.duration} hours</span>
+					<span className="pax">Pax: {props.item.max_people}</span>
+					<span className="description">Description: {props.item.description}</span>
 				</div>
 			</div>
 			<div className="buttons_workshopCard">
-				<div className="deleteAndEditButtons">
-					<EditButton className="editButton_workshopCard" />
-					<DeleteButton className="deleteButton_workshopCard" />
-				</div>
+				<EditButton className="editButton_workshopCard" />
+				<DeleteButton className="deleteButton_workshopCard" />
 				<YellowButton className="yellowButton_workshopCard" />
 			</div>
 		</div>
@@ -32,6 +30,6 @@ export const WorkshopCard = props => {
 };
 
 WorkshopCard.propTypes = {
-	item: PropTypes.object
-	// text: PropTypes.string
+	item: PropTypes.object,
+	yellowButtonText: PropTypes.string
 };

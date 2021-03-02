@@ -47,7 +47,6 @@ $text_font:   'Oswald', sans-serif;
     background-color: white;
     color: $text_color; 
     font-size: 1rem;
-    width: 5%;
 }
 
 /* Edit Button */
@@ -56,7 +55,6 @@ $text_font:   'Oswald', sans-serif;
     background-color: white;
     color: $text_color; 
     font-size: 1rem;
-    width: 5%;
 }
 
 /* Landing Button */
@@ -84,11 +82,15 @@ $text_font:   'Oswald', sans-serif;
 .workshopCard{
     display: flex;
     align-self: center;
-    width: 40%;
+    margin-top: 1rem;
+    width: 60%;
     height: fit-content;
     border-style: solid;
     border: 3px solid $background_color;
     padding: 1.5rem;
+}
+.cardInformation{
+    width: 70%;
 }
 
 .workshopTitle{
@@ -106,17 +108,23 @@ $text_font:   'Oswald', sans-serif;
 }
 
 .buttons_workshopCard{
-    display: flex;
-    margin-left: 1rem;
+    width: 30%;
+    position: relative;
 }
 
-.deleteAndEditButtons{
-    display: flex;
-    justify-content: space-around;
-    align-self: flex-start;
-    margin-top: 0.3rem;
+.deleteButton{
+    position: absolute;
+    right: 0%;
+}
+
+.editButton{
+    position: absolute;
+    right: 1rem;
 }
 
 .yellowButton{
-    align-self: flex-end;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
 }
+
