@@ -40,14 +40,15 @@ export const UserLogIn = props => {
 							setPassword(e.target.value);
 						}}
 					/>
-					<button
-						className="logIn_submit"
-						onClick={e => {
-							e.preventDefault();
-							actions.login(email, password);
-						}}>
-						Get started!
-					</button>
+					<Link to="/profile">
+						<button
+							className="logIn_submit"
+							onClick={() => {
+								actions.login(email, password);
+							}}>
+							Get started!
+						</button>
+					</Link>
 				</form>
 			</div>
 			<div className="logIn_rightColumn col-md-2 col-sm-0 ">

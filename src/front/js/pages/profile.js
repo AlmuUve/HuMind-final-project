@@ -10,6 +10,9 @@ import { YellowButton } from "../component/yellowButton";
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
 
+	console.log(store.psychologistId);
+	console.log(store.companyId);
+
 	if (store.help) {
 		return (
 			<>

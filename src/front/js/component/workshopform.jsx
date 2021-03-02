@@ -43,6 +43,8 @@ export const Workshopform = () => {
 
 	//**FUNCTIONS FOR VALIDATIONS**\\
 
+	console.log(store.psychologistId);
+
 	let isInvalidList = [];
 
 	const checkInputs = e => {
@@ -59,7 +61,7 @@ export const Workshopform = () => {
 		} else {
 			setShowError("notShow");
 			checkBoxes();
-			actions.addNewWorkshop(workshop);
+			actions.addNewWorkshop(workshop, store.psychologistId);
 		}
 	};
 

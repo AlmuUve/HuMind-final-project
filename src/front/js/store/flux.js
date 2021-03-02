@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: "",
 			user: {},
 			// User: {},
 			id: null,
@@ -10,7 +11,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			LoggedUser: {},
 			password: "",
 			email: "",
-			idForGetMethod: 39
+			psychologistId: "",
+			companyId: ""
 		},
 
 		actions: {
@@ -21,12 +23,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ password: new_password });
 			},
 			getUser: id => {
-				console.log(id);
 				fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
 					setStore({ id: response.id });
+					response.is_psychologist
+						? setStore({ psychologistId: response.id })
+						: setStore({ companyId: response.id });
 				});
 			},
 
@@ -58,15 +62,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
+				response.is_psychologist
+					? setStore({ psychologistId: response.id })
+					: setStore({ companyId: response.id });
 			},
 
-			addNewWorkshop: async workshop => {
+			addNewWorkshop: async (workshop, id) => {
+				console.log(id);
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/psychologist/workshop/1",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/psychologist/" + id + "/workshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -88,9 +93,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				response = await response.json();
 			},
 
-			addNewSearchWorkshop: async searchWorkshop => {
+			addNewSearchWorkshop: async (searchWorkshop, id) => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/company/searchworkshop/2",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/company/" + id + "/searchworkshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -125,19 +130,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
+				getActions().getUser(getStore().LoggedUser.id);
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
-				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
+				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id, decoded.sub.is_psychologist);
+				console.log(getStore().LoggedUser);
 			},
 
-			setLoggedUser: (new_email, new_password) => {
+			setLoggedUser: (new_email, new_id, new_is_psychologist) => {
 				setStore({
 					LoggedUser: {
 						email: new_email,
-						password: new_password
+						id: new_id,
+						is_psychologist: new_is_psychologist
 					}
 				});
 			},
