@@ -239,17 +239,19 @@ class Workshop(db.Model):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
     def to_dict(self):
+        categories = Workshop.get_categories_by_workshop_id(self.id)
+        
         return {
             "id": self.id,
             "title": self.title,
             "duration": self.duration,
             "price": self.price,
-            "date": self.date,
+            "date": self.date.isoformat(),
             "is_active": self.is_active,
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categories": list(map(lambda category: category.category_name, self.category_info))
+            "categories": categories,
         }
 
     @classmethod
