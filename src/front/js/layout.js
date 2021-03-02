@@ -17,12 +17,6 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<Switch>
-					<Route exact path="/">
-						<PsychologistRegistrationForm />
-					</Route>
-					<Route exact path="/user">
-						<CompanyRegistrationForm />
-					</Route>
 					<Route exact path="/company">
 						<Profilecompany />
 					</Route>

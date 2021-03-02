@@ -7,9 +7,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userCompany: [],
 			urlGetUserPsychologist: "https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/user/psychologist/4",
 			userPsychologist: [],
-			User: {},
-			// LoggedUser: {}
-			LoggedUser: localStorage.getItem("LoggedUser") ? JSON.parse(localStorage.getItem("LoggedUser")) : false
+			// user: {},
+			LoggedUser: {},
+			token: ""
 		},
 
 		actions: {
@@ -59,14 +59,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/", {
+				let response = await fetch("https://3001-purple-halibut-25zwk9sf.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
 						email: email,
-						password: password
+						_password: password
 					})
 				});
 				let token = await response.json();
@@ -91,10 +91,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			logout: () => {
+				console.log(localStorage.getItem("token"));
 				localStorage.removeItem("token");
-				localStorage.removeItem("LoggedUser");
 				setStore({
-					LoggedUser: false
+					LoggedUser: {},
+					token: ""
 				});
 			},
 

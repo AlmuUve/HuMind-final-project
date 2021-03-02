@@ -17,10 +17,7 @@ const injectContext = PassedComponent => {
 			})
 		);
 
-		useEffect(() => {
-			state.actions.getUserCompany();
-			state.actions.getUserPsychologist();
-		}, []);
+		useEffect(() => {}, []);
 
 		return (
 			<Context.Provider value={state}>

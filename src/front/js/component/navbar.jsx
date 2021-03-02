@@ -23,14 +23,7 @@ export const Navbarpage = props => {
 				<NavbarButtons text="Sign Up" />
 			</Link>
 			<Link to="/" className="buttonNavbar">
-				<NavbarButtons
-					text="Log In"
-					click={() => {
-						actions.logout();
-						history.push("/");
-					}}
-					hide={store.LoggedUser ? "" : "d-none"}
-				/>
+				<NavbarButtons text="Log In" />
 			</Link>
 		</Nav>
 	);
@@ -54,7 +47,12 @@ export const Navbarpage = props => {
 					<NavbarButtons text="Feed" />
 				</Dropdown.ItemText>
 				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons text="Log Out" />
+					<NavbarButtons
+						text="Log Out"
+						onLogOutClick={() => {
+							actions.logout();
+						}}
+					/>
 				</Dropdown.ItemText>
 			</DropdownButton>
 		</Nav>
