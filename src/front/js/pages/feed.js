@@ -3,8 +3,9 @@ import { Context } from "../store/appContext";
 
 import "../../styles/index.scss";
 
-import { Workshops } from "../component/workshoptemplate.jsx";
-import { Profilecompanyfeed } from "../component/profileinfeedcompany.jsx";
+import { Workshops } from "../component/FeedComponent/workshopsfeed.jsx";
+import { Profilefeed } from "../component/FeedComponent/profilefeed.jsx";
+import { Searchworkshops } from "../component/FeedComponent/searchworkshopsfeed.jsx";
 
 export const Feed = () => {
 	const { store, actions } = useContext(Context);
@@ -13,12 +14,28 @@ export const Feed = () => {
 		return <Workshops item={item} key={index.toString()} />;
 	});
 
+	let listAllSearchWorkshops = store.allSearchWorkshops.map((item, index) => {
+		return <Searchworkshops item={item} key={index.toString()} />;
+	});
+
+	if (!store.help) {
+		return (
+			<>
+				<div className="container-fluid">
+					<div className="row d-felx justify-content-center">
+						<Profilefeed />
+						<div className="col-lg-8 col-sm-12 bg-succes">{listAllWorkshops}</div>
+					</div>
+				</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<div className="container-fluid">
 				<div className="row d-felx justify-content-center">
-					<Profilecompanyfeed />
-					<div className="col-lg-8 col-sm-12 bg-succes">{listAllWorkshops}</div>
+					<Profilefeed />
+					<div className="col-lg-8 col-sm-12 bg-succes">{listAllSearchWorkshops}</div>
 				</div>
 			</div>
 		</>

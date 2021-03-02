@@ -126,35 +126,6 @@ def delete_one_user(id):
     
 ## METODOS PARA CREAR EL MURO ##
 
-@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
-def add_workshop(id):
-    user_psychologist = User_psychologist.get_by_id(id)
-    
-    body = request.get_json()
-
-    new_workshop = Workshop(
-        title = body.get("title"),
-        duration = body.get("duration"),
-        price = body.get("price"),
-        date = body.get("date"),
-        max_people = body.get("max_people"),
-        description = body.get("description"),
-        user_psychologist_id = user_psychologist.id,
-    )
-    category_list = body.get("category_info")
-    new_workshop.add(category_list)
-
-    return jsonify(new_workshop.to_dict()), 200
-
-@app.route('/user/category', methods=['POST'])
-def add_category():
-    new_category = request.get_json()
-    new_category = Category (
-        category_name = new_category.get("category_name"),
-    )
-    new_category.add()
-    return jsonify(new_category.to_dict())
-
 @app.route('/user/workshops', methods=['GET'])
 def get_workshops():
     workshops = Workshop.get_all()
@@ -163,6 +134,15 @@ def get_workshops():
         workshops_to_dict.append(workshop.to_dict())
 
     return jsonify(workshops_to_dict), 200
+
+@app.route('/user/search_workshops', methods=['GET'])
+def get_search_workshops():
+    search_workshops = Search_workshop.get_all()
+    search_workshops_to_dict = []
+    for search_workshop in search_workshops:
+        search_workshops_to_dict.append(search_workshop.to_dict())
+
+    return jsonify(search_workshops_to_dict), 200
 
 
 # this only runs if `$ python src/main.py` is executed

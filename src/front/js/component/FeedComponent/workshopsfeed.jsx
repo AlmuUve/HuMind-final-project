@@ -1,13 +1,13 @@
 import React, { Component, useContext, useState, useEffect } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../../store/appContext";
 
 import PropTypes from "prop-types";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import "../../styles/index.scss";
+import "../../../styles/index.scss";
 
-import { YellowButton } from "./yellowButton.js";
+import { YellowButton } from "../yellowButton.js";
 import { Categorylabel } from "./categoryinworkshops.jsx";
 
 export const Workshops = props => {
@@ -24,7 +24,7 @@ export const Workshops = props => {
 
 	useEffect(() => {
 		if (props.item.user_psychologist_id == 1) {
-			setAvatar("https://fotomanias.com.ar/wp-content/uploads/2019/03/foto-carnet-fondo-celeste-180x200.jpg");
+			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg");
 		} else if (props.item.user_psychologist_id == 2) {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg");
 		} else {
@@ -46,6 +46,7 @@ export const Workshops = props => {
 				<div className="titleWorkshop">{props.item.title}</div>
 				<div className="bodyWorkshop">
 					<p>Date: {props.item.date}</p>
+					<p>Duration: {props.item.duration}</p>
 					<p>Maximum number of persons: {props.item.max_people}</p>
 					<p>Price {props.item.price} €</p>
 				</div>
@@ -65,6 +66,5 @@ export const Workshops = props => {
 	);
 };
 Workshops.propTypes = {
-	item: PropTypes.object,
-	avatar: PropTypes.string
+	item: PropTypes.object
 };

@@ -3,13 +3,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			User: {},
 			allWorkshops: [],
+			allSearchWorkshops: [],
 			user: {},
 			help: null
 		},
 
 		actions: {
 			getUser: () => {
-				fetch("https://3001-crimson-wolf-btxv9yzs.ws-eu03.gitpod.io/user/4").then(async res => {
+				fetch("https://3001-turquoise-tiger-dgswskwi.ws-eu03.gitpod.io/user/1").then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
@@ -59,11 +60,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-crimson-wolf-btxv9yzs.ws-eu03.gitpod.io/user/workshops").then(async res => {
+				fetch("https://3001-turquoise-tiger-dgswskwi.ws-eu03.gitpod.io/user/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allWorkshops: response });
-					console.log(getStore().allWorkshops[0].id);
 				});
+			},
+
+			getAllSearchWorkshops: () => {
+				fetch("https://3001-turquoise-tiger-dgswskwi.ws-eu03.gitpod.io/user/search_workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ allSearchWorkshops: response });
+					}
+				);
 			}
 		}
 	};
