@@ -43,7 +43,7 @@ class User(db.Model):
         target = cls.query.filter_by(id = id).first()
         target.is_active=False        
         db.session.commit()
-        return target.is_active
+        return target
     
     @classmethod
     def update_single_user(cls, user_data, id):
