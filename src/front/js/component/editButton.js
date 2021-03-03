@@ -1,7 +1,13 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
+import { Context } from "../store/appContext";
 
-export const EditButton = () => (
-	<button className="editButton">
-		<i className="far fa-edit editButton" />
-	</button>
-);
+export const EditButton = () => {
+	const { store, actions } = useContext(Context);
+
+	return (
+		<button className="editButton">
+			{" "}
+			<i className="far fa-edit editButton" />
+		</button>
+	);
+};

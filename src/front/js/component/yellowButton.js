@@ -1,3 +1,16 @@
 import React, { Component } from "react";
 
-export const YellowButton = () => <button className="yellowButton"> Click me!</button>;
+import PropTypes from "prop-types";
+
+import "../../styles/index.scss";
+
+export const YellowButton = props => (
+	<button className="yellowButton" onClick={props.onClickForm}>
+		{props.text}
+	</button>
+);
+
+YellowButton.propTypes = {
+	text: PropTypes.string,
+	onClickForm: PropTypes.func
+};
