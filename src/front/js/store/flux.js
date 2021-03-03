@@ -10,7 +10,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			LoggedUser: {},
 			password: "",
 			email: "",
-			idForGetMethod: 39
+			idForGetMethod: 39,
+			userProfile: []
 		},
 
 		actions: {
@@ -62,6 +63,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
 				console.log(getStore().user);
+			},
+
+			editUserProfile: async (
+				name,
+				lastname,
+				identity_number,
+				association_number,
+				speciality,
+				company_name,
+				company_number,
+				facebook,
+				instagram,
+				twitter,
+				linkedIn,
+				youTube,
+				description,
+				user_id
+			) => {
+				let response = await fetch("https://assets.breatheco.de/apis/fake/contact/" + id, {
+					method: "PUT",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						name: name,
+						lastname: lastname,
+						identity_number: identity_number,
+						association_number: association_number,
+						speciality: speciality,
+						company_name: company_name,
+						company_number: company_number,
+						facebook: facebook,
+						instagram: instagram,
+						twitter: twitter,
+						linkedIn: linkedIn,
+						youTube: youTube,
+						description: description,
+						user_id: user_id
+					})
+				});
+				response = await response.json();
 			},
 
 			addNewWorkshop: async workshop => {

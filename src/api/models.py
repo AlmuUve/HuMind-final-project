@@ -79,9 +79,14 @@ class User(db.Model):
         user.email= user_data["email"]
         user._password= user_data["_password"]
         user.description= user_data["description"]
-        user.is_psychologist= user.is_psychologist
-        user.is_active= user.is_active
+        user.facebook= user_data["facebook"]
+        user.instagram= user_data["instagram"]
+        user.twitter= user_data["twitter"]
+        user.linkedIn= user_data["linkedIn"]
+        user.youTube= user_data["youTube"]
+        user.is_psychologist= user_data["is_psychologist"]
         db.session.commit()
+        return user
 
 class User_company(db.Model):
     __tablename__ = 'user_company'

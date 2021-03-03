@@ -145,30 +145,19 @@ def get_user(id):
     if user.is_active and user.is_psychologist == False:
         return jsonify(user_company.to_dict()), 200
 
-
 @app.route('/user/<int:id>', methods=['PUT'])
-@jwt_required()
 def update_user(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
     change_user = User.get_by_id(id)
-    return jsonify(change_user.to_dict())
-
-@app.route('/user/<int:id>/psychologist', methods=['PUT'])
-@jwt_required()
-def update_psychologist_user(id):
-    body = request.get_json()
-    user = User_psychologist.update_psychologist_user(body, id)
-    change_user = User_psychologist.get_by_user_id(id)
-    return jsonify(change_user.to_dict())
-  
-@app.route('/user/<int:id>/company', methods=['PUT'])
-@jwt_required()
-def update_company_user(id):
-    body = request.get_json()
-    user = User_company.update_company_user(body, id)
-    change_user = User_company.get_by_id(id)
-    return jsonify(change_user.to_dict())
+    if user.is_active and user.is_psychologist:
+        user = User_psychologist.update_psychologist_user(body, id)
+        change_user = User_psychologist.get_by_user_id(id)
+        return jsonify(change_user.to_dict())  
+    if user.is_active and user.is_psychologist == False:
+        user = User_company.update_company_user(body, id)
+        change_user = User_company.get_by_id(id)
+        return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
 @jwt_required()

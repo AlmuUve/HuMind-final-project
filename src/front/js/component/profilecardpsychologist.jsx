@@ -27,7 +27,14 @@ export const Profiletemplatepsy = props => {
 				<div className="bottomCard">
 					<i className="fas fa-envelope fa-2x" href={store.user.email} />
 				</div>
-				<YellowButton text="Edit Profile" />
+				<Link to="/">
+					<YellowButton
+						text="Edit Profile"
+						onEditClick={e => {
+							e.preventDefault();
+							actions.editUserProfile(id);
+						}}></YellowButton>
+				</Link>
 			</div>
 		</div>
 	);
