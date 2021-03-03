@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton";
 import { DeleteButton } from "./deleteButton";
 import { EditButton } from "./editButton";
+import { Link } from "react-router-dom";
 
 export const WorkshopCard = props => {
 	const { actions, store } = useContext(Context);
@@ -21,7 +22,14 @@ export const WorkshopCard = props => {
 				</div>
 			</div>
 			<div className="buttons_workshopCard">
-				<EditButton className="editButton_workshopCard" />
+				<Link to={"/add_workshop/" + props.item.id}>
+					<EditButton
+						className="editButton_workshopCard"
+						onClickForm={e => {
+							actions.editWorkshop(e);
+						}}
+					/>
+				</Link>
 				<DeleteButton className="deleteButton_workshopCard" />
 				<YellowButton className="yellowButton_workshopCard" />
 			</div>
