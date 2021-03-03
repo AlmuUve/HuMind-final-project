@@ -19,10 +19,10 @@ export const Navbarpage = props => {
 			<a href="#anclaPsychologists" className="buttonNavbar">
 				<NavbarButtons text="Psychologist" />
 			</a>
-			<Link to="/" className="buttonNavbar">
+			<Link to="/signup" className="buttonNavbar">
 				<NavbarButtons text="Sign Up" />
 			</Link>
-			<Link to="/" className="buttonNavbar">
+			<Link to="/login" className="buttonNavbar">
 				<NavbarButtons text="Log In" />
 			</Link>
 		</Nav>
@@ -34,7 +34,7 @@ export const Navbarpage = props => {
 				id="dropdown-item-button"
 				title={
 					<img
-						className="avatarButton"
+						className="navbarAvatarButton"
 						src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
 					/>
 				}

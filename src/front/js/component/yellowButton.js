@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 import PropTypes from "prop-types";
 
 import "../../styles/index.scss";
 
-export const YellowButton = props => <button className="yellowButton"> {props.text}</button>;
+export const YellowButton = props => (
+	<button className="yellowButton" onClick={props.onClickForm}>
+		{props.text}
+	</button>
+);
 
 YellowButton.propTypes = {
-	text: PropTypes.string
+	text: PropTypes.string,
+	onClickForm: PropTypes.func
 };

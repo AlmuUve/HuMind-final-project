@@ -54,7 +54,7 @@ class User(db.Model):
             twitter=twitter, 
             linkedIn=linkedIn, 
             youTube=youTube, 
-            is_psychologist=True, 
+            is_psychologist=is_psychologist, 
             description=description
         )
         db.session.add(user)
@@ -389,3 +389,4 @@ class Workshop(db.Model):
             new_category = Category.get_by_id(category)
             self.category_info.append(new_category) 
         db.session.commit()
+
