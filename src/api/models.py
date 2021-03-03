@@ -278,6 +278,10 @@ class Search_workshop(db.Model):
         search = cls.query.get(id)
         return search
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
     def update_search_workshop(self, 
                             new_duration, 
                             new_price, 
@@ -306,11 +310,6 @@ workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
     db.Column('category_id', db.Integer, db.ForeignKey("category.id"), primary_key=True),
 )
-
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
@@ -397,7 +396,7 @@ class Workshop(db.Model):
             self.category_info.append(new_category) 
         db.session.commit()
        
-     def delete(self):
+    def delete(self):
         db.session.delete(self)
         db.session.commit()
         return "Your workshop has been deleted", 200
