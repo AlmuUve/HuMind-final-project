@@ -3,17 +3,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import injectContext from "./store/appContext";
 
-import { SignUp } from "./pages/signup";
-import { Profile } from "./pages/profile";
-import { Register } from "./pages/register";
-import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { Navbarpage } from "../js/component/navbar.jsx";
 import { Landing } from "./pages/landing";
-import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
-import { Footer } from "./component/footer";
-import { LogIn } from "./pages/login";
+import { SignUp } from "./pages/signup";
+import { UserLogIn } from "./pages/login";
+import { Profile } from "./pages/profile";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
-import { Navbarpage } from "../js/component/navbar.jsx";
+import { Footer } from "./component/footer";
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -23,29 +20,23 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
-					<Route exact path="/psychologist/register">
-						<PsychologistRegistrationForm />
-					</Route>
-					<Route exact path="/company/register">
-						<CompanyRegistrationForm />
-					</Route>
 					<Route exact path="/">
 						<Landing />
+					</Route>
+					<Route exact path="/login">
+						<UserLogIn />
+					</Route>
+					<Route exact path="/signup">
+						<SignUp />
+					</Route>
+					<Route exact path="/profile">
+						<Profile />
 					</Route>
 					<Route exact path="/add_workshop">
 						<Addworkshop />
 					</Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
-					</Route>
-					<Route exact path="/profile">
-						<Profile />
-					</Route>
-					<Route exact path="/register">
-						<Register />
-					</Route>
-					<Route exact path="/login">
-						<LogIn />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>

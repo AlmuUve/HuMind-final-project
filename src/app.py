@@ -98,7 +98,7 @@ def add_user():
     is_psychologist = body.get("is_psychologist", None)
     description = body.get("description", None)
 
-    if not email or not _password or not is_psychologist:
+    if not email or not _password or is_psychologist is None:
         return "Missing info", 400
 
     password_hashed = generate_password_hash( _password, method='pbkdf2:sha256', salt_length=8)
@@ -135,7 +135,7 @@ def add_user():
     return jsonify(company.to_dict()), 201
 
 @app.route('/user/<int:id>', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_user(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
@@ -224,7 +224,7 @@ def add_category():
     return jsonify(new_category.to_dict())
 
 @app.route('/user/search_workshop/<int:id>', methods=['PUT'])
-def update_workshop(id):
+def update_search_workshop(id):
     body = request.get_json()
     search_workshop = Search_workshop.get_by_id(id)
 

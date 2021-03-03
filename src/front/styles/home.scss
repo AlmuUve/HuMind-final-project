@@ -213,23 +213,29 @@ $title_font:   'Oswald', sans-serif;
 
 .workshopInput{
     height: 2.5rem;
-    border: none;
     border-radius: 0%;
-    background-color: $secondary_blue;
+    background-color: white;
+    border: 3px solid $secondary_blue;
     padding-left: 1rem;
     font-size: 0.8rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
 }
 
+.workshopInput:valid{
+    background-color: $secondary_blue;
+}
 .workshopTextArea{
     height: 10rem;
-    border: none;
-    background-color: $secondary_blue;
+    background-color: white;
+    border: 3px solid $secondary_blue;
     font-size: 0.8rem;
     padding-left: 1rem;
     padding-top: 0.7rem;
     margin-bottom: 1rem;
+}
+.workshopTextArea:valid{
+    background-color: $secondary_blue;
 }
 
 .workshopInput, .workshopTextArea:focus{
@@ -243,9 +249,10 @@ $title_font:   'Oswald', sans-serif;
     margin: 2rem 0 2rem 0;
 }
 
-.avatarButton{
+.formAvatar{
     height: 10rem;
     width: 10rem;
+    border-radius: 100%;
 }
 
 .notShow {

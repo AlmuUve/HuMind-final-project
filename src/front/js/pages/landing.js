@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { LandingButton } from "../component/landingButton";
+import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const Landing = () => (
@@ -56,6 +57,8 @@ export const Landing = () => (
 				</p>
 			</div>
 		</div>
-		<LandingButton className="landingButton " />
+		<Link to="/signup">
+			<LandingButton className="landingButton " />
+		</Link>
 	</Fragment>
 );
