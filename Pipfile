@@ -20,6 +20,8 @@ flask-admin = "*"
 flask-jwt-extended = "*"
 passlib = "*"
 werkzeug = "*"
+requests = "*"
+mailchimp-transactional = "*"
 
 [requires]
 python_version = "3.8"
