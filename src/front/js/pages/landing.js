@@ -1,11 +1,21 @@
-import React, { Component, Fragment } from "react";
+import React, { useContext, Component, Fragment } from "react";
+import { Context } from "../store/appContext";
+
 import { LandingButton } from "../component/landingButton";
 import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
-export const Landing = () => (
-	<Fragment>
-		<div className="coverContainer">
+import { SearchWorkshopCard } from "../component/searchworkshopcard";
+
+export const Landing = () => {
+	const { store, actions } = useContext(Context);
+	let listSearchWorkshops = store.searchWorkshops.map((item, index) => {
+		console.log(listSearchWorkshops);
+		return <SearchWorkshopCard item={item} key={index.toString()} />;
+	});
+	return (
+		<Fragment>
+			{/* <div className="coverContainer">
 			<img className="coverPic" src="https://i.imgur.com/LsTHJu1.png" />
 			<h3 className="card-img-overlay coverText">FOR COMPANIES COMMITED TO THEIR EMPLOYEES</h3>
 		</div>
@@ -59,6 +69,9 @@ export const Landing = () => (
 		</div>
 		<Link to="/signup">
 			<LandingButton className="landingButton " />
-		</Link>
-	</Fragment>
-);
+		</Link> */}
+
+			<div>{listSearchWorkshops}</div>
+		</Fragment>
+	);
+};

@@ -236,6 +236,11 @@ class Category(db.Model):
         list_of_categories = cls.query.all()
         return list_of_categories
 
+    # @classmethod
+    # def get_by_search_workshop(cls, search_workshop_id):
+    #     category = cls.query.filter_by(search_workshop= search_workshop_id).all()
+    #     return category
+
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -289,6 +294,11 @@ class Search_workshop(db.Model):
     def get_search_workshop_by_id(cls, id):
         search_workshop = cls.query.filter_by(id = id).first()
         return search_workshop
+
+    @classmethod
+    def get_workshop_by_company_id(cls, id):
+        workshop_by_company_id = cls.query.filter_by(user_company_id = id)
+        return workshop_by_company_id
 
     def delete(self):
         db.session.delete(self)
@@ -372,8 +382,8 @@ class Workshop(db.Model):
 
     @classmethod
     def get_workshop_by_psychologist_id(cls, id):
-        workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
-        return workshop_by_psychologist_id
+        workshop_by_psychologist_id = cls.query.filter_by(user_company_id = id)
+        return workshop_by_company_id
 
     def update_workshop(self, 
                         new_title, 

@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			workshops: [],
+			searchWorkshops: [],
 			user: {},
 			// User: {},
 			id: null,
@@ -20,6 +21,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					async res => {
 						const response = await res.json();
 						setStore({ workshops: response });
+					}
+				);
+			},
+
+			getSearchWorkshops: () => {
+				fetch("https://3001-coffee-goldfish-maz00nxu.ws-eu03.gitpod.io/user/company/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						console.log(response);
+						setStore({ searchWorkshops: response });
 					}
 				);
 			},
@@ -70,10 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
 			},
 
 			addNewWorkshop: async workshop => {

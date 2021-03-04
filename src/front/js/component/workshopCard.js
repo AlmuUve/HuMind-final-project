@@ -13,8 +13,9 @@ export const WorkshopCard = props => {
 	return (
 		<div className="workshopCard">
 			<div className="cardInformation">
-				<p className="workshopTitle">{props.item.title}</p>
 				<div className="workshopDetails">
+					<p className="workshopTitle">{props.item.title}</p>
+
 					<span className="date">Date: {props.item.date}</span>
 					<span className="duration">Duration: {props.item.duration} hours</span>
 					<span className="maxPeople">Pax: {props.item.max_people}</span>

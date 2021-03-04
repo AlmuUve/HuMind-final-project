@@ -7,6 +7,7 @@ import { Profiletemplatecompany } from "../component/profilecardcompany.jsx";
 import { Coverphoto } from "../component/coverphoto.jsx";
 import { YellowButton } from "../component/yellowButton";
 import { WorkshopCard } from "../component/workshopCard";
+import { SearchWorkshopCard } from "../component/searchworkshopcard";
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
@@ -15,7 +16,11 @@ export const Profile = () => {
 		return <WorkshopCard item={item} key={index.toString()} />;
 	});
 
-	if (store.help) {
+	let listSearchWorkshops = store.allSearchWorkshops.map((item, index) => {
+		return <SearchWorkshopCard item={item} key={index.toString()} />;
+	});
+
+	if (!store.help) {
 		return (
 			<>
 				<div className="container-fluid">
@@ -45,7 +50,7 @@ export const Profile = () => {
 					<Link to="/add_search_workshop">
 						<YellowButton text="Add Search" />
 					</Link>
-					<div>{userWorkshops}</div>
+					<div>{listSearchWorkshops}</div>
 				</div>
 			</div>
 		</>
