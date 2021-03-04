@@ -20,7 +20,7 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
-#from api.contact import my_request, run, send_simple_message
+from api.contact import my_request, send_simple_message
 
 #from models import Person
 
@@ -37,8 +37,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://uyrytnqiipgfuv:c0fd1d7eb6c6d2ed248bae87b6e267d2d092c500755e4472f4b60f91bd1aaccd@ec2-176-34-222-188.eu-west-1.compute.amazonaws.com:5432/d35kelr9it4mj3"
-
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://eefeevlxreshkr:d146bb37be60b3f4738c19a702c8451749bce99cac723f0791a90dc487e8d649@ec2-3-222-127-167.compute-1.amazonaws.com:5432/dctsjbdludoums"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
