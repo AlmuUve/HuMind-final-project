@@ -20,7 +20,7 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
-from api.contact import my_request, send_simple_message
+# from api.contact import my_request, send_simple_message
 
 #from models import Person
 
