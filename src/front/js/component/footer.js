@@ -27,11 +27,11 @@ export const Footer = () => {
 					<div className="col-4 footer_column">
 						<h2>Conecta</h2>
 						<div className="footer_column_img">
-							<i className="fab fa-linkedin footer_img"></i>
-							<i className="fab fa-facebook footer_img"></i>
-							<i className="fab fa-instagram footer_img"></i>
-							<i className="fab fa-youtube footer_img"></i>
-							<i className="fab fa-twitter footer_img"></i>
+							<i className="fab fa-linkedin footer_img" />
+							<i className="fab fa-facebook footer_img" />
+							<i className="fab fa-instagram footer_img" />
+							<i className="fab fa-youtube footer_img" />
+							<i className="fab fa-twitter footer_img" />
 						</div>
 					</div>
 				</div>
