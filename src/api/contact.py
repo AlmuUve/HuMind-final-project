@@ -4,7 +4,7 @@ from mailchimp_transactional.api_client import ApiClientError
 
 
 
-def run():
+def abc():
   try:
     response = mailchimp.messages.send({"message":message})
     print('API called successfully: {}'.format(response))
