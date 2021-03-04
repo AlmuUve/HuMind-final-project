@@ -20,7 +20,7 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
-# from api.contact import my_request, send_simple_message
+from api.contact import my_request, send_simple_message
 
 #from models import Person
 
@@ -79,10 +79,15 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-# @app.route('/contact')
-# def prueba():
-#    send_simple_message()
-#    return "hemos mandado algo?", 200
+@app.route('/contact')
+def prueba():
+   send_simple_message(
+       "Jose, <jagutierrezc7@gmail.com>",
+       "rafaelagcalves@outlook.com", 
+       "prueba2", 
+       "holaaaaaaaaaa")
+   print(send_simple_message) 
+   return "hemos mandado algo?", 200
 
 
 @app.route('/login', methods=['POST'])
