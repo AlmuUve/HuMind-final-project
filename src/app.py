@@ -20,12 +20,14 @@ from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
 from api.routes import api
 from api.admin import setup_admin
+from api.contact import my_request, run, send_simple_message
+
 #from models import Person
 
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
-app = Flask(__name__, static_folder="./dist", template_folder="./src")
+app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
@@ -35,10 +37,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
-if os.getenv("DATABASE_URL") is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://uyrytnqiipgfuv:c0fd1d7eb6c6d2ed248bae87b6e267d2d092c500755e4472f"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
@@ -64,6 +63,12 @@ def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
+@app.route('/contact')
+def prueba():
+   send_simple_message()
+   return "hemos mandado algo?", 200
+
 
 @app.route('/login', methods=['POST'])
 def handle_login():
