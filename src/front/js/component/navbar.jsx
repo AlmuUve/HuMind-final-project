@@ -53,11 +53,14 @@ export const Navbarpage = props => {
 		</Nav>
 	);
 
-	useEffect(() => {
-		if (store.id != null) {
-			setNavbar(navbarLog);
-		}
-	}, [store.id]);
+	useEffect(
+		() => {
+			if (store.id != null) {
+				setNavbar(navbarLog);
+			}
+		},
+		[store.id]
+	);
 
 	return (
 		<>
