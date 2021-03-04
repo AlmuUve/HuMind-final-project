@@ -23,7 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getUser: id => {
 				console.log(id);
-				fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id).then(async res => {
+				fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
@@ -32,7 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -59,29 +59,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				localStorage.setItem("user", JSON.stringify(user));
+				console.log(user);
 				// setStore({ idForGetMethod: response.user_id });
 				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
 				console.log(getStore().user);
 			},
 
-			editUserProfile: async (
-				name,
-				lastname,
-				identity_number,
-				association_number,
-				speciality,
-				company_name,
-				company_number,
-				facebook,
-				instagram,
-				twitter,
-				linkedIn,
-				youTube,
-				description,
-				user_id
-			) => {
-				let response = await fetch("https://assets.breatheco.de/apis/fake/contact/" + id, {
+			editUserProfile: async user_info => {
+				let userId = jwt_decode(localStorage.getItem("token")).sub.id;
+				console.log(userId);
+				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user" + userId, {
 					method: "PUT",
 					mode: "cors",
 					redirect: "follow",
@@ -89,20 +78,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
-						name: name,
-						lastname: lastname,
-						identity_number: identity_number,
-						association_number: association_number,
-						speciality: speciality,
-						company_name: company_name,
-						company_number: company_number,
-						facebook: facebook,
-						instagram: instagram,
-						twitter: twitter,
-						linkedIn: linkedIn,
-						youTube: youTube,
-						description: description,
-						user_id: user_id
+						name: user_info.name,
+						lastname: user_info.lastname,
+						identity_number: user_info.identity_number,
+						association_number: user_info.association_number,
+						speciality: user_info.speciality,
+						company_name: user_info.company_name,
+						company_number: user_info.company_number,
+						facebook: user_info.facebook,
+						instagram: user_info.instagram,
+						twitter: user_info.twitter,
+						linkedIn: user_info.linkedIn,
+						youTube: user_info.youTube,
+						description: user_info.description,
+						user_id: user_info.user_id
 					})
 				});
 				response = await response.json();
@@ -156,7 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			login: async (email, password) => {
 				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"

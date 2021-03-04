@@ -6,16 +6,18 @@ import "../../styles/home.scss";
 
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
+	const editUserInfo = JSON.parse(localStorage.getItem("user"));
+	console.log(typeof editUserInfo, "@@@@@@@@@@@@");
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
 		is_psychologist: false,
-		name: "",
+		name: editUserInfo == null ? "" : editUserInfo["name"],
 		lastname: "",
 		identity_number: "",
 		association_number: "",
 		speciality: "",
-		company_name: "",
+		company_name: editUserInfo == null ? "" : editUserInfo["company_name"],
 		company_number: "",
 		facebook: "",
 		instagram: "",
@@ -28,6 +30,7 @@ export const CompanyRegistrationForm = () => {
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
 	};
+	console.log(user.company_name);
 	return (
 		<Fragment>
 			<form className="container formAddWorkshop">
@@ -51,6 +54,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Enter Your Company Name Here"
 								name="company_name"
 								id="company_name"
+								defaultValue={user.company_name}
 								required
 							/>
 						</div>
@@ -173,7 +177,7 @@ export const CompanyRegistrationForm = () => {
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
-									actions.addNewUser(user);
+									editUserInfo == null ? actions.addNewUser(user) : actions.editUserProfile(user);
 								}}
 							/>
 						</Link>
