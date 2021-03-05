@@ -13,7 +13,7 @@ export const Profiletemplatecompany = props => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="col-lg-4 col-sm-12 profileCard">
+		<>
 			<div className="imgProfile">
 				<img className="avatar" src="https://assets.breatheco.de/apis/img/icon/4geeks.png" />
 			</div>
@@ -27,6 +27,6 @@ export const Profiletemplatecompany = props => {
 				</div>
 				<YellowButton text="Edit Profile" />
 			</div>
-		</div>
+		</>
 	);
 };
