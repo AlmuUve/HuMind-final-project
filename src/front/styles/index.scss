@@ -594,11 +594,15 @@ h3{
 .deleteButton{
     position: absolute;
     right: 0%;
+    border: none;
+    background-color: white;
 }
 
 .editButton{
     position: absolute;
     right: 1rem;
+    border: none;
+    background-color: white;
 }
 
 .yellowButton{
