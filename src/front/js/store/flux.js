@@ -65,48 +65,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewWorkshop: async workshop => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/psychologist/workshop/1",
-					{
-						method: "POST",
-						mode: "cors",
-						redirect: "follow",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							title: workshop.title,
-							category_info: workshop.category,
-							duration: workshop.duration,
-							price: workshop.price,
-							date: workshop.date,
-							max_people: workshop.max_people,
-							description: workshop.description
-						})
-					}
-				);
+				let response = await fetch("https://humind.herokuapp.com/user/psychologist/workshop/1", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						title: workshop.title,
+						category_info: workshop.category,
+						duration: workshop.duration,
+						price: workshop.price,
+						date: workshop.date,
+						max_people: workshop.max_people,
+						description: workshop.description
+					})
+				});
 				response = await response.json();
 			},
 
 			addNewSearchWorkshop: async searchWorkshop => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/company/searchworkshop/2",
-					{
-						method: "POST",
-						mode: "cors",
-						redirect: "follow",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							category_id: parseInt(searchWorkshop.category),
-							duration: searchWorkshop.duration,
-							price: searchWorkshop.price,
-							date: searchWorkshop.date,
-							max_people: searchWorkshop.max_people
-						})
-					}
-				);
+				let response = await fetch("https://humind.herokuapp.com/user/company/searchworkshop/2", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						category_id: parseInt(searchWorkshop.category),
+						duration: searchWorkshop.duration,
+						price: searchWorkshop.price,
+						date: searchWorkshop.date,
+						max_people: searchWorkshop.max_people
+					})
+				});
 				response = await response.json();
 			},
 
@@ -201,6 +195,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					}
 				);
+				response = await response.json();
+			},
+
+			sendEmail: async email => {
+				console.log("esto es lo que seria el email", email);
+				let response = await fetch("https://humind.herokuapp.com/contact", {
+					method: "PUT",
+					body: JSON.stringify({
+						email_from: email.email_from,
+						email_to: email.email_to,
+						subject: email.subject,
+						message: email.message
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
 				response = await response.json();
 			}
 		}
