@@ -53,14 +53,16 @@ export const Navbarpage = props => {
 		if (store.id != null) {
 			setNavbar(navbarLog);
 		}
-		store.user.is_psychologist
-			? setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
-			  )
-			: setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-			  );
-	}, [store.id]);
+		if (store.help) {
+			setNavbarAvatar(
+				"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+			);
+		} else {
+			setNavbarAvatar(
+				"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+			);
+		}
+	}, [store.id, store.help]);
 
 	return (
 		<>

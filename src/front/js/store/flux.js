@@ -5,9 +5,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			token: "",
 			user: {},
-			// User: {},
 			id: null,
-			help: null,
+			help: false,
 			LoggedUser: {},
 			password: "",
 			email: "",
@@ -22,11 +21,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setPasswordFlux: new_password => {
 				setStore({ password: new_password });
 			},
+			setHelp: is_psychologist => {
+				setStore({ help: is_psychologist });
+			},
 			getUser: id => {
-				fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id).then(async res => {
+				fetch("https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
-					setStore({ help: response.is_psychologist });
 					setStore({ id: response.id });
 					response.is_psychologist
 						? setStore({ psychologistId: response.id })
@@ -35,7 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -69,9 +70,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewWorkshop: async (workshop, id) => {
-				console.log(id);
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/psychologist/" + id + "/workshop",
+					"https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/psychologist/" + id + "/workshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -95,7 +95,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addNewSearchWorkshop: async (searchWorkshop, id) => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/company/" + id + "/searchworkshop",
+					"https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/company/" + id + "/searchworkshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -116,8 +116,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -131,13 +130,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("token", token.token);
 				getActions().decode();
 				getActions().getUser(getStore().LoggedUser.id);
+				getActions().setHelp(getStore().LoggedUser.is_psychologist);
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
 				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id, decoded.sub.is_psychologist);
-				console.log(getStore().LoggedUser);
 			},
 
 			setLoggedUser: (new_email, new_id, new_is_psychologist) => {
@@ -151,7 +150,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editWorkshop: async workshop => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/workshop/1", {
+				let response = await fetch("https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/workshop/1", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -171,7 +170,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editSearchWorkshop: async search_workshop => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/search_workshop/1",
+					"https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/search_workshop/1",
 					{
 						method: "PUT",
 						body: JSON.stringify({
@@ -190,7 +189,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteProfile: async id => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id, {
+				let response = await fetch("https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -201,7 +200,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					"https://3001-amber-flea-268kcokw.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({

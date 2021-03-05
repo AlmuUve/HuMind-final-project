@@ -174,6 +174,7 @@ export const CompanyRegistrationForm = () => {
 								text="Submit"
 								onClickForm={() => {
 									actions.addNewUser(user);
+									actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>

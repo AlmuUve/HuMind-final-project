@@ -223,6 +223,7 @@ export const PsychologistRegistrationForm = props => {
 								text="Submit"
 								onClickForm={() => {
 									actions.addNewUser(user);
+									actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>

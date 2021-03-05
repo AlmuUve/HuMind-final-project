@@ -10,9 +10,6 @@ import { YellowButton } from "../component/yellowButton";
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
 
-	console.log(store.psychologistId);
-	console.log(store.companyId);
-
 	if (store.help) {
 		return (
 			<>
@@ -29,21 +26,21 @@ export const Profile = () => {
 				</div>
 			</>
 		);
-	}
-
-	return (
-		<>
-			<div className="container-fluid">
-				<Coverphoto photo="coverPhotoCompany" />
-			</div>
-			<div className="container-fluid">
-				<div className="row">
-					<Profiletemplatecompany />
-					<Link to="/add_search_workshop">
-						<YellowButton text="Add Search" />
-					</Link>
+	} else {
+		return (
+			<>
+				<div className="container-fluid">
+					<Coverphoto photo="coverPhotoCompany" />
 				</div>
-			</div>
-		</>
-	);
+				<div className="container-fluid">
+					<div className="row">
+						<Profiletemplatecompany />
+						<Link to="/add_search_workshop">
+							<YellowButton text="Add Search" />
+						</Link>
+					</div>
+				</div>
+			</>
+		);
+	}
 };
