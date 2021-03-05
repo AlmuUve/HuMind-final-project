@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			workshop: [],
 			workshops: [],
 			user: {},
 			// User: {},
@@ -17,6 +18,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getWorkshops: () => {
 				fetch("https://3001-amber-jaguar-5k0jfiuy.ws-eu03.gitpod.io/user/psychologist/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshops: response });
+					}
+				);
+			},
+
+			getOneWorkshop: () => {
+				fetch("https://3001-amber-jaguar-5k0jfiuy.ws-eu03.gitpod.io/user/psychologist/1/workshop/1").then(
 					async res => {
 						const response = await res.json();
 						setStore({ workshops: response });

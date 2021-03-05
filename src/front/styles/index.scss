@@ -564,7 +564,6 @@ h3{
     margin-top: 1rem;
     width: 60%;
     height: fit-content;
-    border-style: solid;
     border: 3px solid $background_color;
     padding: 1.5rem;
 }
@@ -601,8 +600,64 @@ h3{
     right: 1rem;
 }
 
-.yellowButton{
+.yellowButton_workshopCard{
     position: absolute;
     bottom: 0%;
     right: 0%;
+}
+
+/* Workshop Detail */
+.profile_workshopDetail{
+    background-color: $background_color;
+    height: 100%;
+}
+
+.imgProfile_workshop_detail{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center; 
+}
+
+.workshopDetailCard{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    height: fit-content;
+    border-style: solid;
+    border: 3px solid $background_color;
+    padding: 1.5rem;
+}
+
+.crossButton{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+.workshopTitle{
+    font-family: $title_font;
+}
+
+.workshopDetailDetails{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.description{
+    margin-left: 0%;
+}
+
+.video{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+.yellowButton{
+    align-self: center;
 }

@@ -17,6 +17,7 @@ import { Profile } from "./pages/profile";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Footer } from "./component/footer";
+import { WorkshopDetail } from "./component/workshopdetail";
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -26,6 +27,9 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
+					<Route exact path="/home">
+						<WorkshopDetail />
+					</Route>
 					<Route exact path="/">
 						<Landing />
 					</Route>
