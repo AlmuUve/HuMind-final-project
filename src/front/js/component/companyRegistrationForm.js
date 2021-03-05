@@ -13,18 +13,18 @@ export const CompanyRegistrationForm = () => {
 		password: store.password,
 		is_psychologist: false,
 		name: editUserInfo == null ? "" : editUserInfo["name"],
-		lastname: "",
-		identity_number: "",
-		association_number: "",
-		speciality: "",
+		lastname: editUserInfo == null ? "" : editUserInfo["lastname"],
+		identity_number: editUserInfo == null ? "" : editUserInfo["identity_number"],
+		association_number: editUserInfo == null ? "" : editUserInfo["association_number"],
+		speciality: editUserInfo == null ? "" : editUserInfo["speciality"],
 		company_name: editUserInfo == null ? "" : editUserInfo["company_name"],
-		company_number: "",
-		facebook: "",
-		instagram: "",
-		twitter: "",
-		linkedIn: "",
-		youTube: "",
-		description: ""
+		company_number: editUserInfo == null ? "" : editUserInfo["company_number"],
+		facebook: editUserInfo == null ? "" : editUserInfo["facebook"],
+		instagram: editUserInfo == null ? "" : editUserInfo["instagram"],
+		twitter: editUserInfo == null ? "" : editUserInfo["twitter"],
+		linkedIn: editUserInfo == null ? "" : editUserInfo["linkedIn"],
+		youTube: editUserInfo == null ? "" : editUserInfo["youTube"],
+		description: editUserInfo == null ? "" : editUserInfo["description"]
 	});
 
 	const inputChange = event => {
@@ -69,6 +69,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Enter Your Company Number Here"
 								name="company_number"
 								id="company_number"
+								defaultValue={user.company_number}
 								required
 							/>
 						</div>
@@ -97,6 +98,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Facebook profile here"
 								name="facebook"
 								id="facebook"
+								defaultValue={user.facebook}
 								required
 							/>
 						</div>
@@ -111,6 +113,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Instagram profile here"
 								name="instagram"
 								id="instagram"
+								defaultValue={user.instagram}
 								required
 							/>
 						</div>
@@ -125,6 +128,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Twitter profile here"
 								name="twitter"
 								id="twitter"
+								defaultValue={user.twitter}
 								required
 							/>
 						</div>
@@ -139,6 +143,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your LinkedIn profile here"
 								name="linkedIn"
 								id="linkedIn"
+								defaultValue={user.linkedIn}
 								required
 							/>
 						</div>
@@ -153,6 +158,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your YouTube profile here"
 								name="youTube"
 								id="youTube"
+								defaultValue={user.youTube}
 								required
 							/>
 						</div>
@@ -167,6 +173,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Write a description here"
 								form="usrform"
 								id="description"
+								defaultValue={user.description}
 								required
 							/>
 						</div>

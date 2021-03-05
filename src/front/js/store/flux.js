@@ -60,41 +60,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				localStorage.setItem("user", JSON.stringify(user));
-				console.log(user);
 				// setStore({ idForGetMethod: response.user_id });
 				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
 			},
 
 			editUserProfile: async user_info => {
-				let userId = jwt_decode(localStorage.getItem("token")).sub.id;
-				console.log(userId);
-				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user" + userId, {
-					method: "PUT",
-					mode: "cors",
-					redirect: "follow",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						name: user_info.name,
-						lastname: user_info.lastname,
-						identity_number: user_info.identity_number,
-						association_number: user_info.association_number,
-						speciality: user_info.speciality,
-						company_name: user_info.company_name,
-						company_number: user_info.company_number,
-						facebook: user_info.facebook,
-						instagram: user_info.instagram,
-						twitter: user_info.twitter,
-						linkedIn: user_info.linkedIn,
-						youTube: user_info.youTube,
-						description: user_info.description,
-						user_id: user_info.user_id
-					})
-				});
+				// let user_id = localStorage.getItem("user");
+				// console.log(user_id, "QUE ES ESTOOOOOO");
+				console.log(user_info, "QUE ES ESTOOOOOOO");
+				let response = await fetch(
+					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.id,
+					{
+						method: "PUT",
+						body: JSON.stringify({
+							name: user_info.name,
+							lastname: user_info.lastname,
+							identity_number: user_info.identity_number,
+							association_number: user_info.association_number,
+							speciality: user_info.speciality,
+							company_name: user_info.company_name,
+							company_number: user_info.company_number,
+							facebook: user_info.facebook,
+							instagram: user_info.instagram,
+							twitter: user_info.twitter,
+							linkedIn: user_info.linkedIn,
+							youTube: user_info.youTube,
+							description: user_info.description,
+							user_id: user_info.user_id
+						})
+					}
+				);
 				response = await response.json();
+				console.log(response, "HXSCSFYRVFDCDS");
 			},
 
 			addNewWorkshop: async workshop => {

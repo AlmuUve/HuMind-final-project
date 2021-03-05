@@ -135,7 +135,6 @@ def add_user():
     return jsonify(company.to_dict()), 201
 
 @app.route('/user/<int:id>', methods=['GET'])
-# @jwt_required()
 def get_user(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
@@ -162,7 +161,6 @@ def update_user(id):
         return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
-@jwt_required()
 def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
