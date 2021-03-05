@@ -6,6 +6,8 @@
 !.github
 php_errorlog
 .log
+.env
+.env.example
 
 # do not ignore gitpod files
 !.gitpod.Dockerfile
