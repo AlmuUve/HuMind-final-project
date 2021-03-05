@@ -4,9 +4,19 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton";
+import { Categorylabel } from "./categorylabel";
 
-export const WorkshopDetail = props => {
+export const WorkshopDetail = () => {
 	const { actions, store } = useContext(Context);
+
+	console.log(store.categories, "soy un super array");
+
+	let workshopDetailCategory =
+		store.categories.length != 0
+			? store.categories.map((item, index) => {
+					return <Categorylabel item={item} key={index.toString()} />;
+			  })
+			: "loading";
 
 	return (
 		<div className="container-fluid workshopDetail row">
@@ -21,31 +31,17 @@ export const WorkshopDetail = props => {
 					<i className="fas fa-times crossButton" />
 				</Link>
 				<p className="workshopTitle">
-					TITLE AND PSYCHOLOGIST NAME
-					{props.item.name} {props.item.lastname} {props.item.title}
+					{store.workshop.name} {store.workshop.lastname} {store.workshop.title}
 				</p>
 				<div className="workshopDetailDetails">
 					<span className="categories">
 						Category:
-						{props.item.category_info}
+						{workshopDetailCategory}
 					</span>
-					<span className="date">
-						Date:
-						{props.item.date}
-					</span>
-					<span className="duration">
-						Duration:
-						{props.item.duration}
-						hours
-					</span>
-					<span className="maxPeople">
-						Pax:
-						{props.item.max_people}
-					</span>
-					<span className="description">
-						Description:
-						{props.item.description}
-					</span>
+					<span className="date">Date: {store.workshop.date}</span>
+					<span className="duration">Duration: {store.workshop.duration}</span>
+					<span className="maxPeople">Pax: {store.workshop.max_people}</span>
+					<span className="description">Description: {store.workshop.description}</span>
 					<iframe className="video" width="420" height="315" src="https://youtu.be/N6pji9kEO10"></iframe>
 					<YellowButton className="workshopDetail_contactButton" text="Contact" />
 				</div>
@@ -55,6 +51,6 @@ export const WorkshopDetail = props => {
 };
 
 WorkshopDetail.propTypes = {
-	item: PropTypes.object,
+	// item: PropTypes.object,
 	yellowButtonText: PropTypes.string
 };

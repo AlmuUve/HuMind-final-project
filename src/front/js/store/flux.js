@@ -3,8 +3,9 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			workshop: [],
+			workshop: {},
 			workshops: [],
+			categories: [],
 			user: {},
 			// User: {},
 			id: null,
@@ -26,12 +27,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getOneWorkshop: () => {
-				fetch("https://3001-amber-jaguar-5k0jfiuy.ws-eu03.gitpod.io/user/psychologist/1/workshop/1").then(
-					async res => {
-						const response = await res.json();
-						setStore({ workshop: response });
-					}
-				);
+				fetch("https://3001-indigo-orangutan-jej9v96a.ws-eu03.gitpod.io/workshop/1").then(async res => {
+					const response = await res.json();
+					setStore({ workshop: response });
+					setStore({ categories: response.categories });
+				});
 			},
 
 			setEmailFlux: new_email => {
