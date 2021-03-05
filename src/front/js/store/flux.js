@@ -29,7 +29,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch("https://3001-amber-jaguar-5k0jfiuy.ws-eu03.gitpod.io/user/psychologist/1/workshop/1").then(
 					async res => {
 						const response = await res.json();
-						setStore({ workshops: response });
+						setStore({ workshop: response });
 					}
 				);
 			},

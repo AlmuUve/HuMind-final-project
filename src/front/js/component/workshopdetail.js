@@ -22,29 +22,29 @@ export const WorkshopDetail = props => {
 				</Link>
 				<p className="workshopTitle">
 					TITLE AND PSYCHOLOGIST NAME
-					{/* {props.item.name} {props.item.lastname} {props.item.title} */}
+					{props.item.name} {props.item.lastname} {props.item.title}
 				</p>
 				<div className="workshopDetailDetails">
 					<span className="categories">
 						Category:
-						{/* {props.item.category_info} */}
+						{props.item.category_info}
 					</span>
 					<span className="date">
 						Date:
-						{/* {props.item.date} */}
+						{props.item.date}
 					</span>
 					<span className="duration">
 						Duration:
-						{/* {props.item.duration}  */}
+						{props.item.duration}
 						hours
 					</span>
 					<span className="maxPeople">
 						Pax:
-						{/* {props.item.max_people} */}
+						{props.item.max_people}
 					</span>
 					<span className="description">
 						Description:
-						{/* {props.item.description} */}
+						{props.item.description}
 					</span>
 					<iframe className="video" width="420" height="315" src="https://youtu.be/N6pji9kEO10"></iframe>
 					<YellowButton className="workshopDetail_contactButton" text="Contact" />

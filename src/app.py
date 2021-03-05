@@ -207,6 +207,11 @@ def get_psychologist_workshops(id):
 
     return jsonify(workshops_to_dict), 200
 
+@app.route('/workshop/<int:id>', methods=['GET'])
+def get_target_workshop(id):
+    target_workshop = Workshop.get_workshop_by_id(id)
+    return jsonify(target_workshop.to_dict()), 200
+
 @app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
