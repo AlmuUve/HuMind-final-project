@@ -1,5 +1,7 @@
 import requests
 
+api_key = ""
+
 def my_request():
     r = requests.get('https://api.github.com/events')
     print(r.json())
@@ -11,6 +13,6 @@ def send_simple_message(email_from, email_to, subject, text):
 		data={"from": email_from,
 			"to": [email_to],
 			"subject": subject,
-			"text": text}
+			"text": message}
             )
   

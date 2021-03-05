@@ -79,15 +79,20 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-@app.route('/contact')
-def prueba():
-   send_simple_message(
-       "Jose, <jagutierrezc7@gmail.com>",
-       "rafaelagcalves@outlook.com", 
-       "prueba2", 
-       "holaaaaaaaaaa")
-   print(send_simple_message) 
-   return "hemos mandado algo?", 200
+@app.route('/contact', methods=['POST'])
+def send_email():
+    body = request.get_json()
+    email_from = body.get("email_from")
+    email_to = body.get("email_to")
+    subject = body.get("subject")
+    message = body.get("message")
+    print(body)
+    send_simple_message(
+       email_from,
+       email_to, 
+       subject, 
+       message)
+    return "hemos mandado algo?", 200
 
 
 @app.route('/login', methods=['POST'])
