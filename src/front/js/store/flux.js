@@ -22,7 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getUser: id => {
 				console.log(id);
-				fetch("https://humind.herokuapp.com/user/" + id).then(async res => {
+				fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
@@ -31,7 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://humind.herokuapp.com/user", {
+				let response = await fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
