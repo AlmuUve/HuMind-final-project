@@ -20,14 +20,10 @@ export const Profile = () => {
 				<div className="container">
 					<div className="row">
 						<Profiletemplatepsy />
-						<div className="row">
-							<Link to="/add_workshop">
-								<YellowButton text="Add Workshop" />
-							</Link>
-						</div>
-						<div className="row">
-							<Email />
-						</div>
+						<Link to="/add_workshop">
+							<YellowButton text="Add Workshop" />
+						</Link>
+						<Email />
 					</div>
 				</div>
 			</>
