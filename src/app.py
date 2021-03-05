@@ -37,8 +37,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://eefeevlxreshkr:d146bb37be60b3f4738c19a702c8451749bce99cac723f0791a90dc487e8d649@ec2-3-222-127-167.compute-1.amazonaws.com:5432/dctsjbdludoums"
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
 # database condiguration
 # if os.getenv("DATABASE_URL") is not None:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')

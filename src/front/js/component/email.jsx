@@ -20,7 +20,7 @@ export const Email = () => {
 	return (
 		<Fragment>
 			<form className="container formAddWorkshop">
-				<div className="container">
+				<div className="container col-8">
 					<div className="row">
 						<div className="col-12 inputLabel">
 							<label htmlFor="subject" className="titleInputs">
