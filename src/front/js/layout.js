@@ -29,7 +29,7 @@ const Layout = () => {
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
-					<Route exact path="/profile">
+					<Route exact path="/profile/:id">
 						<Profile />
 					</Route>
 					<Route exact path="/add_workshop">

@@ -9,6 +9,8 @@ export const UserLogIn = props => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const profilePath = "/people/" + store.user.name;
+
 	return (
 		<div className="logIn_body d-flex justify-content-center ">
 			<div className="logIn_leftColumn col-md-5 col-sm-12">
@@ -40,7 +42,8 @@ export const UserLogIn = props => {
 							setPassword(e.target.value);
 						}}
 					/>
-					<Link to="/profile">
+					{/* PONGO /FEED EN EL LINK PORQUE AL LOGEAR REDIRIGIREMOS AL FEED Y QUITAREMOS /PROFILE */}
+					<Link to="/profile/feed">
 						<button
 							className="logIn_submit"
 							onClick={() => {
