@@ -8,6 +8,7 @@ import { Landing } from "./pages/landing";
 import { SignUp } from "./pages/signup";
 import { UserLogIn } from "./pages/login";
 import { Profile } from "./pages/profile";
+import { Editprofile } from "./pages/editprofile";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Footer } from "./component/footer";
@@ -37,6 +38,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
+					</Route>
+					<Route exact path="/edit_profile">
+						<Editprofile />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>

@@ -77,7 +77,6 @@ class User(db.Model):
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
         user.email= user_data["email"]
-        user._password= user_data["_password"]
         user.description= user_data["description"]
         user.facebook= user_data["facebook"]
         user.instagram= user_data["instagram"]
@@ -138,9 +137,11 @@ class User_company(db.Model):
 
     @classmethod    
     def update_company_user(cls, user_data, id):
-        user= cls.query.filter_by(id = id).first()
+        user= cls.query.filter_by(user_id = id).first()
+        print(user)
         user.company_name= user_data["company_name"]
-        db.session.commit()   
+        db.session.commit()  
+        return user 
 
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
@@ -204,10 +205,12 @@ class User_psychologist(db.Model):
     @classmethod
     def update_psychologist_user(cls, user_data, id):
         user= cls.query.filter_by(user_id = id).first()
+        print(user, "@@@@@@@@")
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
         db.session.commit()
+        return user
 
        
 

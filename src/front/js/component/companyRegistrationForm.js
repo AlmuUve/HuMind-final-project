@@ -1,36 +1,44 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
-	const editUserInfo = JSON.parse(localStorage.getItem("user"));
-	console.log(typeof editUserInfo, "@@@@@@@@@@@@");
+	const tokenInStorage = JSON.parse(localStorage.getItem("token"));
+	const [editUserInfo, setEditUserInfo] = useState(null);
+	if (tokenInStorage != null) {
+		console.log("holakkkasjduhfrferfb");
+		actions.decode();
+		console.log(store.LoggedUser, "HASTA LAS NARICESSSS");
+		actions.getNewUser(store.LoggedUser.id);
+	}
+	console.log(editUserInfo, "BLAHBLAHBLAH");
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
 		is_psychologist: false,
-		name: editUserInfo == null ? "" : editUserInfo["name"],
-		lastname: editUserInfo == null ? "" : editUserInfo["lastname"],
-		identity_number: editUserInfo == null ? "" : editUserInfo["identity_number"],
-		association_number: editUserInfo == null ? "" : editUserInfo["association_number"],
-		speciality: editUserInfo == null ? "" : editUserInfo["speciality"],
-		company_name: editUserInfo == null ? "" : editUserInfo["company_name"],
-		company_number: editUserInfo == null ? "" : editUserInfo["company_number"],
-		facebook: editUserInfo == null ? "" : editUserInfo["facebook"],
-		instagram: editUserInfo == null ? "" : editUserInfo["instagram"],
-		twitter: editUserInfo == null ? "" : editUserInfo["twitter"],
-		linkedIn: editUserInfo == null ? "" : editUserInfo["linkedIn"],
-		youTube: editUserInfo == null ? "" : editUserInfo["youTube"],
-		description: editUserInfo == null ? "" : editUserInfo["description"]
+		name: tokenInStorage == null ? "" : editUserInfo["name"],
+		lastname: tokenInStorage == null ? "" : editUserInfo["lastname"],
+		identity_number: tokenInStorage == null ? "" : editUserInfo["identity_number"],
+		association_number: tokenInStorage == null ? "" : editUserInfo["association_number"],
+		speciality: tokenInStorage == null ? "" : editUserInfo["speciality"],
+		company_name: tokenInStorage == null ? "" : editUserInfo["company_name"],
+		company_number: tokenInStorage == null ? "" : editUserInfo["company_number"],
+		facebook: tokenInStorage == null ? "" : editUserInfo["facebook"],
+		instagram: tokenInStorage == null ? "" : editUserInfo["instagram"],
+		twitter: tokenInStorage == null ? "" : editUserInfo["twitter"],
+		linkedIn: tokenInStorage == null ? "" : editUserInfo["linkedIn"],
+		youTube: tokenInStorage == null ? "" : editUserInfo["youTube"],
+		description: tokenInStorage == null ? "" : editUserInfo["description"]
 	});
+
+	const history = useHistory();
 
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
 	};
-	console.log(user.company_name);
 	return (
 		<Fragment>
 			<form className="container formAddWorkshop">
@@ -184,7 +192,24 @@ export const CompanyRegistrationForm = () => {
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
-									editUserInfo == null ? actions.addNewUser(user) : actions.editUserProfile(user);
+									// editUserInfo == null ? actions.addNewUser(user) : actions.editUserProfile(user);
+									if (tokenInStorage == null) {
+										actions.addNewUser(user).then(() => {
+											actions.login(user.email, user.password);
+											history.push("/profile");
+										});
+									} else {
+										// if (store.id != null) {
+										// 	actions.editUserProfile(user);
+										// }
+										// console.log("holakkkasjduhfrferfb");
+										// actions.decode();
+										// console.log(store.LoggedUser, "HASTA LAS NARICESSSS");
+										// actions.getNewUser(store.LoggedUser.id);
+										console.log(store.user, "USERRRRRRRRRRRRRRRRRRRRR");
+										actions.editUserProfile(user);
+									}
+									// history.push("/profile");
 								}}
 							/>
 						</Link>

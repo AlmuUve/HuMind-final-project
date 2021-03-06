@@ -22,13 +22,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ password: new_password });
 			},
 			getUser: id => {
-				console.log(id);
 				fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
 					setStore({ id: response.id });
 				});
+			},
+			getNewUser: async id => {
+				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id);
+				response = await response.json();
+				setStore({ user: response });
+				setStore({ id: response.id });
 			},
 
 			addNewUser: async user => {
@@ -59,21 +64,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				localStorage.setItem("user", JSON.stringify(user));
+				// let newUser = JSON.stringify(user);
+				// console.log(newUser, "NEWUSERRRRRRRRRRRRRRRR");
+
+				// localStorage.setItem("user", JSON.stringify(user));
 				// setStore({ idForGetMethod: response.user_id });
 				//console.log(getStore().idForGetMethod, "id en el momento POST");
-				getActions().getUser(response.user_id);
+				await getActions().getNewUser(response.user_id);
 			},
 
 			editUserProfile: async user_info => {
-				// let user_id = localStorage.getItem("user");
-				// console.log(user_id, "QUE ES ESTOOOOOO");
 				console.log(user_info, "QUE ES ESTOOOOOOO");
 				let response = await fetch(
 					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.id,
 					{
 						method: "PUT",
 						body: JSON.stringify({
+							email: user_info.name,
 							name: user_info.name,
 							lastname: user_info.lastname,
 							identity_number: user_info.identity_number,
@@ -87,12 +94,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 							linkedIn: user_info.linkedIn,
 							youTube: user_info.youTube,
 							description: user_info.description,
+							is_psychologist: user_info.is_psychologist,
 							user_id: user_info.user_id
 						})
 					}
 				);
 				response = await response.json();
-				console.log(response, "HXSCSFYRVFDCDS");
+
+				console.log(response, "RESPUESTAAAAAAAAAAAA");
 			},
 
 			addNewWorkshop: async workshop => {
@@ -162,13 +171,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
 				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
+				console.log(getStore().LoggedUser);
 			},
 
-			setLoggedUser: (new_email, new_password) => {
+			setLoggedUser: (new_email, new_id) => {
 				setStore({
 					LoggedUser: {
 						email: new_email,
-						password: new_password
+						id: new_id
 					}
 				});
 			},

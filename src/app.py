@@ -147,18 +147,14 @@ def get_user(id):
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):
     body = request.get_json()
-    print(body, "@@@@@@@@@@@@@@@@@@@BODY")
     user = User.update_single_user(body, id)
-    print(user, "##########################")
-    change_user = User.get_by_id(id)
     if user.is_active and user.is_psychologist:
-        user = User_psychologist.update_psychologist_user(body, id)
-        change_user = User_psychologist.get_by_user_id(id)
-        return jsonify(change_user.to_dict())  
+        user_psy = User_psychologist.update_psychologist_user(body, id)
+        return jsonify(user_psy.to_dict())  
     if user.is_active and user.is_psychologist == False:
-        user = User_company.update_company_user(body, id)
-        change_user = User_company.get_by_id(id)
-        return jsonify(change_user.to_dict())
+        user_comp = User_company.update_company_user(body, id)
+        return jsonify(user_comp.to_dict())
+
 
 @app.route('/user/<int:id>', methods=['PATCH'])
 def delete_one_user(id):

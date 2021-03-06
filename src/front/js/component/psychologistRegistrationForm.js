@@ -7,23 +7,24 @@ import { EditButton } from "./editButton";
 
 export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
+	const editUserInfo = JSON.parse(localStorage.getItem("user"));
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
-		is_psychologist: true,
-		name: "",
-		lastname: "",
-		identity_number: "",
-		association_number: "",
-		speciality: "",
-		company_name: "",
-		company_number: "",
-		facebook: "",
-		instagram: "",
-		twitter: "",
-		linkedIn: "",
-		youTube: "",
-		description: ""
+		is_psychologist: false,
+		name: editUserInfo == null ? "" : editUserInfo["name"],
+		lastname: editUserInfo == null ? "" : editUserInfo["lastname"],
+		identity_number: editUserInfo == null ? "" : editUserInfo["identity_number"],
+		association_number: editUserInfo == null ? "" : editUserInfo["association_number"],
+		speciality: editUserInfo == null ? "" : editUserInfo["speciality"],
+		company_name: editUserInfo == null ? "" : editUserInfo["company_name"],
+		company_number: editUserInfo == null ? "" : editUserInfo["company_number"],
+		facebook: editUserInfo == null ? "" : editUserInfo["facebook"],
+		instagram: editUserInfo == null ? "" : editUserInfo["instagram"],
+		twitter: editUserInfo == null ? "" : editUserInfo["twitter"],
+		linkedIn: editUserInfo == null ? "" : editUserInfo["linkedIn"],
+		youTube: editUserInfo == null ? "" : editUserInfo["youTube"],
+		description: editUserInfo == null ? "" : editUserInfo["description"]
 	});
 
 	const inputChange = event => {
@@ -53,6 +54,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Enter your name here"
 								name="name"
 								id="name"
+								defaultValue={user.name}
 								required
 							/>
 						</div>
