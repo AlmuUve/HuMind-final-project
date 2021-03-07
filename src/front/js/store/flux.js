@@ -64,21 +64,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// let newUser = JSON.stringify(user);
-				// console.log(newUser, "NEWUSERRRRRRRRRRRRRRRR");
-
-				// localStorage.setItem("user", JSON.stringify(user));
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				await getActions().getNewUser(response.user_id);
 			},
 
 			editUserProfile: async user_info => {
-				console.log(user_info, "QUE ES ESTOOOOOOO");
 				let response = await fetch(
 					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.id,
 					{
 						method: "PUT",
+						headers: {
+							"Content-Type": "application/json"
+						},
 						body: JSON.stringify({
 							email: user_info.name,
 							name: user_info.name,
@@ -100,8 +96,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
-
-				console.log(response, "RESPUESTAAAAAAAAAAAA");
+				setStore({ user: response });
 			},
 
 			addNewWorkshop: async workshop => {
@@ -171,7 +166,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
 				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
-				console.log(getStore().LoggedUser);
 			},
 
 			setLoggedUser: (new_email, new_id) => {

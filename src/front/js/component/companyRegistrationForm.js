@@ -6,32 +6,25 @@ import "../../styles/home.scss";
 
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
-	const tokenInStorage = JSON.parse(localStorage.getItem("token"));
-	const [editUserInfo, setEditUserInfo] = useState(null);
-	if (tokenInStorage != null) {
-		console.log("holakkkasjduhfrferfb");
-		actions.decode();
-		console.log(store.LoggedUser, "HASTA LAS NARICESSSS");
-		actions.getNewUser(store.LoggedUser.id);
-	}
-	console.log(editUserInfo, "BLAHBLAHBLAH");
+	const tokenInStorage = localStorage.getItem("token");
+
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
 		is_psychologist: false,
-		name: tokenInStorage == null ? "" : editUserInfo["name"],
-		lastname: tokenInStorage == null ? "" : editUserInfo["lastname"],
-		identity_number: tokenInStorage == null ? "" : editUserInfo["identity_number"],
-		association_number: tokenInStorage == null ? "" : editUserInfo["association_number"],
-		speciality: tokenInStorage == null ? "" : editUserInfo["speciality"],
-		company_name: tokenInStorage == null ? "" : editUserInfo["company_name"],
-		company_number: tokenInStorage == null ? "" : editUserInfo["company_number"],
-		facebook: tokenInStorage == null ? "" : editUserInfo["facebook"],
-		instagram: tokenInStorage == null ? "" : editUserInfo["instagram"],
-		twitter: tokenInStorage == null ? "" : editUserInfo["twitter"],
-		linkedIn: tokenInStorage == null ? "" : editUserInfo["linkedIn"],
-		youTube: tokenInStorage == null ? "" : editUserInfo["youTube"],
-		description: tokenInStorage == null ? "" : editUserInfo["description"]
+		name: tokenInStorage == null ? "" : store.user["name"],
+		lastname: tokenInStorage == null ? "" : store.user["lastname"],
+		identity_number: tokenInStorage == null ? "" : store.user["identity_number"],
+		association_number: tokenInStorage == null ? "" : store.user["association_number"],
+		speciality: tokenInStorage == null ? "" : store.user["speciality"],
+		company_name: tokenInStorage == null ? "" : store.user["company_name"],
+		company_number: tokenInStorage == null ? "" : store.user["company_number"],
+		facebook: tokenInStorage == null ? "" : store.user["facebook"],
+		instagram: tokenInStorage == null ? "" : store.user["instagram"],
+		twitter: tokenInStorage == null ? "" : store.user["twitter"],
+		linkedIn: tokenInStorage == null ? "" : store.user["linkedIn"],
+		youTube: tokenInStorage == null ? "" : store.user["youTube"],
+		description: tokenInStorage == null ? "" : store.user["description"]
 	});
 
 	const history = useHistory();
@@ -192,24 +185,14 @@ export const CompanyRegistrationForm = () => {
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
-									// editUserInfo == null ? actions.addNewUser(user) : actions.editUserProfile(user);
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
 											history.push("/profile");
 										});
 									} else {
-										// if (store.id != null) {
-										// 	actions.editUserProfile(user);
-										// }
-										// console.log("holakkkasjduhfrferfb");
-										// actions.decode();
-										// console.log(store.LoggedUser, "HASTA LAS NARICESSSS");
-										// actions.getNewUser(store.LoggedUser.id);
-										console.log(store.user, "USERRRRRRRRRRRRRRRRRRRRR");
 										actions.editUserProfile(user);
 									}
-									// history.push("/profile");
 								}}
 							/>
 						</Link>

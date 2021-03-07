@@ -1,31 +1,33 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../styles/home.scss";
-import { EditButton } from "./editButton";
 
 export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
-	const editUserInfo = JSON.parse(localStorage.getItem("user"));
+	const tokenInStorage = localStorage.getItem("token");
+
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
 		is_psychologist: false,
-		name: editUserInfo == null ? "" : editUserInfo["name"],
-		lastname: editUserInfo == null ? "" : editUserInfo["lastname"],
-		identity_number: editUserInfo == null ? "" : editUserInfo["identity_number"],
-		association_number: editUserInfo == null ? "" : editUserInfo["association_number"],
-		speciality: editUserInfo == null ? "" : editUserInfo["speciality"],
-		company_name: editUserInfo == null ? "" : editUserInfo["company_name"],
-		company_number: editUserInfo == null ? "" : editUserInfo["company_number"],
-		facebook: editUserInfo == null ? "" : editUserInfo["facebook"],
-		instagram: editUserInfo == null ? "" : editUserInfo["instagram"],
-		twitter: editUserInfo == null ? "" : editUserInfo["twitter"],
-		linkedIn: editUserInfo == null ? "" : editUserInfo["linkedIn"],
-		youTube: editUserInfo == null ? "" : editUserInfo["youTube"],
-		description: editUserInfo == null ? "" : editUserInfo["description"]
+		name: tokenInStorage == null ? "" : store.user["name"],
+		lastname: tokenInStorage == null ? "" : store.user["lastname"],
+		identity_number: tokenInStorage == null ? "" : store.user["identity_number"],
+		association_number: tokenInStorage == null ? "" : store.user["association_number"],
+		speciality: tokenInStorage == null ? "" : store.user["speciality"],
+		// company_name: tokenInStorage == null ? "" : store.user["company_name"],
+		// company_number: tokenInStorage == null ? "" : store.user["company_number"],
+		facebook: tokenInStorage == null ? "" : store.user["facebook"],
+		instagram: tokenInStorage == null ? "" : store.user["instagram"],
+		twitter: tokenInStorage == null ? "" : store.user["twitter"],
+		linkedIn: tokenInStorage == null ? "" : store.user["linkedIn"],
+		youTube: tokenInStorage == null ? "" : store.user["youTube"],
+		description: tokenInStorage == null ? "" : store.user["description"]
 	});
+
+	const history = useHistory();
 
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
@@ -69,6 +71,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Enter your lastname here"
 								name="lastname"
 								id="lastname"
+								defaultValue={user.lastname}
 								required
 							/>
 						</div>
@@ -88,7 +91,7 @@ export const PsychologistRegistrationForm = props => {
 							/>
 						</div>
 						<div className="col-6 inputLabel">
-							<label htmlFor="identitynumber" className="titleInputs">
+							<label htmlFor="identity_number" className="titleInputs">
 								<b>Identity Number</b>
 							</label>
 							<input
@@ -97,7 +100,8 @@ export const PsychologistRegistrationForm = props => {
 								className="workshopInput form-control"
 								placeholder="Max.9 characters"
 								name="identity_number"
-								id="identitynumber"
+								id="identity_number"
+								defaultValue={user.identity_number}
 								required
 							/>
 						</div>
@@ -114,6 +118,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Max.9 characters"
 								name="association_number"
 								id="association_number"
+								defaultValue={user.association_number}
 								required
 							/>
 						</div>
@@ -128,6 +133,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your speciality here"
 								name="speciality"
 								id="speciality"
+								defaultValue={user.speciality}
 								required
 							/>
 						</div>
@@ -144,6 +150,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your Facebook profile here"
 								name="facebook"
 								id="facebook"
+								defaultValue={user.facebook}
 								required
 							/>
 						</div>
@@ -158,6 +165,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your Instagram profile here"
 								name="instagram"
 								id="instagram"
+								defaultValue={user.instagram}
 								required
 							/>
 						</div>
@@ -172,6 +180,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your Twitter profile here"
 								name="twitter"
 								id="twitter"
+								defaultValue={user.twitter}
 								required
 							/>
 						</div>
@@ -186,6 +195,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your LinkedIn profile here"
 								name="linkedIn"
 								id="linkedIn"
+								defaultValue={user.linkedIn}
 								required
 							/>
 						</div>
@@ -200,6 +210,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Your YouTube profile here"
 								name="youTube"
 								id="youTube"
+								defaultValue={user.youTube}
 								required
 							/>
 						</div>
@@ -214,6 +225,7 @@ export const PsychologistRegistrationForm = props => {
 								placeholder="Write a description here"
 								form="usrform"
 								id="description"
+								defaultValue={user.description}
 								required
 							/>
 						</div>
@@ -224,7 +236,14 @@ export const PsychologistRegistrationForm = props => {
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
-									actions.addNewUser(user);
+									if (tokenInStorage == null) {
+										actions.addNewUser(user).then(() => {
+											actions.login(user.email, user.password);
+											history.push("/profile");
+										});
+									} else {
+										actions.editUserProfile(user);
+									}
 								}}
 							/>
 						</Link>

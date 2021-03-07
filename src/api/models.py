@@ -76,14 +76,8 @@ class User(db.Model):
     @classmethod
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
-        user.email= user_data["email"]
-        user.description= user_data["description"]
-        user.facebook= user_data["facebook"]
-        user.instagram= user_data["instagram"]
-        user.twitter= user_data["twitter"]
-        user.linkedIn= user_data["linkedIn"]
-        user.youTube= user_data["youTube"]
-        user.is_psychologist= user_data["is_psychologist"]
+        for key, value in user_data.items():
+            setattr(user, key, value)
         db.session.commit()
         return user
 

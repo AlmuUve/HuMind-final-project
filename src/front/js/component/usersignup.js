@@ -126,7 +126,6 @@ export const UserSignUp = props => {
 									isCompany: "isCompany"
 								});
 							}}>
-							{" "}
 							I AM A COMPANY
 						</button>
 					</div>

@@ -146,7 +146,10 @@ def get_user(id):
 
 @app.route('/user/<int:id>', methods=['PUT'])
 def update_user(id):
+    print(request, "REQUEST")
+    print(request.get_json(), "JSONNNNNNNNN")
     body = request.get_json()
+    print(body, "@@@@@@@@@@@@@@@")
     user = User.update_single_user(body, id)
     if user.is_active and user.is_psychologist:
         user_psy = User_psychologist.update_psychologist_user(body, id)
