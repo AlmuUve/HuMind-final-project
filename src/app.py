@@ -273,13 +273,13 @@ def update_workshop(id):
     new_categories = Workshop.get_category_by_name(body['category_info'])
     return jsonify(new_workshop.to_dict(new_categories))
   
-@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
+@app.route('/psychologist/<int:id>/workshop/<int:id>', methods=['DELETE'])
 def delete_one_workshop(id):
     workshop = Workshop.get_workshop_by_id(id)
     workshop.delete()
     return "Your workshop has been deleted", 200
     
-@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
+@app.route('/psychologist/<int:id>/workshop/<int:id>', methods=['DELETE'])
 def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
