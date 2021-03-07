@@ -21,6 +21,9 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
+from api.contact import send_simple_message
+#from models import Person
+
 
 
 ENV = os.getenv("FLASK_ENV")
@@ -35,11 +38,13 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
+# database condiguration
+# if os.getenv("DATABASE_URL") is not None:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# else:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
-if os.getenv("DATABASE_URL") is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -64,6 +69,31 @@ def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
+# any other endpoint will try to serve it like a static file
+@app.route('/<path:path>', methods=['GET'])
+def serve_any_other_file(path):
+    if not os.path.isfile(os.path.join(static_file_dir, path)):
+        path = 'index.html'
+    response = send_from_directory(static_file_dir, path)
+    response.cache_control.max_age = 0 # avoid cache memory
+    return response
+
+@app.route('/contact', methods=['POST'])
+def send_email():
+    body = request.get_json()
+    email_from = body.get("email_from")
+    email_to = body.get("email_to")
+    subject = body.get("subject")
+    message = body.get("message")
+    print(body)
+    send_simple_message(
+       email_from,
+       email_to, 
+       subject, 
+       message)
+    return "hemos mandado algo?", 200
+
 
 @app.route('/login', methods=['POST'])
 def handle_login():

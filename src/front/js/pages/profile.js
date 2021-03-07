@@ -6,6 +6,7 @@ import { Profiletemplatepsy } from "../component/profilecardpsychologist.jsx";
 import { Profiletemplatecompany } from "../component/profilecardcompany.jsx";
 import { Coverphoto } from "../component/coverphoto.jsx";
 import { YellowButton } from "../component/yellowButton";
+import { Email } from "../component/email.jsx";
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
@@ -22,6 +23,7 @@ export const Profile = () => {
 						<Link to="/add_workshop">
 							<YellowButton text="Add Workshop" />
 						</Link>
+						<Email />
 					</div>
 				</div>
 			</>
@@ -39,6 +41,7 @@ export const Profile = () => {
 					<Link to="/add_search_workshop">
 						<YellowButton text="Add Search" />
 					</Link>
+					<Email />
 				</div>
 			</div>
 		</>
