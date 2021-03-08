@@ -8,7 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: "",
 			user: {},
 			id: null,
-			help: false,
+			help: null,
             workshops: [],
 			LoggedUser: {},
 			password: "",
