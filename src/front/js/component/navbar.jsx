@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-bootstrap";
-
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
 
@@ -47,7 +46,12 @@ export const Navbarpage = props => {
 					<NavbarButtons text="Feed" />
 				</Dropdown.ItemText>
 				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons text="Log Out" />
+					<NavbarButtons
+						text="Log Out"
+						onLogOutClick={() => {
+							actions.logout();
+						}}
+					/>
 				</Dropdown.ItemText>
 			</DropdownButton>
 		</Nav>

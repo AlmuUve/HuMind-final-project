@@ -6,7 +6,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			workshops: [],
 			user: {},
 			id: null,
-			help: null,
+            help: null,
+            token: "",
+            workshops: [],
 			LoggedUser: {},
 			password: "",
 			email: "",
@@ -14,6 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 
 		actions: {
+            
 			getWorkshops: () => {
 				fetch("https://humind.herokuapp.com/user/psychologist/1/workshops").then(
 					async res => {
@@ -140,6 +143,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						email: new_email,
 						password: new_password
 					}
+				});
+			},
+
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({
+					LoggedUser: {},
+					token: ""
 				});
 			},
 

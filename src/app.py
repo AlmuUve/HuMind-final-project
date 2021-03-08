@@ -6,7 +6,6 @@ from flask_cors import CORS
 # from flask_login import current_user, login_user
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -18,7 +17,7 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
-from api.contact import send_simple_message
+# from api.contact import send_simple_message
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')

@@ -256,6 +256,7 @@ class Search_workshop(db.Model):
     
     def __repr__(self):
         return f'Search_workshop {self.user_company_id} and {self.id}'
+        
     def to_dict(self):
         new_category = Category.get_by_id(self.category_id)
         return {
@@ -418,7 +419,6 @@ class Workshop(db.Model):
         db.session.delete(self)
         db.session.commit()
         return "Your workshop has been deleted", 200
-    
 
 
 
