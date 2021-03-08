@@ -18,7 +18,7 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
-# from api.contact import send_simple_message
+from api.mail_api import send_simple_message
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -30,12 +30,6 @@ app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 
 jwt = JWTManager(app)
-
-# database condiguration
-# if os.getenv("DATABASE_URL") is not None:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# else:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
