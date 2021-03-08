@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			workshops: [],
 			user: {},
 			id: null,
             help: null,
@@ -71,10 +72,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
 			},
 
 			addNewWorkshop: async workshop => {
@@ -219,7 +217,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				console.log("esto es lo que seria el email", email);
 				let response = await fetch("https://humind.herokuapp.com/contact", {
 					method: "PUT",
 					body: JSON.stringify({
