@@ -32,9 +32,8 @@ export const Profile = () => {
 				</div>
 			</>
 		);
-	}
-
-	return (
+	} else {
+        return (
 		<>
 			<div className="container-fluid">
 				<Coverphoto photo="coverPhotoCompany" />
@@ -54,4 +53,7 @@ export const Profile = () => {
 			</div>
 		</>
 	);
+    }
+
+	
 };

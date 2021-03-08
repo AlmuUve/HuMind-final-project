@@ -46,7 +46,10 @@ export const CompanyRegistrationForm = () => {
 							</label>
 							<input
 								type="text"
-								onChange={inputChange}
+								onChange={e => {
+									inputChange(e);
+									actions.setpathProfileCompany(e.target.value);
+								}}
 								className="workshopInput form-control"
 								placeholder="Enter Your Company Name Here"
 								name="company_name"
@@ -168,12 +171,13 @@ export const CompanyRegistrationForm = () => {
 						</div>
 					</div>
 					<div className="row d-flex justify-content-center mb-5">
-						<Link to="/profile">
+						<Link to={store.pathProfileCompany}>
 							<YellowButton
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
 									actions.addNewUser(user);
+									actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>
