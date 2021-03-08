@@ -33,12 +33,6 @@ jwt = JWTManager(app)
 
 # database condiguration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-# database condiguration
-# if os.getenv("DATABASE_URL") is not None:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# else:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -303,13 +297,13 @@ def update_workshop(id):
 def delete_one_workshop(id):
     workshop = Workshop.get_workshop_by_id(id)
     workshop.delete()
-    return "Your workshop has been deleted", 200
+    return workshop.to_dict(), 200
     
 @app.route('/psychologist/<int:id>/workshop/<int:id>', methods=['DELETE'])
 def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
-    return "Your search has been deleted", 200
+    return search_workshop.to_dict(), 200
 
 
 # this only runs if `$ python src/main.py` is executed
