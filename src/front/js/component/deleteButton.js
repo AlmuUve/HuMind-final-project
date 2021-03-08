@@ -11,7 +11,7 @@ export const DeleteButton = () => {
 					e.preventDefault();
 
 					actions.deleteWorkshop(id);
-					actions.deleteSearchWorkshop(id);
+					// actions.deleteSearchWorkshop(id);
 
 				}}>
             <i className="far fa-trash-alt deleteButton" />

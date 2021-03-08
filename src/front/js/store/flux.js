@@ -3,8 +3,8 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			workshops: [],
 			user: {},
-			// User: {},
 			id: null,
 			help: null,
 			LoggedUser: {},
@@ -14,12 +14,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 
 		actions: {
+			getWorkshops: () => {
+				fetch("https://3001-turquoise-termite-crb3zrev.ws-eu03.gitpod.io/user/psychologist/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshops: response });
+					}
+				);
+			},
+
 			setEmailFlux: new_email => {
 				setStore({ email: new_email });
 			},
+
 			setPasswordFlux: new_password => {
 				setStore({ password: new_password });
 			},
+
 			getUser: id => {
 				console.log(id);
 				fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user/" + id).then(async res => {
@@ -58,10 +69,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
 			},
 
 			addNewWorkshop: async workshop => {
@@ -105,7 +113,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
 				let response = await fetch("https://humind.herokuapp.com/login", {
 					method: "POST",
 					headers: new Headers({
@@ -199,7 +206,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				console.log("esto es lo que seria el email", email);
 				let response = await fetch("https://humind.herokuapp.com/contact", {
 					method: "PUT",
 					body: JSON.stringify({

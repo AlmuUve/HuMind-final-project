@@ -557,5 +557,57 @@ h3{
     font-size: 2rem;
 }
 
+/* Workshop Card*/
+.workshopCard{
+    display: flex;
+    align-self: center;
+    margin-top: 1rem;
+    width: 60%;
+    height: fit-content;
+    border-style: solid;
+    border: 3px solid $background_color;
+    padding: 1.5rem;
+}
+.cardInformation{
+    width: 70%;
+}
 
-//FORMULARIO DE CONTACTO\\
+.workshopTitle{
+    font-family: $text_font;
+    color: $text_color;
+    font-size: 1.5rem;
+}
+
+.workshopDetails{
+    display: flex;
+    flex-direction: column;
+    font-family: $title_font;
+    color: $text_color;
+    font-size: 0.8rem;
+}
+
+.buttons_workshopCard{
+    width: 30%;
+    position: relative;
+}
+
+.deleteButton{
+    position: absolute;
+    right: 0%;
+    border: none;
+    background-color: white;
+}
+
+.editButton{
+    position: absolute;
+    right: 1rem;
+    border: none;
+    background-color: white;
+}
+
+.yellowButton{
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+}
+

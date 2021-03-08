@@ -1,6 +1,3 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory,current_app
 from flask_migrate import Migrate
@@ -15,16 +12,13 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-# from passlib.hash import sha256_crypt
+from passlib.hash import sha256_crypt
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop
+from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop, workshop_has_category
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
 from api.contact import send_simple_message
-#from models import Person
-
-
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -38,7 +32,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 # database condiguration
 # if os.getenv("DATABASE_URL") is not None:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -49,13 +43,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 
-# Allow CORS requests to this API
 CORS(app)
 
-# add the admin
 setup_admin(app)
-
-# Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
@@ -63,12 +53,33 @@ app.register_blueprint(api, url_prefix='/api')
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
 @app.route('/')
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
+
+
+@app.route('/user/company/<int:id>', methods=['GET'])
+def get_user_company_information(id):
+    user = User.get_by_id(id)
+    user_company = User_company.get_by_user_id(user.id)
+    if user.is_active:
+        return jsonify(user_company.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
+
+
+@app.route('/user/psychologist/<int:id>', methods=['GET'])
+def get_user_psychologist_information(id):
+    user = User.get_by_id(id)
+    workshops_list = User_psychologist.get_wokshops_list(id)
+    user_psychologist = User_psychologist.get_by_user_id(user.id)
+    if user.is_active:
+        return jsonify(user_psychologist.to_dict()), 200
+    else:
+        return "This profile doesnt exists", 400
+        
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
@@ -104,7 +115,6 @@ def handle_login():
         )
     if not email or not _password:
         return "Missing info", 400
-      
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
         access_token = create_access_token(
@@ -177,23 +187,25 @@ def get_user(id):
 
 
 @app.route('/user/<int:id>', methods=['PUT'])
-@jwt_required()
+# @jwt_required()
 def update_user(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
     change_user = User.get_by_id(id)
     return jsonify(change_user.to_dict())
 
+
 @app.route('/user/<int:id>/psychologist', methods=['PUT'])
-@jwt_required()
+# @jwt_required()
 def update_psychologist_user(id):
     body = request.get_json()
     user = User_psychologist.update_psychologist_user(body, id)
     change_user = User_psychologist.get_by_user_id(id)
     return jsonify(change_user.to_dict())
+
   
 @app.route('/user/<int:id>/company', methods=['PUT'])
-@jwt_required()
+# @jwt_required()
 def update_company_user(id):
     body = request.get_json()
     user = User_company.update_company_user(body, id)
@@ -201,17 +213,28 @@ def update_company_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
-@jwt_required()
+# @jwt_required()
 def delete_one_user(id):
     user_target = User.delete_user(id)
     return "Your profile has been deleted", 200
 
-#METODOS PARA CATEGORYS Y WORKSHOPS
 
-@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
+@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+def get_psychologist_workshops(id):
+    workshops = Workshop.get_workshop_by_psychologist_id(id)
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
+
+    return jsonify(workshops_to_dict), 200
+
+
+@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
+    
     body = request.get_json()
+
     new_workshop = Workshop(
         title = body.get("title"),
         duration = body.get("duration"),
@@ -221,9 +244,12 @@ def add_workshop(id):
         description = body.get("description"),
         user_psychologist_id = user_psychologist.id,
     )
-    category_list = Workshop.get_category_by_name(body.get("category_info"))
+
     new_workshop.add(body.get("category_info"))
-    return jsonify(new_workshop.to_dict(category_list)), 201
+
+    return jsonify(new_workshop.to_dict(
+        )), 200
+
 
 @app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
 def add_search_workshop(id):
@@ -290,4 +316,3 @@ def delete_one_search_workshop(id):
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
-
