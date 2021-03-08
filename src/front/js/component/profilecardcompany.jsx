@@ -1,7 +1,6 @@
 import React, { Component, useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-import { CompanyRegistrationForm } from "../component/companyRegistrationForm";
+import { Link, useParams } from "react-router-dom";
 import { YellowButton } from "./yellowButton.js";
 import "../../styles/index.scss";
 
@@ -27,7 +26,8 @@ export const Profiletemplatecompany = props => {
 						text="Edit Profile"
 						onClickForm={() => {
 							setEdit(!edit);
-						}}></YellowButton>
+						}}>
+                    </YellowButton>
 				</Link>
 			</div>
 		</div>

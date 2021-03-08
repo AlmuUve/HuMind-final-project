@@ -1,30 +1,11 @@
 import React, { Component, useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-import { PsychologistRegistrationForm } from "../component/psychologistRegistrationForm";
 import { YellowButton } from "./yellowButton.js";
 import "../../styles/index.scss";
 
 export const Profiletemplatepsy = props => {
 	const { store, actions } = useContext(Context);
-	const [user, setUser] = useState({
-		email: store.email,
-		password: store.password,
-		is_psychologist: true,
-		name: "",
-		lastname: "",
-		identity_number: "",
-		association_number: "",
-		speciality: "",
-		company_name: "",
-		company_number: "",
-		facebook: "",
-		instagram: "",
-		twitter: "",
-		linkedIn: "",
-		youTube: "",
-		description: ""
-	});
 	const [edit, setEdit] = useState(false);
 	return (
 		<div className="col-lg-4 col-sm-12 profileCard">

@@ -3,33 +3,36 @@ import jwt_decode from "jwt-decode";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			workshops: [],
 			user: {},
-			// User: {},
 			id: null,
 			help: null,
 			LoggedUser: {},
 			password: "",
-			email: "",
-			idForGetMethod: 39,
-			userProfile: []
+            email: "",
+            userProfile: [],
+			idForGetMethod: 39
 		},
 
 		actions: {
+			getWorkshops: () => {
+				fetch("https://3001-turquoise-termite-crb3zrev.ws-eu03.gitpod.io/user/psychologist/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshops: response });
+					}
+				);
+			},
+
 			setEmailFlux: new_email => {
 				setStore({ email: new_email });
 			},
+
 			setPasswordFlux: new_password => {
 				setStore({ password: new_password });
 			},
-			getUser: id => {
-				fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id).then(async res => {
-					const response = await res.json();
-					setStore({ user: response });
-					setStore({ help: response.is_psychologist });
-					setStore({ id: response.id });
-				});
-			},
-			getNewUser: async id => {
+
+			getUser: async id => {
 				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id);
 				response = await response.json();
 				setStore({ user: response });
@@ -65,7 +68,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				await getActions().getNewUser(response.user_id);
+				await getActions().getUser(response.user_id);
 			},
 
 			editUserProfile: async user_info => {
@@ -125,30 +128,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewSearchWorkshop: async searchWorkshop => {
-				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/company/searchworkshop/2",
-					{
-						method: "POST",
-						mode: "cors",
-						redirect: "follow",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							category_id: parseInt(searchWorkshop.category),
-							duration: searchWorkshop.duration,
-							price: searchWorkshop.price,
-							date: searchWorkshop.date,
-							max_people: searchWorkshop.max_people
-						})
-					}
-				);
+				let response = await fetch("https://humind.herokuapp.com/user/company/searchworkshop/2", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						category_id: parseInt(searchWorkshop.category),
+						duration: searchWorkshop.duration,
+						price: searchWorkshop.price,
+						date: searchWorkshop.date,
+						max_people: searchWorkshop.max_people
+					})
+				});
 				response = await response.json();
 			},
 
 			login: async (email, password) => {
-				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
-				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://humind.herokuapp.com/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -237,6 +236,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					}
 				);
+				response = await response.json();
+			},
+
+			sendEmail: async email => {
+				console.log("esto es lo que seria el email", email);
+				let response = await fetch("https://humind.herokuapp.com/contact", {
+					method: "PUT",
+					body: JSON.stringify({
+						email_from: email.email_from,
+						email_to: email.email_to,
+						subject: email.subject,
+						message: email.message
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
 				response = await response.json();
 			}
 		}

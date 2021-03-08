@@ -23,18 +23,12 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "email": self.email,
-            "is_psychologist": self.is_psychologist,
+        "is_active": self.is_active,
+        "id": self.id,
+        "email": self.email,
+        "is_psychologist": self.is_psychologist,
         }
-    
-    @classmethod
-    def get_by_email(cls, email):
-        return cls.query.filter_by(
-            email = email
-        ).first_or_404(
-            description = f'Error Bitch!'
-        )
+
 
     @classmethod
     def get_by_email(cls, email):
@@ -132,7 +126,6 @@ class User_company(db.Model):
     @classmethod    
     def update_company_user(cls, user_data, id):
         user= cls.query.filter_by(user_id = id).first()
-        print(user)
         user.company_name= user_data["company_name"]
         db.session.commit()  
         return user 
@@ -147,7 +140,7 @@ class User_psychologist(db.Model):
     speciality = db.Column(db.VARCHAR)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     workshop = db.relationship('Workshop', lazy=True)
-
+ 
     def __repr__(self):
         return f'User psychologist {self.name}'
 
@@ -185,7 +178,6 @@ class User_psychologist(db.Model):
         db.session.add(self)
         db.session.commit()
 
-
     @classmethod
     def get_by_user_id(cls, user):
         user_psychologist = cls.query.filter_by(user_id=user).first()
@@ -199,7 +191,6 @@ class User_psychologist(db.Model):
     @classmethod
     def update_psychologist_user(cls, user_data, id):
         user= cls.query.filter_by(user_id = id).first()
-        print(user, "@@@@@@@@")
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
@@ -232,6 +223,11 @@ class Category(db.Model):
     def get_by_id(cls, id):
         category = cls.query.get(id)
         return category
+
+    @classmethod
+    def get_all_categories(cls):
+        all_categories = cls.query.all()
+        return all_categories
     
     @classmethod
     def get_by_name(cls, name):
@@ -257,10 +253,9 @@ class Search_workshop(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     user_company_id = db.Column(db.Integer, db.ForeignKey("user_company.id"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-
+    
     def __repr__(self):
         return f'Search_workshop {self.user_company_id} and {self.id}'
-
     def to_dict(self):
         new_category = Category.get_by_id(self.category_id)
         return {
@@ -324,9 +319,9 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    #categorys
-
-    def to_dict(self, categorys):
+    def to_dict(self
+    ):
+        
         return {
             "id": self.id,
             "title": self.title,
@@ -337,8 +332,34 @@ class Workshop(db.Model):
             "max_people": self.max_people,
             "description": self.description,
             "user_psychologist_id": self.user_psychologist_id,
-            "categorys": categorys
+            "categories": list(map(lambda category: category.category_name, self.category_info))
         }
+
+    @classmethod
+    def get_workshop_by_psychologist_id(cls, id):
+        workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
+        return workshop_by_psychologist_id
+
+    @classmethod
+    def get_workshop_by_id(cls, id):
+        workshop = cls.query.filter_by(id = id).first()
+        return workshop
+
+    @classmethod
+    def get_categories_by_workshop_id(cls, id):
+        categories = []
+        workshops = cls.query.filter_by(id = id).all()
+        for workshop in workshops:
+            for category in workshop.category_info:
+                categories.append(category.category_name)
+        return categories
+
+    def get_category_by_name(self, category_info):
+        categories = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categories.append(new_category_list.category_name)
+        return categories
 
     @classmethod
     def get_by_id(cls, id):
@@ -384,11 +405,11 @@ class Workshop(db.Model):
         db.session.commit()
         return self 
 
-
     def add(self, category_info):
-        db.session.add(self)
-        for category in category_info:
-            new_category = Category.get_by_id(category)
-            self.category_info.append(new_category) 
-        db.session.commit()
+            for category in category_info:
+                self.category_info.append(Category.get_by_id(category))
+            db.session.add(self)
+            db.session.commit()
+
+
 
