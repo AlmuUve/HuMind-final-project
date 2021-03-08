@@ -43,8 +43,6 @@ export const Workshopform = () => {
 
 	//**FUNCTIONS FOR VALIDATIONS**\\
 
-	console.log(store.psychologistId);
-
 	let isInvalidList = [];
 
 	const checkInputs = e => {

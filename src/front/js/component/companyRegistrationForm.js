@@ -28,7 +28,6 @@ export const CompanyRegistrationForm = () => {
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
 	};
-
 	return (
 		<Fragment>
 			<form className="container formAddWorkshop">

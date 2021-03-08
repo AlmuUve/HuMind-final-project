@@ -51,7 +51,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -131,7 +131,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/login", {
+				let response = await fetch("https://humind.herokuapp.com/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -165,7 +165,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editWorkshop: async workshop => {
-				let response = await fetch("https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/user/workshop/1", {
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/workshop/1", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -185,7 +185,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editSearchWorkshop: async search_workshop => {
 				let response = await fetch(
-					"https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/user/search_workshop/1",
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/search_workshop/1",
 					{
 						method: "PUT",
 						body: JSON.stringify({
@@ -204,7 +204,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteProfile: async id => {
-				let response = await fetch("https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/user/" + id, {
+				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -215,7 +215,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://3001-gold-chicken-6n7rrjsk.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({
@@ -223,6 +223,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						})
 					}
 				);
+				response = await response.json();
+			},
+
+			sendEmail: async email => {
+				console.log("esto es lo que seria el email", email);
+				let response = await fetch("https://humind.herokuapp.com/contact", {
+					method: "PUT",
+					body: JSON.stringify({
+						email_from: email.email_from,
+						email_to: email.email_to,
+						subject: email.subject,
+						message: email.message
+					}),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
 				response = await response.json();
 			}
 		}

@@ -9,8 +9,6 @@ export const UserLogIn = props => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const profilePath = "/people/" + store.user.name;
-
 	return (
 		<div className="logIn_body d-flex justify-content-center ">
 			<div className="logIn_leftColumn col-md-5 col-sm-12">
