@@ -6,7 +6,6 @@ from flask_cors import CORS
 # from flask_login import current_user, login_user
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -37,6 +36,13 @@ app.url_map.strict_slashes = False
 # else:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
+
+jwt = JWTManager(app)
+
+# database condiguration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
@@ -87,7 +93,6 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-
 @app.route('/contact', methods=['POST'])
 def send_email():
     body = request.get_json()
@@ -95,7 +100,6 @@ def send_email():
     email_to = body.get("email_to")
     subject = body.get("subject")
     message = body.get("message")
-    print(body)
     send_simple_message(
        email_from,
        email_to, 
@@ -113,7 +117,6 @@ def handle_login():
         )
     if not email or not _password:
         return "Missing info", 400
-
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
         access_token = create_access_token(
@@ -193,6 +196,10 @@ def update_user(id):
     change_user = User.get_by_id(id)
     return jsonify(change_user.to_dict())
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 @app.route('/user/<int:id>/psychologist', methods=['PUT'])
 # @jwt_required()
 def update_psychologist_user(id):
@@ -214,8 +221,19 @@ def update_company_user(id):
 def delete_one_user(id):
     user_target = User.delete(id)
     return "Your profile has been deleted", 200
+    
+## METODOS PARA CREAR EL MURO ##
 
 #     #METODOS PARA CATEGORIES Y WORKSHOPS
+@app.route('/user/workshops', methods=['GET'])
+def get_workshops():
+    workshops = Workshop.get_all()
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
+
+    return jsonify(workshops_to_dict), 200
+
 
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
 def get_psychologist_workshops(id):
@@ -231,7 +249,18 @@ def get_target_workshop(id):
     target_workshop = Workshop.get_workshop_by_id(id)
     return jsonify(target_workshop.to_dict()), 200
 
-@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
+@app.route('/user/search_workshops', methods=['GET'])
+def get_search_workshops():
+    search_workshops = Search_workshop.get_all()
+    search_workshops_to_dict = []
+    for search_workshop in search_workshops:
+        search_workshops_to_dict.append(search_workshop.to_dict())
+
+    return jsonify(search_workshops_to_dict), 200
+
+#METODOS PARA CATEGORYS Y WORKSHOPS
+
+@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
     
@@ -247,11 +276,9 @@ def add_workshop(id):
         user_psychologist_id = user_psychologist.id,
     )
 
-    category_list = body.get("category_info")
     new_workshop.add(body.get("category_info"))
 
     return jsonify(new_workshop.to_dict(
-        # category_list
         )), 200
 
 @app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
@@ -301,13 +328,18 @@ def update_workshop(id):
     body['description'], body['category_info'])
     new_categories = Workshop.get_category_by_name(body['category_info'])
     return jsonify(new_workshop.to_dict(new_categories))
-
-
-@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
+  
+@app.route('/psychologist/<int:id>/workshop/<int:id>', methods=['DELETE'])
+def delete_one_workshop(id):
+    workshop = Workshop.get_workshop_by_id(id)
+    workshop.delete()
+    return workshop.to_dict(), 200
+    
+@app.route('/psychologist/<int:id>/workshop/<int:id>', methods=['DELETE'])
 def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
-    return "Your search has been deleted", 200
+    return search_workshop.to_dict(), 200
 
 
 # this only runs if `$ python src/main.py` is executed

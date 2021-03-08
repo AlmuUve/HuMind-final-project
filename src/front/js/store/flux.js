@@ -1,21 +1,54 @@
 import jwt_decode from "jwt-decode";
 
+const pathProfile = "/profile/";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			workshop: {},
 			workshops: [],
 			categories: [],
+			allWorkshops: [],
+			allSearchWorkshops: [],
+			workshops: [],
+			token: "",
 			user: {},
 			id: null,
 			help: null,
 			LoggedUser: {},
 			password: "",
 			email: "",
-			idForGetMethod: 39
+			psychologistId: "",
+			companyId: "",
+			pathProfilePsychologist: "",
+			pathProfileCompany: ""
 		},
 
 		actions: {
+
+            //FUNCTIONS FOR PATHS PROFILE\\
+            
+			setpathProfilePsychologist: (newName, newLastname) => {
+				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
+			},
+			setpathProfileCompany: newName => {
+				setStore({ pathProfileCompany: pathProfile.concat(newName) });
+            },
+
+            //AUX FUNCTIONS\\
+
+			setEmailFlux: new_email => {
+				setStore({ email: new_email });
+			},
+			setPasswordFlux: new_password => {
+				setStore({ password: new_password });
+			},
+			setHelp: is_psychologist => {
+				setStore({ help: is_psychologist });
+            },
+            
+            //CALL API\\
+
 			getWorkshops: () => {
 				fetch("https://humind.herokuapp.com/user/psychologist/1/workshops").then(
 					async res => {
@@ -45,8 +78,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch("https://humind.herokuapp.com/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
-					setStore({ help: response.is_psychologist });
 					setStore({ id: response.id });
+					response.is_psychologist
+						? setStore({ psychologistId: response.id })
+						: setStore({ companyId: response.id });
 				});
 			},
 
@@ -79,45 +114,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				getActions().getUser(response.user_id);
+				response.is_psychologist
+					? setStore({ psychologistId: response.id })
+					: setStore({ companyId: response.id });
 			},
 
-			addNewWorkshop: async workshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/psychologist/workshop/1", {
-					method: "POST",
-					mode: "cors",
-					redirect: "follow",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						title: workshop.title,
-						category_info: workshop.category,
-						duration: workshop.duration,
-						price: workshop.price,
-						date: workshop.date,
-						max_people: workshop.max_people,
-						description: workshop.description
-					})
-				});
+			addNewWorkshop: async (workshop, id) => {
+				let response = await fetch(
+					"https://humind.herokuapp.com/user/psychologist/" + id + "/workshop",
+					{
+						method: "POST",
+						mode: "cors",
+						redirect: "follow",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							title: workshop.title,
+							category_info: workshop.category,
+							duration: workshop.duration,
+							price: workshop.price,
+							date: workshop.date,
+							max_people: workshop.max_people,
+							description: workshop.description
+						})
+					}
+				);
 				response = await response.json();
 			},
 
-			addNewSearchWorkshop: async searchWorkshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/company/searchworkshop/2", {
-					method: "POST",
-					mode: "cors",
-					redirect: "follow",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						category_id: parseInt(searchWorkshop.category),
-						duration: searchWorkshop.duration,
-						price: searchWorkshop.price,
-						date: searchWorkshop.date,
-						max_people: searchWorkshop.max_people
-					})
-				});
+			addNewSearchWorkshop: async (searchWorkshop, id) => {
+				let response = await fetch(
+					"https://humind.herokuapp.com/user/company/" + id + "/searchworkshop",
+					{
+						method: "POST",
+						mode: "cors",
+						redirect: "follow",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							category_id: parseInt(searchWorkshop.category),
+							duration: searchWorkshop.duration,
+							price: searchWorkshop.price,
+							date: searchWorkshop.date,
+							max_people: searchWorkshop.max_people
+						})
+					}
+				);
 				response = await response.json();
 			},
 
@@ -135,20 +179,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
+				getActions().getUser(getStore().LoggedUser.id);
+				getActions().setHelp(getStore().LoggedUser.is_psychologist);
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
-				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
+				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id, decoded.sub.is_psychologist);
 			},
 
-			setLoggedUser: (new_email, new_password) => {
+			setLoggedUser: (new_email, new_id, new_is_psychologist) => {
 				setStore({
 					LoggedUser: {
 						email: new_email,
-						password: new_password
+						id: new_id,
+						is_psychologist: new_is_psychologist
 					}
+				});
+			},
+
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({
+					LoggedUser: {},
+					token: ""
 				});
 			},
 
@@ -189,6 +244,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
+            },
+            
+            getAllWorkshops: () => {
+				fetch("https://humind.herokuapp.com/user/workshops").then(async res => {
+					const response = await res.json();
+					setStore({ allWorkshops: response });
+				});
+			},
+
+			getAllSearchWorkshops: () => {
+				fetch("https://humind.herokuapp.com/user/search_workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ allSearchWorkshops: response });
+					}
+				);
 			},
 
 			deleteProfile: async id => {

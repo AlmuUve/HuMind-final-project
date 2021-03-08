@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-bootstrap";
-
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
 
 export const Navbarpage = props => {
+	const [navbarAvatar, setNavbarAvatar] = useState("");
 	const { store, actions } = useContext(Context);
 	const [navbar, setNavbar] = useState(
 		<Nav className="ml-auto">
@@ -32,12 +32,7 @@ export const Navbarpage = props => {
 		<Nav className="ml-auto">
 			<DropdownButton
 				id="dropdown-item-button"
-				title={
-					<img
-						className="navbarAvatarButton"
-						src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-					/>
-				}
+				title={<img className="navbarAvatarButton" src={navbarAvatar} />}
 				className="ml-2 dropButton"
 				menuAlign="right">
 				<Dropdown.ItemText className="buttonDropDown">
@@ -47,20 +42,31 @@ export const Navbarpage = props => {
 					<NavbarButtons text="Feed" />
 				</Dropdown.ItemText>
 				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons text="Log Out" />
+					<NavbarButtons
+						text="Log Out"
+						onLogOutClick={() => {
+							actions.logout();
+						}}
+					/>
 				</Dropdown.ItemText>
 			</DropdownButton>
 		</Nav>
 	);
 
-	useEffect(
-		() => {
-			if (store.id != null) {
-				setNavbar(navbarLog);
-			}
-		},
-		[store.id]
-	);
+	useEffect(() => {
+		if (store.id != null) {
+			setNavbar(navbarLog);
+		}
+		if (store.help) {
+			setNavbarAvatar(
+				"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+			);
+		} else {
+			setNavbarAvatar(
+				"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+			);
+		}
+	}, [store.id, store.help]);
 
 	return (
 		<>

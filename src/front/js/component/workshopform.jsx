@@ -59,7 +59,7 @@ export const Workshopform = () => {
 		} else {
 			setShowError("notShow");
 			checkBoxes();
-			actions.addNewWorkshop(workshop);
+			actions.addNewWorkshop(workshop, store.psychologistId);
 		}
 	};
 

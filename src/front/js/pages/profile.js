@@ -20,37 +20,47 @@ export const Profile = () => {
 		return (
 			<>
 				<div className="container-fluid">
-					<Coverphoto photo="coverPhotoPsy" />
-				</div>
-				<div className="container">
-					<div className="row">
-						<Profiletemplatepsy />
-						<Link to="/add_workshop">
-							<YellowButton text="Add Workshop" />
-						</Link>
-						<div>{userWorkshops}</div>
-						<Email />
+					<Coverphoto photo="coverPhotoCompany" />
+					<div className="container-fluid">
+						<div className="row">
+							<div className="col-lg-4 col-sm-12 profileCard">
+								<Profiletemplatepsy />
+							</div>
+							<div className="col-lg-8 col-sm-12">
+								<Link to="/add_workshop">
+									<YellowButton text="Add Workshop" />
+								</Link>
+								<Email />
+                                <WorkshopCard />
+							</div>
+						</div>
 					</div>
 				</div>
 			</>
 		);
-	}
-
-	return (
+	} else {
+        return (
 		<>
 			<div className="container-fluid">
 				<Coverphoto photo="coverPhotoCompany" />
-			</div>
-			<div className="container-fluid">
-				<div className="row">
-					<Profiletemplatecompany />
-					<Link to="/add_search_workshop">
-						<YellowButton text="Add Search" />
-					</Link>
-					<div>{userWorkshops}</div>
-					<Email />
+				<div className="container-fluid">
+					<div className="row">
+						<div className="col-lg-4 col-sm-12 profileCard">
+							<Profiletemplatecompany />
+						</div>
+						<div className="col-lg-8 col-sm-12">
+							<Link to="/add_search_workshop">
+								<YellowButton text="Add Search" />
+							</Link>
+							<Email />
+                            <WorkshopCard  />
+						</div>
+					</div>
 				</div>
 			</div>
 		</>
 	);
+    }
+
+	
 };
