@@ -28,6 +28,22 @@ export const Profile = () => {
 						<Link to="/add_workshop">
 							<YellowButton text="Add Workshop" />
 						</Link>
+					</div>
+				</div>
+			</>
+		);
+	} else {
+		return (
+			<>
+				<div className="container-fluid">
+					<Coverphoto photo="coverPhotoCompany" />
+				</div>
+				<div className="container-fluid">
+					<div className="row">
+						<Profiletemplatecompany />
+						<Link to="/add_search_workshop">
+							<YellowButton text="Add Search" />
+						</Link>
 						<div>{userWorkshops}</div>
 						<Email />
 					</div>
@@ -35,22 +51,4 @@ export const Profile = () => {
 			</>
 		);
 	}
-
-	return (
-		<>
-			<div className="container-fluid">
-				<Coverphoto photo="coverPhotoCompany" />
-			</div>
-			<div className="container-fluid">
-				<div className="row">
-					<Profiletemplatecompany />
-					<Link to="/add_search_workshop">
-						<YellowButton text="Add Search" />
-					</Link>
-					<div>{userWorkshops}</div>
-					<Email />
-				</div>
-			</div>
-		</>
-	);
 };

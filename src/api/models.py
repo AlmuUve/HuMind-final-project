@@ -121,11 +121,6 @@ class User_company(db.Model):
         user = cls.query.get(id)
         return user
 
-    @classmethod
-    def get_by_id(cls, id):
-        user = cls.query.filter_by(id = id).first_or_404()
-        return user
-
     @classmethod    
     def update_company_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
@@ -211,9 +206,12 @@ class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.VARCHAR, unique=True)
-    search_workshop = db.relationship('Search_workshop', lazy=True)
+    search_workshop = db.relationship('Search_workshop', cascade="all, delete", lazy=True)
+     
+
     def __repr__(self):
         return f'Category {self.category_name}'
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -280,10 +278,6 @@ class Search_workshop(db.Model):
         search_workshops = cls.query.all()
         return search_workshops
 
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-
     @classmethod
     def get_by_id(cls, id):
         search = cls.query.get(id)
@@ -334,9 +328,7 @@ class Workshop(db.Model):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
     def to_dict(self
-    # , categories
     ):
-        # categories = Workshop.get_categories_by_workshop_id(self.id)
         
         return {
             "id": self.id,
@@ -399,13 +391,6 @@ class Workshop(db.Model):
         workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
 
-    def get_category_by_name(category_info):
-        categorys = []
-        for category in category_info:
-            new_category_list = Category.get_by_id(category)
-            categorys.append(new_category_list.category_name)
-        return categorys
-
     def update_workshop(self, 
                         new_title, 
                         new_duration, 
@@ -433,6 +418,11 @@ class Workshop(db.Model):
             self.category_info.append(Category.get_by_id(category))
         db.session.add(self)
         db.session.commit()
+       
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your workshop has been deleted", 200
 
 
 
