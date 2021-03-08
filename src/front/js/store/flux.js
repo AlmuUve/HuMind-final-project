@@ -7,7 +7,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			workshops: [],
 			categories: [],
 			user: {},
-			// User: {},
 			id: null,
 			help: null,
 			LoggedUser: {},
@@ -18,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		actions: {
 			getWorkshops: () => {
-				fetch("https://3001-turquoise-termite-crb3zrev.ws-eu03.gitpod.io/user/psychologist/1/workshops").then(
+				fetch("https://humind.herokuapp.com/user/psychologist/1/workshops").then(
 					async res => {
 						const response = await res.json();
 						setStore({ workshops: response });
@@ -27,7 +26,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getOneWorkshop: () => {
-				fetch("https://3001-indigo-orangutan-jej9v96a.ws-eu03.gitpod.io/workshop/1").then(async res => {
+				fetch("https://humind.herokuapp.com/workshop/1").then(async res => {
 					const response = await res.json();
 					setStore({ workshop: response });
 					setStore({ categories: response.categories });
@@ -43,8 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getUser: id => {
-				console.log(id);
-				fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user/" + id).then(async res => {
+				fetch("https://humind.herokuapp.com/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ help: response.is_psychologist });
@@ -53,7 +51,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewUser: async user => {
-				let response = await fetch("https://3001-coral-quelea-1umbiri8.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://humind.herokuapp.com/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -80,10 +78,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// setStore({ idForGetMethod: response.user_id });
-				//console.log(getStore().idForGetMethod, "id en el momento POST");
 				getActions().getUser(response.user_id);
-				console.log(getStore().user);
 			},
 
 			addNewWorkshop: async workshop => {
@@ -127,7 +122,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				console.log(email, "wwwwwwwwwwwwwwwwwwwww");
 				let response = await fetch("https://humind.herokuapp.com/login", {
 					method: "POST",
 					headers: new Headers({
@@ -159,7 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editWorkshop: async workshop => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/workshop/1", {
+				let response = await fetch("https://humind.herokuapp.com/user/workshop/1", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -179,7 +173,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editSearchWorkshop: async search_workshop => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/search_workshop/1",
+					"https://humind.herokuapp.com/user/search_workshop/1",
 					{
 						method: "PUT",
 						body: JSON.stringify({
@@ -198,7 +192,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteProfile: async id => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id, {
+				let response = await fetch("https://humind.herokuapp.com/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -209,7 +203,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					"https://humind.herokuapp.com/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({
@@ -221,7 +215,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				console.log("esto es lo que seria el email", email);
 				let response = await fetch("https://humind.herokuapp.com/contact", {
 					method: "PUT",
 					body: JSON.stringify({
