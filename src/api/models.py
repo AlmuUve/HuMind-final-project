@@ -61,7 +61,7 @@ class User(db.Model):
         return user
 
     @classmethod
-    def delete_user(cls, id):
+    def delete(cls, id):
         target = cls.query.filter_by(id = id).first()
         target.is_active=False        
         db.session.commit()

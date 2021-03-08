@@ -212,7 +212,7 @@ def update_company_user(id):
 @app.route('/user/<int:id>', methods=['PATCH'])
 # @jwt_required()
 def delete_one_user(id):
-    user_target = User.delete_user(id)
+    user_target = User.delete(id)
     return "Your profile has been deleted", 200
 
 #     #METODOS PARA CATEGORIES Y WORKSHOPS
