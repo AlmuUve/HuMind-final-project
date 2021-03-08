@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id);
 				response = await response.json();
 				setStore({ user: response });
+				setStore({ help: response.is_psychologist });
 				setStore({ id: response.id });
 			},
 
@@ -69,7 +70,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editUserProfile: async user_info => {
 				let response = await fetch(
-					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.id,
+					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.user_id,
 					{
 						method: "PUT",
 						headers: {
