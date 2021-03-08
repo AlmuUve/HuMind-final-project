@@ -5,7 +5,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			workshops: [],
 			user: {},
-			// User: {},
 			id: null,
 			help: null,
 			LoggedUser: {},

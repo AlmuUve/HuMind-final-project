@@ -18,7 +18,7 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
-from api.contact import send_simple_message
+from api.mail_api import send_simple_message
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -92,7 +92,6 @@ def send_email():
     email_to = body.get("email_to")
     subject = body.get("subject")
     message = body.get("message")
-    print(body)
     send_simple_message(
        email_from,
        email_to, 
