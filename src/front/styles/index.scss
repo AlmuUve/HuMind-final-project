@@ -564,6 +564,10 @@ h3{
     margin-top: 1rem;
     width: 60%;
     height: fit-content;
+<<<<<<< HEAD
+=======
+    border-style: solid;
+>>>>>>> main
     border: 3px solid $background_color;
     padding: 1.5rem;
 }
@@ -593,19 +597,33 @@ h3{
 .deleteButton{
     position: absolute;
     right: 0%;
+<<<<<<< HEAD
+=======
+    border: none;
+    background-color: white;
+>>>>>>> main
 }
 
 .editButton{
     position: absolute;
     right: 1rem;
+<<<<<<< HEAD
 }
 
 .yellowButton_workshopCard{
+=======
+    border: none;
+    background-color: white;
+}
+
+.yellowButton{
+>>>>>>> main
     position: absolute;
     bottom: 0%;
     right: 0%;
 }
 
+<<<<<<< HEAD
 /* Workshop Detail */
 .profile_workshopDetail{
     background-color: $background_color;
@@ -661,3 +679,6 @@ h3{
 .yellowButton{
     align-self: center;
 }
+=======
+//FORMULARIO DE CONTACTO\\
+>>>>>>> main

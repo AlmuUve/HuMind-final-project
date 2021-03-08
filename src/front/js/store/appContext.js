@@ -19,6 +19,7 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 			state.actions.getOneWorkshop();
+			state.actions.getWorkshops();
 		}, []);
 
 		return (
