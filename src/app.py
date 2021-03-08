@@ -21,6 +21,8 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
+from api.contact import send_simple_message
+
 #from models import Person
 
 
@@ -36,10 +38,12 @@ app.url_map.strict_slashes = False
 # jwt = JWTManager(app)
 
 # database condiguration
-if os.getenv("DATABASE_URL") is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
+# database condiguration
+# if os.getenv("DATABASE_URL") is not None:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+# else:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
@@ -85,6 +89,31 @@ def get_user_psychologist_information(id):
     else:
         return "This profile doesnt exists", 400
         
+# any other endpoint will try to serve it like a static file
+@app.route('/<path:path>', methods=['GET'])
+def serve_any_other_file(path):
+    if not os.path.isfile(os.path.join(static_file_dir, path)):
+        path = 'index.html'
+    response = send_from_directory(static_file_dir, path)
+    response.cache_control.max_age = 0 # avoid cache memory
+    return response
+
+@app.route('/contact', methods=['POST'])
+def send_email():
+    body = request.get_json()
+    email_from = body.get("email_from")
+    email_to = body.get("email_to")
+    subject = body.get("subject")
+    message = body.get("message")
+    print(body)
+    send_simple_message(
+       email_from,
+       email_to, 
+       subject, 
+       message)
+    return "hemos mandado algo?", 200
+
+
 @app.route('/login', methods=['POST'])
 def handle_login():
     email, _password = request.json.get(
