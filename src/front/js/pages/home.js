@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import { SearchWorkshopCard } from "../component/searchworkshopcard";
+import { WorkshopCard } from "../component/workshopCard";
 
 import "../../styles/home.scss";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	console.log(store.workshops, "soy el console log de home");
 
-	let listSearchWorkshops = store.searchWorkshops.map((item, index) => {
-		return <SearchWorkshopCard item={item} key={index.toString()} />;
+	let userWorkshops = store.workshops.map((item, index) => {
+		return <WorkshopCard item={item} key={index.toString()} />;
 	});
 
-	return <div>{listSearchWorkshops}</div>;
+	return <div>{userWorkshops}</div>;
 };
