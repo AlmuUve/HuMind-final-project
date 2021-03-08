@@ -222,7 +222,7 @@ class Category(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        category = cls.query.filter_by(id = id).first()
+        category = cls.query.get(id)
         return category
 
     @classmethod
