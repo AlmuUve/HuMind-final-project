@@ -1,8 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import { Profilecompany } from "./pages/profileCompany";
+import { Profilepsychologist } from "./pages/profilePsychologist";
+import { Register } from "./pages/register";
+import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
+import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
+import { Navbarpage } from "../js/component/navbar.jsx";
 import injectContext from "./store/appContext";
-
+import injectContext from "./store/appContext";
 import { SignUpLogInButton } from "./component/signUpLogInButton";
 import { YellowButton } from "./component/yellowButton";
 import { DeleteButton } from "./component/deleteButton";
@@ -17,7 +22,6 @@ import { Profile } from "./pages/profile";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Footer } from "./component/footer";
-import { Home } from "./pages/home";
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -27,6 +31,9 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
+					<Route exact path="/company">
+						<Profilecompany />
+                    </Route>
 					<Route exact path="/home">
 						<Home />
 					</Route>
@@ -45,6 +52,13 @@ const Layout = () => {
 					<Route exact path="/add_workshop">
 						<Addworkshop />
 					</Route>
+					<Route exact path="/login">
+						<Navbarpage />
+						<LogIn />
+                    </Route>
+					<Route exact path="/add_search_workshop">
+						<Addsearchworkshop />
+                    </Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
 					</Route>

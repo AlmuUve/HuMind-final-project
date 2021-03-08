@@ -253,6 +253,7 @@ class Search_workshop(db.Model):
     
     def __repr__(self):
         return f'Search_workshop {self.user_company_id} and {self.id}'
+        
     def to_dict(self):
         new_category = Category.get_by_id(self.category_id)
         return {
@@ -311,7 +312,7 @@ class Workshop(db.Model):
     description = db.Column(db.Text)
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
-        backref=db.backref("workshops", lazy='joined'))
+        backref=db.backref("workshops", lazy=True))
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
@@ -374,6 +375,13 @@ class Workshop(db.Model):
     def get_workshop_by_psychologist_id(cls, id):
         workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
+
+    def get_category_by_name(category_info):
+        categorys = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categorys.append(new_category_list.category_name)
+        return categorys
 
     def update_workshop(self, 
                         new_title, 

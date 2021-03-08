@@ -6,32 +6,32 @@ from flask_cors import CORS
 # from flask_login import current_user, login_user
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from datetime import timedelta
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required
-# from flask_jwt_extended import JWTManager
-# from passlib.hash import sha256_crypt
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from passlib.hash import sha256_crypt
 from api.utils import APIException, generate_sitemap
 from api.models import db, User, User_company, User_psychologist, Category, Search_workshop, Workshop, workshop_has_category
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
-from api.contact import send_simple_message
+# from api.contact import send_simple_message
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
-# app.config["JWT_COOKIE_SECURE"] = False
-# app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 
-# jwt = JWTManager(app)
+jwt = JWTManager(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
+# database condiguration
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -45,7 +45,6 @@ app.register_blueprint(api, url_prefix='/api')
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
-
 
 @app.route('/')
 def sitemap():
@@ -121,7 +120,6 @@ def handle_login():
 
     return "Invalid info", 400
 
-
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
@@ -170,7 +168,6 @@ def add_user():
     )
     company.add()
     return jsonify(company.to_dict()), 201
-
 
 @app.route('/user/<int:id>', methods=['GET'])
 # @jwt_required()
@@ -270,7 +267,6 @@ def add_search_workshop(id):
 
     return jsonify(new_search_workshop.to_dict()), 201
 
-
 @app.route('/user/category', methods=['POST'])
 def add_category():
     new_category = request.get_json()
@@ -279,7 +275,6 @@ def add_category():
     )
     new_category.add()
     return jsonify(new_category.to_dict())
-
 
 @app.route('/user/search_workshop/<int:id>', methods=['PUT'])
 def update_search_workshop(id):
@@ -290,7 +285,6 @@ def update_search_workshop(id):
     body['price'], body['date'], body['max_people'], body['category_id'])
 
     return jsonify(new_search_workshop.to_dict())
-
 
 @app.route('/user/workshop/<int:id>', methods=['PUT'])
 def update_workshop(id):

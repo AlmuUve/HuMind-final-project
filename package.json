@@ -79,7 +79,9 @@
 	"dependencies": {
 		"@material-ui/core": "^4.11.3",
 		"@material-ui/icons": "^4.11.2",
+		"bcryptjs": "^2.4.3",
 		"bootstrap": "^4.6.0",
+		"jsonwebtoken": "^8.5.1",
 		"jwt-decode": "^3.1.2",
 		"password-hash": "^1.2.2",
 		"prop-types": "^15.6.1",
