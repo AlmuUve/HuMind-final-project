@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: {},
 			id: null,
 			help: false,
+            workshops: [],
 			LoggedUser: {},
 			password: "",
 			email: "",
@@ -19,15 +20,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 
 		actions: {
-			//FUNCTIONS FOR PATHS PROFILE\\
+
+            //FUNCTIONS FOR PATHS PROFILE\\
+            
 			setpathProfilePsychologist: (newName, newLastname) => {
 				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
 			},
 			setpathProfileCompany: newName => {
 				setStore({ pathProfileCompany: pathProfile.concat(newName) });
-			},
+            },
 
-			//AUX FUNCTIONS\\
+            //AUX FUNCTIONS\\
+
 			setEmailFlux: new_email => {
 				setStore({ email: new_email });
 			},
@@ -36,9 +40,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setHelp: is_psychologist => {
 				setStore({ help: is_psychologist });
-			},
+            },
+            
+            //CALL API\\
 
-			//CALL API\\
+			getWorkshops: () => {
+				fetch("https://humind.herokuapp.com/user/psychologist/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshops: response });
+					}
+				);
+			},
+			
 			getUser: id => {
 				fetch("https://humind.herokuapp.com/user/" + id).then(async res => {
 					const response = await res.json();
@@ -164,6 +178,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({
+					LoggedUser: {},
+					token: ""
+				});
+			},
+
 			editWorkshop: async workshop => {
 				let response = await fetch("https://humind.herokuapp.com/user/workshop/1", {
 					method: "PUT",
@@ -227,7 +249,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				console.log("esto es lo que seria el email", email);
 				let response = await fetch("https://humind.herokuapp.com/contact", {
 					method: "PUT",
 					body: JSON.stringify({
