@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-bootstrap";
-
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
 
@@ -58,11 +57,14 @@ export const Navbarpage = props => {
 		</Nav>
 	);
 
-	useEffect(() => {
-		if (store.id != null) {
-			setNavbar(navbarLog);
-		}
-	}, [store.id]);
+	useEffect(
+		() => {
+			if (store.id != null) {
+				setNavbar(navbarLog);
+			}
+		},
+		[store.id]
+	);
 
 	return (
 		<>

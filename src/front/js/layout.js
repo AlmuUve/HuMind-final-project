@@ -1,17 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-<<<<<<< HEAD
 import { Profilecompany } from "./pages/profileCompany";
 import { Profilepsychologist } from "./pages/profilePsychologist";
 import { Register } from "./pages/register";
 import { PsychologistRegistrationForm } from "./component/psychologistRegistrationForm";
 import { CompanyRegistrationForm } from "./component/companyRegistrationForm";
 import { Navbarpage } from "../js/component/navbar.jsx";
-=======
-
->>>>>>> main
 import injectContext from "./store/appContext";
-
+import injectContext from "./store/appContext";
+import { SignUpLogInButton } from "./component/signUpLogInButton";
+import { YellowButton } from "./component/yellowButton";
+import { DeleteButton } from "./component/deleteButton";
+import { EditButton } from "./component/editButton";
+import { LandingButton } from "./component/landingButton";
+import { WorkshopCard } from "./component/workshopCard";
 import { Navbarpage } from "../js/component/navbar.jsx";
 import { Landing } from "./pages/landing";
 import { SignUp } from "./pages/signup";
@@ -29,10 +31,12 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
-<<<<<<< HEAD
 					<Route exact path="/company">
 						<Profilecompany />
-=======
+                    </Route>
+					<Route exact path="/home">
+						<Home />
+					</Route>
 					<Route exact path="/">
 						<Landing />
 					</Route>
@@ -41,7 +45,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/signup">
 						<SignUp />
->>>>>>> main
 					</Route>
 					<Route exact path="/profile">
 						<Profile />
@@ -49,14 +52,15 @@ const Layout = () => {
 					<Route exact path="/add_workshop">
 						<Addworkshop />
 					</Route>
-<<<<<<< HEAD
 					<Route exact path="/login">
 						<Navbarpage />
 						<LogIn />
-=======
+                    </Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
->>>>>>> main
+                    </Route>
+					<Route exact path="/add_search_workshop">
+						<Addsearchworkshop />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>

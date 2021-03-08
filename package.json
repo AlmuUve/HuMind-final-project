@@ -7,7 +7,11 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+<<<<<<< HEAD
 		"start": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0 --port 3000",
+=======
+		"start": "webpack-dev-server --config webpack.dev.js --port 3000",
+>>>>>>> main
 		"build": "webpack --config webpack.prod.js"
 	},
 	"author": {
@@ -29,8 +33,15 @@
 		"@babel/cli": "^7.4.3",
 		"@babel/core": "^7.4.3",
 		"@babel/plugin-proposal-class-properties": "^7.4.0",
+<<<<<<< HEAD
 		"@babel/preset-env": "^7.4.3",
 		"@babel/preset-react": "^7.0.0",
+=======
+		"@babel/plugin-transform-runtime": "^7.13.7",
+		"@babel/preset-env": "^7.4.3",
+		"@babel/preset-react": "^7.0.0",
+		"@hookform/devtools": "^2.2.1",
+>>>>>>> main
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.5",
 		"babel-plugin-transform-class-properties": "^6.24.1",
@@ -65,20 +76,42 @@
 			"@babel/preset-react"
 		],
 		"plugins": [
+<<<<<<< HEAD
 			"@babel/plugin-proposal-class-properties"
+=======
+			"@babel/plugin-proposal-class-properties",
+			[
+				"@babel/plugin-transform-runtime",
+				{
+					"regenerator": true
+				}
+			]
+>>>>>>> main
 		]
 	},
 	"dependencies": {
 		"@material-ui/core": "^4.11.3",
 		"@material-ui/icons": "^4.11.2",
+<<<<<<< HEAD
 		"bcryptjs": "^2.4.3",
 		"bootstrap": "^4.6.0",
 		"jsonwebtoken": "^8.5.1",
 		"jwt-decode": "^3.1.2",
+=======
+		"bootstrap": "^4.6.0",
+		"jwt-decode": "^3.1.2",
+		"password-hash": "^1.2.2",
+>>>>>>> main
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-bootstrap": "^1.5.0",
 		"react-dom": "^16.8.4",
+<<<<<<< HEAD
+=======
+		"react-encrypt": "^1.0.1",
+		"react-form-input-validation": "^2.0.5",
+		"react-hook-form": "^6.15.4",
+>>>>>>> main
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^5.2.0"
 	}
