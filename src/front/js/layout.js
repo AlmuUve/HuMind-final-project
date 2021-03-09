@@ -1,12 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import injectContext from "./store/appContext";
-import { SignUpLogInButton } from "./component/signUpLogInButton";
-import { YellowButton } from "./component/yellowButton";
-import { DeleteButton } from "./component/deleteButton";
-import { EditButton } from "./component/editButton";
-import { LandingButton } from "./component/landingButton";
-import { WorkshopCard } from "./component/workshopCard";
 import { Navbarpage } from "../js/component/navbar.jsx";
 import { Landing } from "./pages/landing";
 import { SignUp } from "./pages/signup";
@@ -17,10 +11,6 @@ import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Feed } from "./pages/feed";
 import { Footer } from "./component/footer";
-<<<<<<< HEAD
-import { Home } from "./pages/home";
-=======
->>>>>>> main
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -30,12 +20,6 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
-<<<<<<< HEAD
-					<Route exact path="/home">
-						<Home />
-					</Route>
-=======
->>>>>>> main
 					<Route exact path="/">
 						<Landing />
 					</Route>
@@ -50,9 +34,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/add_workshop">
 						<Addworkshop />
-					</Route>
-					<Route exact path="/add_search_workshop">
-						<Addsearchworkshop />
 					</Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
@@ -74,3 +55,4 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
+∫
