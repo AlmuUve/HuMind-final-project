@@ -41,16 +41,6 @@ export const Profile = () => {
 						</div>
 					</div>
 				</div>
-<<<<<<< HEAD
-				<div className="container">
-					<div className="row">
-						<Profiletemplatepsy />
-						<Link to="/add_workshop">
-							<YellowButton text="Add Workshop" />
-						</Link>
-						<div>{userWorkshops}</div>
-						<Email />
-=======
 			</>
 		);
 	} else {
@@ -71,13 +61,11 @@ export const Profile = () => {
 								<Email />
 							</div>
 						</div>
->>>>>>> main
 					</div>
 				</div>
 			</>
 		);
 	}
-<<<<<<< HEAD
 
 	return (
 		<>
@@ -97,6 +85,4 @@ export const Profile = () => {
 			</div>
 		</>
 	);
-=======
->>>>>>> main
 };
