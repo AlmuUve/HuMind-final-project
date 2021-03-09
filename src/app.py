@@ -33,7 +33,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
 jwt = JWTManager(app)
 
 # database condiguration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
