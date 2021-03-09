@@ -1,4 +1,5 @@
 import React, { useContext, useState, Fragment, useReducer } from "react";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.scss";
 import { YellowButton } from "./yellowButton";
@@ -6,12 +7,15 @@ import { YellowButton } from "./yellowButton";
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [searchWorkshop, setSearchWorkshop] = useState({
-		category: "",
-		duration: "",
-		price: "",
-		date: "",
-		max_people: ""
+		category: store.currentSearch.category,
+		duration: store.currentSearch.duration,
+		price: store.currentSearch.price,
+		date: store.currentSearch.date,
+		max_people: store.currentSearch.max_people
 	});
+
+	const param = useParams();
+	const history = useHistory();
 
 	const [duration, setDuration] = useState(null);
 	const inputDuration = document.querySelector("#duration");
@@ -126,6 +130,7 @@ export const Searchworkshopform = () => {
 							placeholder="In minutes"
 							name="duration"
 							id="duration"
+							defaultValue={store.currentSearch ? store.currentSearch.duration : ""}
 							required
 						/>
 					</div>
@@ -143,6 +148,7 @@ export const Searchworkshopform = () => {
 							placeholder="In €"
 							name="price"
 							id="price"
+							defaultValue={store.currentSearch ? store.currentSearch.price : ""}
 							required
 						/>
 					</div>
@@ -161,6 +167,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="date"
 							id="dates"
+							defaultValue={store.currentSearch ? store.currentSearch.date : ""}
 							required
 						/>
 					</div>
@@ -177,6 +184,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="max_people"
 							id="people"
+							defaultValue={store.currentSearch ? store.currentSearch.max_people : ""}
 							required
 						/>
 					</div>
@@ -362,7 +370,14 @@ export const Searchworkshopform = () => {
 						type="submit"
 						text="Submit"
 						onClickForm={e => {
-							checkInputs(e);
+							if (store.currentSearch) {
+								actions.editSearchWorkshop(searchWorkshop, param.id);
+								history.push("/profile/" + store.company_name);
+								actions.setCurrentSearch("");
+							} else {
+								checkInputs(e);
+								history.push("/profile/" + store.company_name);
+							}
 						}}
 					/>
 				</div>

@@ -14,14 +14,12 @@ export const Profile = () => {
 	const { store, actions } = useContext(Context);
 
 	let userWorkshops = store.workshops.map((item, index) => {
-		return <WorkshopCard item={item} key={index.toString()} />;
+		return <WorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
 	});
 
-	let listSearchWorkshops = store.allSearchWorkshops.map((item, index) => {
-		return <SearchWorkshopCard item={item} key={index.toString()} />;
+	let listSearchWorkshops = store.searchWorkshops.map((item, index) => {
+		return <SearchWorkshopCard item={item} key={index.toString()} edit={() => (store.currentSearch = item)} />;
 	});
-
-	console.log("hola", store.user);
 
 	if (store.help) {
 		return (
@@ -56,10 +54,10 @@ export const Profile = () => {
 								<Profiletemplatecompany />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to={"/add_workshop/" + store.company_name}>
+								<Link to={"/add_search_workshop/" + store.company_name}>
 									<YellowButton text="Add Search" />
 								</Link>
-								{userWorkshops}
+								{listSearchWorkshops}
 								<Email />
 							</div>
 						</div>

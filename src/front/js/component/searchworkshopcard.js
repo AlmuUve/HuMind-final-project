@@ -11,7 +11,7 @@ export const SearchWorkshopCard = props => {
 		<>
 			<div className="workshopCard">
 				<div className="cardInformation">
-					<span className="title">{props.item.category_id}</span>
+					<span className="title">{props.item.category}</span>
 					<div className="workshopDetails">
 						<span className="date">
 							Date:
@@ -32,11 +32,12 @@ export const SearchWorkshopCard = props => {
 					</div>
 				</div>
 				<div className="buttons_workshopCard">
-					<Link to={"/add_workshop/" + props.item.id}>
+					<Link to={"/add_search_workshop/" + props.item.id}>
 						<EditButton
 							className="editButton"
-							onClickForm={e => {
-								actions.editWorkshop(e);
+							onEditClick={e => {
+								//actions.editWorkshop(e);
+								props.edit();
 							}}
 						/>
 					</Link>
@@ -51,5 +52,6 @@ export const SearchWorkshopCard = props => {
 };
 
 SearchWorkshopCard.propTypes = {
-	item: PropTypes.object
+	item: PropTypes.object,
+	edit: PropTypes.func
 };

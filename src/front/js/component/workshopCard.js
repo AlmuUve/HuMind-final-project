@@ -32,7 +32,8 @@ export const WorkshopCard = props => {
 					<EditButton
 						className="editButton_workshopCard"
 						onEditClick={e => {
-							actions.editWorkshop(e);
+							// actions.editWorkshop(e);
+							props.edit();
 						}}
 					/>
 				</Link>
@@ -45,5 +46,6 @@ export const WorkshopCard = props => {
 
 WorkshopCard.propTypes = {
 	item: PropTypes.object,
+	edit: PropTypes.func,
 	yellowButtonText: PropTypes.string
 };

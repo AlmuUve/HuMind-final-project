@@ -1,4 +1,5 @@
 import React, { useContext, useState, Fragment, useReducer } from "react";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.scss";
 import { YellowButton } from "./yellowButton";
@@ -6,14 +7,17 @@ import { YellowButton } from "./yellowButton";
 export const Workshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [workshop, setWorkshop] = useState({
-		title: "",
-		category: [],
-		duration: "",
-		price: "",
-		date: "",
-		max_people: "",
-		description: ""
+		title: store.currentWorkshop.title,
+		category: store.currentWorkshop.categories,
+		duration: store.currentWorkshop.duration,
+		price: store.currentWorkshop.price,
+		date: store.currentWorkshop.date,
+		max_people: store.currentWorkshop.max_people,
+		description: store.currentWorkshop.description
 	});
+
+	const param = useParams();
+	const history = useHistory();
 
 	const [title, setTitle] = useState(null);
 	const inputTitle = document.querySelector("#title");
@@ -44,6 +48,12 @@ export const Workshopform = () => {
 	//**FUNCTIONS FOR VALIDATIONS**\\
 
 	let isInvalidList = [];
+
+	const edit = e => {
+		e.preventDefault();
+		checkBoxes();
+		actions.editWorkshop(workshop, param.id);
+	};
 
 	const checkInputs = e => {
 		e.preventDefault(e);
@@ -178,6 +188,7 @@ export const Workshopform = () => {
 							placeholder="Max. 50 characters"
 							name="title"
 							id="title"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.title : ""}
 							required
 						/>
 					</div>
@@ -197,6 +208,7 @@ export const Workshopform = () => {
 							placeholder="In minutes"
 							name="duration"
 							id="duration"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}
 							required
 						/>
 					</div>
@@ -214,6 +226,7 @@ export const Workshopform = () => {
 							placeholder="In €"
 							name="price"
 							id="price"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.price : ""}
 							required
 						/>
 					</div>
@@ -232,6 +245,7 @@ export const Workshopform = () => {
 							}}
 							name="date"
 							id="dates"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.date : ""}
 							required
 						/>
 					</div>
@@ -250,6 +264,7 @@ export const Workshopform = () => {
 							}}
 							name="max_people"
 							id="people"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.max_people : ""}
 							required
 						/>
 					</div>
@@ -269,6 +284,7 @@ export const Workshopform = () => {
 							placeholder="Max. 500 caracteres"
 							form="usrform"
 							id="description"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.description : ""}
 							required
 						/>
 					</div>
@@ -414,7 +430,14 @@ export const Workshopform = () => {
 						type="submit"
 						text="Submit"
 						onClickForm={e => {
-							checkInputs(e);
+							if (store.currentWorkshop) {
+								edit(e);
+								history.push("/profile/" + store.user.name + "_" + store.user.lastname);
+								actions.setCurrentWorkshop("");
+							} else {
+								checkInputs(e);
+								history.push("/profile/" + store.user.name + "_" + store.user.lastname);
+							}
 						}}
 					/>
 				</div>

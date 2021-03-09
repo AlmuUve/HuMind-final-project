@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-green-seahorse-48ne27qg.ws-eu03.gitpod.io";
+const url = "https://3001-amethyst-moth-r6oju4s0.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -23,17 +23,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			companyId: "",
 			userProfile: [],
 			pathProfilePsychologist: "",
-			pathProfileCompany: ""
+			pathProfileCompany: "",
+			currentWorkshop: "",
+			currentSearch: ""
 		},
 
 		actions: {
-			getSearchWorkshops: () => {
-				fetch(url + "/user/company/1/workshops").then(async res => {
-					const response = await res.json();
-					setStore({ searchWorkshops: response });
-				});
-			},
-
 			//FUNCTIONS FOR PATHS PROFILE\\
 
 			setpathProfilePsychologist: (newName, newLastname) => {
@@ -57,11 +52,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setId: new_id => {
 				setStore({ id: new_id });
 			},
+			setCurrentWorkshop: newContact => {
+				setStore({ currentWorkshop: newContact });
+			},
+			setCurrentSearch: newSearch => {
+				setStore({ currentSearch: newSearch });
+			},
 
 			//CALL API\\
 
 			getWorkshops: () => {
-				fetch(url + "/user/psychologist/" + getStore().user.user_id + "/workshops", {
+				fetch(url + "/user/psychologist/" + getStore().user.id + "/workshops", {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -85,6 +86,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			getSearchWorkshops: () => {
+				fetch(url + "/user/company/" + getStore().user.id + "/workshops", {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				}).then(async res => {
+					const response = await res.json();
+					setStore({ searchWorkshops: response });
+				});
+			},
+
 			getUser: id => {
 				fetch(url + "/user/" + id, {
 					headers: {
@@ -98,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					response.is_psychologist
 						? setStore({ psychologistId: response.id })
 						: setStore({ companyId: response.id });
-					getActions().getWorkshops();
+					response.is_psychologist ? getActions().getWorkshops() : getActions().getSearchWorkshops();
 				});
 			},
 
@@ -130,9 +143,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				console.log(response);
 				await getActions().getUser(response.user_id);
-				console.log("añado", response);
 			},
 
 			editUserProfile: async user_info => {
@@ -162,11 +173,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				console.log(response);
 				setStore({ user: response });
 			},
 
-			addNewWorkshop: async workshop => {
+			addNewWorkshop: async (workshop, id) => {
 				let response = await fetch(url + "/user/psychologist/" + id + "/workshop", {
 					method: "POST",
 					mode: "cors",
@@ -185,6 +195,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				getActions().getWorkshops();
+				getActions().getAllWorkshops();
 			},
 
 			addNewSearchWorkshop: async (searchWorkshop, id) => {
@@ -204,6 +216,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				getActions().getSearchWorkshops();
+				getActions().getAllSearchWorkshops();
 			},
 
 			login: async (email, password) => {
@@ -225,7 +239,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().getAllWorkshops();
 				getActions().getAllSearchWorkshops();
 				setStore({ help: getStore().LoggedUser.is_psychologist });
-				console.log("hola");
 			},
 
 			decode: () => {
@@ -252,8 +265,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
-			editWorkshop: async workshop => {
-				let response = await fetch(url + "/user/workshop", {
+			editWorkshop: async (workshop, id) => {
+				let response = await fetch(url + "/user/workshop/" + id, {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -262,30 +275,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 						date: workshop.date,
 						max_people: workshop.max_people,
 						description: workshop.description,
-						category_info: workshop.category_info
+						category_info: workshop.category
 					}),
 					headers: {
 						"Content-Type": "application/json"
 					}
 				});
 				response = await response.json();
+				getActions().getWorkshops();
+				getActions().getAllWorkshops();
 			},
 
-			editSearchWorkshop: async search_workshop => {
-				let response = await fetch(url + "/user/search_workshop", {
+			editSearchWorkshop: async (search_workshop, id) => {
+				let response = await fetch(url + "/user/search_workshop/" + id, {
 					method: "PUT",
 					body: JSON.stringify({
 						duration: search_workshop.duration,
 						price: search_workshop.price,
 						date: search_workshop.date,
 						max_people: search_workshop.max_people,
-						category_id: search_workshop.category_id
+						category_id: search_workshop.category
 					}),
 					headers: {
 						"Content-Type": "application/json"
 					}
 				});
 				response = await response.json();
+				getActions().getSearchWorkshops();
+				getActions().getAllSearchWorkshops();
 			},
 
 			getAllWorkshops: () => {
