@@ -24,7 +24,7 @@ export const Editprofile = () => {
 		company_name: "",
 		company_number: ""
 	});
-	console.log(store.user, "@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
 	if (store.user.is_psychologist) {
 		return <PsychologistRegistrationForm />;
 	} else {

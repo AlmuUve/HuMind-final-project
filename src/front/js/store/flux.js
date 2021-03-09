@@ -1,47 +1,94 @@
 import jwt_decode from "jwt-decode";
 
+const pathProfile = "/profile/";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			workshop: {},
 			workshops: [],
+			categories: [],
+			allWorkshops: [],
+			allSearchWorkshops: [],
+			token: "",
 			user: {},
 			id: null,
 			help: null,
 			LoggedUser: {},
 			password: "",
-            email: "",
-            userProfile: [],
-			idForGetMethod: 39
+			email: "",
+			psychologistId: "",
+			companyId: "",
+			userProfile: [],
+			pathProfilePsychologist: "",
+			pathProfileCompany: ""
 		},
 
 		actions: {
-			getWorkshops: () => {
-				fetch("https://3001-turquoise-termite-crb3zrev.ws-eu03.gitpod.io/user/psychologist/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ workshops: response });
-					}
-				);
+			//FUNCTIONS FOR PATHS PROFILE\\
+
+			setpathProfilePsychologist: (newName, newLastname) => {
+				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
 			},
+			setpathProfileCompany: newName => {
+				setStore({ pathProfileCompany: pathProfile.concat(newName) });
+			},
+
+			//AUX FUNCTIONS\\
 
 			setEmailFlux: new_email => {
 				setStore({ email: new_email });
 			},
-
 			setPasswordFlux: new_password => {
 				setStore({ password: new_password });
 			},
-
-			getUser: async id => {
-				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + id);
-				response = await response.json();
-				setStore({ user: response });
-				setStore({ help: response.is_psychologist });
-				setStore({ id: response.id });
+			setHelp: is_psychologist => {
+				setStore({ help: is_psychologist });
 			},
 
+			//CALL API\\
+
+			getWorkshops: () => {
+				fetch(
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/psychologist/" +
+						getStore().user.user_id +
+						"/workshops"
+				).then(async res => {
+					const response = await res.json();
+					setStore({ workshops: response });
+				});
+			},
+
+			getOneWorkshop: () => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/workshop/" + getStore().workshop.id).then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshop: response });
+						setStore({ categories: response.categories });
+					}
+				);
+			},
+			getUser: id => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id).then(async res => {
+					const response = await res.json();
+					setStore({ user: response });
+					setStore({ id: response.id });
+					response.is_psychologist
+						? setStore({ psychologistId: response.id })
+						: setStore({ companyId: response.id });
+				});
+			},
+
+			// getNewUser: async id => {
+			// 	let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id);
+			// 	response = await response.json();
+			// 	setStore({ user: response });
+			// 	setStore({ help: response.is_psychologist });
+			// 	setStore({ id: response.id });
+			// },
+
 			addNewUser: async user => {
-				let response = await fetch("https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -73,7 +120,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			editUserProfile: async user_info => {
 				let response = await fetch(
-					"https://3001-turquoise-alpaca-hu9eqoc2.ws-eu03.gitpod.io/user/" + getStore().user.user_id,
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + getStore().user.user_id,
 					{
 						method: "PUT",
 						headers: {
@@ -100,12 +147,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
+				console.log(response);
 				setStore({ user: response });
 			},
 
 			addNewWorkshop: async workshop => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/psychologist/workshop/1",
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/psychologist/" + id + "/workshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -127,27 +175,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				response = await response.json();
 			},
 
-			addNewSearchWorkshop: async searchWorkshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/company/searchworkshop/2", {
-					method: "POST",
-					mode: "cors",
-					redirect: "follow",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						category_id: parseInt(searchWorkshop.category),
-						duration: searchWorkshop.duration,
-						price: searchWorkshop.price,
-						date: searchWorkshop.date,
-						max_people: searchWorkshop.max_people
-					})
-				});
+			addNewSearchWorkshop: async (searchWorkshop, id) => {
+				let response = await fetch(
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/company/" + id + "/searchworkshop",
+					{
+						method: "POST",
+						mode: "cors",
+						redirect: "follow",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							category_id: parseInt(searchWorkshop.category),
+							duration: searchWorkshop.duration,
+							price: searchWorkshop.price,
+							date: searchWorkshop.date,
+							max_people: searchWorkshop.max_people
+						})
+					}
+				);
 				response = await response.json();
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://humind.herokuapp.com/login", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -160,25 +211,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
+				getActions().getUser(getStore().LoggedUser.id);
+				getActions().setHelp(getStore().LoggedUser.is_psychologist);
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
-				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id);
+				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id, decoded.sub.is_psychologist);
 			},
 
-			setLoggedUser: (new_email, new_id) => {
+			setLoggedUser: (new_email, new_id, new_is_psychologist) => {
 				setStore({
 					LoggedUser: {
 						email: new_email,
-						id: new_id
+						id: new_id,
+						is_psychologist: new_is_psychologist
 					}
 				});
 			},
 
+			logout: () => {
+				localStorage.removeItem("token");
+				setStore({
+					LoggedUser: {},
+					token: ""
+				});
+			},
+
 			editWorkshop: async workshop => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/workshop/1", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/workshop", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -197,27 +259,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editSearchWorkshop: async search_workshop => {
-				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/search_workshop/1",
-					{
-						method: "PUT",
-						body: JSON.stringify({
-							duration: search_workshop.duration,
-							price: search_workshop.price,
-							date: search_workshop.date,
-							max_people: search_workshop.max_people,
-							category_id: search_workshop.category_id
-						}),
-						headers: {
-							"Content-Type": "application/json"
-						}
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/search_workshop", {
+					method: "PUT",
+					body: JSON.stringify({
+						duration: search_workshop.duration,
+						price: search_workshop.price,
+						date: search_workshop.date,
+						max_people: search_workshop.max_people,
+						category_id: search_workshop.category_id
+					}),
+					headers: {
+						"Content-Type": "application/json"
 					}
-				);
+				});
 				response = await response.json();
 			},
 
+			getAllWorkshops: () => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/workshops").then(async res => {
+					const response = await res.json();
+					setStore({ allWorkshops: response });
+				});
+			},
+
+			getAllSearchWorkshops: () => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/search_workshops").then(async res => {
+					const response = await res.json();
+					setStore({ allSearchWorkshops: response });
+				});
+			},
+
 			deleteProfile: async id => {
-				let response = await fetch("https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/user/" + id, {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -228,7 +301,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://3001-red-donkey-0pd3shl9.ws-eu03.gitpod.io/psychologist/workshop" + id,
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({
@@ -240,8 +313,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				console.log("esto es lo que seria el email", email);
-				let response = await fetch("https://humind.herokuapp.com/contact", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/contact", {
 					method: "PUT",
 					body: JSON.stringify({
 						email_from: email.email_from,

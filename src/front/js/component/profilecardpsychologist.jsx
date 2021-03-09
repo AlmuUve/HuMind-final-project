@@ -8,7 +8,7 @@ export const Profiletemplatepsy = props => {
 	const { store, actions } = useContext(Context);
 	const [edit, setEdit] = useState(false);
 	return (
-		<div className="col-lg-4 col-sm-12 profileCard">
+		<>
 			<div className="imgProfile">
 				<img
 					className="avatar"
@@ -35,6 +35,6 @@ export const Profiletemplatepsy = props => {
 						}}></YellowButton>
 				</Link>
 			</div>
-		</div>
+		</>
 	);
 };

@@ -27,7 +27,7 @@ export const CompanyRegistrationForm = () => {
 		description: tokenInStorage == null ? "" : store.user["description"]
 	});
 
-	const history = useHistory();
+	// const history = useHistory();
 
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
@@ -50,7 +50,10 @@ export const CompanyRegistrationForm = () => {
 							</label>
 							<input
 								type="text"
-								onChange={inputChange}
+								onChange={e => {
+									inputChange(e);
+									actions.setpathProfileCompany(e.target.value);
+								}}
 								className="workshopInput form-control"
 								placeholder="Enter Your Company Name Here"
 								name="company_name"
@@ -180,7 +183,7 @@ export const CompanyRegistrationForm = () => {
 						</div>
 					</div>
 					<div className="row d-flex justify-content-center mb-5">
-						<Link to="/profile">
+						<Link to={store.pathProfileCompany}>
 							<YellowButton
 								type="submit"
 								text="Submit"
@@ -188,11 +191,12 @@ export const CompanyRegistrationForm = () => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile");
+											// history.push("/profile/:id");
 										});
 									} else {
 										actions.editUserProfile(user);
 									}
+									// actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>

@@ -9,7 +9,9 @@ export const DeleteButton = () => {
 			className="deleteButton"
 			onClick={e => {
 				e.preventDefault();
-				actions.deleteSearchWorkshop(id);
+
+				actions.deleteWorkshop(id);
+				// actions.deleteSearchWorkshop(id);
 			}}>
 			<i className="far fa-trash-alt deleteButton" />
 		</button>
