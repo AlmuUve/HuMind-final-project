@@ -26,9 +26,9 @@ app.url_map.strict_slashes = False
 
 
 # database condiguration
-app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
-app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
+app.config["JWT_ALGORITHM"] = "HS256"
 
 jwt = JWTManager(app)
 
@@ -149,7 +149,7 @@ def add_user():
     return jsonify(company.to_dict()), 201
 
 @app.route('/user/<int:id>', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_user(id):
     user = User.get_by_id(id)
     user_psychologist = User_psychologist.get_by_user_id(user.id)
@@ -160,7 +160,7 @@ def get_user(id):
         return jsonify(user_company.to_dict()), 200
 
 @app.route('/user/<int:id>', methods=['PUT'])
-# @jwt_required()
+@jwt_required()
 def update_users(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
@@ -173,7 +173,7 @@ def update_users(id):
 
 
 @app.route('/user/<int:id>', methods=['PATCH'])
-# @jwt_required()
+@jwt_required()
 def update_user(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
@@ -181,7 +181,7 @@ def update_user(id):
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
-# @jwt_required()
+@jwt_required()
 def delete_one_user(id):
     user_target = User.delete(id)
     return "Your profile has been deleted", 200

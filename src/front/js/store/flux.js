@@ -52,7 +52,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch(
 					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/psychologist/" +
 						getStore().user.user_id +
-						"/workshops"
+						"/workshops",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${localStorage.getItem("token")}`
+						}
+					}
 				).then(async res => {
 					const response = await res.json();
 					setStore({ workshops: response });
@@ -60,17 +66,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getOneWorkshop: () => {
-				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/workshop/" + getStore().workshop.id).then(
-					async res => {
-						const response = await res.json();
-						setStore({ workshop: response });
-						setStore({ categories: response.categories });
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/workshop/" + getStore().workshop.id, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
 					}
-				);
+				}).then(async res => {
+					const response = await res.json();
+					setStore({ workshop: response });
+					setStore({ categories: response.categories });
+				});
 			},
-
 			getUser: id => {
-				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id).then(async res => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				}).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ id: response.id });
@@ -125,7 +138,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					{
 						method: "PUT",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${localStorage.getItem("token")}`
 						},
 						body: JSON.stringify({
 							email: user_info.name,
