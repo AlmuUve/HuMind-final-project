@@ -88,6 +88,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 			},
+
 			getUser: id => {
 				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
@@ -313,7 +314,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						Authorization: getStore().token
 					})
 				});
 				response = await response.json();
