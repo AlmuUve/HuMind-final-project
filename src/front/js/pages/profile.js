@@ -12,9 +12,9 @@ import { Email } from "../component/email.jsx";
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
 
-	let userWorkshops = store.workshops.map((item, index) => {
-		return <WorkshopCard item={item} key={index.toString()} />;
-	});
+	// let userWorkshops = store.workshops.map((item, index) => {
+	// 	return <WorkshopCard item={item} key={index.toString()} />;
+	// });
 
 	if (store.help) {
 		return (
@@ -27,11 +27,11 @@ export const Profile = () => {
 								<Profiletemplatepsy />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to="/add_workshop">
+								{/* <Link to="/add_workshop">
 									<YellowButton text="Add Workshop" />
 								</Link>
+								<div>{userWorkshops}</div> */}
 								<Email />
-                                <WorkshopCard />
 							</div>
 						</div>
 					</div>
@@ -39,28 +39,26 @@ export const Profile = () => {
 			</>
 		);
 	} else {
-        return (
-		<>
-			<div className="container-fluid">
-				<Coverphoto photo="coverPhotoCompany" />
+		return (
+			<>
 				<div className="container-fluid">
-					<div className="row">
-						<div className="col-lg-4 col-sm-12 profileCard">
-							<Profiletemplatecompany />
-						</div>
-						<div className="col-lg-8 col-sm-12">
-							<Link to="/add_search_workshop">
-								<YellowButton text="Add Search" />
-							</Link>
-							<Email />
-                            <WorkshopCard  />
+					<Coverphoto photo="coverPhotoCompany" />
+					<div className="container-fluid">
+						<div className="row">
+							<div className="col-lg-4 col-sm-12 profileCard">
+								<Profiletemplatecompany />
+							</div>
+							<div className="col-lg-8 col-sm-12">
+								{/* <Link to="/add_search_workshop">
+									<YellowButton text="Add Search" />
+								</Link> */}
+								{/* <div>{userWorkshops}</div> */}
+								<Email />
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</>
-	);
-    }
-
-	
+			</>
+		);
+	}
 };

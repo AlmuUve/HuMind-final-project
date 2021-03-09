@@ -70,13 +70,10 @@ class User(db.Model):
     @classmethod
     def update_single_user(cls, user_data, id):
         user= cls.query.filter_by(id = id).first()
-        user.email= user_data["email"]
-        user._password= user_data["_password"]
-        user.description= user_data["description"]
-        user.is_psychologist= user.is_psychologist
-        user.is_active= user.is_active
+        for key, value in user_data.items():
+            setattr(user, key, value)
         db.session.commit()
- 
+        return user
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -123,9 +120,10 @@ class User_company(db.Model):
 
     @classmethod    
     def update_company_user(cls, user_data, id):
-        user= cls.query.filter_by(id = id).first()
+        user= cls.query.filter_by(user_id = id).first()
         user.company_name= user_data["company_name"]
-        db.session.commit()   
+        db.session.commit()  
+        return user 
 
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
@@ -191,11 +189,10 @@ class User_psychologist(db.Model):
         user.name= user_data["name"]
         user.lastname= user_data["lastname"]
         user.speciality= user_data["speciality"]
-        db.session.commit()           
+        db.session.commit()
+        return user
 
-    def add(self):
-        db.session.add(self)
-        db.session.commit()  
+       
 
 workshop_has_category = db.Table('workshop_has_category',
     db.Column('workshop_id', db.Integer, db.ForeignKey("workshop.id"), primary_key=True),
@@ -324,6 +321,7 @@ class Workshop(db.Model):
     user_psychologist_id = db.Column(db.Integer, db.ForeignKey("user_psychologist.id"))
     category_info = db.relationship("Category", secondary= workshop_has_category, lazy='subquery',
         backref=db.backref("workshops", lazy=True))
+        
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
@@ -390,6 +388,13 @@ class Workshop(db.Model):
     def get_workshop_by_psychologist_id(cls, id):
         workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
+
+    def get_category_by_name(category_info):
+        categorys = []
+        for category in category_info:
+            new_category_list = Category.get_by_id(category)
+            categorys.append(new_category_list.category_name)
+        return categorys
 
     def update_workshop(self, 
                         new_title, 

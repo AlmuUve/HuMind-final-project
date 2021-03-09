@@ -1,29 +1,33 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
+	const tokenInStorage = localStorage.getItem("token");
+
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
 		is_psychologist: false,
-		name: "",
-		lastname: "",
-		identity_number: "",
-		association_number: "",
-		speciality: "",
-		company_name: "",
-		company_number: "",
-		facebook: "",
-		instagram: "",
-		twitter: "",
-		linkedIn: "",
-		youTube: "",
-		description: ""
+		name: tokenInStorage == null ? "" : store.user["name"],
+		lastname: tokenInStorage == null ? "" : store.user["lastname"],
+		identity_number: tokenInStorage == null ? "" : store.user["identity_number"],
+		association_number: tokenInStorage == null ? "" : store.user["association_number"],
+		speciality: tokenInStorage == null ? "" : store.user["speciality"],
+		company_name: tokenInStorage == null ? "" : store.user["company_name"],
+		company_number: tokenInStorage == null ? "" : store.user["company_number"],
+		facebook: tokenInStorage == null ? "" : store.user["facebook"],
+		instagram: tokenInStorage == null ? "" : store.user["instagram"],
+		twitter: tokenInStorage == null ? "" : store.user["twitter"],
+		linkedIn: tokenInStorage == null ? "" : store.user["linkedIn"],
+		youTube: tokenInStorage == null ? "" : store.user["youTube"],
+		description: tokenInStorage == null ? "" : store.user["description"]
 	});
+
+	// const history = useHistory();
 
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
@@ -54,6 +58,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Enter Your Company Name Here"
 								name="company_name"
 								id="company_name"
+								defaultValue={user.company_name}
 								required
 							/>
 						</div>
@@ -68,6 +73,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Enter Your Company Number Here"
 								name="company_number"
 								id="company_number"
+								defaultValue={user.company_number}
 								required
 							/>
 						</div>
@@ -96,6 +102,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Facebook profile here"
 								name="facebook"
 								id="facebook"
+								defaultValue={user.facebook}
 								required
 							/>
 						</div>
@@ -110,6 +117,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Instagram profile here"
 								name="instagram"
 								id="instagram"
+								defaultValue={user.instagram}
 								required
 							/>
 						</div>
@@ -124,6 +132,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your Twitter profile here"
 								name="twitter"
 								id="twitter"
+								defaultValue={user.twitter}
 								required
 							/>
 						</div>
@@ -138,6 +147,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your LinkedIn profile here"
 								name="linkedIn"
 								id="linkedIn"
+								defaultValue={user.linkedIn}
 								required
 							/>
 						</div>
@@ -152,6 +162,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Your YouTube profile here"
 								name="youTube"
 								id="youTube"
+								defaultValue={user.youTube}
 								required
 							/>
 						</div>
@@ -166,6 +177,7 @@ export const CompanyRegistrationForm = () => {
 								placeholder="Write a description here"
 								form="usrform"
 								id="description"
+								defaultValue={user.description}
 								required
 							/>
 						</div>
@@ -176,8 +188,15 @@ export const CompanyRegistrationForm = () => {
 								type="submit"
 								text="Submit"
 								onClickForm={() => {
-									actions.addNewUser(user);
-									actions.setHelp(user.is_psychologist);
+									if (tokenInStorage == null) {
+										actions.addNewUser(user).then(() => {
+											actions.login(user.email, user.password);
+											// history.push("/profile/:id");
+										});
+									} else {
+										actions.editUserProfile(user);
+									}
+									// actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>

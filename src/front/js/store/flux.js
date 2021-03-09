@@ -10,7 +10,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			categories: [],
 			allWorkshops: [],
 			allSearchWorkshops: [],
-			workshops: [],
 			token: "",
 			user: {},
 			id: null,
@@ -20,22 +19,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			psychologistId: "",
 			companyId: "",
+			userProfile: [],
 			pathProfilePsychologist: "",
 			pathProfileCompany: ""
 		},
 
 		actions: {
+			//FUNCTIONS FOR PATHS PROFILE\\
 
-            //FUNCTIONS FOR PATHS PROFILE\\
-            
 			setpathProfilePsychologist: (newName, newLastname) => {
 				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
 			},
 			setpathProfileCompany: newName => {
 				setStore({ pathProfileCompany: pathProfile.concat(newName) });
-            },
+			},
 
-            //AUX FUNCTIONS\\
+			//AUX FUNCTIONS\\
 
 			setEmailFlux: new_email => {
 				setStore({ email: new_email });
@@ -45,37 +44,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setHelp: is_psychologist => {
 				setStore({ help: is_psychologist });
-            },
-            
-            //CALL API\\
-
-			getWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/psychologist/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ workshops: response });
-					}
-				);
 			},
 
-			getOneWorkshop: () => {
-				fetch("https://humind.herokuapp.com/workshop/1").then(async res => {
+			//CALL API\\
+
+			getWorkshops: () => {
+				fetch(
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/psychologist/" +
+						getStore().user.user_id +
+						"/workshops"
+				).then(async res => {
 					const response = await res.json();
-					setStore({ workshop: response });
-					setStore({ categories: response.categories });
+					setStore({ workshops: response });
 				});
 			},
 
-			setEmailFlux: new_email => {
-				setStore({ email: new_email });
+			getOneWorkshop: () => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/workshop/" + getStore().workshop.id).then(
+					async res => {
+						const response = await res.json();
+						setStore({ workshop: response });
+						setStore({ categories: response.categories });
+					}
+				);
 			},
-
-			setPasswordFlux: new_password => {
-				setStore({ password: new_password });
-			},
-
 			getUser: id => {
-				fetch("https://humind.herokuapp.com/user/" + id).then(async res => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
 					setStore({ id: response.id });
@@ -85,8 +79,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			// getNewUser: async id => {
+			// 	let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id);
+			// 	response = await response.json();
+			// 	setStore({ user: response });
+			// 	setStore({ help: response.is_psychologist });
+			// 	setStore({ id: response.id });
+			// },
+
 			addNewUser: async user => {
-				let response = await fetch("https://humind.herokuapp.com/user", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -113,15 +115,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				getActions().getUser(response.user_id);
-				response.is_psychologist
-					? setStore({ psychologistId: response.id })
-					: setStore({ companyId: response.id });
+				await getActions().getUser(response.user_id);
 			},
 
-			addNewWorkshop: async (workshop, id) => {
+			editUserProfile: async user_info => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/user/psychologist/" + id + "/workshop",
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + getStore().user.user_id,
+					{
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							email: user_info.name,
+							name: user_info.name,
+							lastname: user_info.lastname,
+							identity_number: user_info.identity_number,
+							association_number: user_info.association_number,
+							speciality: user_info.speciality,
+							company_name: user_info.company_name,
+							company_number: user_info.company_number,
+							facebook: user_info.facebook,
+							instagram: user_info.instagram,
+							twitter: user_info.twitter,
+							linkedIn: user_info.linkedIn,
+							youTube: user_info.youTube,
+							description: user_info.description,
+							is_psychologist: user_info.is_psychologist,
+							user_id: user_info.user_id
+						})
+					}
+				);
+				response = await response.json();
+				console.log(response);
+				setStore({ user: response });
+			},
+
+			addNewWorkshop: async workshop => {
+				let response = await fetch(
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/psychologist/" + id + "/workshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -145,7 +177,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addNewSearchWorkshop: async (searchWorkshop, id) => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/user/company/" + id + "/searchworkshop",
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/company/" + id + "/searchworkshop",
 					{
 						method: "POST",
 						mode: "cors",
@@ -166,7 +198,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://humind.herokuapp.com/login", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -208,7 +240,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editWorkshop: async workshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/workshop/1", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/workshop", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -227,43 +259,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editSearchWorkshop: async search_workshop => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/search_workshop/1",
-					{
-						method: "PUT",
-						body: JSON.stringify({
-							duration: search_workshop.duration,
-							price: search_workshop.price,
-							date: search_workshop.date,
-							max_people: search_workshop.max_people,
-							category_id: search_workshop.category_id
-						}),
-						headers: {
-							"Content-Type": "application/json"
-						}
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/search_workshop", {
+					method: "PUT",
+					body: JSON.stringify({
+						duration: search_workshop.duration,
+						price: search_workshop.price,
+						date: search_workshop.date,
+						max_people: search_workshop.max_people,
+						category_id: search_workshop.category_id
+					}),
+					headers: {
+						"Content-Type": "application/json"
 					}
-				);
+				});
 				response = await response.json();
-            },
-            
-            getAllWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/workshops").then(async res => {
+			},
+
+			getAllWorkshops: () => {
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allWorkshops: response });
 				});
 			},
 
 			getAllSearchWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/search_workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ allSearchWorkshops: response });
-					}
-				);
+				fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/search_workshops").then(async res => {
+					const response = await res.json();
+					setStore({ allSearchWorkshops: response });
+				});
 			},
 
 			deleteProfile: async id => {
-				let response = await fetch("https://humind.herokuapp.com/user/" + id, {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -274,7 +301,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteSearchWorkshop: async id => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/psychologist/workshop" + id,
+					"https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/psychologist/workshop" + id,
 					{
 						method: "DELETE",
 						headers: new Headers({
@@ -286,7 +313,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
-				let response = await fetch("https://humind.herokuapp.com/contact", {
+				let response = await fetch("https://3001-black-bat-eintvalr.ws-eu03.gitpod.io/contact", {
 					method: "PUT",
 					body: JSON.stringify({
 						email_from: email.email_from,

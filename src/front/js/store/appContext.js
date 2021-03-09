@@ -17,10 +17,7 @@ const injectContext = PassedComponent => {
 			})
 		);
 
-		useEffect(() => {
-			state.actions.getOneWorkshop();
-			state.actions.getWorkshops();
-		}, []);
+		useEffect(() => {}, []);
 
 		return (
 			<Context.Provider value={state}>
