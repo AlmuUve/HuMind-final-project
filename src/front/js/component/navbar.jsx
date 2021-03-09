@@ -42,15 +42,41 @@ export const Navbarpage = props => {
 				</Link>
 				<Link to="/feed">
 					<Dropdown.ItemText className="buttonDropDown">
-						<NavbarButtons text="Feed" />
+						<NavbarButtons
+							text="Feed"
+							onClickNavbar={() => {
+								actions.getAllSearchWorkshops();
+								actions.getAllWorkshops();
+							}}
+						/>
 					</Dropdown.ItemText>
 				</Link>
 				<Link to="/">
 					<Dropdown.ItemText className="buttonDropDown">
 						<NavbarButtons
 							text="Log Out"
-							onLogOutClick={() => {
+							onClickNavbar={() => {
 								actions.logout();
+								actions.setId(null);
+								setNavbar(
+									<Nav className="ml-auto">
+										<a href="#ancla1" className="buttonNavbar">
+											<NavbarButtons text="What do we do?" />
+										</a>
+										<a href="#anclaCompanies" className="buttonNavbar">
+											<NavbarButtons text="Companies" />
+										</a>
+										<a href="#anclaPsychologists" className="buttonNavbar">
+											<NavbarButtons text="Psychologist" />
+										</a>
+										<Link to="/signup" className="buttonNavbar">
+											<NavbarButtons text="Sign Up" />
+										</Link>
+										<Link to="/login" className="buttonNavbar">
+											<NavbarButtons text="Log In" />
+										</Link>
+									</Nav>
+								);
 							}}
 						/>
 					</Dropdown.ItemText>

@@ -21,6 +21,8 @@ export const Profile = () => {
 		return <SearchWorkshopCard item={item} key={index.toString()} />;
 	});
 
+	console.log("hola", store.user);
+
 	if (store.help) {
 		return (
 			<>
@@ -32,7 +34,7 @@ export const Profile = () => {
 								<Profiletemplatepsy />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to="/add_workshop">
+								<Link to={"/add_workshop/" + store.user.name + "_" + store.user.lastname}>
 									<YellowButton text="Add Workshop" />
 								</Link>
 								{userWorkshops}
@@ -54,7 +56,7 @@ export const Profile = () => {
 								<Profiletemplatecompany />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to="/add_search_workshop">
+								<Link to={"/add_workshop/" + store.company_name}>
 									<YellowButton text="Add Search" />
 								</Link>
 								{userWorkshops}

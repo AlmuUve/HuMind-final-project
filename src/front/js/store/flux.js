@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-emerald-ant-5l5n1dpe.ws-eu03.gitpod.io";
+const url = "https://3001-green-seahorse-48ne27qg.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -53,6 +53,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setHelp: is_psychologist => {
 				setStore({ help: is_psychologist });
+			},
+			setId: new_id => {
+				setStore({ id: new_id });
 			},
 
 			//CALL API\\
@@ -222,6 +225,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().getAllWorkshops();
 				getActions().getAllSearchWorkshops();
 				setStore({ help: getStore().LoggedUser.is_psychologist });
+				console.log("hola");
 			},
 
 			decode: () => {
