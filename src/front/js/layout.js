@@ -55,4 +55,3 @@ const Layout = () => {
 };
 
 export default injectContext(Layout);
-∫
