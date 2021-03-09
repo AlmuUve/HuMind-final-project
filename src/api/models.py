@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Table, Column, Integer, ForeignKey, String, DateTime, Date, Time, Float
 db = SQLAlchemy()
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -29,15 +30,6 @@ class User(db.Model):
         "is_psychologist": self.is_psychologist,
         }
 
-
-    @classmethod
-    def get_by_email(cls, email):
-        return cls.query.filter_by(
-            email = email
-        ).first_or_404(
-            description = f'Error!'
-        )
-
     @classmethod
     def add(cls, email, _password, facebook, instagram, twitter, linkedIn, youTube, is_psychologist, description):
         user = cls(
@@ -61,11 +53,12 @@ class User(db.Model):
         return user
 
     @classmethod
-    def delete(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        target.is_active=False        
-        db.session.commit()
-        return target
+    def get_by_email(cls, email):
+        return cls.query.filter_by(
+            email = email
+        ).first_or_404(
+            description = f'Error!'
+        )
     
     @classmethod
     def update_single_user(cls, user_data, id):
@@ -74,6 +67,13 @@ class User(db.Model):
             setattr(user, key, value)
         db.session.commit()
         return user
+
+    @classmethod
+    def delete(cls, id):
+        target = cls.query.filter_by(id = id).first()
+        target.is_active=False        
+        db.session.commit()
+        return target
 
 class User_company(db.Model):
     __tablename__ = 'user_company'
@@ -160,15 +160,6 @@ class User_psychologist(db.Model):
             "youTube": user.youTube,
         }
 
-    @classmethod
-    def get_wokshops_list(cls, id):
-        workshops = []
-        psychologists = cls.query.filter_by(id = id).all()
-        for psychologist in psychologists:
-            for workshop in psychologist.workshop:
-                workshops.append(workshop.id)
-        return workshops
-
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -192,6 +183,14 @@ class User_psychologist(db.Model):
         db.session.commit()
         return user
 
+    @classmethod
+    def get_wokshops_list(cls, id):
+        workshops = []
+        psychologists = cls.query.filter_by(id = id).all()
+        for psychologist in psychologists:
+            for workshop in psychologist.workshop:
+                workshops.append(workshop.id)
+        return workshops
        
 
 workshop_has_category = db.Table('workshop_has_category',
@@ -219,16 +218,6 @@ class Category(db.Model):
     def get_by_id(cls, id):
         category = cls.query.get(id)
         return category
-
-    @classmethod
-    def get_all_categories(cls):
-        all_categories = cls.query.all()
-        return all_categories
-    
-    @classmethod
-    def get_by_name(cls, name):
-        category = cls.query.filter_by(category_name = id).first()
-        return category_name
 
     @classmethod
     def get_all(cls):
@@ -269,16 +258,16 @@ class Search_workshop(db.Model):
             "owner": user.company_name,
             "category": new_category.category_name
         }
-    
-    @classmethod
-    def get_all(cls):
-        search_workshops = cls.query.all()
-        return search_workshops
 
     @classmethod
     def get_by_id(cls, id):
         search = cls.query.get(id)
         return search
+
+    @classmethod
+    def get_all(cls):
+        search_workshops = cls.query.all()
+        return search_workshops
 
     def update_search_workshop(self, 
                             new_duration, 
@@ -304,14 +293,14 @@ class Search_workshop(db.Model):
         workshop_by_company_id = cls.query.filter_by(user_company_id = id)
         return workshop_by_company_id
 
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-        return "Your search has been deleted", 200
-
     def add(self):
         db.session.add(self)
         db.session.commit()
+    
+     def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return "Your search has been deleted", 200
 
 class Workshop(db.Model):
     __tablename__ = 'workshop'
@@ -347,7 +336,12 @@ class Workshop(db.Model):
             "owner_lastname": user.lastname,
             "categories": list(map(lambda category: category.category_name, self.category_info))
         }
-    
+
+    @classmethod
+    def get_by_id(cls, id):
+        workshop = cls.query.get(id)
+        return workshop
+
     @classmethod
     def get_all(cls):
         workshops = cls.query.all()
@@ -357,49 +351,6 @@ class Workshop(db.Model):
     def get_workshop_by_psychologist_id(cls, id):
         workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
-
-    @classmethod
-    def get_workshop_by_id(cls, id):
-        workshop = cls.query.filter_by(id = id).first()
-        return workshop
-
-    @classmethod
-    def get_categories_by_workshop_id(cls, id):
-        categories = []
-        workshops = cls.query.filter_by(id = id).all()
-        for workshop in workshops:
-            for category in workshop.category_info:
-                categories.append(category.category_name)
-        return categories
-
-    def get_category_by_name(self, category_info):
-        categories = []
-        for category in category_info:
-            new_category_list = Category.get_by_id(category)
-            categories.append(new_category_list.category_name)
-        return categories
-
-    @classmethod
-    def get_by_id(cls, id):
-        workshop = cls.query.get(id)
-        return workshop
-
-    @classmethod
-    def get_by_user_id(cls, id):
-        workshop_by_user = cls.query.filter_by(user_psychologist_id = id).all()
-        return workshop_by_user
-
-    @classmethod
-    def get_workshop_by_psychologist_id(cls, id):
-        workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
-        return workshop_by_psychologist_id
-
-    def get_category_by_name(category_info):
-        categorys = []
-        for category in category_info:
-            new_category_list = Category.get_by_id(category)
-            categorys.append(new_category_list.category_name)
-        return categorys
 
     def update_workshop(self, 
                         new_title, 
