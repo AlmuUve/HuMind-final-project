@@ -297,7 +297,7 @@ class Search_workshop(db.Model):
         db.session.add(self)
         db.session.commit()
     
-     def delete(self):
+    def delete(self):
         db.session.delete(self)
         db.session.commit()
         return "Your search has been deleted", 200
