@@ -52,29 +52,7 @@ def handle_invalid_usage(error):
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
-
-# @app.route('/user/company/<int:id>', methods=['GET'])
-# @jwt_required()
-# def get_user_company_information(id):
-#     user = User.get_by_id(id)
-#     user_company = User_company.get_by_user_id(user.id)
-#     if user.is_active:
-#         return jsonify(user_company.to_dict()), 200
-#     else:
-#         return "This profile doesnt exists", 400
-
-# @app.route('/user/psychologist/<int:id>', methods=['GET'])
-# # @jwt_required()
-# def get_user_psychologist_information(id):
-#     user = User.get_by_id(id)
-#     workshops_list = User_psychologist.get_wokshops_list(id)
-#     user_psychologist = User_psychologist.get_by_user_id(user.id)
-#     if user.is_active:
-#         return jsonify(user_psychologist.to_dict()), 200
-#     else:
-#         return "This profile doesnt exists", 400
-        
+    return send_from_directory(static_file_dir, 'index.html')   
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
