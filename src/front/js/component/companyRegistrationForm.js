@@ -27,7 +27,7 @@ export const CompanyRegistrationForm = () => {
 		description: tokenInStorage == null ? "" : store.user["description"]
 	});
 
-	// const history = useHistory();
+	const history = useHistory();
 
 	const inputChange = event => {
 		setUser({ ...user, [event.target.name]: event.target.value });
@@ -191,7 +191,7 @@ export const CompanyRegistrationForm = () => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											// history.push("/profile/:id");
+											history.push("/profile/:id");
 										});
 									} else {
 										actions.editUserProfile(user);

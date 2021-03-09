@@ -34,7 +34,7 @@ export const Profilefeed = props => {
 				<div className="titleCardFeed">{name}</div>
 			</div>
 			<div className="d-flex justify-content-center mt-2">
-				<Link to="/profile">
+				<Link to={"/profile/" + store.user.name + "_" + store.user.lastname}>
 					<YellowButton text="Go to profile" />
 				</Link>
 			</div>

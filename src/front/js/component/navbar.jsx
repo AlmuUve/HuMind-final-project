@@ -35,20 +35,26 @@ export const Navbarpage = props => {
 				title={<img className="navbarAvatarButton" src={navbarAvatar} />}
 				className="ml-2 dropButton"
 				menuAlign="right">
-				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons text="Profile" />
-				</Dropdown.ItemText>
-				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons text="Feed" />
-				</Dropdown.ItemText>
-				<Dropdown.ItemText className="buttonDropDown">
-					<NavbarButtons
-						text="Log Out"
-						onLogOutClick={() => {
-							actions.logout();
-						}}
-					/>
-				</Dropdown.ItemText>
+				<Link to={"/profile/" + store.user.name + "_" + store.user.lastname}>
+					<Dropdown.ItemText className="buttonDropDown">
+						<NavbarButtons text="Profile" />
+					</Dropdown.ItemText>
+				</Link>
+				<Link to="/feed">
+					<Dropdown.ItemText className="buttonDropDown">
+						<NavbarButtons text="Feed" />
+					</Dropdown.ItemText>
+				</Link>
+				<Link to="/">
+					<Dropdown.ItemText className="buttonDropDown">
+						<NavbarButtons
+							text="Log Out"
+							onLogOutClick={() => {
+								actions.logout();
+							}}
+						/>
+					</Dropdown.ItemText>
+				</Link>
 			</DropdownButton>
 		</Nav>
 	);

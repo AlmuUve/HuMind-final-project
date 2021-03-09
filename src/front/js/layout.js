@@ -32,10 +32,10 @@ const Layout = () => {
 					<Route exact path="/profile/:id">
 						<Profile />
 					</Route>
-					<Route exact path="/add_workshop">
+					<Route exact path="/add_workshop/:id">
 						<Addworkshop />
 					</Route>
-					<Route exact path="/add_search_workshop">
+					<Route exact path="/add_search_workshop/:id">
 						<Addsearchworkshop />
 					</Route>
 					<Route exact path="/edit_profile">

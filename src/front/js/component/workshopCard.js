@@ -6,9 +6,14 @@ import { YellowButton } from "./yellowButton";
 import { DeleteButton } from "./deleteButton";
 import { EditButton } from "./editButton";
 import { Link } from "react-router-dom";
+import { Categorylabel } from "./FeedComponent/categoryinworkshops.jsx";
 
 export const WorkshopCard = props => {
 	const { actions, store } = useContext(Context);
+
+	let categoryLabels = props.item.categories.map((item, index) => {
+		return <Categorylabel item={item} key={index.toString()} />;
+	});
 
 	return (
 		<div className="workshopCard">
@@ -18,15 +23,15 @@ export const WorkshopCard = props => {
 					<span className="date">Date: {props.item.date}</span>
 					<span className="duration">Duration: {props.item.duration} hours</span>
 					<span className="maxPeople">Pax: {props.item.max_people}</span>
-					<span className="description">Description: {props.item.description}</span>
-					<span className="categories">Categories: {props.item.categories} </span>
+					<span className="WorkDescription">Description: {props.item.description}</span>
+					<span className="categories">{categoryLabels} </span>
 				</div>
 			</div>
 			<div className="buttons_workshopCard">
 				<Link to={"/add_workshop/" + props.item.id}>
 					<EditButton
 						className="editButton_workshopCard"
-						onClickForm={e => {
+						onEditClick={e => {
 							actions.editWorkshop(e);
 						}}
 					/>

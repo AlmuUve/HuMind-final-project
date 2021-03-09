@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
+const url = "https://3001-emerald-ant-5l5n1dpe.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -26,25 +27,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 
 		actions: {
-			getWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ searchWorkshops: response });
-						console.log(getStore().searchWorkshops, "soy un console log de fluxxxx");
-					}
-				);
+			getSearchWorkshops: () => {
+				fetch(url + "/user/company/1/workshops").then(async res => {
+					const response = await res.json();
+					setStore({ searchWorkshops: response });
+				});
 			},
 
-			getSearchWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						console.log(response);
-						setStore({ searchWorkshops: response });
-					}
-                );
-                },
 			//FUNCTIONS FOR PATHS PROFILE\\
 
 			setpathProfilePsychologist: (newName, newLastname) => {
@@ -69,24 +58,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//CALL API\\
 
 			getWorkshops: () => {
-				fetch(
-					"https://humind.herokuapp.com/user/psychologist/" +
-						getStore().user.user_id +
-						"/workshops",
-					{
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: `Bearer ${localStorage.getItem("token")}`
-						}
+				fetch(url + "/user/psychologist/" + getStore().user.user_id + "/workshops", {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
 					}
-				).then(async res => {
+				}).then(async res => {
 					const response = await res.json();
 					setStore({ workshops: response });
 				});
 			},
 
 			getOneWorkshop: () => {
-				fetch("https://humind.herokuapp.com/workshop/" + getStore().workshop.id, {
+				fetch(url + "/workshop/" + getStore().workshop.id, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -97,8 +81,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ categories: response.categories });
 				});
 			},
+
 			getUser: id => {
-				fetch("https://humind.herokuapp.com/user/" + id, {
+				fetch(url + "/user/" + id, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -110,19 +95,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					response.is_psychologist
 						? setStore({ psychologistId: response.id })
 						: setStore({ companyId: response.id });
+					getActions().getWorkshops();
 				});
 			},
 
-			// getNewUser: async id => {
-			// 	let response = await fetch("https://humind.herokuapp.com/user/" + id);
-			// 	response = await response.json();
-			// 	setStore({ user: response });
-			// 	setStore({ help: response.is_psychologist });
-			// 	setStore({ id: response.id });
-			// },
-
 			addNewUser: async user => {
-				let response = await fetch("https://humind.herokuapp.com/user", {
+				let response = await fetch(url + "/user", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -149,91 +127,84 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				console.log(response);
 				await getActions().getUser(response.user_id);
+				console.log("añado", response);
 			},
 
 			editUserProfile: async user_info => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/" + getStore().user.user_id,
-					{
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: `Bearer ${localStorage.getItem("token")}`
-						},
-						body: JSON.stringify({
-							email: user_info.name,
-							name: user_info.name,
-							lastname: user_info.lastname,
-							identity_number: user_info.identity_number,
-							association_number: user_info.association_number,
-							speciality: user_info.speciality,
-							company_name: user_info.company_name,
-							company_number: user_info.company_number,
-							facebook: user_info.facebook,
-							instagram: user_info.instagram,
-							twitter: user_info.twitter,
-							linkedIn: user_info.linkedIn,
-							youTube: user_info.youTube,
-							description: user_info.description,
-							is_psychologist: user_info.is_psychologist,
-							user_id: user_info.user_id
-						})
-					}
-				);
+				let response = await fetch(url + "/user/" + getStore().user.user_id, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					},
+					body: JSON.stringify({
+						email: user_info.name,
+						name: user_info.name,
+						lastname: user_info.lastname,
+						identity_number: user_info.identity_number,
+						association_number: user_info.association_number,
+						speciality: user_info.speciality,
+						company_name: user_info.company_name,
+						company_number: user_info.company_number,
+						facebook: user_info.facebook,
+						instagram: user_info.instagram,
+						twitter: user_info.twitter,
+						linkedIn: user_info.linkedIn,
+						youTube: user_info.youTube,
+						description: user_info.description,
+						is_psychologist: user_info.is_psychologist,
+						user_id: user_info.user_id
+					})
+				});
 				response = await response.json();
 				console.log(response);
 				setStore({ user: response });
 			},
 
 			addNewWorkshop: async workshop => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/psychologist/" + id + "/workshop",
-					{
-						method: "POST",
-						mode: "cors",
-						redirect: "follow",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							title: workshop.title,
-							category_info: workshop.category,
-							duration: workshop.duration,
-							price: workshop.price,
-							date: workshop.date,
-							max_people: workshop.max_people,
-							description: workshop.description
-						})
-					}
-				);
+				let response = await fetch(url + "/user/psychologist/" + id + "/workshop", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						title: workshop.title,
+						category_info: workshop.category,
+						duration: workshop.duration,
+						price: workshop.price,
+						date: workshop.date,
+						max_people: workshop.max_people,
+						description: workshop.description
+					})
+				});
 				response = await response.json();
 			},
 
 			addNewSearchWorkshop: async (searchWorkshop, id) => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/user/company/" + id + "/searchworkshop",
-					{
-						method: "POST",
-						mode: "cors",
-						redirect: "follow",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							category_id: parseInt(searchWorkshop.category),
-							duration: searchWorkshop.duration,
-							price: searchWorkshop.price,
-							date: searchWorkshop.date,
-							max_people: searchWorkshop.max_people
-						})
-					}
-				);
+				let response = await fetch(url + "/user/company/" + id + "/searchworkshop", {
+					method: "POST",
+					mode: "cors",
+					redirect: "follow",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						category_id: parseInt(searchWorkshop.category),
+						duration: searchWorkshop.duration,
+						price: searchWorkshop.price,
+						date: searchWorkshop.date,
+						max_people: searchWorkshop.max_people
+					})
+				});
 				response = await response.json();
 			},
 
 			login: async (email, password) => {
-				let response = await fetch("https://humind.herokuapp.com/login", {
+				let response = await fetch(url + "/login", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -248,6 +219,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().decode();
 				getActions().getUser(getStore().LoggedUser.id);
 				getActions().setHelp(getStore().LoggedUser.is_psychologist);
+				getActions().getAllWorkshops();
+				getActions().getAllSearchWorkshops();
+				setStore({ help: getStore().LoggedUser.is_psychologist });
 			},
 
 			decode: () => {
@@ -275,7 +249,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editWorkshop: async workshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/workshop", {
+				let response = await fetch(url + "/user/workshop", {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -294,7 +268,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			editSearchWorkshop: async search_workshop => {
-				let response = await fetch("https://humind.herokuapp.com/user/search_workshop", {
+				let response = await fetch(url + "/user/search_workshop", {
 					method: "PUT",
 					body: JSON.stringify({
 						duration: search_workshop.duration,
@@ -311,21 +285,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/workshops").then(async res => {
+				fetch(url + "/user/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allWorkshops: response });
 				});
 			},
 
 			getAllSearchWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/search_workshops").then(async res => {
+				fetch(url + "/user/search_workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allSearchWorkshops: response });
 				});
 			},
 
 			deleteProfile: async id => {
-				let response = await fetch("https://humind.herokuapp.com/user/" + id, {
+				let response = await fetch(url + "/user/" + id, {
 					method: "PATCH",
 					headers: new Headers({
 						"Content-Type": "application/json",
@@ -336,20 +310,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteSearchWorkshop: async id => {
-				let response = await fetch(
-					"https://humind.herokuapp.com/psychologist/workshop" + id,
-					{
-						method: "DELETE",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						})
-					}
-				);
+				let response = await fetch(url + "/psychologist/workshop" + id, {
+					method: "DELETE",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					})
+				});
 				response = await response.json();
 			},
 
 			sendEmail: async email => {
-				let response = await fetch("https://humind.herokuapp.com/contact", {
+				let response = await fetch(url + "/contact", {
 					method: "PUT",
 					body: JSON.stringify({
 						email_from: email.email_from,

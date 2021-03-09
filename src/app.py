@@ -67,6 +67,7 @@ def serve_any_other_file(path):
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
+    print(body)
     email = body.get("email", None)
     _password = body.get("_password", None)
     facebook = body.get("facebook", None)

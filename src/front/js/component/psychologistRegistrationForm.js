@@ -8,6 +8,8 @@ export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
 	const tokenInStorage = localStorage.getItem("token");
 
+	console.log(tokenInStorage);
+
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
@@ -245,7 +247,7 @@ export const PsychologistRegistrationForm = props => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile");
+											history.push("/profile/:id");
 										});
 									} else {
 										actions.editUserProfile(user);

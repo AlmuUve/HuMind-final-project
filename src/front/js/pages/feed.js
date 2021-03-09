@@ -29,15 +29,16 @@ export const Feed = () => {
 				</div>
 			</>
 		);
-	}
-	return (
-		<>
-			<div className="container-fluid">
-				<div className="row d-felx justify-content-center">
-					<Profilefeed />
-					<div className="col-lg-8 col-sm-12 bg-succes">{listAllSearchWorkshops}</div>
+	} else {
+		return (
+			<>
+				<div className="container-fluid">
+					<div className="row d-felx justify-content-center">
+						<Profilefeed />
+						<div className="col-lg-8 col-sm-12 bg-succes">{listAllSearchWorkshops}</div>
+					</div>
 				</div>
-			</div>
-		</>
-	);
+			</>
+		);
+	}
 };

@@ -319,9 +319,8 @@ class Workshop(db.Model):
     def __repr__(self):
         return f'Workshop {self.title} and owner {self.user_psychologist_id}'
 
-    def to_dict(self
-    ):
-        
+    def to_dict(self):
+        user = User_psychologist.get_by_id(self.user_psychologist_id)
         return {
             "id": self.id,
             "title": self.title,
