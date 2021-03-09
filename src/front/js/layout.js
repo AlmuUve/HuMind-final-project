@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
 import injectContext from "./store/appContext";
-
 import { SignUpLogInButton } from "./component/signUpLogInButton";
 import { YellowButton } from "./component/yellowButton";
 import { DeleteButton } from "./component/deleteButton";
@@ -12,12 +10,17 @@ import { WorkshopCard } from "./component/workshopCard";
 import { Navbarpage } from "../js/component/navbar.jsx";
 import { Landing } from "./pages/landing";
 import { SignUp } from "./pages/signup";
-import { UserLogIn } from "./pages/login";
 import { Profile } from "./pages/profile";
+import { Editprofile } from "./pages/editprofile";
+import { UserLogIn } from "./pages/login";
 import { Addworkshop } from "./pages/addworkshop";
 import { Addsearchworkshop } from "./pages/addnewseachworkshop";
+import { Feed } from "./pages/feed";
 import { Footer } from "./component/footer";
+<<<<<<< HEAD
 import { Home } from "./pages/home";
+=======
+>>>>>>> main
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -27,9 +30,12 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 				<Navbarpage />
 				<Switch>
+<<<<<<< HEAD
 					<Route exact path="/home">
 						<Home />
 					</Route>
+=======
+>>>>>>> main
 					<Route exact path="/">
 						<Landing />
 					</Route>
@@ -39,7 +45,7 @@ const Layout = () => {
 					<Route exact path="/signup">
 						<SignUp />
 					</Route>
-					<Route exact path="/profile">
+					<Route exact path="/profile/:id">
 						<Profile />
 					</Route>
 					<Route exact path="/add_workshop">
@@ -47,6 +53,15 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />
+					</Route>
+					<Route exact path="/add_search_workshop">
+						<Addsearchworkshop />
+					</Route>
+					<Route exact path="/edit_profile">
+						<Editprofile />
+					</Route>
+					<Route exact path="/feed">
+						<Feed />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>

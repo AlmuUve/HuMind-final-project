@@ -48,7 +48,7 @@ export const Searchworkshopform = () => {
 			setShowError("showError");
 		} else {
 			setShowError("notShow");
-			actions.addNewSearchWorkshop(searchWorkshop);
+			actions.addNewSearchWorkshop(searchWorkshop, store.companyId);
 		}
 	};
 

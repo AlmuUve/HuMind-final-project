@@ -3,12 +3,10 @@ import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import { SearchWorkshopCard } from "../component/searchworkshopcard";
 import { WorkshopCard } from "../component/workshopCard";
-
 import "../../styles/home.scss";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
-	console.log(store.workshops, "soy el console log de home");
 
 	let userWorkshops = store.workshops.map((item, index) => {
 		return <WorkshopCard item={item} key={index.toString()} />;

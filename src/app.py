@@ -6,7 +6,6 @@ from flask_cors import CORS
 # from flask_login import current_user, login_user
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -18,13 +17,15 @@ from api.models import db, User, User_company, User_psychologist, Category, Sear
 from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
-
+# from api.contact import send_simple_message
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+
+# database condiguration
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
 app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEYS")
@@ -53,28 +54,31 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
-@app.route('/user/company/<int:id>', methods=['GET'])
-def get_user_company_information(id):
-    user = User.get_by_id(id)
-    user_company = User_company.get_by_user_id(user.id)
-    if user.is_active:
-        return jsonify(user_company.to_dict()), 200
-    else:
-        return "This profile doesnt exists", 400
+# @app.route('/user/company/<int:id>', methods=['GET'])
+# @jwt_required()
+# def get_user_company_information(id):
+#     user = User.get_by_id(id)
+#     user_company = User_company.get_by_user_id(user.id)
+#     if user.is_active:
+#         return jsonify(user_company.to_dict()), 200
+#     else:
+#         return "This profile doesnt exists", 400
 
-@app.route('/user/psychologist/<int:id>', methods=['GET'])
-def get_user_psychologist_information(id):
-    user = User.get_by_id(id)
-    workshops_list = User_psychologist.get_wokshops_list(id)
-    user_psychologist = User_psychologist.get_by_user_id(user.id)
-    if user.is_active:
-        return jsonify(user_psychologist.to_dict()), 200
-    else:
-        return "This profile doesnt exists", 400
+# @app.route('/user/psychologist/<int:id>', methods=['GET'])
+# # @jwt_required()
+# def get_user_psychologist_information(id):
+#     user = User.get_by_id(id)
+#     workshops_list = User_psychologist.get_wokshops_list(id)
+#     user_psychologist = User_psychologist.get_by_user_id(user.id)
+#     if user.is_active:
+#         return jsonify(user_psychologist.to_dict()), 200
+#     else:
+#         return "This profile doesnt exists", 400
         
 
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
+# @jwt_required()
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):
         path = 'index.html'
@@ -82,15 +86,14 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-
 @app.route('/contact', methods=['POST'])
+# @jwt_required()
 def send_email():
     body = request.get_json()
     email_from = body.get("email_from")
     email_to = body.get("email_to")
     subject = body.get("subject")
     message = body.get("message")
-    print(body)
     send_simple_message(
        email_from,
        email_to, 
@@ -108,7 +111,6 @@ def handle_login():
         )
     if not email or not _password:
         return "Missing info", 400
-
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
         access_token = create_access_token(
@@ -179,14 +181,17 @@ def get_user(id):
     if user.is_active and user.is_psychologist == False:
         return jsonify(user_company.to_dict()), 200
 
-
 @app.route('/user/<int:id>', methods=['PUT'])
 # @jwt_required()
-def update_user(id):
+def update_users(id):
     body = request.get_json()
     user = User.update_single_user(body, id)
-    change_user = User.get_by_id(id)
-    return jsonify(change_user.to_dict())
+    if user.is_active and user.is_psychologist:
+        user_psy = User_psychologist.update_psychologist_user(body, id)
+        return jsonify(user_psy.to_dict())  
+    if user.is_active and user.is_psychologist == False:
+        user_comp = User_company.update_company_user(body, id)
+        return jsonify(user_comp.to_dict())
 
 @app.route('/user/<int:id>/psychologist', methods=['PUT'])
 # @jwt_required()
@@ -198,40 +203,57 @@ def update_psychologist_user(id):
   
 @app.route('/user/<int:id>/company', methods=['PUT'])
 # @jwt_required()
-def update_company_user(id):
+def update_user(id):
     body = request.get_json()
-    user = User_company.update_company_user(body, id)
-    change_user = User_company.get_by_id(id)
+    user = User.update_single_user(body, id)
+    change_user = User.get_by_id(id)
     return jsonify(change_user.to_dict())
 
 @app.route('/user/<int:id>', methods=['PATCH'])
 # @jwt_required()
 def delete_one_user(id):
-    user_target = User.delete_user(id)
+    user_target = User.delete(id)
     return "Your profile has been deleted", 200
+    
+## METODOS PARA CREAR EL MURO ##
+@app.route('/user/workshops', methods=['GET'])
+# @jwt_required()
+def get_workshops():
+    workshops = Workshop.get_all()
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
 
-#     #METODOS PARA CATEGORIES Y WORKSHOPS
+    return jsonify(workshops_to_dict), 200
 
+##METODOS PARA CATEGORIES Y WORKSHOPS
 @app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+# @jwt_required()
 def get_psychologist_workshops(id):
     workshops = Workshop.get_workshop_by_psychologist_id(id)
     workshops_to_dict = []
     for workshop in workshops:
         workshops_to_dict.append(workshop.to_dict())
-
     return jsonify(workshops_to_dict), 200
 
-@app.route('/user/company/<int:id>/workshops', methods=['GET'])
-def get_company_workshops(id):
-    workshops = Search_workshop.get_workshop_by_company_id(id)
-    workshops_to_dict = []
-    for workshop in workshops:
-        workshops_to_dict.append(workshop.to_dict())
+@app.route('/workshop/<int:id>', methods=['GET'])
+# @jwt_required()
+def get_target_workshop(id):
+    target_workshop = Workshop.get_workshop_by_id(id)
+    return jsonify(target_workshop.to_dict()), 200
 
-    return jsonify(workshops_to_dict), 200
+@app.route('/user/search_workshops', methods=['GET'])
+# @jwt_required()
+def get_search_workshops():
+    search_workshops = Search_workshop.get_all()
+    search_workshops_to_dict = []
+    for search_workshop in search_workshops:
+        search_workshops_to_dict.append(search_workshop.to_dict())
 
+    return jsonify(search_workshops_to_dict), 200
 
-@app.route('/user/psychologist/workshop/<int:id>', methods=['POST'])
+@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
+# @jwt_required()
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
     
@@ -247,14 +269,11 @@ def add_workshop(id):
         user_psychologist_id = user_psychologist.id,
     )
 
-    category_list = body.get("category_info")
     new_workshop.add(body.get("category_info"))
-
-    return jsonify(new_workshop.to_dict(
-        # category_list
-        )), 200
+    return jsonify(new_workshop.to_dict()), 200
 
 @app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
+# @jwt_required()
 def add_search_workshop(id):
     user_company = User_company.get_by_id(id)
     
@@ -274,6 +293,7 @@ def add_search_workshop(id):
     return jsonify(new_search_workshop.to_dict()), 201
 
 @app.route('/user/category', methods=['POST'])
+# @jwt_required()
 def add_category():
     new_category = request.get_json()
     new_category = Category (
@@ -283,6 +303,7 @@ def add_category():
     return jsonify(new_category.to_dict())
 
 @app.route('/user/search_workshop/<int:id>', methods=['PUT'])
+# @jwt_required()
 def update_search_workshop(id):
     body = request.get_json()
     search_workshop = Search_workshop.get_by_id(id)
@@ -293,6 +314,7 @@ def update_search_workshop(id):
     return jsonify(new_search_workshop.to_dict())
 
 @app.route('/user/workshop/<int:id>', methods=['PUT'])
+# @jwt_required()
 def update_workshop(id):
     body = request.get_json()
     workshop = Workshop.get_by_id(id)
@@ -301,14 +323,20 @@ def update_workshop(id):
     body['description'], body['category_info'])
     new_categories = Workshop.get_category_by_name(body['category_info'])
     return jsonify(new_workshop.to_dict(new_categories))
-
-
-@app.route('/psychologist/<int:id>/workshop', methods=['DELETE'])
+  
+@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
+# @jwt_required()
+def delete_one_workshop(id):
+    workshop = Workshop.get_workshop_by_id(id)
+    workshop.delete()
+    return workshop.to_dict(), 200
+    
+@app.route('/company/workshop/<int:id>', methods=['DELETE'])
+# @jwt_required()
 def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
-    return "Your search has been deleted", 200
-
+    return search_workshop.to_dict(), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

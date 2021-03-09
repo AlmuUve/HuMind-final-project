@@ -1,14 +1,14 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams } from "react-router-dom";
-import "../../styles/index.scss";
+import { Link } from "react-router-dom";
 import { YellowButton } from "./yellowButton.js";
+import "../../styles/index.scss";
 
 export const Profiletemplatepsy = props => {
 	const { store, actions } = useContext(Context);
-
+	const [edit, setEdit] = useState(false);
 	return (
-		<div className="col-lg-4 col-sm-12 profileCard">
+		<>
 			<div className="imgProfile">
 				<img
 					className="avatar"
@@ -27,8 +27,14 @@ export const Profiletemplatepsy = props => {
 				<div className="bottomCard">
 					<i className="fas fa-envelope fa-2x" href={store.user.email} />
 				</div>
-				<YellowButton text="Edit Profile" />
+				<Link to="/edit_profile">
+					<YellowButton
+						text="Edit Profile"
+						onClickForm={() => {
+							setEdit(!edit);
+						}}></YellowButton>
+				</Link>
 			</div>
-		</div>
+		</>
 	);
 };
