@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { useContext, Component, Fragment } from "react";
+import { Context } from "../store/appContext";
+
 import { LandingButton } from "../component/landingButton";
 import { Link } from "react-router-dom";
 import "../../styles/home.scss";

@@ -1,12 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import injectContext from "./store/appContext";
-import { SignUpLogInButton } from "./component/signUpLogInButton";
-import { YellowButton } from "./component/yellowButton";
-import { DeleteButton } from "./component/deleteButton";
-import { EditButton } from "./component/editButton";
-import { LandingButton } from "./component/landingButton";
-import { WorkshopCard } from "./component/workshopCard";
 import { Navbarpage } from "../js/component/navbar.jsx";
 import { Landing } from "./pages/landing";
 import { SignUp } from "./pages/signup";
@@ -40,9 +34,6 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/add_workshop">
 						<Addworkshop />
-					</Route>
-					<Route exact path="/add_search_workshop">
-						<Addsearchworkshop />
 					</Route>
 					<Route exact path="/add_search_workshop">
 						<Addsearchworkshop />

@@ -33,7 +33,7 @@ app.config["JWT_ALGORITHM"] = "HS256"
 jwt = JWTManager(app)
 
 # database condiguration
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("url_postgres")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -52,8 +52,8 @@ def handle_invalid_usage(error):
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
-      
+    return send_from_directory(static_file_dir, 'index.html')   
+
 # any other endpoint will try to serve it like a static file
 @app.route('/<path:path>', methods=['GET'])
 # @jwt_required()
@@ -63,41 +63,6 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0 # avoid cache memory
     return response
-
-@app.route('/contact', methods=['POST'])
-# @jwt_required()
-def send_email():
-    body = request.get_json()
-    email_from = body.get("email_from")
-    email_to = body.get("email_to")
-    subject = body.get("subject")
-    message = body.get("message")
-    send_simple_message(
-       email_from,
-       email_to, 
-       subject, 
-       message)
-    return "hemos mandado algo?", 200
-
-
-@app.route('/login', methods=['POST'])
-def handle_login():
-    email, _password = request.json.get(
-            "email", None
-        ), request.json.get(
-            "_password", None
-        )
-    if not email or not _password:
-        return "Missing info", 400
-    user = User.get_by_email(email)
-    if check_password_hash(user._password, _password):
-        access_token = create_access_token(
-            identity=user.to_dict(),
-            expires_delta=timedelta(minutes=60)
-        )
-        return jsonify({'token': access_token}), 200
-
-    return "Invalid info", 400
 
 @app.route('/user', methods=['POST'])
 def add_user():
@@ -185,6 +150,28 @@ def update_user(id):
 def delete_one_user(id):
     user_target = User.delete(id)
     return "Your profile has been deleted", 200
+
+# LOGIN
+
+@app.route('/login', methods=['POST'])
+def handle_login():
+    email, _password = request.json.get(
+            "email", None
+        ), request.json.get(
+            "_password", None
+        )
+    if not email or not _password:
+        return "Missing info", 400
+    user = User.get_by_email(email)
+    if check_password_hash(user._password, _password):
+        access_token = create_access_token(
+            identity=user.to_dict(),
+            expires_delta=timedelta(minutes=60)
+        )
+        return jsonify({'token': access_token}), 200
+
+    return "Invalid info", 400
+
     
 ## METODOS PARA CREAR EL MURO ##
 @app.route('/user/workshops', methods=['GET'])
@@ -197,22 +184,6 @@ def get_workshops():
 
     return jsonify(workshops_to_dict), 200
 
-##METODOS PARA CATEGORIES Y WORKSHOPS
-@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
-# @jwt_required()
-def get_psychologist_workshops(id):
-    workshops = Workshop.get_workshop_by_psychologist_id(id)
-    workshops_to_dict = []
-    for workshop in workshops:
-        workshops_to_dict.append(workshop.to_dict())
-    return jsonify(workshops_to_dict), 200
-
-@app.route('/workshop/<int:id>', methods=['GET'])
-# @jwt_required()
-def get_target_workshop(id):
-    target_workshop = Workshop.get_workshop_by_id(id)
-    return jsonify(target_workshop.to_dict()), 200
-
 @app.route('/user/search_workshops', methods=['GET'])
 # @jwt_required()
 def get_search_workshops():
@@ -223,6 +194,7 @@ def get_search_workshops():
 
     return jsonify(search_workshops_to_dict), 200
 
+##METODOS PARA CATEGORIES Y WORKSHOPS
 @app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
 # @jwt_required()
 def add_workshop(id):
@@ -273,6 +245,30 @@ def add_category():
     new_category.add()
     return jsonify(new_category.to_dict())
 
+@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+# @jwt_required()
+def get_psychologist_workshops(id):
+    workshops = Workshop.get_workshop_by_psychologist_id(id)
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
+    return jsonify(workshops_to_dict), 200
+
+@app.route('/user/company/<int:id>/workshops', methods=['GET'])
+def get_company_workshops(id):
+    workshops = Search_workshop.get_workshop_by_company_id(id)
+    workshops_to_dict = []
+    for workshop in workshops:
+        workshops_to_dict.append(workshop.to_dict())
+
+    return jsonify(workshops_to_dict), 200
+
+@app.route('/workshop/<int:id>', methods=['GET'])
+# @jwt_required()
+def get_target_workshop(id):
+    target_workshop = Workshop.get_by_id(id)
+    return jsonify(target_workshop.to_dict()), 200
+
 @app.route('/user/search_workshop/<int:id>', methods=['PUT'])
 # @jwt_required()
 def update_search_workshop(id):
@@ -292,13 +288,12 @@ def update_workshop(id):
     new_workshop = workshop.update_workshop(body['title'], body['duration'], 
     body['price'], body['date'], body['max_people'], 
     body['description'], body['category_info'])
-    new_categories = Workshop.get_category_by_name(body['category_info'])
-    return jsonify(new_workshop.to_dict(new_categories))
+    return jsonify(new_workshop.to_dict())
   
 @app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
 # @jwt_required()
 def delete_one_workshop(id):
-    workshop = Workshop.get_workshop_by_id(id)
+    workshop = Workshop.get_by_id(id)
     workshop.delete()
     return workshop.to_dict(), 200
     
@@ -308,6 +303,23 @@ def delete_one_search_workshop(id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
     return search_workshop.to_dict(), 200
+
+# CONTACT FORM
+
+@app.route('/contact', methods=['POST'])
+# @jwt_required()
+def send_email():
+    body = request.get_json()
+    email_from = body.get("email_from")
+    email_to = body.get("email_to")
+    subject = body.get("subject")
+    message = body.get("message")
+    send_simple_message(
+       email_from,
+       email_to, 
+       subject, 
+       message)
+    return "hemos mandado algo?", 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
