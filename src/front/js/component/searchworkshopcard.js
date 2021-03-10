@@ -1,4 +1,5 @@
 import React, { Component, useContext, useState, useEffect } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -7,6 +8,8 @@ import { EditButton } from "./editButton.js";
 import { DeleteButton } from "./deleteButton.js";
 
 export const SearchWorkshopCard = props => {
+	const { actions, store } = useContext(Context);
+
 	return (
 		<>
 			<div className="workshopCard">
@@ -40,7 +43,10 @@ export const SearchWorkshopCard = props => {
 							}}
 						/>
 					</Link>
-					<DeleteButton className="deleteButton" />
+					<DeleteButton
+						className="deleteButton"
+						onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
+					/>
 					<Link to="/">
 						<YellowButton text="Contact" />
 					</Link>

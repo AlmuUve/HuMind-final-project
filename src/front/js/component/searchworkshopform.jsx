@@ -7,11 +7,11 @@ import { YellowButton } from "./yellowButton";
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [searchWorkshop, setSearchWorkshop] = useState({
-		category: store.currentSearch.category,
-		duration: store.currentSearch.duration,
-		price: store.currentSearch.price,
-		date: store.currentSearch.date,
-		max_people: store.currentSearch.max_people
+		category: store.currentWorkshop.category,
+		duration: store.currentWorkshop.duration,
+		price: store.currentWorkshop.price,
+		date: store.currentWorkshop.date,
+		max_people: store.currentWorkshop.max_people
 	});
 
 	const param = useParams();
@@ -130,7 +130,7 @@ export const Searchworkshopform = () => {
 							placeholder="In minutes"
 							name="duration"
 							id="duration"
-							defaultValue={store.currentSearch ? store.currentSearch.duration : ""}
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}
 							required
 						/>
 					</div>
@@ -148,7 +148,7 @@ export const Searchworkshopform = () => {
 							placeholder="In €"
 							name="price"
 							id="price"
-							defaultValue={store.currentSearch ? store.currentSearch.price : ""}
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.price : ""}
 							required
 						/>
 					</div>
@@ -167,7 +167,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="date"
 							id="dates"
-							defaultValue={store.currentSearch ? store.currentSearch.date : ""}
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.date : ""}
 							required
 						/>
 					</div>
@@ -184,7 +184,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="max_people"
 							id="people"
-							defaultValue={store.currentSearch ? store.currentSearch.max_people : ""}
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.max_people : ""}
 							required
 						/>
 					</div>
@@ -370,9 +370,9 @@ export const Searchworkshopform = () => {
 						type="submit"
 						text="Submit"
 						onClickForm={e => {
-							if (store.currentSearch) {
-								actions.editSearchWorkshop(searchWorkshop, param.id);
-								actions.setCurrentSearch("");
+							if (store.currentWorkshop) {
+								actions.editSearchWorkshop(searchWorkshop, store.LoggedUser.id, param.id);
+								actions.setCurrentWorkshop("");
 							} else {
 								checkInputs(e);
 							}

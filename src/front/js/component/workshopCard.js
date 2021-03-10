@@ -36,7 +36,10 @@ export const WorkshopCard = props => {
 						}}
 					/>
 				</Link>
-				<DeleteButton className="deleteButton_workshopCard" />
+				<DeleteButton
+					className="deleteButton_workshopCard"
+					onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
+				/>
 				<YellowButton className="yellowButton_workshopCard" text="Learn more" />
 			</div>
 		</div>

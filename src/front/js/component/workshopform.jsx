@@ -52,7 +52,7 @@ export const Workshopform = () => {
 	const edit = e => {
 		e.preventDefault();
 		checkBoxes();
-		actions.editWorkshop(workshop, param.id);
+		actions.editWorkshop(workshop, store.LoggedUser.id, param.id);
 	};
 
 	const checkInputs = e => {

@@ -1,19 +1,18 @@
 import React, { Component, useState, useContext } from "react";
 import { Context } from "../store/appContext";
 
-export const DeleteButton = () => {
+import PropTypes from "prop-types";
+
+export const DeleteButton = props => {
 	const { actions, store } = useContext(Context);
 
 	return (
-		<button
-			className="deleteButton"
-			onClick={e => {
-				e.preventDefault();
-
-				actions.deleteWorkshop(id);
-				// actions.deleteSearchWorkshop(id);
-			}}>
+		<button className="deleteButton" onClick={props.onClickDelete}>
 			<i className="far fa-trash-alt deleteButton" />
 		</button>
 	);
+};
+
+DeleteButton.propTypes = {
+	onClickDelete: PropTypes.func
 };

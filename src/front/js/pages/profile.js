@@ -42,7 +42,7 @@ export const Profile = () => {
 	});
 
 	let listSearchWorkshops = store.searchWorkshops.map((item, index) => {
-		return <SearchWorkshopCard item={item} key={index.toString()} edit={() => (store.currentSearch = item)} />;
+		return <SearchWorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
 	});
 
 	if (store.LoggedUser.is_psychologist) {

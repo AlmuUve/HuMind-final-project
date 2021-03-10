@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
@@ -28,6 +28,8 @@ export const Navbarpage = props => {
 		</Nav>
 	);
 
+	const history = useHistory();
+
 	const navbarLog = (
 		<Nav className="ml-auto">
 			<DropdownButton
@@ -35,11 +37,21 @@ export const Navbarpage = props => {
 				title={<img className="navbarAvatarButton" src={navbarAvatar} />}
 				className="ml-2 dropButton"
 				menuAlign="right">
-				<Link to={store.help ? store.pathProfilePsychologist : store.pathProfileCompany}>
-					<Dropdown.ItemText className="buttonDropDown">
-						<NavbarButtons text="Profile" />
-					</Dropdown.ItemText>
-				</Link>
+				<Dropdown.ItemText className="buttonDropDown">
+					<NavbarButtons
+						text="Profile"
+						onClickNavbar={() =>
+							history.push(
+								store.LoggedUser.is_psychologist
+									? "/profile/" +
+											store.LoggedUser.name.replace(" ", "_") +
+											"_" +
+											store.LoggedUser.lastname.replace(" ", "_")
+									: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
+							)
+						}
+					/>
+				</Dropdown.ItemText>
 				<Link to="/feed">
 					<Dropdown.ItemText className="buttonDropDown">
 						<NavbarButtons

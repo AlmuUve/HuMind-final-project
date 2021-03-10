@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-amethyst-moth-r6oju4s0.ws-eu03.gitpod.io";
+const url = "https://3001-turquoise-tyrannosaurus-m4lwou75.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -20,8 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
-			currentWorkshop: "",
-			currentSearch: ""
+			currentWorkshop: ""
 		},
 
 		actions: {
@@ -48,14 +47,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setCurrentWorkshop: newContact => {
 				setStore({ currentWorkshop: newContact });
 			},
-			setCurrentSearch: newSearch => {
-				setStore({ currentSearch: newSearch });
-			},
 
 			//CALL API\\
 
 			getWorkshops: id => {
-				fetch(url + "/user/psychologist/" + id + "/workshops", {
+				fetch(url + "/psychologist/" + id + "/workshops", {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -80,7 +76,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getSearchWorkshops: id => {
-				fetch(url + "/user/company/" + id + "/workshops", {
+				fetch(url + "/company/" + id + "/workshops", {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -100,17 +96,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
-					// setStore({ id: response.id });
-					// if (response.is_psychologist) {
-					// 	getActions().getWorkshops();
-					// 	getActions().setpathProfilePsychologist(
-					// 		response.name.replace(" ", "_"),
-					// 		response.lastname.replace(" ", "_")
-					// 	);
-					// } else {
-					// 	getActions().getSearchWorkshops();
-					// 	getActions().setpathProfileCompany(response.company_name.replace(" ", "_"));
-					// }
 				});
 			},
 
@@ -175,7 +160,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewWorkshop: async (workshop, id) => {
-				let response = await fetch(url + "/user/psychologist/" + id + "/workshop", {
+				let response = await fetch(url + "/psychologist/" + id + "/workshop", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -198,7 +183,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addNewSearchWorkshop: async (searchWorkshop, id) => {
-				let response = await fetch(url + "/user/company/" + id + "/searchworkshop", {
+				let response = await fetch(url + "/company/" + id + "/searchworkshop", {
 					method: "POST",
 					mode: "cors",
 					redirect: "follow",
@@ -362,8 +347,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
-			editWorkshop: async (workshop, id) => {
-				let response = await fetch(url + "/user/workshop/" + id, {
+			editWorkshop: async (workshop, idPsy, id) => {
+				let response = await fetch(url + "/psychologist/" + idPsy + "/workshop/" + id, {
 					method: "PUT",
 					body: JSON.stringify({
 						title: workshop.title,
@@ -383,8 +368,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().getAllWorkshops();
 			},
 
-			editSearchWorkshop: async (search_workshop, id) => {
-				let response = await fetch(url + "/user/search_workshop/" + id, {
+			editSearchWorkshop: async (search_workshop, idCom, id) => {
+				let response = await fetch(url + "/company/" + idCom + "/search_workshop/" + id, {
 					method: "PUT",
 					body: JSON.stringify({
 						duration: search_workshop.duration,
@@ -403,14 +388,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch(url + "/user/workshops").then(async res => {
+				fetch(url + "/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allWorkshops: response });
 				});
 			},
 
 			getAllSearchWorkshops: () => {
-				fetch(url + "/user/search_workshops").then(async res => {
+				fetch(url + "/search_workshops").then(async res => {
 					const response = await res.json();
 					setStore({ allSearchWorkshops: response });
 				});
@@ -427,8 +412,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				response = await response.json();
 			},
 
-			deleteSearchWorkshop: async id => {
-				let response = await fetch(url + "/psychologist/workshop" + id, {
+			deleteWorkshop: async (workshop, idPsy) => {
+				setStore({ workshops: getStore().workshops.filter(index => index !== workshop) });
+				let response = await fetch(url + "/psychologist/" + idPsy + "/workshop/" + workshop.id, {
+					method: "DELETE",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					})
+				});
+				response = await response.json();
+			},
+
+			deleteSearchWorkshop: async (searchWorkshop, idCom) => {
+				setStore({ searchWorkshops: getStore().searchWorkshops.filter(index => index !== searchWorkshop) });
+				let response = await fetch(url + "/company/" + idCom + "/workshop/" + searchWorkshop.id, {
 					method: "DELETE",
 					headers: new Headers({
 						"Content-Type": "application/json"

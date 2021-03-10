@@ -18,7 +18,7 @@ export const Feed = () => {
 		return <Searchworkshops item={item} key={index.toString()} />;
 	});
 
-	if (!store.help) {
+	if (!store.LoggedUser.is_psychologist) {
 		return (
 			<>
 				<div className="container-fluid">
