@@ -35,7 +35,7 @@ export const Navbarpage = props => {
 				title={<img className="navbarAvatarButton" src={navbarAvatar} />}
 				className="ml-2 dropButton"
 				menuAlign="right">
-				<Link to={"/profile/" + store.user.name + "_" + store.user.lastname}>
+				<Link to={store.help ? store.pathProfilePsychologist : store.pathProfileCompany}>
 					<Dropdown.ItemText className="buttonDropDown">
 						<NavbarButtons text="Profile" />
 					</Dropdown.ItemText>

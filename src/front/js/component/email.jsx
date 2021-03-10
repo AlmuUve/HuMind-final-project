@@ -58,7 +58,6 @@ export const Email = () => {
 							text="Send"
 							onClickForm={() => {
 								actions.sendEmail(email);
-								console.log("hola", email);
 							}}
 						/>
 					</Link>

@@ -24,10 +24,10 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-        "is_active": self.is_active,
-        "id": self.id,
-        "email": self.email,
-        "is_psychologist": self.is_psychologist,
+            "is_active": self.is_active,
+            "id": self.id,
+            "email": self.email,
+            "is_psychologist": self.is_psychologist,
         }
 
     @classmethod
@@ -115,7 +115,7 @@ class User_company(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        user = cls.query.get(id)
+        user = cls.query.filter_by(id = id).first_or_404()
         return user
 
     @classmethod    
@@ -256,6 +256,8 @@ class Search_workshop(db.Model):
             "user_company_id": self.user_company_id,
             "category_id": self.category_id,
             "owner": user.company_name,
+            "user_id": user.user_id,
+            "company_id": user.id,
             "category": new_category.category_name
         }
 

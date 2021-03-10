@@ -32,11 +32,10 @@ export const SearchWorkshopCard = props => {
 					</div>
 				</div>
 				<div className="buttons_workshopCard">
-					<Link to={"/add_search_workshop/" + props.item.id}>
+					<Link to={"/add_workshop/" + props.item.id}>
 						<EditButton
 							className="editButton"
-							onEditClick={e => {
-								//actions.editWorkshop(e);
+							onEditClick={() => {
 								props.edit();
 							}}
 						/>

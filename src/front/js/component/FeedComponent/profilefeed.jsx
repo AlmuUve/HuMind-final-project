@@ -16,14 +16,14 @@ export const Profilefeed = props => {
 	};
 
 	useEffect(() => {
-		if (store.user.is_psychologist) {
+		if (store.LoggedUser.is_psychologist) {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg");
-			setName(toUpperCase(store.user.name) + " " + toUpperCase(store.user.lastname));
+			setName(toUpperCase(store.LoggedUser.name) + " " + toUpperCase(store.LoggedUser.lastname));
 		} else {
 			setAvatar("https://assets.breatheco.de/apis/img/icon/4geeks.png");
-			setName(store.user.company_name);
+			setName(store.LoggedUser.company_name);
 		}
-	}, [store.user]);
+	}, [store.LoggedUser]);
 
 	return (
 		<div className="col-lg-3 col-sm-12 profileFeed">
@@ -34,7 +34,7 @@ export const Profilefeed = props => {
 				<div className="titleCardFeed">{name}</div>
 			</div>
 			<div className="d-flex justify-content-center mt-2">
-				<Link to={"/profile/" + store.user.name + "_" + store.user.lastname}>
+				<Link to={store.help ? store.pathProfilePsychologist : store.pathProfileCompany}>
 					<YellowButton text="Go to profile" />
 				</Link>
 			</div>

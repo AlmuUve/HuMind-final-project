@@ -17,22 +17,18 @@ export const Profiletemplatepsy = props => {
 			</div>
 			<div className="bodyCard">
 				<div className="titleCard">
-					{store.user.name} {store.user.lastname}
+					{store.LoggedUser.name} {store.LoggedUser.lastname}
 				</div>
 				<div className="descriptionCard">
-					<p>{store.user.speciality}</p>
-					<p>{store.user.association_number}</p>
-					<p>{store.user.description}</p>
+					<p>{store.LoggedUser.speciality}</p>
+					<p>{store.LoggedUser.association_number}</p>
+					<p>{store.LoggedUser.description}</p>
 				</div>
 				<div className="bottomCard">
-					<i className="fas fa-envelope fa-2x" href={store.user.email} />
+					<i className="fas fa-envelope fa-2x" href={store.LoggedUser.email} />
 				</div>
 				<Link to="/edit_profile">
-					<YellowButton
-						text="Edit Profile"
-						onClickForm={() => {
-							setEdit(!edit);
-						}}></YellowButton>
+					<YellowButton text="Edit Profile"></YellowButton>
 				</Link>
 			</div>
 		</>

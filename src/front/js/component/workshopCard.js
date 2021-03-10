@@ -31,8 +31,7 @@ export const WorkshopCard = props => {
 				<Link to={"/add_workshop/" + props.item.id}>
 					<EditButton
 						className="editButton_workshopCard"
-						onEditClick={e => {
-							// actions.editWorkshop(e);
+						onEditClick={() => {
 							props.edit();
 						}}
 					/>

@@ -52,7 +52,7 @@ export const Searchworkshopform = () => {
 			setShowError("showError");
 		} else {
 			setShowError("notShow");
-			actions.addNewSearchWorkshop(searchWorkshop, store.companyId);
+			actions.addNewSearchWorkshop(searchWorkshop, store.LoggedUser.id);
 		}
 	};
 
@@ -372,12 +372,11 @@ export const Searchworkshopform = () => {
 						onClickForm={e => {
 							if (store.currentSearch) {
 								actions.editSearchWorkshop(searchWorkshop, param.id);
-								history.push("/profile/" + store.company_name);
 								actions.setCurrentSearch("");
 							} else {
 								checkInputs(e);
-								history.push("/profile/" + store.company_name);
 							}
+							history.push("/profile/" + store.LoggedUser.company_name.replace(" ", "_"));
 						}}
 					/>
 				</div>

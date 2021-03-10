@@ -191,7 +191,7 @@ export const CompanyRegistrationForm = () => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile/:id");
+											history.push("/profile/" + store.user.company_name.replace(" ", "_"));
 										});
 									} else {
 										actions.editUserProfile(user);

@@ -69,7 +69,7 @@ export const Workshopform = () => {
 		} else {
 			setShowError("notShow");
 			checkBoxes();
-			actions.addNewWorkshop(workshop, store.psychologistId);
+			actions.addNewWorkshop(workshop, store.LoggedUser.id);
 		}
 	};
 
@@ -432,12 +432,16 @@ export const Workshopform = () => {
 						onClickForm={e => {
 							if (store.currentWorkshop) {
 								edit(e);
-								history.push("/profile/" + store.user.name + "_" + store.user.lastname);
 								actions.setCurrentWorkshop("");
 							} else {
 								checkInputs(e);
-								history.push("/profile/" + store.user.name + "_" + store.user.lastname);
 							}
+							history.push(
+								"/profile/" +
+									store.LoggedUser.name.replace(" ", "_") +
+									"_" +
+									store.LoggedUser.lastname.replace(" ", "_")
+							);
 						}}
 					/>
 				</div>

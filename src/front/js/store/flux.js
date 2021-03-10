@@ -61,8 +61,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//CALL API\\
 
-			getWorkshops: () => {
-				fetch(url + "/user/psychologist/" + getStore().user.id + "/workshops", {
+			getWorkshops: id => {
+				fetch(url + "/user/psychologist/" + id + "/workshops", {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -86,8 +86,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
-			getSearchWorkshops: () => {
-				fetch(url + "/user/company/" + getStore().user.id + "/workshops", {
+			getSearchWorkshops: id => {
+				fetch(url + "/user/company/" + id + "/workshops", {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -107,11 +107,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
-					setStore({ id: response.id });
-					response.is_psychologist
-						? setStore({ psychologistId: response.id })
-						: setStore({ companyId: response.id });
-					response.is_psychologist ? getActions().getWorkshops() : getActions().getSearchWorkshops();
+					// setStore({ id: response.id });
+					// if (response.is_psychologist) {
+					// 	setStore({ psychologistId: response.id });
+					// 	getActions().getWorkshops();
+					// 	getActions().setpathProfilePsychologist(
+					// 		response.name.replace(" ", "_"),
+					// 		response.lastname.replace(" ", "_")
+					// 	);
+					// } else {
+					// 	setStore({ companyId: response.id });
+					// 	getActions().getSearchWorkshops();
+					// 	getActions().setpathProfileCompany(response.company_name.replace(" ", "_"));
+					// }
 				});
 			},
 
@@ -143,7 +151,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				await getActions().getUser(response.user_id);
+				// await getActions().getUser(response.user_id);
 			},
 
 			editUserProfile: async user_info => {
@@ -173,7 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				setStore({ user: response });
+				setStore({ LoggedUser: response });
 			},
 
 			addNewWorkshop: async (workshop, id) => {
@@ -195,7 +203,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				getActions().getWorkshops();
+				getActions().getWorkshops(getStore().LoggedUser.id);
 				getActions().getAllWorkshops();
 			},
 
@@ -216,7 +224,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				getActions().getSearchWorkshops();
+				getActions().getSearchWorkshops(getStore().LoggedUser.id);
 				getActions().getAllSearchWorkshops();
 			},
 
@@ -234,25 +242,127 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
-				getActions().getUser(getStore().LoggedUser.id);
 				getActions().setHelp(getStore().LoggedUser.is_psychologist);
-				getActions().getAllWorkshops();
-				getActions().getAllSearchWorkshops();
-				setStore({ help: getStore().LoggedUser.is_psychologist });
+				setStore({ id: getStore().LoggedUser.id });
+				if (getStore().LoggedUser.is_psychologist) {
+					setStore({ psychologistId: response.id });
+					getActions().setpathProfilePsychologist(
+						getStore().LoggedUser.name.replace(" ", "_"),
+						getStore().LoggedUser.lastname.replace(" ", "_")
+					);
+					getActions().getWorkshops(getStore().LoggedUser.id);
+				} else {
+					setStore({ companyId: response.id });
+					getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
+					getActions().getSearchWorkshops(getStore().LoggedUser.id);
+				}
 			},
 
 			decode: () => {
 				let token = localStorage.getItem("token");
 				const decoded = jwt_decode(token);
-				getActions().setLoggedUser(decoded.sub.email, decoded.sub.id, decoded.sub.is_psychologist);
+				decoded.sub.is_psychologist
+					? getActions().setPsyLogged(
+							decoded.sub.email,
+							decoded.sub.id,
+							decoded.sub.is_psychologist,
+							decoded.sub.description,
+							decoded.sub.facebook,
+							decoded.sub.instagram,
+							decoded.sub.twitter,
+							decoded.sub.linkedIn,
+							decoded.sub.youTube,
+							decoded.sub.name,
+							decoded.sub.lastname,
+							decoded.sub.identity_number,
+							decoded.sub.association_number,
+							decoded.sub.speciality,
+							decoded.sub.user_id
+					  )
+					: getActions().setCompanyLogged(
+							decoded.sub.email,
+							decoded.sub.id,
+							decoded.sub.is_psychologist,
+							decoded.sub.description,
+							decoded.sub.facebook,
+							decoded.sub.instagram,
+							decoded.sub.twitter,
+							decoded.sub.linkedIn,
+							decoded.sub.youTube,
+							decoded.sub.user_id,
+							decoded.sub.company_name,
+							decoded.sub.company_number
+					  );
+				getActions().getAllWorkshops();
+				getActions().getAllSearchWorkshops();
 			},
 
-			setLoggedUser: (new_email, new_id, new_is_psychologist) => {
+			setPsyLogged: (
+				new_email,
+				new_id,
+				new_is_psychologist,
+				new_description,
+				new_facebook,
+				new_instagram,
+				new_twitter,
+				new_linkedIn,
+				new_youTube,
+				new_name,
+				new_lastname,
+				new_identity_number,
+				new_association_number,
+				new_speciality,
+				new_user_id
+			) => {
 				setStore({
 					LoggedUser: {
 						email: new_email,
 						id: new_id,
-						is_psychologist: new_is_psychologist
+						is_psychologist: new_is_psychologist,
+						description: new_description,
+						facebook: new_facebook,
+						instagram: new_instagram,
+						twitter: new_twitter,
+						linkedIn: new_linkedIn,
+						youTube: new_youTube,
+						name: new_name,
+						lastname: new_lastname,
+						identity_number: new_identity_number,
+						association_number: new_association_number,
+						speciality: new_speciality,
+						user_id: new_user_id
+					}
+				});
+			},
+
+			setCompanyLogged: (
+				new_email,
+				new_id,
+				new_is_psychologist,
+				new_description,
+				new_facebook,
+				new_instagram,
+				new_twitter,
+				new_linkedIn,
+				new_youTube,
+				new_user_id,
+				new_company_name,
+				new_company_number
+			) => {
+				setStore({
+					LoggedUser: {
+						email: new_email,
+						id: new_id,
+						is_psychologist: new_is_psychologist,
+						description: new_description,
+						facebook: new_facebook,
+						instagram: new_instagram,
+						twitter: new_twitter,
+						linkedIn: new_linkedIn,
+						youTube: new_youTube,
+						user_id: new_user_id,
+						company_name: new_company_name,
+						company_number: new_company_number
 					}
 				});
 			},
@@ -282,7 +392,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 				response = await response.json();
-				getActions().getWorkshops();
+				getActions().getWorkshops(getStore().LoggedUser.id);
 				getActions().getAllWorkshops();
 			},
 
@@ -301,7 +411,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 				response = await response.json();
-				getActions().getSearchWorkshops();
+				getActions().getSearchWorkshops(getStore().LoggedUser.id);
 				getActions().getAllSearchWorkshops();
 			},
 

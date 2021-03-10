@@ -19,19 +19,18 @@ export const Profiletemplatecompany = props => {
 				/>
 			</div>
 			<div className="bodyCard">
-				<div className="titleCard">{store.user.company_name}</div>
+				<div className="titleCard">{store.LoggedUser.company_name}</div>
 				<div className="descriptionCard">
-					<p>{store.user.company_number}</p>
-					<p>{store.user.description}</p>
+					<p>{store.LoggedUser.company_number}</p>
+					<p>{store.LoggedUser.description}</p>
 				</div>
 				<div className="bottomCard">
-					<i className="fas fa-envelope fa-2x" href={store.user.email} />
+					<i className="fas fa-envelope fa-2x" href={store.LoggedUser.email} />
 				</div>
 				<Link to="edit_profile">
 					<YellowButton
 						text="Edit Profile"
 						onClickForm={() => {
-							setEdit(!edit);
 							history.push("/edit_profile");
 						}}></YellowButton>
 				</Link>

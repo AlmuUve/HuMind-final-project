@@ -32,7 +32,13 @@ export const Profile = () => {
 								<Profiletemplatepsy />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to={"/add_workshop/" + store.user.name + "_" + store.user.lastname}>
+								<Link
+									to={
+										"/add_workshop/" +
+										store.LoggedUser.name.replace(" ", "_") +
+										"_" +
+										store.LoggedUser.lastname.replace(" ", "_")
+									}>
 									<YellowButton text="Add Workshop" />
 								</Link>
 								{userWorkshops}
@@ -54,7 +60,7 @@ export const Profile = () => {
 								<Profiletemplatecompany />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								<Link to={"/add_search_workshop/" + store.company_name}>
+								<Link to={"/add_workshop/" + store.LoggedUser.company_name.replace(" ", "_")}>
 									<YellowButton text="Add Search" />
 								</Link>
 								{listSearchWorkshops}

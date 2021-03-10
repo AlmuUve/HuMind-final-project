@@ -14,19 +14,19 @@ export const PsychologistRegistrationForm = props => {
 		email: store.email,
 		password: store.password,
 		is_psychologist: true,
-		name: tokenInStorage == null ? "" : store.user["name"],
-		lastname: tokenInStorage == null ? "" : store.user["lastname"],
-		identity_number: tokenInStorage == null ? "" : store.user["identity_number"],
-		association_number: tokenInStorage == null ? "" : store.user["association_number"],
-		speciality: tokenInStorage == null ? "" : store.user["speciality"],
-		company_name: tokenInStorage == null ? "" : store.user["company_name"],
-		company_number: tokenInStorage == null ? "" : store.user["company_number"],
-		facebook: tokenInStorage == null ? "" : store.user["facebook"],
-		instagram: tokenInStorage == null ? "" : store.user["instagram"],
-		twitter: tokenInStorage == null ? "" : store.user["twitter"],
-		linkedIn: tokenInStorage == null ? "" : store.user["linkedIn"],
-		youTube: tokenInStorage == null ? "" : store.user["youTube"],
-		description: tokenInStorage == null ? "" : store.user["description"]
+		name: tokenInStorage == null ? "" : store.LoggedUser["name"],
+		lastname: tokenInStorage == null ? "" : store.LoggedUser["lastname"],
+		identity_number: tokenInStorage == null ? "" : store.LoggedUser["identity_number"],
+		association_number: tokenInStorage == null ? "" : store.LoggedUser["association_number"],
+		speciality: tokenInStorage == null ? "" : store.LoggedUser["speciality"],
+		company_name: tokenInStorage == null ? "" : store.LoggedUser["company_name"],
+		company_number: tokenInStorage == null ? "" : store.LoggedUser["company_number"],
+		facebook: tokenInStorage == null ? "" : store.LoggedUser["facebook"],
+		instagram: tokenInStorage == null ? "" : store.LoggedUser["instagram"],
+		twitter: tokenInStorage == null ? "" : store.LoggedUser["twitter"],
+		linkedIn: tokenInStorage == null ? "" : store.LoggedUser["linkedIn"],
+		youTube: tokenInStorage == null ? "" : store.LoggedUser["youTube"],
+		description: tokenInStorage == null ? "" : store.LoggedUser["description"]
 	});
 
 	const history = useHistory();
@@ -247,7 +247,12 @@ export const PsychologistRegistrationForm = props => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile/:id");
+											history.push(
+												"/profile/" +
+													store.LoggedUser.name.replace(" ", "_") +
+													"_" +
+													store.LoggedUser.lastname.replace(" ", "_")
+											);
 										});
 									} else {
 										actions.editUserProfile(user);

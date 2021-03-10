@@ -165,12 +165,20 @@ def handle_login():
         return "Missing info", 400
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
-        access_token = create_access_token(
-            identity=user.to_dict(),
-            expires_delta=timedelta(minutes=60)
-        )
-        return jsonify({'token': access_token}), 200
-
+        if user.is_psychologist:
+            user_psy = User_psychologist.get_by_user_id(user.id)
+            access_token = create_access_token(
+                identity=user_psy.to_dict(),
+                expires_delta=timedelta(minutes=60)
+            )
+            return jsonify({'token': access_token}), 200
+        else:
+            user_company = User_company.get_by_user_id(user.id)
+            access_token = create_access_token(
+                identity=user_company.to_dict(),
+                expires_delta=timedelta(minutes=60)
+            )
+            return jsonify({'token': access_token}), 200
     return "Invalid info", 400
 
     
