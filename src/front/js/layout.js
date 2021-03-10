@@ -12,6 +12,8 @@ import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Feed } from "./pages/feed";
 import { Footer } from "./component/footer";
 
+import { SearchBar } from "./component/searchBar";
+
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
 
@@ -21,6 +23,7 @@ const Layout = () => {
 				<Navbarpage />
 				<Switch>
 					<Route exact path="/">
+						<SearchBar />
 						<Landing />
 					</Route>
 					<Route exact path="/login">

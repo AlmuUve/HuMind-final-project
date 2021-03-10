@@ -7,7 +7,7 @@ import "../../styles/home.scss";
 export const CompanyRegistrationForm = () => {
 	const { actions, store } = useContext(Context);
 	const tokenInStorage = localStorage.getItem("token");
-
+	console.log(tokenInStorage, "eltokennnnnnn");
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,

@@ -195,6 +195,7 @@ def get_search_workshops():
     return jsonify(search_workshops_to_dict), 200
 
 ##METODOS PARA CATEGORIES Y WORKSHOPS
+
 @app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
 # @jwt_required()
 def add_workshop(id):
@@ -223,6 +224,7 @@ def add_search_workshop(id):
     body = request.get_json()
 
     new_search_workshop = Search_workshop(
+        title = body.get("title"),
         duration = body.get("duration"),
         max_price = body.get("price"),
         date = body.get("date"),
@@ -320,6 +322,16 @@ def send_email():
        subject, 
        message)
     return "hemos mandado algo?", 200
+
+#Search Bar
+
+@app.route('/search_workshop',  methods=['POST'])
+def search_bar():
+    body = request.get_json()
+    title = body.get("search", None)
+    workshops = Workshop.get_workshop_for_search_bar(title)
+    print(workshops)
+    return jsonify([workshop.to_dict() for workshop in workshops]), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

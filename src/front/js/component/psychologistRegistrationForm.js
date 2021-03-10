@@ -245,7 +245,7 @@ export const PsychologistRegistrationForm = props => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile");
+											history.push("/profile/:id");
 										});
 									} else {
 										actions.editUserProfile(user);

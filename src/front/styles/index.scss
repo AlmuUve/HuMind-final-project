@@ -803,3 +803,27 @@ h3{
     margin-bottom: 1rem;
     margin-top: -0.5rem;
 }
+
+//SEARCHBAR\\
+
+.search-bar-icon-div{
+    background-color: $primary_blue;
+    border-radius: 50%;
+}
+
+.search-bar-icon-div:active{
+    text-decoration: none;
+}
+
+.search-bar-icon{
+    color: $secondary_blue;
+    background-color: $primary_blue;
+}
+
+.search-bar-icon:hover{
+    text-decoration: none;
+}
+
+.search-bar-icon:active{
+    text-decoration: none;
+}
