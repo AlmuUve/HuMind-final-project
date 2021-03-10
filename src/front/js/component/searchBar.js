@@ -8,14 +8,28 @@ export const SearchBar = () => {
 	const [userInput, setUserInput] = useState("");
 	const history = useHistory();
 
+	let param = useParams;
+	let myInput = document.querySelector("#title");
+	let newSearch = e => {
+		setUserInput(e.target.value);
+		if (event.key === "Enter") {
+			console.log("holaaaa");
+			actions.getSearchResults(userInput);
+			history.push("/feed");
+		}
+	};
+
 	return (
 		<div className="input-group ml-auto">
 			<input
 				id="name"
-				onChange={e => {
-					e.preventDefault();
-					setUserInput(e.target.value);
+				onKeyPress={() => {
+					newSearch(event);
 				}}
+				// onChange={e => {
+				// 	e.preventDefault();
+				// 	setUserInput(e.target.value);
+				// }}
 				type="text"
 				className="form-control search-bar-input"
 				placeholder="Search here"

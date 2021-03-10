@@ -22,29 +22,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 			companyId: "",
 			userProfile: [],
 			pathProfilePsychologist: "",
-			pathProfileCompany: ""
+			pathProfileCompany: "",
+
+			searchBarContent: ""
 		},
 
 		actions: {
+			getSearchResults: async keyword => {
+				let response = await fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/search_workshop/", {
+					method: "POST",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						search: keyword
+					})
+				});
+				console.log(keyword, "soy la keyword");
+				response = await response.json();
+				console.log(response);
+			},
+
+			changeSearchBarContent: search => {
+				setStore({ searchBarContent: search });
+			},
+
+			getAllWorkshops: () => {
+				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/search_workshop").then(async res => {
+					const response = await res.json();
+					console.log(response, "@@@@@@@@@@@@@");
+					getStore({ allWorkshops: response });
+					console.log(getStore().allWorkshop, "soy un console log de fluxxxx");
+				});
+			},
+
 			getWorkshops: () => {
 				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/user/company/1/workshops").then(
 					async res => {
 						const response = await res.json();
 						setStore({ searchWorkshops: response });
-						console.log(getStore().searchWorkshops, "soy un console log de fluxxxx");
 					}
 				);
 			},
 
-			getSearchWorkshops: () => {
-				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/user/company/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						console.log(response);
-						setStore({ searchWorkshops: response });
-					}
-				);
-			},
 			//FUNCTIONS FOR PATHS PROFILE\\
 
 			setpathProfilePsychologist: (newName, newLastname) => {
@@ -97,6 +117,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ categories: response.categories });
 				});
 			},
+
 			getUser: id => {
 				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/user/" + id, {
 					headers: {
@@ -111,21 +132,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						? setStore({ psychologistId: response.id })
 						: setStore({ companyId: response.id });
 				});
-			},
-
-			getSearchResults: async keyword => {
-				let response = await fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/search_workshop/", {
-					method: "POST",
-					headers: new Headers({
-						"Content-Type": "application/json"
-					}),
-					body: JSON.stringify({
-						search: keyword
-					})
-				});
-				console.log(keyword, "soy la keyword");
-				response = await response.json();
-				console.log(response);
 			},
 
 			addNewUser: async user => {
