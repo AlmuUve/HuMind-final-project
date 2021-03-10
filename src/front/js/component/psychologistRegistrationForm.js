@@ -8,8 +8,6 @@ export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
 	const tokenInStorage = localStorage.getItem("token");
 
-	console.log(tokenInStorage);
-
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,
@@ -85,7 +83,7 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
+						{/* <div className="col-6 inputLabel">
 							<label htmlFor="email" className="titleInputs">
 								<b>E-mail</b>
 							</label>
@@ -97,7 +95,7 @@ export const PsychologistRegistrationForm = props => {
 								id="email"
 								required
 							/>
-						</div>
+						</div> */}
 						<div className="col-6 inputLabel">
 							<label htmlFor="identity_number" className="titleInputs">
 								<b>Identity Number</b>
@@ -255,9 +253,8 @@ export const PsychologistRegistrationForm = props => {
 											);
 										});
 									} else {
-										actions.editUserProfile(user);
+										actions.editUserProfile(user, store.LoggedUser.user_id);
 									}
-									// actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>

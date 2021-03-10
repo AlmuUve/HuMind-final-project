@@ -779,6 +779,7 @@ h3{
 .yellowButton{
     align-self: center;
 }
+
 //FORMULARIO DE CONTACTO\\
 
 .formEmail {
@@ -805,4 +806,31 @@ h3{
     font-size: 0.8rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
+}
+
+// BOTONES NAV PILLS \\
+
+.pillsButtons {
+    font-family: $title_font;
+    background-color: white;
+    font-size: 1.25rem;
+    border: none;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    color: $text_color
+}
+
+.pillsColor {
+    font-family: $title_font;
+    background-color: white;
+    font-size: 1.25rem;
+    border: none;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    color: #d5d1d1;
+}
+
+.addWorkshop {
+    display: flex;
+    justify-content: end;
 }

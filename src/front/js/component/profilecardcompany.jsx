@@ -6,7 +6,6 @@ import "../../styles/index.scss";
 
 export const Profiletemplatecompany = props => {
 	const { store, actions } = useContext(Context);
-	const [edit, setEdit] = useState(false);
 
 	const history = useHistory();
 

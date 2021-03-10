@@ -86,19 +86,20 @@ export const Navbarpage = props => {
 	);
 
 	useEffect(() => {
-		if (store.id != null) {
+		if (store.LoggedUser.id > 0) {
 			setNavbar(navbarLog);
 		}
-		if (store.help) {
+		if (store.LoggedUser.is_psychologist) {
 			setNavbarAvatar(
 				"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
 			);
 		} else {
+			console.log("else", store.LoggedUser);
 			setNavbarAvatar(
 				"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
 			);
 		}
-	}, [store.id, store.help]);
+	}, [store.LoggedUser]);
 
 	return (
 		<>

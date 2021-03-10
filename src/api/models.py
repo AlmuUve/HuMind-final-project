@@ -125,6 +125,14 @@ class User_company(db.Model):
         db.session.commit()  
         return user 
 
+    # @classmethod 
+    # def update_company_user(cls, user_data, id):
+    #     user= cls.query.filter_by(id = id).first()
+    #     for key, value in user_data.items():
+    #         setattr(user, key, value)
+    #     db.session.commit()
+    #     return user
+
 class User_psychologist(db.Model):
     __tablename__ = 'user_psychologist'
     id = db.Column(db.Integer, primary_key=True)
@@ -182,6 +190,14 @@ class User_psychologist(db.Model):
         user.speciality= user_data["speciality"]
         db.session.commit()
         return user
+
+    # @classmethod 
+    # def update_psychologist_user(cls, user_data, id):
+    #     user= cls.query.filter_by(id = id).first()
+    #     for key, value in user_data.items():
+    #         setattr(user, key, value)
+    #     db.session.commit()
+    #     return user
 
     @classmethod
     def get_wokshops_list(cls, id):

@@ -14,14 +14,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			allSearchWorkshops: [],
 			token: "",
 			user: {},
-			id: null,
-			help: null,
+			id: null, // cambiar por logged user id
 			LoggedUser: {},
 			password: "",
 			email: "",
-			psychologistId: "",
-			companyId: "",
-			userProfile: [],
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
 			currentWorkshop: "",
@@ -45,9 +41,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setPasswordFlux: new_password => {
 				setStore({ password: new_password });
-			},
-			setHelp: is_psychologist => {
-				setStore({ help: is_psychologist });
 			},
 			setId: new_id => {
 				setStore({ id: new_id });
@@ -109,14 +102,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ user: response });
 					// setStore({ id: response.id });
 					// if (response.is_psychologist) {
-					// 	setStore({ psychologistId: response.id });
 					// 	getActions().getWorkshops();
 					// 	getActions().setpathProfilePsychologist(
 					// 		response.name.replace(" ", "_"),
 					// 		response.lastname.replace(" ", "_")
 					// 	);
 					// } else {
-					// 	setStore({ companyId: response.id });
 					// 	getActions().getSearchWorkshops();
 					// 	getActions().setpathProfileCompany(response.company_name.replace(" ", "_"));
 					// }
@@ -151,18 +142,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				// await getActions().getUser(response.user_id);
+				await getActions().login(user.email, user.password);
 			},
 
-			editUserProfile: async user_info => {
-				let response = await fetch(url + "/user/" + getStore().user.user_id, {
+			editUserProfile: async (user_info, id) => {
+				let response = await fetch(url + "/user/" + id, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
 					},
 					body: JSON.stringify({
-						email: user_info.name,
 						name: user_info.name,
 						lastname: user_info.lastname,
 						identity_number: user_info.identity_number,
@@ -242,17 +232,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
-				getActions().setHelp(getStore().LoggedUser.is_psychologist);
 				setStore({ id: getStore().LoggedUser.id });
 				if (getStore().LoggedUser.is_psychologist) {
-					setStore({ psychologistId: response.id });
 					getActions().setpathProfilePsychologist(
 						getStore().LoggedUser.name.replace(" ", "_"),
 						getStore().LoggedUser.lastname.replace(" ", "_")
 					);
 					getActions().getWorkshops(getStore().LoggedUser.id);
 				} else {
-					setStore({ companyId: response.id });
 					getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
 					getActions().getSearchWorkshops(getStore().LoggedUser.id);
 				}
