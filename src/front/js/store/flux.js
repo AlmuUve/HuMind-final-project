@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
-const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
+const url = "https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		actions: {
 			getSearchResults: async keyword => {
-				let response = await fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/search_workshop/", {
+				let response = await fetch("https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io/searchbar_workshop", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -38,7 +38,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				console.log(keyword, "soy la keyword");
 				response = await response.json();
+				console.log(getStore().allWorkshops, "STOREEEEE");
 				console.log(response);
+				setStore({ allWorkshops: response });
 			},
 
 			changeSearchBarContent: search => {

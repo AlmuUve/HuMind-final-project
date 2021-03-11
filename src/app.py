@@ -328,9 +328,10 @@ def send_email():
 
 #Search Bar
 
-@app.route('/search_workshop',  methods=['POST'])
+@app.route('/searchbar_workshop',  methods=['POST'])
 def search_bar():
     body = request.get_json()
+    print(body, "@@@@@@@@@@@@@@@")
     title = body.get("search", None)
     workshops = Workshop.get_workshop_for_search_bar(title)
     print(workshops)

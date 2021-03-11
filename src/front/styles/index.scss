@@ -95,8 +95,12 @@ h3{
     font-size: 3rem;
     width: 30%;
     height: 5rem;
+    text-decoration: none;
 }
 
+.landingButton:active{
+    text-decoration: none;
+}
 // NAVBAR \\
 
 .navbarLogo{
@@ -879,25 +883,35 @@ h3{
 
 //SEARCHBAR\\
 
-.search-bar-icon-div{
-    background-color: $primary_blue;
-    border-radius: 50%;
+.searchBarDiv{
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+}
+    
+.searchBarInput{
+    height: 2.5rem;
 }
 
-.search-bar-icon-div:active{
+.searchBarIconDiv{
+    background-color: $primary_blue;
+    border-radius: 50%;
+    height: 2.5rem;
+}
+
+.searchBarIconDiv:active{
     text-decoration: none;
 }
 
-.search-bar-icon{
+.searchBarIcon{
     color: $secondary_blue;
     background-color: $primary_blue;
 }
 
-.search-bar-icon:hover{
+.searchBarIcon:hover{
     text-decoration: none;
 }
 
-.search-bar-icon:active{
+.searchBarIcon:active{
     text-decoration: none;
 }
 

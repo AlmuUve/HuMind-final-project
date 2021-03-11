@@ -4,19 +4,20 @@ import { Link, useHistory } from "react-router-dom";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
+import { SearchBar } from "../component/searchBar";
 
 export const Navbarpage = props => {
 	const [navbarAvatar, setNavbarAvatar] = useState("");
 	const { store, actions } = useContext(Context);
 	const [navbar, setNavbar] = useState(
 		<Nav className="ml-auto">
-			<a href="#ancla1" className="buttonNavbar">
+			<a href="#anchor" className="buttonNavbar">
 				<NavbarButtons text="What do we do?" />
 			</a>
-			<a href="#anclaCompanies" className="buttonNavbar">
+			<a href="#anchorCompanies" className="buttonNavbar">
 				<NavbarButtons text="Companies" />
 			</a>
-			<a href="#anclaPsychologists" className="buttonNavbar">
+			<a href="#anchorPsychologists" className="buttonNavbar">
 				<NavbarButtons text="Psychologist" />
 			</a>
 			<Link to="/signup" className="buttonNavbar">
@@ -32,6 +33,7 @@ export const Navbarpage = props => {
 
 	const navbarLog = (
 		<Nav className="ml-auto">
+			<SearchBar />
 			<DropdownButton
 				id="dropdown-item-button"
 				title={

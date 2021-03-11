@@ -10,38 +10,37 @@ export const SearchBar = () => {
 
 	let param = useParams;
 	let myInput = document.querySelector("#title");
-	let newSearch = e => {
-		setUserInput(e.target.value);
-		if (event.key === "Enter") {
-			console.log("holaaaa");
-			actions.getSearchResults(userInput);
-			history.push("/feed");
+	let newSearch = async e => {
+		// setUserInput(e.target.value);
+		if (e.key == "Enter") {
+			console.log("holaaaa", userInput);
+			console.log("target", e.target.value);
+			await actions.getSearchResults(userInput);
+			await history.push("/feed");
 		}
 	};
 
 	return (
-		<div className="input-group ml-auto">
+		<div className="input-group  searchBarDiv">
 			<input
 				id="name"
-				onKeyPress={() => {
-					newSearch(event);
+				onKeyPress={e => {
+					newSearch(e);
 				}}
-				// onChange={e => {
-				// 	e.preventDefault();
-				// 	setUserInput(e.target.value);
-				// }}
+				onChange={e => {
+					setUserInput(e.target.value);
+				}}
 				type="text"
-				className="form-control search-bar-input"
+				className="form-control searchBarInput"
 				placeholder="Search here"
 			/>
-			<div className="input-group-append search-bar-icon-div">
-				<span
-					className="input-group-text search-bar-icon"
-					onClick={e => {
-						e.preventDefault();
-						actions.getSearchResults(userInput);
-						history.push("/feed");
-					}}>
+			<div
+				className="input-group-append searchBarIconDiv"
+				onClick={() => {
+					actions.getSearchResults(userInput);
+					history.push("/feed");
+				}}>
+				<span className="input-group-text searchBarIcon">
 					<i className="fa fa-search fa-lg " />
 				</span>
 			</div>

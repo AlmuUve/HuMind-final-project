@@ -363,9 +363,9 @@ class Workshop(db.Model):
     @classmethod
     def get_workshop_for_search_bar(cls, search):
         workshops = cls.query.filter(cls.title.like(f'%{search}%')).all()
-        search_workshops = Search_workshop.get_search_workshop_for_search_bar(search)
-        search_results = workshops + search_workshops
-        return search_results
+        # search_workshops = Search_workshop.get_search_workshop_for_search_bar(search)
+        # search_results = workshops + search_workshops
+        return workshops
         
     
     def update_workshop(self, 
