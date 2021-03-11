@@ -18,7 +18,7 @@ export const Navbarpage = props => {
 				<NavbarButtons text="Companies" />
 			</a>
 			<a href="#anchorPsychologists" className="buttonNavbar">
-				<NavbarButtons text="Psychologist" />
+				<NavbarButtons text="Psychologists" />
 			</a>
 			<Link to="/signup" className="buttonNavbar">
 				<NavbarButtons text="Sign Up" />

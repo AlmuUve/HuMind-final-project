@@ -8,13 +8,8 @@ export const SearchBar = () => {
 	const [userInput, setUserInput] = useState("");
 	const history = useHistory();
 
-	let param = useParams;
-	let myInput = document.querySelector("#title");
 	let newSearch = async e => {
-		// setUserInput(e.target.value);
 		if (e.key == "Enter") {
-			console.log("holaaaa", userInput);
-			console.log("target", e.target.value);
 			await actions.getSearchResults(userInput);
 			await history.push("/feed");
 		}

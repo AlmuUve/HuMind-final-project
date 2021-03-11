@@ -21,13 +21,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
 			currentWorkshop: "",
-			subjectEmail: "",
-			searchBarContent: ""
+			subjectEmail: ""
 		},
 
 		actions: {
 			getSearchResults: async keyword => {
-				let response = await fetch("https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io/searchbar_workshop", {
+				let response = await fetch("https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io/search_for_workshop", {
 					method: "POST",
 					headers: new Headers({
 						"Content-Type": "application/json"
@@ -36,15 +35,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 						search: keyword
 					})
 				});
-				console.log(keyword, "soy la keyword");
 				response = await response.json();
-				console.log(getStore().allWorkshops, "STOREEEEE");
-				console.log(response);
-				setStore({ allWorkshops: response });
-			},
-
-			changeSearchBarContent: search => {
-				setStore({ searchBarContent: search });
+				console.log(response, "RESPONSE");
+				if (getStore().LoggedUser.is_psychologist) {
+					setStore({ allSearchWorkshops: response });
+				} else {
+					setStore({ allWorkshops: response });
+				}
 			},
 
 			getAllWorkshops: () => {

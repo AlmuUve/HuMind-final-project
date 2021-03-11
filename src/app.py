@@ -328,14 +328,16 @@ def send_email():
 
 #Search Bar
 
-@app.route('/searchbar_workshop',  methods=['POST'])
+@app.route('/search_for_workshop',  methods=['POST'])
 def search_bar():
     body = request.get_json()
-    print(body, "@@@@@@@@@@@@@@@")
     title = body.get("search", None)
-    workshops = Workshop.get_workshop_for_search_bar(title)
-    print(workshops)
-    return jsonify([workshop.to_dict() for workshop in workshops]), 200
+    if User.is_psychologist:
+        workshops = Workshop.get_workshop_for_search_bar(title)
+        return jsonify([workshop.to_dict() for workshop in workshops]), 200
+   
+    search_workshops = Search_workshop.get_search_workshop_for_search_bar(title)
+    return jsonify([search_workshops.to_dict() for search_workshop in search_workshops]), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
