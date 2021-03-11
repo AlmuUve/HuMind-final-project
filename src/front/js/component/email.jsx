@@ -1,8 +1,8 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
+import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton";
-import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const Email = props => {
@@ -10,13 +10,15 @@ export const Email = props => {
 	const [email, setEmail] = useState({
 		email_from: store.LoggedUser.name + ", <" + store.LoggedUser.email + ">",
 		email_to: "",
-		subject: props.subject,
+		subject: store.subjectEmail,
 		message: ""
 	});
 
 	const inputChange = event => {
 		setEmail({ ...email, [event.target.name]: event.target.value });
 	};
+
+	const history = useHistory();
 
 	return (
 		<Fragment>
@@ -33,7 +35,7 @@ export const Email = props => {
 							placeholder="Type your subject here..."
 							name="subject"
 							id="subjecte"
-							defaultValue={props.subject}
+							defaultValue={store.subjectEmail}
 							required
 						/>
 					</div>
@@ -50,6 +52,7 @@ export const Email = props => {
 							placeholder="Type your message here..."
 							form="usrform"
 							id="message"
+							required
 						/>
 					</div>
 				</div>
@@ -60,6 +63,9 @@ export const Email = props => {
 						onClickForm={e => {
 							e.preventDefault();
 							actions.sendEmail(email);
+							actions.setSubjectEmail("");
+							actions.setUser(null);
+							history.push("/feed");
 						}}
 					/>
 				</div>

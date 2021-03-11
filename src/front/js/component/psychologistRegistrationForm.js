@@ -1,6 +1,7 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
+import { BlueButton } from "./blueButton.jsx";
 import { Link, useHistory } from "react-router-dom";
 import "../../styles/home.scss";
 
@@ -83,19 +84,21 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row">
-						{/* <div className="col-6 inputLabel">
-							<label htmlFor="email" className="titleInputs">
-								<b>E-mail</b>
+						<div className="col-6 inputLabel">
+							<label htmlFor="association_number" className="titleInputs">
+								<b>Association of Psycologists Number</b>
 							</label>
 							<input
 								type="text"
-								defaultValue={store.email}
+								onChange={inputChange}
 								className="workshopInput form-control"
-								name="email"
-								id="email"
+								placeholder="Max.9 characters"
+								name="association_number"
+								id="association_number"
+								defaultValue={user.association_number}
 								required
 							/>
-						</div> */}
+						</div>
 						<div className="col-6 inputLabel">
 							<label htmlFor="identity_number" className="titleInputs">
 								<b>Identity Number</b>
@@ -113,22 +116,7 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
-							<label htmlFor="association_number" className="titleInputs">
-								<b>Association of Psycologists Number</b>
-							</label>
-							<input
-								type="text"
-								onChange={inputChange}
-								className="workshopInput form-control"
-								placeholder="Max.9 characters"
-								name="association_number"
-								id="association_number"
-								defaultValue={user.association_number}
-								required
-							/>
-						</div>
-						<div className="col-6 inputLabel">
+						<div className="col-12 inputLabel">
 							<label htmlFor="speciality" className="titleInputs">
 								<b>Speciality</b>
 							</label>
@@ -258,6 +246,20 @@ export const PsychologistRegistrationForm = props => {
 								}}
 							/>
 						</Link>
+						<BlueButton
+							className="ButtonBlue"
+							text="Back"
+							onClickBlue={() =>
+								store.LoggedUser.id > 0
+									? history.push(
+											"/profile/" +
+												store.LoggedUser.name.replace(" ", "_") +
+												"_" +
+												store.LoggedUser.lastname.replace(" ", "_")
+									  )
+									: history.push("/")
+							}
+						/>
 					</div>
 				</div>
 			</form>

@@ -3,6 +3,7 @@ import { useParams, Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.scss";
 import { YellowButton } from "./yellowButton";
+import { BlueButton } from "./blueButton.jsx";
 
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
@@ -377,6 +378,14 @@ export const Searchworkshopform = () => {
 								checkInputs(e);
 							}
 							history.push("/profile/" + store.LoggedUser.company_name.replace(" ", "_"));
+						}}
+					/>
+					<BlueButton
+						className="ButtonBlue"
+						text="Back"
+						onClickBlue={() => {
+							history.push("/profile/" + store.LoggedUser.company_name.replace(" ", "_"));
+							actions.setCurrentWorkshop("");
 						}}
 					/>
 				</div>

@@ -20,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
-			currentWorkshop: ""
+			currentWorkshop: "",
+			subjectEmail: ""
 		},
 
 		actions: {
@@ -50,6 +51,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setUser: newUser => {
 				setStore({ user: newUser });
+			},
+
+			setSubjectEmail: newSubject => {
+				setStore({ subjectEmail: newSubject });
 			},
 
 			//CALL API\\
@@ -232,7 +237,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
 						getActions().getSearchWorkshops(getStore().LoggedUser.id);
 					}
-					console.log(response);
 				} catch {
 					alert("Your email doesnt exists");
 				}
@@ -418,7 +422,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				console.log(response);
 			},
 
 			deleteWorkshop: async (workshop, idPsy) => {

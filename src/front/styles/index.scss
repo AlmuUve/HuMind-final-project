@@ -566,7 +566,7 @@ h3{
 
 .formAddWorkshop {
     font-family: $text_font;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: $text_color;
 }
 
@@ -587,7 +587,7 @@ h3{
     border-radius: 0%;
     background-color: $secondary_blue;
     padding-left: 1rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
 }
@@ -596,7 +596,7 @@ h3{
     height: 10rem;
     border: none;
     background-color: $secondary_blue;
-    font-size: 0.8rem;
+    font-size: 1rem;
     padding-left: 1rem;
     padding-top: 0.7rem;
     margin-bottom: 1rem;
@@ -674,7 +674,6 @@ h3{
     display: flex;
     align-self: center;
     margin-top: 1rem;
-    //width: 60%;
     height: fit-content;
     border: 3px solid $background_color;
     padding: 1.5rem;
@@ -804,9 +803,9 @@ h3{
 }
 
 .emailTextArea{
-    border: none;
-    background-color: $secondary_blue;
-    font-size: 0.8rem;
+    background-color: white;
+    border: 3px solid $secondary_blue;
+    font-size: 1rem;
     padding-left: 1rem;
     padding-top: 0.7rem;
     margin-bottom: 1rem;
@@ -815,12 +814,25 @@ h3{
 
 .emailInput{
     height: 2.5rem;
-    border: none;
-    background-color: $secondary_blue;
+    border: 3px solid $secondary_blue;
+    background-color: white;
     padding-left: 1rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
+}
+
+.emailInput:valid{
+    background-color: $secondary_blue;
+}
+
+.emailTextArea:valid{
+    background-color: $secondary_blue;
+}
+
+.emailTextArea:focus{
+    outline: 3px solid $secondary_blue;
+    border: 50%;
 }
 
 // BOTONES NAV PILLS \\
@@ -848,6 +860,21 @@ h3{
 .addWorkshop {
     display: flex;
     justify-content: end;
+}
+
+.ButtonBlue{
+    background-color: #d5d5d5;
+    border: none;
+    font-family: $title_font;
+    font-size: 1.3rem;
+    color: white;
+    width: 7rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+}
+
+.ButtonBlue:hover{
+    background-color: #d6d6d6;
 }
 
 
