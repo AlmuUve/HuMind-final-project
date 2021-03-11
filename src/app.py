@@ -146,7 +146,7 @@ def update_users(id):
 #     change_user = User.get_by_id(id)
 #     return jsonify(change_user.to_dict())
 
-@app.route('/user/<int:id>', methods=['PATCH']) ##METHOD DELETE
+@app.route('/user/<int:id>', methods=['DELETE']) 
 @jwt_required()
 def delete_one_user(id):
     user_target = User.delete(id)

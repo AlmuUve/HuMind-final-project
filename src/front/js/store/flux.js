@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-yellow-guppy-mug6ttex.ws-eu03.gitpod.io";
+const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -14,7 +14,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			allSearchWorkshops: [],
 			token: "",
 			user: null,
-			id: null, // cambiar por logged user id
 			LoggedUser: {},
 			password: "",
 			email: "",
@@ -406,7 +405,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			deleteProfile: async id => {
 				let response = await fetch(url + "/user/" + id, {
-					method: "PATCH",
+					method: "DELETE",
 					headers: new Headers({
 						"Content-Type": "application/json",
 						Authorization: getStore().token

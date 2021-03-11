@@ -42,8 +42,10 @@ export const Profiletemplatepsy = props => {
 				</div>
 				<div className="descriptionCard">
 					<p>{store.user ? "" : store.LoggedUser.speciality}</p>
-					<p>{store.user ? "" : store.LoggedUser.association_number}</p>
-					<p>{store.user ? store.user.description : store.LoggedUser.description}</p>
+					<p>{store.user ? store.user.company_number : store.LoggedUser.association_number}</p>
+					<p className="lastChildDescription">
+						{store.user ? store.user.description : store.LoggedUser.description}
+					</p>
 				</div>
 				{editButton}
 			</div>

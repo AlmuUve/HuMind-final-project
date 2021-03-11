@@ -213,11 +213,15 @@ h3{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 1.5rem;
 }
 
 .descriptionCard > p {   
-    
     margin-bottom: 0;
+}
+
+.lastChildDescription { 
+    text-align: left !important;
 }
 
 .bottomCard {
@@ -308,6 +312,7 @@ h3{
     margin: 0;
     padding: 0.5rem;
     height: 2.8rem;
+    width: auto;
 }
 
 .profileFeed {
@@ -700,14 +705,23 @@ h3{
 
 .deleteButton{
     position: absolute;
-    right: 0%;
+    right: 5%;
     border: none;
     background-color: white;
+    color: $text_color;
 }
 
 .editButton{
     position: absolute;
-    right: 1rem;
+    right: 1.5rem;
+    color: $text_color;
+    background-color: $background_color;
+    border: none;
+    
+}
+
+.fatherButton {
+    position: relative;
 }
 
 .yellowButton_workshopCard{
@@ -717,12 +731,6 @@ h3{
     bottom: 0%;
    right: 0%;
 }
-
-// .yellowButton{
-//     position: absolute;
-//     bottom: 0%;
-//     right: 0%;
-// }
 
 /* Workshop Detail */
 .profile_workshopDetail{
@@ -834,3 +842,12 @@ h3{
     display: flex;
     justify-content: end;
 }
+
+
+//EDITS AND DELETE BUTTON\\
+
+// .buttonEdit{
+//     color: $text_color;
+//     $background_color: white;
+//     border: none;
+// }

@@ -54,23 +54,14 @@ export const Email = props => {
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center mb-5">
-					<Link
-						to={
-							store.LoggedUser.is_psychologist
-								? "/profile/" +
-								  store.LoggedUser.name.replace(" ", "_") +
-								  store.LoggedUser.lastname.replace(" ", "_")
-								: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
-						}>
-						<YellowButton
-							type="submit"
-							text="Send"
-							onClickForm={() => {
-								actions.sendEmail(email);
-								actions.setUser(null);
-							}}
-						/>
-					</Link>
+					<YellowButton
+						type="submit"
+						text="Send"
+						onClickForm={e => {
+							e.preventDefault();
+							actions.sendEmail(email);
+						}}
+					/>
 				</div>
 			</form>
 		</Fragment>

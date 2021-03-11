@@ -10,7 +10,7 @@ import { DeleteButton } from "./deleteButton.js";
 export const SearchWorkshopCard = props => {
 	const { actions, store } = useContext(Context);
 	const [editAndDeleteButton, setEditAndDeleteButton] = useState(
-		<div className="buttons_workshopCard">
+		<div className="col-6 d-flex align-items-top">
 			<Link to={"/add_workshop/" + props.item.id}>
 				<EditButton
 					className="editButton_workshopCard"
@@ -29,17 +29,15 @@ export const SearchWorkshopCard = props => {
 		store.user != null
 			? setEditAndDeleteButton("")
 			: setEditAndDeleteButton(
-					<div className="buttons_workshopCard">
+					<div className="col-6 d-flex align-items-top">
 						<Link to={"/add_workshop/" + props.item.id}>
 							<EditButton
-								className="editButton_workshopCard"
 								onEditClick={() => {
 									props.edit();
 								}}
 							/>
 						</Link>
 						<DeleteButton
-							className="deleteButton"
 							onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
 						/>
 					</div>
@@ -48,29 +46,20 @@ export const SearchWorkshopCard = props => {
 
 	return (
 		<>
-			<div className="workshopCard">
-				<div className="cardInformation">
-					<span className="title">{props.item.category}</span>
-					<div className="workshopDetails">
-						<span className="date">
-							Date:
-							{props.item.date}
-						</span>
-						<span className="duration">
-							Duration:
-							{props.item.duration}
-						</span>
-						<span className="maxPeople">
-							Maximum number of persons:
-							{props.item.max_people}
-						</span>
-						<span className="prize">
-							Maximum price
-							{props.item.max_price} €
-						</span>
-					</div>
+			<div className="templateWorkshop">
+				<div className="row fatherButton">
+					<div className="col-6 titleWorkshop">ESTO SERA EL TITULO</div>
+					{editAndDeleteButton}
 				</div>
-				{editAndDeleteButton}
+				<div className="bodySearchWorkshop">
+					<p>Date: {props.item.date}</p>
+					<p>Duration: {props.item.duration}</p>
+					<p>Maximum number of persons: {props.item.max_people}</p>
+					<p>Maximum price {props.item.max_price} €</p>
+				</div>
+				<div className="row d-flex justify-content-between mx-1">
+					<p className="categoryLabelSearch">{props.item.category}</p>
+				</div>
 			</div>
 		</>
 	);

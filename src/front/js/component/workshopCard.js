@@ -10,40 +10,21 @@ import { Categorylabel } from "./FeedComponent/categoryinworkshops.jsx";
 
 export const WorkshopCard = props => {
 	const { actions, store } = useContext(Context);
-	const [editAndDeleteButton, setEditAndDeleteButton] = useState(
-		<div>
-			<Link to={"/add_workshop/" + props.item.id}>
-				<EditButton
-					className="editButton_workshopCard"
-					onEditClick={() => {
-						props.edit();
-					}}
-				/>
-			</Link>
-			<DeleteButton
-				className="deleteButton_workshopCard"
-				onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
-			/>
-		</div>
-	);
+	const [editAndDeleteButton, setEditAndDeleteButton] = useState();
 
 	useEffect(() => {
 		store.user != null
 			? setEditAndDeleteButton("")
 			: setEditAndDeleteButton(
-					<div>
+					<div className="col-6 d-flex align-items-top">
 						<Link to={"/add_workshop/" + props.item.id}>
 							<EditButton
-								className="editButton_workshopCard"
 								onEditClick={() => {
 									props.edit();
 								}}
 							/>
 						</Link>
-						<DeleteButton
-							className="deleteButton_workshopCard"
-							onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
-						/>
+						<DeleteButton onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)} />
 					</div>
 			  );
 	}, [store.user]);
@@ -53,20 +34,25 @@ export const WorkshopCard = props => {
 	});
 
 	return (
-		<div className="workshopCard">
-			<div className="cardInformation">
-				<p className="workshopTitle">{props.item.title}</p>
-				<div className="workshopDetails">
-					<span className="date">Date: {props.item.date}</span>
-					<span className="duration">Duration: {props.item.duration} hours</span>
-					<span className="maxPeople">Pax: {props.item.max_people}</span>
-					<span className="WorkDescription">Description: {props.item.description}</span>
-					<span className="categories">{categoryLabels} </span>
-				</div>
-			</div>
-			<div className="buttons_workshopCard">
+		<div className="templateWorkshop">
+			<div className="row fatherButton">
+				<div className="col-6 titleWorkshop">{props.item.title}</div>
 				{editAndDeleteButton}
-				<YellowButton className="yellowButton_workshopCard" text="Learn more" />
+			</div>
+			<div className="bodyWorkshop">
+				<p>Date: {props.item.date}</p>
+				<p>Duration: {props.item.duration} hours</p>
+				<p>Pax: {props.item.max_people}</p>
+				<p>Price {props.item.price} €</p>
+				<p>Description: {props.item.description}</p>
+			</div>
+			<div className="row d-flex mt-2">
+				<div className="col-lg-8 col-sm-12 d-flex flex-wrap">{categoryLabels}</div>
+				<div className="col-lg-4 col-sm-12 d-flex justify-content-lg-end justify-content-center">
+					<Link to="/workshopdetail">
+						<YellowButton text="View More" />
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
