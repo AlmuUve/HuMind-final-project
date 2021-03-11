@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
-            currentWorkshop: "",
+			currentWorkshop: "",
 			subjectEmail: "",
 			searchBarContent: ""
 		},
@@ -430,8 +430,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}),
 					headers: {
 						"Content-Type": "application/json"
-                    }
-                });
+					}
+				});
 				response = await response.json();
 				getActions().getSearchWorkshops(getStore().LoggedUser.id);
 				getActions().getAllSearchWorkshops();

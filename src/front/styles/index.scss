@@ -822,31 +822,6 @@ h3{
     margin-top: -0.5rem;
 }
 
-<<<<<<< HEAD
-//SEARCHBAR\\
-
-.search-bar-icon-div{
-    background-color: $primary_blue;
-    border-radius: 50%;
-}
-
-.search-bar-icon-div:active{
-    text-decoration: none;
-}
-
-.search-bar-icon{
-    color: $secondary_blue;
-    background-color: $primary_blue;
-}
-
-.search-bar-icon:hover{
-    text-decoration: none;
-}
-
-.search-bar-icon:active{
-    text-decoration: none;
-}
-=======
 .emailInput:valid{
     background-color: $secondary_blue;
 }
@@ -902,6 +877,29 @@ h3{
     background-color: #d6d6d6;
 }
 
+//SEARCHBAR\\
+
+.search-bar-icon-div{
+    background-color: $primary_blue;
+    border-radius: 50%;
+}
+
+.search-bar-icon-div:active{
+    text-decoration: none;
+}
+
+.search-bar-icon{
+    color: $secondary_blue;
+    background-color: $primary_blue;
+}
+
+.search-bar-icon:hover{
+    text-decoration: none;
+}
+
+.search-bar-icon:active{
+    text-decoration: none;
+}
 
 //EDITS AND DELETE BUTTON\\
 
@@ -910,4 +908,3 @@ h3{
 //     $background_color: white;
 //     border: none;
 // }
->>>>>>> main
