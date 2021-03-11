@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-turquoise-tyrannosaurus-m4lwou75.ws-eu03.gitpod.io";
+const url = "https://3001-yellow-guppy-mug6ttex.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -13,7 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			allWorkshops: [],
 			allSearchWorkshops: [],
 			token: "",
-			user: {},
+			user: null,
 			id: null, // cambiar por logged user id
 			LoggedUser: {},
 			password: "",
@@ -46,6 +46,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setCurrentWorkshop: newContact => {
 				setStore({ currentWorkshop: newContact });
+			},
+
+			setUser: newUser => {
+				setStore({ user: newUser });
 			},
 
 			//CALL API\\
@@ -217,7 +221,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let token = await response.json();
 				localStorage.setItem("token", token.token);
 				getActions().decode();
-				setStore({ id: getStore().LoggedUser.id });
 				if (getStore().LoggedUser.is_psychologist) {
 					getActions().setpathProfilePsychologist(
 						getStore().LoggedUser.name.replace(" ", "_"),
@@ -439,7 +442,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "PUT",
 					body: JSON.stringify({
 						email_from: email.email_from,
-						email_to: email.email_to,
+						email_to: getStore().user.email,
 						subject: email.subject,
 						message: email.message
 					}),

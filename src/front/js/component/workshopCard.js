@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
@@ -10,6 +10,43 @@ import { Categorylabel } from "./FeedComponent/categoryinworkshops.jsx";
 
 export const WorkshopCard = props => {
 	const { actions, store } = useContext(Context);
+	const [editAndDeleteButton, setEditAndDeleteButton] = useState(
+		<div>
+			<Link to={"/add_workshop/" + props.item.id}>
+				<EditButton
+					className="editButton_workshopCard"
+					onEditClick={() => {
+						props.edit();
+					}}
+				/>
+			</Link>
+			<DeleteButton
+				className="deleteButton_workshopCard"
+				onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
+			/>
+		</div>
+	);
+
+	useEffect(() => {
+		store.user != null
+			? setEditAndDeleteButton("")
+			: setEditAndDeleteButton(
+					<div>
+						<Link to={"/add_workshop/" + props.item.id}>
+							<EditButton
+								className="editButton_workshopCard"
+								onEditClick={() => {
+									props.edit();
+								}}
+							/>
+						</Link>
+						<DeleteButton
+							className="deleteButton_workshopCard"
+							onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
+						/>
+					</div>
+			  );
+	}, [store.user]);
 
 	let categoryLabels = props.item.categories.map((item, index) => {
 		return <Categorylabel item={item} key={index.toString()} />;
@@ -28,18 +65,7 @@ export const WorkshopCard = props => {
 				</div>
 			</div>
 			<div className="buttons_workshopCard">
-				<Link to={"/add_workshop/" + props.item.id}>
-					<EditButton
-						className="editButton_workshopCard"
-						onEditClick={() => {
-							props.edit();
-						}}
-					/>
-				</Link>
-				<DeleteButton
-					className="deleteButton_workshopCard"
-					onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
-				/>
+				{editAndDeleteButton}
 				<YellowButton className="yellowButton_workshopCard" text="Learn more" />
 			</div>
 		</div>

@@ -43,7 +43,13 @@ export const Searchworkshops = props => {
 				<div className="row d-flex justify-content-between mx-1">
 					<p className="categoryLabelSearch">{props.item.category}</p>
 					<Link to={"/profile/" + props.item.owner.replace(" ", "_")}>
-						<YellowButton onClickForm={() => actions.getUser(props.item.user_id)} text="Contact" />
+						<YellowButton
+							onClickForm={() => {
+								actions.getUser(props.item.user_id);
+								actions.getSearchWorkshops(props.item.user_company_id);
+							}}
+							text="Contact"
+						/>
 					</Link>
 				</div>
 			</div>

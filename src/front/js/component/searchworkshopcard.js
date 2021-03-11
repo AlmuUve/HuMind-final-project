@@ -9,6 +9,42 @@ import { DeleteButton } from "./deleteButton.js";
 
 export const SearchWorkshopCard = props => {
 	const { actions, store } = useContext(Context);
+	const [editAndDeleteButton, setEditAndDeleteButton] = useState(
+		<div className="buttons_workshopCard">
+			<Link to={"/add_workshop/" + props.item.id}>
+				<EditButton
+					className="editButton_workshopCard"
+					onEditClick={() => {
+						props.edit();
+					}}
+				/>
+			</Link>
+			<DeleteButton
+				className="deleteButton"
+				onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
+			/>
+		</div>
+	);
+	useEffect(() => {
+		store.user != null
+			? setEditAndDeleteButton("")
+			: setEditAndDeleteButton(
+					<div className="buttons_workshopCard">
+						<Link to={"/add_workshop/" + props.item.id}>
+							<EditButton
+								className="editButton_workshopCard"
+								onEditClick={() => {
+									props.edit();
+								}}
+							/>
+						</Link>
+						<DeleteButton
+							className="deleteButton"
+							onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
+						/>
+					</div>
+			  );
+	}, [store.user]);
 
 	return (
 		<>
@@ -34,23 +70,7 @@ export const SearchWorkshopCard = props => {
 						</span>
 					</div>
 				</div>
-				<div className="buttons_workshopCard">
-					<Link to={"/add_workshop/" + props.item.id}>
-						<EditButton
-							className="editButton"
-							onEditClick={() => {
-								props.edit();
-							}}
-						/>
-					</Link>
-					<DeleteButton
-						className="deleteButton"
-						onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
-					/>
-					<Link to="/">
-						<YellowButton text="Contact" />
-					</Link>
-				</div>
+				{editAndDeleteButton}
 			</div>
 		</>
 	);

@@ -1,15 +1,16 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
+import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton";
 import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
-export const Email = () => {
+export const Email = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState({
-		email_from: "Jose, <jagutierrezc7@gmail.com>",
-		email_to: "rafaelagcalves@outlook.com",
-		subject: "",
+		email_from: store.LoggedUser.name + ", <" + store.LoggedUser.email + ">",
+		email_to: "",
+		subject: props.subject,
 		message: ""
 	});
 
@@ -32,6 +33,7 @@ export const Email = () => {
 							placeholder="Type your subject here..."
 							name="subject"
 							id="subjecte"
+							defaultValue={props.subject}
 							required
 						/>
 					</div>
@@ -52,12 +54,20 @@ export const Email = () => {
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center mb-5">
-					<Link to="/profile">
+					<Link
+						to={
+							store.LoggedUser.is_psychologist
+								? "/profile/" +
+								  store.LoggedUser.name.replace(" ", "_") +
+								  store.LoggedUser.lastname.replace(" ", "_")
+								: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
+						}>
 						<YellowButton
 							type="submit"
 							text="Send"
 							onClickForm={() => {
 								actions.sendEmail(email);
+								actions.setUser(null);
 							}}
 						/>
 					</Link>
@@ -65,4 +75,7 @@ export const Email = () => {
 			</form>
 		</Fragment>
 	);
+};
+Email.propTypes = {
+	subject: PropTypes.string
 };

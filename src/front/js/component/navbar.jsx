@@ -34,13 +34,22 @@ export const Navbarpage = props => {
 		<Nav className="ml-auto">
 			<DropdownButton
 				id="dropdown-item-button"
-				title={<img className="navbarAvatarButton" src={navbarAvatar} />}
+				title={
+					<img
+						className="navbarAvatarButton"
+						src={
+							store.LoggedUser.is_psychologist
+								? "https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+								: "https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+						}
+					/>
+				}
 				className="ml-2 dropButton"
 				menuAlign="right">
 				<Dropdown.ItemText className="buttonDropDown">
 					<NavbarButtons
 						text="Profile"
-						onClickNavbar={() =>
+						onClickNavbar={() => {
 							history.push(
 								store.LoggedUser.is_psychologist
 									? "/profile/" +
@@ -48,8 +57,9 @@ export const Navbarpage = props => {
 											"_" +
 											store.LoggedUser.lastname.replace(" ", "_")
 									: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
-							)
-						}
+							);
+							actions.setUser(null);
+						}}
 					/>
 				</Dropdown.ItemText>
 				<Link to="/feed">
@@ -59,6 +69,7 @@ export const Navbarpage = props => {
 							onClickNavbar={() => {
 								actions.getAllSearchWorkshops();
 								actions.getAllWorkshops();
+								actions.setUser(null);
 							}}
 						/>
 					</Dropdown.ItemText>
@@ -69,7 +80,7 @@ export const Navbarpage = props => {
 							text="Log Out"
 							onClickNavbar={() => {
 								actions.logout();
-								actions.setId(null);
+								actions.setUser(null);
 								setNavbar(
 									<Nav className="ml-auto">
 										<a href="#ancla1" className="buttonNavbar">
@@ -100,16 +111,6 @@ export const Navbarpage = props => {
 	useEffect(() => {
 		if (store.LoggedUser.id > 0) {
 			setNavbar(navbarLog);
-		}
-		if (store.LoggedUser.is_psychologist) {
-			setNavbarAvatar(
-				"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-			);
-		} else {
-			console.log("else", store.LoggedUser);
-			setNavbarAvatar(
-				"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
-			);
 		}
 	}, [store.LoggedUser]);
 

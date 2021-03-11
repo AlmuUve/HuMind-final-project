@@ -282,7 +282,7 @@ def get_target_workshop(id):
 
 @app.route('/company/<int:com_id>/search_workshop/<int:id>', methods=['PUT'])
 # @jwt_required()
-def update_search_workshop(_, id):
+def update_search_workshop(com_id, id):
     body = request.get_json()
     search_workshop = Search_workshop.get_by_id(id)
 
@@ -293,7 +293,7 @@ def update_search_workshop(_, id):
 
 @app.route('/psychologist/<int:psy_id>/workshop/<int:id>', methods=['PUT'])
 # @jwt_required()
-def update_workshop(_, id):
+def update_workshop(psy_id, id):
     body = request.get_json()
     workshop = Workshop.get_by_id(id)
     new_workshop = workshop.update_workshop(body['title'], body['duration'], 

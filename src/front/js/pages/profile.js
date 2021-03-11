@@ -16,6 +16,16 @@ export const Profile = () => {
 	const [active2, setActive2] = useState("");
 	const [textButton, setTextButton] = useState("pillsButtons");
 	const [textButton2, setTextButton2] = useState("pillsColor");
+	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
+	const [addButtonSearch, setAddButtonSearch] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
 
 	const changeViewPills1 = () => {
 		setActive1("active");
@@ -37,6 +47,20 @@ export const Profile = () => {
 		setTextButton2("pillsColor");
 	};
 
+	useEffect(() => {
+		if (store.user != null) {
+			changeViewPills2();
+			changeTextButtonColor();
+		}
+	}, [store.user]);
+
+	useEffect(() => {
+		if (store.user != null) {
+			setAddButtonWorkshop("");
+			setAddButtonSearch("");
+		}
+	}, [store.user]);
+
 	let userWorkshops = store.workshops.map((item, index) => {
 		return <WorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
 	});
@@ -49,7 +73,7 @@ export const Profile = () => {
 		return (
 			<>
 				<div className="container-fluid">
-					<Coverphoto photo="coverPhotoPsy" />
+					<Coverphoto photo={store.user ? "coverPhotoCompany" : "coverPhotoPsy"} />
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-lg-4 col-sm-12 profileCard">
@@ -71,7 +95,7 @@ export const Profile = () => {
 														changeViewPills1();
 														changeTextButtonColor2();
 													}}>
-													WORKSHOPS
+													{store.user ? "SEARCHWORKSHOPS" : "WORKSHOPS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -97,24 +121,15 @@ export const Profile = () => {
 										id="home"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Link
-											className="addWorkshop"
-											to={
-												"/add_workshop/" +
-												store.LoggedUser.name +
-												"_" +
-												store.LoggedUser.lastname
-											}>
-											<YellowButton text="ADD" />
-										</Link>
-										{userWorkshops}
+										{addButtonWorkshop}
+										{store.user ? listSearchWorkshops : userWorkshops}
 									</div>
 									<div
 										className={"tab-pane " + active2}
 										id="menu2"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Email />
+										<Email subject="PRUEBA" />
 									</div>
 								</div>
 							</div>
@@ -127,7 +142,7 @@ export const Profile = () => {
 		return (
 			<>
 				<div className="container-fluid">
-					<Coverphoto photo="coverPhotoCompany" />
+					<Coverphoto photo={store.user ? "coverPhotoPsy" : "coverPhotoCompany"} />
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-lg-4 col-sm-12 profileCard">
@@ -149,7 +164,7 @@ export const Profile = () => {
 														changeViewPills1();
 														changeTextButtonColor2();
 													}}>
-													WORKSHOPS
+													{store.user ? "WORKSHOPS" : "SEARCHWORKSHOPS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -175,19 +190,15 @@ export const Profile = () => {
 										id="home"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Link
-											className="addWorkshop"
-											to={"/add_workshop/" + store.LoggedUser.company_name}>
-											<YellowButton text="ADD" />
-										</Link>
-										{listSearchWorkshops}
+										{addButtonSearch}
+										{store.user ? userWorkshops : listSearchWorkshops}
 									</div>
 									<div
 										className={"tab-pane " + active2}
 										id="menu2"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Email />
+										<Email subject="PRUEBA" />
 									</div>
 								</div>
 							</div>

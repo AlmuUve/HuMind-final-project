@@ -8,7 +8,6 @@ import { Profile } from "./pages/profile";
 import { Editprofile } from "./pages/editprofile";
 import { UserLogIn } from "./pages/login";
 import { Addworkshop } from "./pages/addworkshop";
-import { Addsearchworkshop } from "./pages/addnewseachworkshop";
 import { Feed } from "./pages/feed";
 import { Footer } from "./component/footer";
 
@@ -35,9 +34,6 @@ const Layout = () => {
 					<Route exact path="/add_workshop/:id">
 						<Addworkshop />
 					</Route>
-					{/* <Route exact path="/add_search_workshop/:id">
-						<Addsearchworkshop />
-					</Route> */}
 					<Route exact path="/edit_profile">
 						<Editprofile />
 					</Route>

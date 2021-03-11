@@ -35,7 +35,7 @@ export const Profilefeed = props => {
 			</div>
 			<div className="d-flex justify-content-center mt-2">
 				<Link to={store.LoggedUser.is_psychologist ? store.pathProfilePsychologist : store.pathProfileCompany}>
-					<YellowButton text="Go to profile" />
+					<YellowButton text="Go to profile" onClickForm={() => actions.setUser(null)} />
 				</Link>
 			</div>
 		</div>
