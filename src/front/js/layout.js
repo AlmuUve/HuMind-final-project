@@ -9,6 +9,7 @@ import { Editprofile } from "./pages/editprofile";
 import { UserLogIn } from "./pages/login";
 import { Addworkshop } from "./pages/addworkshop";
 import { Feed } from "./pages/feed";
+import { App } from "./pages/stripe.jsx";
 import { Footer } from "./component/footer";
 
 const Layout = () => {
@@ -39,6 +40,9 @@ const Layout = () => {
 					</Route>
 					<Route exact path="/feed">
 						<Feed />
+					</Route>
+					<Route exact path="/payment">
+						<App />
 					</Route>
 					<Route>
 						<h1>Not found!</h1>

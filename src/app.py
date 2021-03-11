@@ -1,6 +1,7 @@
 import os
+import stripe
 from flask import Flask, request, jsonify, url_for, send_from_directory,current_app
-from flask_migrate import Migrate
+from flask_migrate import Migrateit 
 from flask_swagger import swagger
 from flask_cors import CORS
 # from flask_login import current_user, login_user
@@ -18,6 +19,8 @@ from api.routes import api
 from api.admin import setup_admin
 from datetime import datetime
 from api.mail_api import send_simple_message
+
+stripe.api_key = ""
 
 ENV = os.getenv("FLASK_ENV")
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -63,6 +66,19 @@ def serve_any_other_file(path):
     response = send_from_directory(static_file_dir, path)
     response.cache_control.max_age = 0 # avoid cache memory
     return response
+
+@app.route('/create-payment-intent', methods=['POST'])
+def create_payment():
+    try:
+        data = request.get_json()
+        intent = stripe.PaymentIntent.create(
+            amount=calculate_order_amount(data['items']),
+            currency='usd'
+        )
+        return ({'clientSecret': intent['client_secret']})
+    except Exception as e:
+    return jsonify(error=str(e)), 403
+
 
 @app.route('/user', methods=['POST'])
 def add_user():
