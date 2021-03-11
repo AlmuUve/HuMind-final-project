@@ -1,19 +1,24 @@
 import React, { useContext, useState, Fragment, useReducer } from "react";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.scss";
 import { YellowButton } from "./yellowButton";
+import { BlueButton } from "./blueButton.jsx";
 
 export const Workshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [workshop, setWorkshop] = useState({
-		title: "",
-		category: [],
-		duration: "",
-		price: "",
-		date: "",
-		max_people: "",
-		description: ""
+		title: store.currentWorkshop.title,
+		category: store.currentWorkshop.categories,
+		duration: store.currentWorkshop.duration,
+		price: store.currentWorkshop.price,
+		date: store.currentWorkshop.date,
+		max_people: store.currentWorkshop.max_people,
+		description: store.currentWorkshop.description
 	});
+
+	const param = useParams();
+	const history = useHistory();
 
 	const [title, setTitle] = useState(null);
 	const inputTitle = document.querySelector("#title");
@@ -45,6 +50,12 @@ export const Workshopform = () => {
 
 	let isInvalidList = [];
 
+	const edit = e => {
+		e.preventDefault();
+		checkBoxes();
+		actions.editWorkshop(workshop, store.LoggedUser.id, param.id);
+	};
+
 	const checkInputs = e => {
 		e.preventDefault(e);
 		checkTitle(title, inputTitle);
@@ -59,7 +70,7 @@ export const Workshopform = () => {
 		} else {
 			setShowError("notShow");
 			checkBoxes();
-			actions.addNewWorkshop(workshop, store.psychologistId);
+			actions.addNewWorkshop(workshop, store.LoggedUser.id);
 		}
 	};
 
@@ -178,6 +189,7 @@ export const Workshopform = () => {
 							placeholder="Max. 50 characters"
 							name="title"
 							id="title"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.title : ""}
 							required
 						/>
 					</div>
@@ -197,6 +209,7 @@ export const Workshopform = () => {
 							placeholder="In minutes"
 							name="duration"
 							id="duration"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}
 							required
 						/>
 					</div>
@@ -214,6 +227,7 @@ export const Workshopform = () => {
 							placeholder="In €"
 							name="price"
 							id="price"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.price : ""}
 							required
 						/>
 					</div>
@@ -232,6 +246,7 @@ export const Workshopform = () => {
 							}}
 							name="date"
 							id="dates"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.date : ""}
 							required
 						/>
 					</div>
@@ -250,6 +265,7 @@ export const Workshopform = () => {
 							}}
 							name="max_people"
 							id="people"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.max_people : ""}
 							required
 						/>
 					</div>
@@ -269,13 +285,14 @@ export const Workshopform = () => {
 							placeholder="Max. 500 caracteres"
 							form="usrform"
 							id="description"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.description : ""}
 							required
 						/>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-12 inputLabel">
-						<label htmlFor="category" className="titleInputs">
+						<label htmlFor="category" className="titleInputs" id="categories">
 							Select a category
 						</label>
 						<div className="row mb-3">
@@ -287,6 +304,7 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={1}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Estres
@@ -299,6 +317,7 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={2}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Ansiedad
@@ -311,11 +330,14 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={3}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Mindfulness
 									</label>
 								</div>
+							</div>
+							<div className="col-lg-3 col-sm-12 inputLabel">
 								<div>
 									<input
 										className="workshopCheckBox"
@@ -323,6 +345,7 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={4}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestion de equipos
@@ -335,9 +358,23 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={5}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Risoterapia
+									</label>
+								</div>
+								<div>
+									<input
+										className="workshopCheckBox"
+										name="category"
+										type="checkbox"
+										value={6}
+										id="category"
+										onClick={inputChange}
+									/>
+									<label htmlFor="category1" className="ml-3">
+										Sueño
 									</label>
 								</div>
 							</div>
@@ -347,20 +384,9 @@ export const Workshopform = () => {
 										className="workshopCheckBox"
 										name="category"
 										type="checkbox"
-										value={6}
-										id="category"
-									/>
-									<label htmlFor="category1" className="ml-3">
-										Sueño
-									</label>
-								</div>
-								<div>
-									<input
-										className="workshopCheckBox"
-										name="category"
-										type="checkbox"
 										value={7}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category2" className="ml-3">
 										Somos la ostia
@@ -373,6 +399,7 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={8}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Terminamos mañana
@@ -385,11 +412,14 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={9}
 										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Psicologia positiva
 									</label>
 								</div>
+							</div>
+							<div className="col-lg-3 col-sm-12 inputLabel">
 								<div>
 									<input
 										className="workshopCheckBox"
@@ -397,6 +427,33 @@ export const Workshopform = () => {
 										type="checkbox"
 										value={10}
 										id="category"
+										onClick={inputChange}
+									/>
+									<label htmlFor="category1" className="ml-3">
+										Gestión del tiempo
+									</label>
+								</div>
+								<div>
+									<input
+										className="workshopCheckBox"
+										name="category"
+										type="checkbox"
+										value={11}
+										id="category"
+										onClick={inputChange}
+									/>
+									<label htmlFor="category1" className="ml-3">
+										Gestión del tiempo
+									</label>
+								</div>
+								<div>
+									<input
+										className="workshopCheckBox"
+										name="category"
+										type="checkbox"
+										value={12}
+										id="category"
+										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
 										Gestión del tiempo
@@ -414,7 +471,31 @@ export const Workshopform = () => {
 						type="submit"
 						text="Submit"
 						onClickForm={e => {
-							checkInputs(e);
+							if (store.currentWorkshop) {
+								edit(e);
+								actions.setCurrentWorkshop("");
+							} else {
+								checkInputs(e);
+							}
+							history.push(
+								"/profile/" +
+									store.LoggedUser.name.replace(" ", "_") +
+									"_" +
+									store.LoggedUser.lastname.replace(" ", "_")
+							);
+						}}
+					/>
+					<BlueButton
+						className="ButtonBlue"
+						text="Back"
+						onClickBlue={() => {
+							actions.setCurrentWorkshop("");
+							history.push(
+								"/profile/" +
+									store.LoggedUser.name.replace(" ", "_") +
+									"_" +
+									store.LoggedUser.lastname.replace(" ", "_")
+							);
 						}}
 					/>
 				</div>

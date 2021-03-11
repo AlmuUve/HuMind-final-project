@@ -1,6 +1,7 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
 import { YellowButton } from "./yellowButton";
+import { BlueButton } from "./blueButton.jsx";
 import { Link, useHistory } from "react-router-dom";
 import "../../styles/home.scss";
 
@@ -12,19 +13,19 @@ export const PsychologistRegistrationForm = props => {
 		email: store.email,
 		password: store.password,
 		is_psychologist: true,
-		name: tokenInStorage == null ? "" : store.user["name"],
-		lastname: tokenInStorage == null ? "" : store.user["lastname"],
-		identity_number: tokenInStorage == null ? "" : store.user["identity_number"],
-		association_number: tokenInStorage == null ? "" : store.user["association_number"],
-		speciality: tokenInStorage == null ? "" : store.user["speciality"],
-		company_name: tokenInStorage == null ? "" : store.user["company_name"],
-		company_number: tokenInStorage == null ? "" : store.user["company_number"],
-		facebook: tokenInStorage == null ? "" : store.user["facebook"],
-		instagram: tokenInStorage == null ? "" : store.user["instagram"],
-		twitter: tokenInStorage == null ? "" : store.user["twitter"],
-		linkedIn: tokenInStorage == null ? "" : store.user["linkedIn"],
-		youTube: tokenInStorage == null ? "" : store.user["youTube"],
-		description: tokenInStorage == null ? "" : store.user["description"]
+		name: tokenInStorage == null ? "" : store.LoggedUser["name"],
+		lastname: tokenInStorage == null ? "" : store.LoggedUser["lastname"],
+		identity_number: tokenInStorage == null ? "" : store.LoggedUser["identity_number"],
+		association_number: tokenInStorage == null ? "" : store.LoggedUser["association_number"],
+		speciality: tokenInStorage == null ? "" : store.LoggedUser["speciality"],
+		company_name: tokenInStorage == null ? "" : store.LoggedUser["company_name"],
+		company_number: tokenInStorage == null ? "" : store.LoggedUser["company_number"],
+		facebook: tokenInStorage == null ? "" : store.LoggedUser["facebook"],
+		instagram: tokenInStorage == null ? "" : store.LoggedUser["instagram"],
+		twitter: tokenInStorage == null ? "" : store.LoggedUser["twitter"],
+		linkedIn: tokenInStorage == null ? "" : store.LoggedUser["linkedIn"],
+		youTube: tokenInStorage == null ? "" : store.LoggedUser["youTube"],
+		description: tokenInStorage == null ? "" : store.LoggedUser["description"]
 	});
 
 	const history = useHistory();
@@ -84,15 +85,17 @@ export const PsychologistRegistrationForm = props => {
 					</div>
 					<div className="row">
 						<div className="col-6 inputLabel">
-							<label htmlFor="email" className="titleInputs">
-								<b>E-mail</b>
+							<label htmlFor="association_number" className="titleInputs">
+								<b>Association of Psycologists Number</b>
 							</label>
 							<input
 								type="text"
-								defaultValue={store.email}
+								onChange={inputChange}
 								className="workshopInput form-control"
-								name="email"
-								id="email"
+								placeholder="Max.9 characters"
+								name="association_number"
+								id="association_number"
+								defaultValue={user.association_number}
 								required
 							/>
 						</div>
@@ -113,22 +116,7 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
-							<label htmlFor="association_number" className="titleInputs">
-								<b>Association of Psycologists Number</b>
-							</label>
-							<input
-								type="text"
-								onChange={inputChange}
-								className="workshopInput form-control"
-								placeholder="Max.9 characters"
-								name="association_number"
-								id="association_number"
-								defaultValue={user.association_number}
-								required
-							/>
-						</div>
-						<div className="col-6 inputLabel">
+						<div className="col-12 inputLabel">
 							<label htmlFor="speciality" className="titleInputs">
 								<b>Speciality</b>
 							</label>
@@ -245,15 +233,33 @@ export const PsychologistRegistrationForm = props => {
 									if (tokenInStorage == null) {
 										actions.addNewUser(user).then(() => {
 											actions.login(user.email, user.password);
-											history.push("/profile");
+											history.push(
+												"/profile/" +
+													store.LoggedUser.name.replace(" ", "_") +
+													"_" +
+													store.LoggedUser.lastname.replace(" ", "_")
+											);
 										});
 									} else {
-										actions.editUserProfile(user);
+										actions.editUserProfile(user, store.LoggedUser.user_id);
 									}
-									// actions.setHelp(user.is_psychologist);
 								}}
 							/>
 						</Link>
+						<BlueButton
+							className="ButtonBlue"
+							text="Back"
+							onClickBlue={() =>
+								store.LoggedUser.id > 0
+									? history.push(
+											"/profile/" +
+												store.LoggedUser.name.replace(" ", "_") +
+												"_" +
+												store.LoggedUser.lastname.replace(" ", "_")
+									  )
+									: history.push("/")
+							}
+						/>
 					</div>
 				</div>
 			</form>

@@ -1,21 +1,24 @@
 import React, { useContext, useState, Fragment } from "react";
 import { Context } from "../store/appContext";
+import { Link, useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton";
-import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
-export const Email = () => {
+export const Email = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState({
-		email_from: "Jose, <jagutierrezc7@gmail.com>",
-		email_to: "rafaelagcalves@outlook.com",
-		subject: "",
+		email_from: store.LoggedUser.name + ", <" + store.LoggedUser.email + ">",
+		email_to: "",
+		subject: store.subjectEmail,
 		message: ""
 	});
 
 	const inputChange = event => {
 		setEmail({ ...email, [event.target.name]: event.target.value });
 	};
+
+	const history = useHistory();
 
 	return (
 		<Fragment>
@@ -32,6 +35,7 @@ export const Email = () => {
 							placeholder="Type your subject here..."
 							name="subject"
 							id="subjecte"
+							defaultValue={store.subjectEmail}
 							required
 						/>
 					</div>
@@ -48,22 +52,27 @@ export const Email = () => {
 							placeholder="Type your message here..."
 							form="usrform"
 							id="message"
+							required
 						/>
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center mb-5">
-					<Link to="/profile">
-						<YellowButton
-							type="submit"
-							text="Send"
-							onClickForm={() => {
-								actions.sendEmail(email);
-								console.log("hola", email);
-							}}
-						/>
-					</Link>
+					<YellowButton
+						type="submit"
+						text="Send"
+						onClickForm={e => {
+							e.preventDefault();
+							actions.sendEmail(email);
+							actions.setSubjectEmail("");
+							actions.setUser(null);
+							history.push("/feed");
+						}}
+					/>
 				</div>
 			</form>
 		</Fragment>
 	);
+};
+Email.propTypes = {
+	subject: PropTypes.string
 };

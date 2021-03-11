@@ -42,8 +42,15 @@ export const Searchworkshops = props => {
 				</div>
 				<div className="row d-flex justify-content-between mx-1">
 					<p className="categoryLabelSearch">{props.item.category}</p>
-					<Link to="/">
-						<YellowButton text="Contact" />
+					<Link to={"/profile/" + props.item.owner.replace(" ", "_")}>
+						<YellowButton
+							onClickForm={() => {
+								actions.getUser(props.item.user_id);
+								actions.getSearchWorkshops(props.item.user_company_id);
+								actions.setSubjectEmail("SEARCH WORKSHOP OF: " + props.item.category);
+							}}
+							text="Contact"
+						/>
 					</Link>
 				</div>
 			</div>

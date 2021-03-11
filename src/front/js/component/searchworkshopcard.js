@@ -1,4 +1,5 @@
 import React, { Component, useContext, useState, useEffect } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -7,43 +8,45 @@ import { EditButton } from "./editButton.js";
 import { DeleteButton } from "./deleteButton.js";
 
 export const SearchWorkshopCard = props => {
+	const { actions, store } = useContext(Context);
+	const [editAndDeleteButton, setEditAndDeleteButton] = useState();
+
+	useEffect(() => {
+		store.user != null
+			? setEditAndDeleteButton("")
+			: setEditAndDeleteButton(
+					<div className="col-6 d-flex align-items-top">
+						<Link to={"/add_workshop/" + props.item.id}>
+							<EditButton
+								className="editButton"
+								onEditClick={() => {
+									props.edit();
+								}}
+							/>
+						</Link>
+						<DeleteButton
+							className="deleteButton"
+							onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
+						/>
+					</div>
+			  );
+	}, [store.user]);
+
 	return (
 		<>
-			<div className="workshopCard">
-				<div className="cardInformation">
-					<span className="title">{props.item.category_id}</span>
-					<div className="workshopDetails">
-						<span className="date">
-							Date:
-							{props.item.date}
-						</span>
-						<span className="duration">
-							Duration:
-							{props.item.duration}
-						</span>
-						<span className="maxPeople">
-							Maximum number of persons:
-							{props.item.max_people}
-						</span>
-						<span className="prize">
-							Maximum price
-							{props.item.max_price} €
-						</span>
-					</div>
+			<div className="templateWorkshop">
+				<div className="row fatherButton">
+					<div className="col-6 titleWorkshop">ESTO SERA EL TITULO</div>
+					{editAndDeleteButton}
 				</div>
-				<div className="buttons_workshopCard">
-					<Link to={"/add_workshop/" + props.item.id}>
-						<EditButton
-							className="editButton"
-							onClickForm={e => {
-								actions.editWorkshop(e);
-							}}
-						/>
-					</Link>
-					<DeleteButton className="deleteButton" />
-					<Link to="/">
-						<YellowButton text="Contact" />
-					</Link>
+				<div className="bodySearchWorkshop">
+					<p>Date: {props.item.date}</p>
+					<p>Duration: {props.item.duration}</p>
+					<p>Maximum number of persons: {props.item.max_people}</p>
+					<p>Maximum price {props.item.max_price} €</p>
+				</div>
+				<div className="row d-flex justify-content-between mx-1">
+					<p className="categoryLabelSearch">{props.item.category}</p>
 				</div>
 			</div>
 		</>
@@ -51,5 +54,6 @@ export const SearchWorkshopCard = props => {
 };
 
 SearchWorkshopCard.propTypes = {
-	item: PropTypes.object
+	item: PropTypes.object,
+	edit: PropTypes.func
 };

@@ -56,7 +56,7 @@ export const Workshops = props => {
 				<div className="row d-flex">
 					<div className="col-lg-8 col-sm-12 d-flex flex-wrap">{categoryLabels}</div>
 					<div className="col-lg-4 col-sm-12 d-flex justify-content-lg-end justify-content-center">
-						<Link to="/">
+						<Link to="/workshopdetail">
 							<YellowButton text="View More" />
 						</Link>
 					</div>

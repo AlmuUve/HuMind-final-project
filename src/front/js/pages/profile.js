@@ -12,31 +12,126 @@ import { Email } from "../component/email.jsx";
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
+	const [active1, setActive1] = useState("active");
+	const [active2, setActive2] = useState("");
+	const [textButton, setTextButton] = useState("pillsButtons");
+	const [textButton2, setTextButton2] = useState("pillsColor");
+	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
+	const [addButtonSearch, setAddButtonSearch] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
 
-	// let userWorkshops = store.workshops.map((item, index) => {
-	// 	return <WorkshopCard item={item} key={index.toString()} />;
-	// });
+	const changeViewPills1 = () => {
+		setActive1("active");
+		setActive2("");
+	};
 
-	let listSearchWorkshops = store.allSearchWorkshops.map((item, index) => {
-		return <SearchWorkshopCard item={item} key={index.toString()} />;
+	const changeViewPills2 = () => {
+		setActive1("");
+		setActive2("active");
+	};
+
+	const changeTextButtonColor = () => {
+		setTextButton("pillsColor");
+		setTextButton2("pillsButtons");
+	};
+
+	const changeTextButtonColor2 = () => {
+		setTextButton("pillsButtons");
+		setTextButton2("pillsColor");
+	};
+
+	useEffect(() => {
+		if (store.user != null) {
+			changeViewPills2();
+			changeTextButtonColor();
+		}
+	}, [store.user]);
+
+	useEffect(() => {
+		if (store.user != null) {
+			setAddButtonWorkshop("");
+			setAddButtonSearch("");
+		}
+	}, [store.user]);
+
+	let userWorkshops = store.workshops.map((item, index) => {
+		return <WorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
 	});
 
-	if (store.help) {
+	let listSearchWorkshops = store.searchWorkshops.map((item, index) => {
+		return <SearchWorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
+	});
+
+	if (store.LoggedUser.is_psychologist) {
 		return (
 			<>
 				<div className="container-fluid">
-					<Coverphoto photo="coverPhotoCompany" />
+					<Coverphoto photo={store.user ? "coverPhotoCompany" : "coverPhotoPsy"} />
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-lg-4 col-sm-12 profileCard">
 								<Profiletemplatepsy />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								{/* <Link to="/add_workshop">
-									<YellowButton text="Add Workshop" />
-								</Link>
-								<div>{userWorkshops}</div> */}
-								<Email />
+								<div className="container-fluid">
+									<div className="row">
+										<ul className="nav nav-pills">
+											<li className="nav-item">
+												<button
+													className={"nav-link " + textButton}
+													href="#home"
+													data-toggle="pill"
+													aria-controls="home"
+													aria-selected="true"
+													aria-pressed="true"
+													onClick={() => {
+														changeViewPills1();
+														changeTextButtonColor2();
+													}}>
+													{store.user ? "SEARCHWORKSHOPS" : "WORKSHOPS"}
+												</button>
+											</li>
+											<li className="nav-item">
+												<button
+													className={"nav-link " + textButton2}
+													href="#menu2"
+													data-toggle="pill"
+													aria-controls="menu2"
+													aria-selected="false"
+													onClick={() => {
+														changeViewPills2();
+														changeTextButtonColor();
+													}}>
+													CONTACT
+												</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div className="tab-content">
+									<div
+										className={"tab-pane" + active1}
+										id="home"
+										role="tabpanel"
+										aria-labelledby="home-tab">
+										{addButtonWorkshop}
+										{store.user ? listSearchWorkshops : userWorkshops}
+									</div>
+									<div
+										className={"tab-pane " + active2}
+										id="menu2"
+										role="tabpanel"
+										aria-labelledby="home-tab">
+										<Email subject="PRUEBA" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -47,18 +142,65 @@ export const Profile = () => {
 		return (
 			<>
 				<div className="container-fluid">
-					<Coverphoto photo="coverPhotoCompany" />
+					<Coverphoto photo={store.user ? "coverPhotoPsy" : "coverPhotoCompany"} />
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-lg-4 col-sm-12 profileCard">
 								<Profiletemplatecompany />
 							</div>
 							<div className="col-lg-8 col-sm-12">
-								{/* <Link to="/add_search_workshop">
-									<YellowButton text="Add Search" />
-								</Link> */}
-								{/* <div>{userWorkshops}</div> */}
-								<Email />
+								<div className="container-fluid">
+									<div className="row">
+										<ul className="nav nav-pills">
+											<li className="nav-item">
+												<button
+													className={"nav-link " + textButton}
+													href="#home"
+													data-toggle="pill"
+													aria-controls="home"
+													aria-selected="true"
+													aria-pressed="true"
+													onClick={() => {
+														changeViewPills1();
+														changeTextButtonColor2();
+													}}>
+													{store.user ? "WORKSHOPS" : "SEARCHWORKSHOPS"}
+												</button>
+											</li>
+											<li className="nav-item">
+												<button
+													className={"nav-link " + textButton2}
+													href="#menu2"
+													data-toggle="pill"
+													aria-controls="menu2"
+													aria-selected="false"
+													onClick={() => {
+														changeViewPills2();
+														changeTextButtonColor();
+													}}>
+													CONTACT
+												</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div className="tab-content">
+									<div
+										className={"tab-pane" + active1}
+										id="home"
+										role="tabpanel"
+										aria-labelledby="home-tab">
+										{addButtonSearch}
+										{store.user ? userWorkshops : listSearchWorkshops}
+									</div>
+									<div
+										className={"tab-pane " + active2}
+										id="menu2"
+										role="tabpanel"
+										aria-labelledby="home-tab">
+										<Email subject="PRUEBA" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -66,23 +208,4 @@ export const Profile = () => {
 			</>
 		);
 	}
-
-	return (
-		<>
-			<div className="container-fluid">
-				<Coverphoto photo="coverPhotoCompany" />
-			</div>
-			<div className="container-fluid">
-				<div className="row">
-					<Profiletemplatecompany />
-					<Link to="/add_search_workshop">
-						<YellowButton text="Add Search" />
-					</Link>
-					<div>{listSearchWorkshops}</div>
-					<div>{userWorkshops}</div>
-					<Email />
-				</div>
-			</div>
-		</>
-	);
 };
