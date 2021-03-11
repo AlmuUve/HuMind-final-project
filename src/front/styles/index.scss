@@ -213,11 +213,15 @@ h3{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 1.5rem;
 }
 
 .descriptionCard > p {   
-    
     margin-bottom: 0;
+}
+
+.lastChildDescription { 
+    text-align: left !important;
 }
 
 .bottomCard {
@@ -308,6 +312,7 @@ h3{
     margin: 0;
     padding: 0.5rem;
     height: 2.8rem;
+    width: auto;
 }
 
 .profileFeed {
@@ -561,7 +566,7 @@ h3{
 
 .formAddWorkshop {
     font-family: $text_font;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: $text_color;
 }
 
@@ -582,7 +587,7 @@ h3{
     border-radius: 0%;
     background-color: $secondary_blue;
     padding-left: 1rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
 }
@@ -591,7 +596,7 @@ h3{
     height: 10rem;
     border: none;
     background-color: $secondary_blue;
-    font-size: 0.8rem;
+    font-size: 1rem;
     padding-left: 1rem;
     padding-top: 0.7rem;
     margin-bottom: 1rem;
@@ -669,7 +674,6 @@ h3{
     display: flex;
     align-self: center;
     margin-top: 1rem;
-    width: 60%;
     height: fit-content;
     border: 3px solid $background_color;
     padding: 1.5rem;
@@ -700,25 +704,38 @@ h3{
 
 .deleteButton{
     position: absolute;
-    right: 0%;
+    right: 5%;
     border: none;
     background-color: white;
+    color: $text_color;
+}
+
+.deleteProfile {
+    color: $text_color;
+    background: none;
+    border: none;
+    margin-left: 1rem;
 }
 
 .editButton{
     position: absolute;
-    right: 1rem;
+    right: 3rem;
+    color: $text_color;
+    background-color: white;
+    border: none;
+    
+}
+
+.fatherButton {
+    position: relative;
 }
 
 .yellowButton_workshopCard{
     border: none;
     background-color: white;
-}
-
-.yellowButton{
     position: absolute;
     bottom: 0%;
-    right: 0%;
+   right: 0%;
 }
 
 /* Workshop Detail */
@@ -763,7 +780,7 @@ h3{
     text-align: left;
 }
 
-.description{
+.WorkDescription{
     margin-left: 0%;
 }
 
@@ -776,6 +793,7 @@ h3{
 .yellowButton{
     align-self: center;
 }
+
 //FORMULARIO DE CONTACTO\\
 
 .formEmail {
@@ -785,9 +803,9 @@ h3{
 }
 
 .emailTextArea{
-    border: none;
-    background-color: $secondary_blue;
-    font-size: 0.8rem;
+    background-color: white;
+    border: 3px solid $secondary_blue;
+    font-size: 1rem;
     padding-left: 1rem;
     padding-top: 0.7rem;
     margin-bottom: 1rem;
@@ -796,14 +814,15 @@ h3{
 
 .emailInput{
     height: 2.5rem;
-    border: none;
-    background-color: $secondary_blue;
+    border: 3px solid $secondary_blue;
+    background-color: white;
     padding-left: 1rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     margin-top: -0.5rem;
 }
 
+<<<<<<< HEAD
 //SEARCHBAR\\
 
 .search-bar-icon-div{
@@ -827,3 +846,68 @@ h3{
 .search-bar-icon:active{
     text-decoration: none;
 }
+=======
+.emailInput:valid{
+    background-color: $secondary_blue;
+}
+
+.emailTextArea:valid{
+    background-color: $secondary_blue;
+}
+
+.emailTextArea:focus{
+    outline: 3px solid $secondary_blue;
+    border: 50%;
+}
+
+// BOTONES NAV PILLS \\
+
+.pillsButtons {
+    font-family: $title_font;
+    background-color: white;
+    font-size: 1.25rem;
+    border: none;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    color: $text_color
+}
+
+.pillsColor {
+    font-family: $title_font;
+    background-color: white;
+    font-size: 1.25rem;
+    border: none;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    color: #d5d1d1;
+}
+
+.addWorkshop {
+    display: flex;
+    justify-content: end;
+}
+
+.ButtonBlue{
+    background-color: #d5d5d5;
+    border: none;
+    font-family: $title_font;
+    font-size: 1.3rem;
+    color: white;
+    width: 7rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+}
+
+.ButtonBlue:hover{
+    background-color: #d6d6d6;
+}
+
+
+//EDITS AND DELETE BUTTON\\
+
+// .buttonEdit{
+//     color: $text_color;
+//     $background_color: white;
+//     border: none;
+// }
+>>>>>>> main

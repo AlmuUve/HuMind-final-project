@@ -1,6 +1,6 @@
 import React, { Component, useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../../styles/index.scss";
 
@@ -8,6 +8,8 @@ export const UserLogIn = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const history = useHistory();
 
 	return (
 		<div className="logIn_body d-flex justify-content-center ">
@@ -40,7 +42,7 @@ export const UserLogIn = props => {
 							setPassword(e.target.value);
 						}}
 					/>
-					<Link to="/feed">
+					<Link to={store.LoggedUser.id > 0 ? history.push("/feed") : "/login"}>
 						<button
 							className="logIn_submit"
 							onClick={() => {

@@ -22,7 +22,7 @@ export const WorkshopDetail = () => {
 				<div className="imgProfile_workshop_detail">
 					<img className="avatar" src="https://assets.breatheco.de/apis/img/icon/4geeks.png" />
 				</div>
-				<div className="titleCard">{store.user.company_name}</div>
+				<div className="titleCard">{store.LoggedUser.company_name}</div>
 			</div>
 			<div className="workshopDetailCard col-md-7 col-xs-12">
 				<Link to={"/"}>

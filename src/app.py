@@ -67,6 +67,7 @@ def serve_any_other_file(path):
 @app.route('/user', methods=['POST'])
 def add_user():
     body = request.get_json()
+    print(body)
     email = body.get("email", None)
     _password = body.get("_password", None)
     facebook = body.get("facebook", None)
@@ -134,18 +135,10 @@ def update_users(id):
         return jsonify(user_psy.to_dict())  
     if user.is_active and user.is_psychologist == False:
         user_comp = User_company.update_company_user(body, id)
+        print(user_comp)
         return jsonify(user_comp.to_dict())
 
-
-@app.route('/user/<int:id>', methods=['PATCH'])
-@jwt_required()
-def update_user(id):
-    body = request.get_json()
-    user = User.update_single_user(body, id)
-    change_user = User.get_by_id(id)
-    return jsonify(change_user.to_dict())
-
-@app.route('/user/<int:id>', methods=['PATCH'])
+@app.route('/user/<int:id>', methods=['DELETE']) 
 @jwt_required()
 def delete_one_user(id):
     user_target = User.delete(id)
@@ -164,17 +157,27 @@ def handle_login():
         return "Missing info", 400
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
-        access_token = create_access_token(
-            identity=user.to_dict(),
-            expires_delta=timedelta(minutes=60)
-        )
-        return jsonify({'token': access_token}), 200
-
+        if user.is_psychologist and user.is_active:
+            print(user.is_active)
+            user_psy = User_psychologist.get_by_user_id(user.id)
+            access_token = create_access_token(
+                identity=user_psy.to_dict(),
+                expires_delta=timedelta(minutes=60)
+            )
+            return jsonify({'token': access_token}), 200
+        elif user.is_active:
+            user_company = User_company.get_by_user_id(user.id)
+            access_token = create_access_token(
+                identity=user_company.to_dict(),
+                expires_delta=timedelta(minutes=60)
+            )
+            return jsonify({'token': access_token}), 200
     return "Invalid info", 400
 
     
 ## METODOS PARA CREAR EL MURO ##
-@app.route('/user/workshops', methods=['GET'])
+
+@app.route('/workshops', methods=['GET']) 
 # @jwt_required()
 def get_workshops():
     workshops = Workshop.get_all()
@@ -184,7 +187,7 @@ def get_workshops():
 
     return jsonify(workshops_to_dict), 200
 
-@app.route('/user/search_workshops', methods=['GET'])
+@app.route('/search_workshops', methods=['GET']) 
 # @jwt_required()
 def get_search_workshops():
     search_workshops = Search_workshop.get_all()
@@ -196,7 +199,7 @@ def get_search_workshops():
 
 ##METODOS PARA CATEGORIES Y WORKSHOPS
 
-@app.route('/user/psychologist/<int:id>/workshop', methods=['POST'])
+@app.route('/psychologist/<int:id>/workshop', methods=['POST'])
 # @jwt_required()
 def add_workshop(id):
     user_psychologist = User_psychologist.get_by_id(id)
@@ -216,7 +219,7 @@ def add_workshop(id):
     new_workshop.add(body.get("category_info"))
     return jsonify(new_workshop.to_dict()), 200
 
-@app.route('/user/company/<int:id>/searchworkshop', methods=['POST'])
+@app.route('/company/<int:id>/searchworkshop', methods=['POST'])  
 # @jwt_required()
 def add_search_workshop(id):
     user_company = User_company.get_by_id(id)
@@ -237,7 +240,7 @@ def add_search_workshop(id):
 
     return jsonify(new_search_workshop.to_dict()), 201
 
-@app.route('/user/category', methods=['POST'])
+@app.route('/category', methods=['POST']) 
 # @jwt_required()
 def add_category():
     new_category = request.get_json()
@@ -247,7 +250,7 @@ def add_category():
     new_category.add()
     return jsonify(new_category.to_dict())
 
-@app.route('/user/psychologist/<int:id>/workshops', methods=['GET'])
+@app.route('/psychologist/<int:id>/workshops', methods=['GET']) 
 # @jwt_required()
 def get_psychologist_workshops(id):
     workshops = Workshop.get_workshop_by_psychologist_id(id)
@@ -256,7 +259,7 @@ def get_psychologist_workshops(id):
         workshops_to_dict.append(workshop.to_dict())
     return jsonify(workshops_to_dict), 200
 
-@app.route('/user/company/<int:id>/workshops', methods=['GET'])
+@app.route('/company/<int:id>/workshops', methods=['GET']) 
 def get_company_workshops(id):
     workshops = Search_workshop.get_workshop_by_company_id(id)
     workshops_to_dict = []
@@ -265,15 +268,15 @@ def get_company_workshops(id):
 
     return jsonify(workshops_to_dict), 200
 
-@app.route('/workshop/<int:id>', methods=['GET'])
+@app.route('/workshop/<int:id>', methods=['GET']) 
 # @jwt_required()
 def get_target_workshop(id):
     target_workshop = Workshop.get_by_id(id)
     return jsonify(target_workshop.to_dict()), 200
 
-@app.route('/user/search_workshop/<int:id>', methods=['PUT'])
+@app.route('/company/<int:com_id>/search_workshop/<int:id>', methods=['PUT'])
 # @jwt_required()
-def update_search_workshop(id):
+def update_search_workshop(com_id, id):
     body = request.get_json()
     search_workshop = Search_workshop.get_by_id(id)
 
@@ -282,9 +285,9 @@ def update_search_workshop(id):
 
     return jsonify(new_search_workshop.to_dict())
 
-@app.route('/user/workshop/<int:id>', methods=['PUT'])
+@app.route('/psychologist/<int:psy_id>/workshop/<int:id>', methods=['PUT'])
 # @jwt_required()
-def update_workshop(id):
+def update_workshop(psy_id, id):
     body = request.get_json()
     workshop = Workshop.get_by_id(id)
     new_workshop = workshop.update_workshop(body['title'], body['duration'], 
@@ -292,23 +295,23 @@ def update_workshop(id):
     body['description'], body['category_info'])
     return jsonify(new_workshop.to_dict())
   
-@app.route('/psychologist/workshop/<int:id>', methods=['DELETE'])
-# @jwt_required()
-def delete_one_workshop(id):
+@app.route('/psychologist/<int:psy_id>/workshop/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_one_workshop(psy_id, id):
     workshop = Workshop.get_by_id(id)
     workshop.delete()
     return workshop.to_dict(), 200
     
-@app.route('/company/workshop/<int:id>', methods=['DELETE'])
-# @jwt_required()
-def delete_one_search_workshop(id):
+@app.route('/company/<int:com_id>/workshop/<int:id>', methods=['DELETE']) 
+@jwt_required()
+def delete_one_search_workshop(com_id, id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()
     return search_workshop.to_dict(), 200
 
 # CONTACT FORM
 
-@app.route('/contact', methods=['POST'])
+@app.route('/contact', methods=['POST']) ## user/id/contact
 # @jwt_required()
 def send_email():
     body = request.get_json()

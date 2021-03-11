@@ -1,17 +1,22 @@
 import React, { useContext, useState, Fragment, useReducer } from "react";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.scss";
 import { YellowButton } from "./yellowButton";
+import { BlueButton } from "./blueButton.jsx";
 
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [searchWorkshop, setSearchWorkshop] = useState({
-		category: "",
-		duration: "",
-		price: "",
-		date: "",
-		max_people: ""
+		category: store.currentWorkshop.category,
+		duration: store.currentWorkshop.duration,
+		price: store.currentWorkshop.price,
+		date: store.currentWorkshop.date,
+		max_people: store.currentWorkshop.max_people
 	});
+
+	const param = useParams();
+	const history = useHistory();
 
 	const [duration, setDuration] = useState(null);
 	const inputDuration = document.querySelector("#duration");
@@ -48,7 +53,7 @@ export const Searchworkshopform = () => {
 			setShowError("showError");
 		} else {
 			setShowError("notShow");
-			actions.addNewSearchWorkshop(searchWorkshop, store.companyId);
+			actions.addNewSearchWorkshop(searchWorkshop, store.LoggedUser.id);
 		}
 	};
 
@@ -126,6 +131,7 @@ export const Searchworkshopform = () => {
 							placeholder="In minutes"
 							name="duration"
 							id="duration"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}
 							required
 						/>
 					</div>
@@ -143,6 +149,7 @@ export const Searchworkshopform = () => {
 							placeholder="In €"
 							name="price"
 							id="price"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.price : ""}
 							required
 						/>
 					</div>
@@ -161,6 +168,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="date"
 							id="dates"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.date : ""}
 							required
 						/>
 					</div>
@@ -177,6 +185,7 @@ export const Searchworkshopform = () => {
 							}}
 							name="max_people"
 							id="people"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.max_people : ""}
 							required
 						/>
 					</div>
@@ -362,7 +371,21 @@ export const Searchworkshopform = () => {
 						type="submit"
 						text="Submit"
 						onClickForm={e => {
-							checkInputs(e);
+							if (store.currentWorkshop) {
+								actions.editSearchWorkshop(searchWorkshop, store.LoggedUser.id, param.id);
+								actions.setCurrentWorkshop("");
+							} else {
+								checkInputs(e);
+							}
+							history.push("/profile/" + store.LoggedUser.company_name.replace(" ", "_"));
+						}}
+					/>
+					<BlueButton
+						className="ButtonBlue"
+						text="Back"
+						onClickBlue={() => {
+							history.push("/profile/" + store.LoggedUser.company_name.replace(" ", "_"));
+							actions.setCurrentWorkshop("");
 						}}
 					/>
 				</div>
