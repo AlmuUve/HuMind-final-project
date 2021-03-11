@@ -21,11 +21,16 @@ export const Profile = () => {
 			<YellowButton text="ADD" />
 		</Link>
 	);
+
 	const [addButtonSearch, setAddButtonSearch] = useState(
 		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
 			<YellowButton text="ADD" />
 		</Link>
 	);
+
+	useEffect(() => {
+		actions.decode();
+	}, []);
 
 	const changeViewPills1 = () => {
 		setActive1("active");

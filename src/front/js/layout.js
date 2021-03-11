@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import injectContext from "./store/appContext";
 import { Navbarpage } from "../js/component/navbar.jsx";

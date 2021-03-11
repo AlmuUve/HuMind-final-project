@@ -105,6 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
+					localStorage.setItem("userVisited", JSON.stringify(response));
 				});
 			},
 
@@ -228,6 +229,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("token", token.token);
 					getActions().decode();
 					if (getStore().LoggedUser.is_psychologist) {
+						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 						getActions().setpathProfilePsychologist(
 							getStore().LoggedUser.name.replace(" ", "_"),
 							getStore().LoggedUser.lastname.replace(" ", "_")
@@ -279,6 +281,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					  );
 				getActions().getAllWorkshops();
 				getActions().getAllSearchWorkshops();
+				getActions().getWorkshops(getStore().LoggedUser.id);
+				getActions().getSearchWorkshops(getStore().LoggedUser.id);
 			},
 
 			setPsyLogged: (
@@ -353,6 +357,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logout: () => {
 				localStorage.removeItem("token");
+				localStorage.removeItem("loggedUser");
 				setStore({
 					LoggedUser: {},
 					token: ""

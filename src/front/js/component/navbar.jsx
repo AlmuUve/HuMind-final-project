@@ -59,6 +59,7 @@ export const Navbarpage = props => {
 									: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
 							);
 							actions.setUser(null);
+							localStorage.removeItem("userVisited");
 						}}
 					/>
 				</Dropdown.ItemText>
