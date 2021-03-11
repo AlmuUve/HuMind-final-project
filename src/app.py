@@ -138,14 +138,6 @@ def update_users(id):
         print(user_comp)
         return jsonify(user_comp.to_dict())
 
-# @app.route('/user/<int:id>', methods=['PATCH'])
-# @jwt_required()
-# def update_user(id):
-#     body = request.get_json()
-#     user = User.update_single_user(body, id)
-#     change_user = User.get_by_id(id)
-#     return jsonify(change_user.to_dict())
-
 @app.route('/user/<int:id>', methods=['DELETE']) 
 @jwt_required()
 def delete_one_user(id):
@@ -165,14 +157,15 @@ def handle_login():
         return "Missing info", 400
     user = User.get_by_email(email)
     if check_password_hash(user._password, _password):
-        if user.is_psychologist:
+        if user.is_psychologist and user.is_active:
+            print(user.is_active)
             user_psy = User_psychologist.get_by_user_id(user.id)
             access_token = create_access_token(
                 identity=user_psy.to_dict(),
                 expires_delta=timedelta(minutes=60)
             )
             return jsonify({'token': access_token}), 200
-        else:
+        elif user.is_active:
             user_company = User_company.get_by_user_id(user.id)
             access_token = create_access_token(
                 identity=user_company.to_dict(),
@@ -302,14 +295,14 @@ def update_workshop(psy_id, id):
     return jsonify(new_workshop.to_dict())
   
 @app.route('/psychologist/<int:psy_id>/workshop/<int:id>', methods=['DELETE'])
-# @jwt_required()
+@jwt_required()
 def delete_one_workshop(psy_id, id):
     workshop = Workshop.get_by_id(id)
     workshop.delete()
     return workshop.to_dict(), 200
     
 @app.route('/company/<int:com_id>/workshop/<int:id>', methods=['DELETE']) 
-# @jwt_required()
+@jwt_required()
 def delete_one_search_workshop(com_id, id):
     search_workshop = Search_workshop.get_search_workshop_by_id(id)
     search_workshop.delete()

@@ -7,12 +7,13 @@ export const DeleteButton = props => {
 	const { actions, store } = useContext(Context);
 
 	return (
-		<button className="deleteButton" onClick={props.onClickDelete}>
-			<i className="far fa-trash-alt deleteButton" />
+		<button className={props.className} onClick={props.onClickDelete}>
+			<i className="far fa-trash-alt" />
 		</button>
 	);
 };
 
 DeleteButton.propTypes = {
-	onClickDelete: PropTypes.func
+	onClickDelete: PropTypes.func,
+	className: PropTypes.string
 };

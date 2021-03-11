@@ -19,12 +19,16 @@ export const WorkshopCard = props => {
 					<div className="col-6 d-flex align-items-top">
 						<Link to={"/add_workshop/" + props.item.id}>
 							<EditButton
+								className="editButton"
 								onEditClick={() => {
 									props.edit();
 								}}
 							/>
 						</Link>
-						<DeleteButton onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)} />
+						<DeleteButton
+							className="deleteButton"
+							onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
+						/>
 					</div>
 			  );
 	}, [store.user]);

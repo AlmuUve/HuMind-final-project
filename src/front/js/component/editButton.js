@@ -6,12 +6,13 @@ export const EditButton = props => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<button className="editButton" onClick={props.onEditClick}>
-			<i className="far fa-edit editButton" />
+		<button className={props.className} onClick={props.onEditClick}>
+			<i className="far fa-edit" />
 		</button>
 	);
 };
 
 EditButton.propTypes = {
-	onEditClick: PropTypes.func
+	onEditClick: PropTypes.func,
+	className: PropTypes.string
 };

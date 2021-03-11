@@ -2,6 +2,7 @@ import React, { Component, useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { YellowButton } from "./yellowButton.js";
+import { DeleteButton } from "./deleteButton";
 import "../../styles/index.scss";
 import { useEffect } from "react";
 
@@ -17,9 +18,15 @@ export const Profiletemplatecompany = props => {
 		store.user != null
 			? seteditButton("")
 			: seteditButton(
-					<Link to="/edit_profile">
-						<YellowButton text="Edit Profile"></YellowButton>
-					</Link>
+					<div>
+						<Link to="/edit_profile">
+							<YellowButton text="Edit Profile"></YellowButton>
+						</Link>
+						<DeleteButton
+							onClickDelete={() => actions.deleteProfile(store.LoggedUser.user_id)}
+							className="deleteProfile"
+						/>
+					</div>
 			  );
 	}, [store.user]);
 

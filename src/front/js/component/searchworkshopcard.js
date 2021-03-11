@@ -9,22 +9,8 @@ import { DeleteButton } from "./deleteButton.js";
 
 export const SearchWorkshopCard = props => {
 	const { actions, store } = useContext(Context);
-	const [editAndDeleteButton, setEditAndDeleteButton] = useState(
-		<div className="col-6 d-flex align-items-top">
-			<Link to={"/add_workshop/" + props.item.id}>
-				<EditButton
-					className="editButton_workshopCard"
-					onEditClick={() => {
-						props.edit();
-					}}
-				/>
-			</Link>
-			<DeleteButton
-				className="deleteButton"
-				onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
-			/>
-		</div>
-	);
+	const [editAndDeleteButton, setEditAndDeleteButton] = useState();
+
 	useEffect(() => {
 		store.user != null
 			? setEditAndDeleteButton("")
@@ -32,12 +18,14 @@ export const SearchWorkshopCard = props => {
 					<div className="col-6 d-flex align-items-top">
 						<Link to={"/add_workshop/" + props.item.id}>
 							<EditButton
+								className="editButton"
 								onEditClick={() => {
 									props.edit();
 								}}
 							/>
 						</Link>
 						<DeleteButton
+							className="deleteButton"
 							onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
 						/>
 					</div>

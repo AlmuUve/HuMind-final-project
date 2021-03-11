@@ -70,8 +70,8 @@ class User(db.Model):
 
     @classmethod
     def delete(cls, id):
-        target = cls.query.filter_by(id = id).first()
-        target.is_active=False        
+        target = cls.query.filter_by(id = id).first()    
+        target.is_active=False     
         db.session.commit()
         return target
 

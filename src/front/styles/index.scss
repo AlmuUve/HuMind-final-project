@@ -711,11 +711,18 @@ h3{
     color: $text_color;
 }
 
+.deleteProfile {
+    color: $text_color;
+    background: none;
+    border: none;
+    margin-left: 1rem;
+}
+
 .editButton{
     position: absolute;
-    right: 1.5rem;
+    right: 3rem;
     color: $text_color;
-    background-color: $background_color;
+    background-color: white;
     border: none;
     
 }

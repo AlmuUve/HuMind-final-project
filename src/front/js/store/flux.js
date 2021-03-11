@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
 const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
@@ -217,18 +218,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 						_password: password
 					})
 				});
-				let token = await response.json();
-				localStorage.setItem("token", token.token);
-				getActions().decode();
-				if (getStore().LoggedUser.is_psychologist) {
-					getActions().setpathProfilePsychologist(
-						getStore().LoggedUser.name.replace(" ", "_"),
-						getStore().LoggedUser.lastname.replace(" ", "_")
-					);
-					getActions().getWorkshops(getStore().LoggedUser.id);
-				} else {
-					getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
-					getActions().getSearchWorkshops(getStore().LoggedUser.id);
+				try {
+					let token = await response.json();
+					localStorage.setItem("token", token.token);
+					getActions().decode();
+					if (getStore().LoggedUser.is_psychologist) {
+						getActions().setpathProfilePsychologist(
+							getStore().LoggedUser.name.replace(" ", "_"),
+							getStore().LoggedUser.lastname.replace(" ", "_")
+						);
+						getActions().getWorkshops(getStore().LoggedUser.id);
+					} else {
+						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
+						getActions().getSearchWorkshops(getStore().LoggedUser.id);
+					}
+					console.log(response);
+				} catch {
+					alert("Your email doesnt exists");
 				}
 			},
 
@@ -408,10 +414,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "DELETE",
 					headers: new Headers({
 						"Content-Type": "application/json",
-						Authorization: getStore().token
+						Authorization: `Bearer ${localStorage.getItem("token")}`
 					})
 				});
 				response = await response.json();
+				console.log(response);
 			},
 
 			deleteWorkshop: async (workshop, idPsy) => {
@@ -419,7 +426,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch(url + "/psychologist/" + idPsy + "/workshop/" + workshop.id, {
 					method: "DELETE",
 					headers: new Headers({
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
 					})
 				});
 				response = await response.json();
@@ -430,7 +438,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch(url + "/company/" + idCom + "/workshop/" + searchWorkshop.id, {
 					method: "DELETE",
 					headers: new Headers({
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`
 					})
 				});
 				response = await response.json();
