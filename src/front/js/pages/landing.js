@@ -59,7 +59,7 @@ export const Landing = () => (
 				</p>
 			</div>
 		</div>
-		<Link to="/signup">
+		<Link to="/signup" className="linkToLanding">
 			<LandingButton className="landingButton " />
 		</Link>
 	</Fragment>

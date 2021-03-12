@@ -90,6 +90,12 @@ h3{
     height: 5rem;
 }
 
+@media (max-width: 768px) {
+    .landingButton {
+        height: auto;
+    }
+}
+
 .landingButton:hover{
     background-color: $secondary_blue;
     border: none;
@@ -98,6 +104,13 @@ h3{
     font-size: 3rem;
     width: 30%;
     height: 5rem;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .landingButton:hover {
+        height: auto;
+    }
 }
 
 // NAVBAR \\
@@ -734,20 +747,29 @@ h3{
 .footer_column{
     display: flex;
     flex-direction: column;
+    margin-left: 5rem;
+}
+
+@media (max-width: 768px) {
+    .footer_column {
+        margin-left: 0;
+    }
+}
+
+.footerTitle{
+    display: flex;
+    align-self: flex-start;
 }
 
 .footer_column_div{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     margin-top: 1rem;
 }
 
 .footer_column_img{
     display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 1rem;
 }
 
@@ -755,7 +777,6 @@ h3{
     .footer_column_img {
         display: flex;
         flex-direction: column;
-        justify-content: center;
     }
 }
 
