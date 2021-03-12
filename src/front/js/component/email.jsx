@@ -62,10 +62,10 @@ export const Email = props => {
 						text="Send"
 						onClickForm={e => {
 							e.preventDefault();
+							props.onClickEmail();
 							actions.sendEmail(email);
 							actions.setSubjectEmail("");
-							actions.setUser(null);
-							history.push("/feed");
+							setEmail("");
 						}}
 					/>
 				</div>
@@ -74,5 +74,5 @@ export const Email = props => {
 	);
 };
 Email.propTypes = {
-	subject: PropTypes.string
+	onClickEmail: PropTypes.func
 };

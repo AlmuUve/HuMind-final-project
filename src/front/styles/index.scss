@@ -1006,8 +1006,43 @@ h3{
     margin-left: 2rem;
 }
 
+.ButtonBlueModal{
+    background-color: $primary_blue;
+    border: none;
+    font-family: $title_font;
+    font-size: 1.3rem;
+    color: white;
+    width: 7rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+}
+
 .ButtonBlue:hover{
     background-color: #d6d6d6;
+}
+
+.modalHeader{
+    border: none;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.modalFooter {
+    border: none;
+}
+.modalContent{
+    border: none;
+    font-family: $text_font;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.modalTitle {
+    font-family: $title_font;
+    font-size: 1.2rem;
+    color: $text_color;
+    text-align: center;
 }
 
 //SEARCHBAR\\
@@ -1044,10 +1079,3 @@ h3{
     text-decoration: none;
 }
 
-//EDITS AND DELETE BUTTON\\
-
-// .buttonEdit{
-//     color: $text_color;
-//     $background_color: white;
-//     border: none;
-// }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 
 import "../../styles/index.scss";
@@ -10,6 +10,10 @@ import { EditButton } from "../component/editButton";
 
 export const Addworkshop = () => {
 	const { store, actions } = useContext(Context);
+
+	useEffect(() => {
+		actions.decode();
+	}, []);
 
 	if (store.LoggedUser.is_psychologist) {
 		return (

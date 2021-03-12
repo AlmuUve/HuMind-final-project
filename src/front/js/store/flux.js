@@ -1,5 +1,4 @@
 import jwt_decode from "jwt-decode";
-import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
 const url = "https://3001-beige-dolphin-6no6q9xr.ws-eu03.gitpod.io";
@@ -21,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
 			currentWorkshop: "",
-			subjectEmail: ""
+			subjectEmail: "",
+			wrongLoging: true
 		},
 
 		actions: {
@@ -99,6 +99,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ subjectEmail: newSubject });
 			},
 
+			setWrongLoging: newState => {
+				setStore({ wrongLoging: newState });
+			},
+
 			//CALL API\\
 
 			getWorkshops: id => {
@@ -147,6 +151,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}).then(async res => {
 					const response = await res.json();
 					setStore({ user: response });
+					localStorage.setItem("userVisited", JSON.stringify(response));
 				});
 			},
 
@@ -271,17 +276,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("token", token.token);
 					getActions().decode();
 					if (getStore().LoggedUser.is_psychologist) {
+						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 						getActions().setpathProfilePsychologist(
 							getStore().LoggedUser.name.replace(" ", "_"),
 							getStore().LoggedUser.lastname.replace(" ", "_")
 						);
 						getActions().getWorkshops(getStore().LoggedUser.id);
 					} else {
+						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
 						getActions().getSearchWorkshops(getStore().LoggedUser.id);
 					}
 				} catch {
-					alert("Your email doesnt exists");
+					setStore({ wrongLoging: false });
 				}
 			},
 
@@ -322,6 +329,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					  );
 				getActions().getAllWorkshops();
 				getActions().getAllSearchWorkshops();
+				getActions().getWorkshops(getStore().LoggedUser.id);
+				getActions().getSearchWorkshops(getStore().LoggedUser.id);
 			},
 
 			setPsyLogged: (
@@ -396,6 +405,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logout: () => {
 				localStorage.removeItem("token");
+				localStorage.removeItem("loggedUser");
 				setStore({
 					LoggedUser: {},
 					token: ""
@@ -466,6 +476,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				getActions().logout();
 			},
 
 			deleteWorkshop: async (workshop, idPsy) => {

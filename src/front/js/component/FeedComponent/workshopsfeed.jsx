@@ -27,8 +27,10 @@ export const Workshops = props => {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg");
 		} else if (props.item.user_psychologist_id == 2) {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg");
-		} else {
+		} else if (props.item.user_psychologist_id == 3) {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14046.jpg");
+		} else {
+			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
 		}
 	}, []);
 

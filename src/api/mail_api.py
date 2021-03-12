@@ -4,8 +4,8 @@ import requests
 
 def send_simple_message(email_from, email_to, subject, text):
     return requests.post(
-        os.getenv("api_url"),
-        auth=("api", os.getenv("api_key")),
+        os.getenv("MAILGUN_DOMAIN"),
+        auth=("api", os.getenv("MAILGUN_API_KEY")),
         data={ 
             "from": email_from,
             "to": [email_to],
