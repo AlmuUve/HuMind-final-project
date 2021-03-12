@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
-const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
+const url = "https://3001-lavender-ox-oako0jr3.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {

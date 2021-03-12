@@ -195,7 +195,7 @@ export const Workshopform = () => {
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-6 inputLabel">
+					<div className="col-lg-6 col-md-12 inputLabel">
 						<label htmlFor="duration" className="titleInputs">
 							<p>Duration</p>
 						</label>
@@ -213,7 +213,7 @@ export const Workshopform = () => {
 							required
 						/>
 					</div>
-					<div className="col-6 inputLabel">
+					<div className="col-lg-6 col-md-12 inputLabel">
 						<label htmlFor="price" className="titleInputs">
 							<p>Price</p>
 						</label>

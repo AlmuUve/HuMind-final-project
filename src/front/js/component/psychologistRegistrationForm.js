@@ -46,7 +46,7 @@ export const PsychologistRegistrationForm = props => {
 						/>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="name" className="titleInputs">
 								<b>Name</b>
 							</label>
@@ -64,7 +64,7 @@ export const PsychologistRegistrationForm = props => {
 								required
 							/>
 						</div>
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="lastname" className="titleInputs">
 								<b>Lastname</b>
 							</label>
@@ -84,7 +84,7 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="association_number" className="titleInputs">
 								<b>Association of Psycologists Number</b>
 							</label>
@@ -99,7 +99,7 @@ export const PsychologistRegistrationForm = props => {
 								required
 							/>
 						</div>
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="identity_number" className="titleInputs">
 								<b>Identity Number</b>
 							</label>
