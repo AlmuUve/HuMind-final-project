@@ -8,6 +8,7 @@ import { BlueButton } from "./blueButton.jsx";
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [searchWorkshop, setSearchWorkshop] = useState({
+		title: store.currentWorkshop.title,
 		category: store.currentWorkshop.category,
 		duration: store.currentWorkshop.duration,
 		price: store.currentWorkshop.price,
@@ -116,6 +117,26 @@ export const Searchworkshopform = () => {
 	return (
 		<Fragment>
 			<form className="container formAddWorkshop">
+				<div className="row">
+					<div className="col-lg-12 col-sm-12 inputLabel">
+						<label htmlFor="title" className="titleInputs">
+							<p>title</p>
+						</label>
+						<input
+							className="workshopInput form-control"
+							type="text"
+							onChange={e => {
+								inputChange(e);
+								// settitle(e.target.value);
+							}}
+							placeholder="In minutes"
+							name="title"
+							id="title"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.title : ""}
+							required
+						/>
+					</div>
+				</div>
 				<div className="row">
 					<div className="col-lg-6 col-sm-12 inputLabel">
 						<label htmlFor="duration" className="titleInputs">

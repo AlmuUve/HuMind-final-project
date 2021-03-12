@@ -248,6 +248,7 @@ class Search_workshop(db.Model):
         new_category = Category.get_by_id(self.category_id)
         return {
             "id": self.id,
+            "title": self.title,
             "duration": self.duration,
             "max_price": self.max_price,
             "price": self.max_price,
@@ -277,13 +278,14 @@ class Search_workshop(db.Model):
         search_workshops = cls.query.filter(cls.title.like(f'%{search}%')).all()
         return search_workshops
 
-
     def update_search_workshop(self, 
+                            new_title,
                             new_duration, 
                             new_price, 
                             new_date, 
                             new_max_people, 
                             new_category):
+        self.title = new_title
         self.duration = new_duration
         self.max_price = new_price
         self.date = new_date
