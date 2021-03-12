@@ -11,7 +11,7 @@ export const Landing = () => (
 			<img className="coverPic" src="https://i.imgur.com/LsTHJu1.png" />
 			<h3 className="card-img-overlay coverText">FOR COMPANIES COMMITED TO THEIR EMPLOYEES</h3>
 		</div>
-		<div className="landingDescription container-fluid row">
+		<div className="landingDescription container-fluid row" id="anchor">
 			<div className="motto offset-1 col-md-3 col-xs-12">
 				WE CONNECT <span className="blueSpan">COMPANIES</span> WITH{" "}
 				<span className="yellowSpan">PSYCHOLOGISTS</span>
@@ -21,7 +21,7 @@ export const Landing = () => (
 					We believe in the importance of putting{" "}
 					<span className="blueSpan">mental health and well- being first.</span>{" "}
 				</p>
-				<p>
+				<p id="anchorCompanies">
 					We want to promote <span className="blueSpan">training from within companies</span> that leads to
 					improvement in the well-being of their employees that is reflected both personally and at work.
 				</p>
@@ -38,7 +38,7 @@ export const Landing = () => (
 				<p className="iAmAcompanyText2">
 					<span className="blueSpan">+</span> Do you care about your employees well-being?
 				</p>
-				<p className="iAmAcompanyText2">
+				<p className="iAmAcompanyText2" id="anchorPsychologists">
 					<span className="blueSpan">+</span> Would you like to offer social benefits that give added value?
 				</p>
 			</div>

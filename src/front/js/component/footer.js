@@ -9,27 +9,28 @@ export const Footer = () => {
 					<div className="col-4 footer_column">
 						<h2>HuMind</h2>
 						<div className="footer_column_div">
-							<p>What do we do?</p>
-							<p>Servicios de Psicología para Empresas </p>
-							<p>Psicólogos</p>
+							<p>What Do We Do?</p>
+							<p>Corporate Psychology Services</p>
+							<p>Psychologists</p>
 							<p>Blog</p>
-							<p>Contacta con nosotros</p>
+							<p>Contact Us</p>
 						</div>
 					</div>
 					<div className="col-4 footer_column">
 						<h2>Legal</h2>
 						<div className="footer_column_div">
-							<p>Aviso legal</p>
-							<p>Política de cookies</p>
-							<p>Política de Privacidad</p>
+							<p>Legal Notice</p>
+							<p>Cookies Policy</p>
+							<p>Privacy Policy</p>
 						</div>
 					</div>
 					<div className="col-4 footer_column">
-						<h2>Conecta</h2>
+						<h2>Connect</h2>
 						<div className="footer_column_img">
 							<i className="fab fa-linkedin footer_img" />
 							<i className="fab fa-facebook footer_img" />
-							<i className="fab fa-instagram footer_img" />
+							{/* <i className="fab fa-instagram footer_img" /> */}
+							<i className="fab fa-instagram-square"></i>
 							<i className="fab fa-youtube footer_img" />
 							<i className="fab fa-twitter footer_img" />
 						</div>

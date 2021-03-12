@@ -36,7 +36,7 @@ export const SearchWorkshopCard = props => {
 		<>
 			<div className="templateWorkshop">
 				<div className="row fatherButton">
-					<div className="col-6 titleWorkshop">ESTO SERA EL TITULO</div>
+					<div className="col-6 titleWorkshop">{props.item.title}</div>
 					{editAndDeleteButton}
 				</div>
 				<div className="bodySearchWorkshop">

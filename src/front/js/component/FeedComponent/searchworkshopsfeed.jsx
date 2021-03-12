@@ -38,6 +38,7 @@ export const Searchworkshops = props => {
 					<img className="avatarSearchWorkshop" src={avatar} />
 					{toUpperCase(props.item.owner)} is looking for:
 				</div>
+				<div className="titleWorkshop">{props.item.title}</div>
 				<div className="bodySearchWorkshop">
 					<p>Date: {props.item.date}</p>
 					<p>Duration: {props.item.duration}</p>
