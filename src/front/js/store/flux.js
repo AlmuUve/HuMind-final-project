@@ -1,8 +1,7 @@
 import jwt_decode from "jwt-decode";
-import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
-const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
+const url = "https://3001-moccasin-iguana-xk2ufqzm.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -21,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			pathProfilePsychologist: "",
 			pathProfileCompany: "",
 			currentWorkshop: "",
-			subjectEmail: ""
+			subjectEmail: "",
+			wrongLoging: true
 		},
 
 		actions: {
@@ -55,6 +55,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setSubjectEmail: newSubject => {
 				setStore({ subjectEmail: newSubject });
+			},
+
+			setWrongLoging: newState => {
+				setStore({ wrongLoging: newState });
 			},
 
 			//CALL API\\
@@ -236,11 +240,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						);
 						getActions().getWorkshops(getStore().LoggedUser.id);
 					} else {
+						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
 						getActions().getSearchWorkshops(getStore().LoggedUser.id);
 					}
 				} catch {
-					alert("Your email doesnt exists");
+					setStore({ wrongLoging: false });
 				}
 			},
 

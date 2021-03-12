@@ -34,16 +34,7 @@ export const Navbarpage = props => {
 		<Nav className="ml-auto">
 			<DropdownButton
 				id="dropdown-item-button"
-				title={
-					<img
-						className="navbarAvatarButton"
-						src={
-							store.LoggedUser.is_psychologist
-								? "https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-								: "https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
-						}
-					/>
-				}
+				title={<img className="navbarAvatarButton rounded-circle" src={navbarAvatar} />}
 				className="ml-2 dropButton"
 				menuAlign="right">
 				<Dropdown.ItemText className="buttonDropDown">
@@ -112,6 +103,46 @@ export const Navbarpage = props => {
 	useEffect(() => {
 		if (store.LoggedUser.id > 0) {
 			setNavbar(navbarLog);
+		}
+	}, [store.LoggedUser]);
+
+	useEffect(() => {
+		if (store.LoggedUser.is_psychologist) {
+			if (store.LoggedUser.id == 1) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+				);
+			} else if (store.LoggedUser.id == 2) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+				);
+			} else if (store.LoggedUser.id == 3) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14046.jpg"
+				);
+			} else {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg"
+				);
+			}
+		}
+	}, [store.LoggedUser]);
+
+	useEffect(() => {
+		if (store.LoggedUser.is_psychologist == false) {
+			if (store.LoggedUser.id == 1) {
+				setNavbarAvatar("https://assets.breatheco.de/apis/img/icon/4geeks.png");
+			} else if (store.LoggedUser.id == 2) {
+				setNavbarAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
+			} else if (store.LoggedUser.id == 3) {
+				setNavbarAvatar(
+					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEWSMfzARBIUA3oobW0k9WNZW6ifFck41q0OaWBFMwhh59AZg5niIQzkrwc56_6oVLFSE&usqp=CAU"
+				);
+			} else {
+				setNavbarAvatar(
+					"https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg"
+				);
+			}
 		}
 	}, [store.LoggedUser]);
 

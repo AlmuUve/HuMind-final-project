@@ -9,6 +9,7 @@ import { YellowButton } from "../component/yellowButton";
 import { WorkshopCard } from "../component/workshopCard";
 import { SearchWorkshopCard } from "../component/searchworkshopcard";
 import { Email } from "../component/email.jsx";
+import { Modal } from "../component/modal.jsx";
 
 export const Profile = () => {
 	const { store, actions } = useContext(Context);
@@ -22,15 +23,29 @@ export const Profile = () => {
 		</Link>
 	);
 
+	//LOCALSTORAGE\\
+
+	useEffect(() => {
+		actions.decode();
+	}, []);
+
+	//MODAL FUNCTIONS\\
+
+	const [state, setState] = useState({
+		showModal: false
+	});
+
+	const [show, setShow] = useState(false);
+
+	const handleShow = () => setShow(true);
+
+	//RENDER BUTTONS AND AVATARES\\
+
 	const [addButtonSearch, setAddButtonSearch] = useState(
 		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
 			<YellowButton text="ADD" />
 		</Link>
 	);
-
-	useEffect(() => {
-		actions.decode();
-	}, []);
 
 	const changeViewPills1 = () => {
 		setActive1("active");
@@ -65,6 +80,8 @@ export const Profile = () => {
 			setAddButtonSearch("");
 		}
 	}, [store.user]);
+
+	//MAPING WORKSHOPS\\
 
 	let userWorkshops = store.workshops.map((item, index) => {
 		return <WorkshopCard item={item} key={index.toString()} edit={() => (store.currentWorkshop = item)} />;
@@ -134,12 +151,25 @@ export const Profile = () => {
 										id="menu2"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Email subject="PRUEBA" />
+										<Email
+											onClickEmail={() => {
+												setState({ showModal: true });
+												console.log("llego");
+											}}
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<Modal
+						show={state.showModal}
+						onClosed={() => setState({ showModal: false })}
+						text="Your email has been succesfully send"
+						titleModal=""
+						confirmation="Back"
+						classNameEmail="ButtonBlueModal"
+					/>
 				</div>
 			</>
 		);
@@ -203,12 +233,25 @@ export const Profile = () => {
 										id="menu2"
 										role="tabpanel"
 										aria-labelledby="home-tab">
-										<Email subject="PRUEBA" />
+										<Email
+											onClickEmail={() => {
+												setState({ showModal: true });
+												console.log("llego");
+											}}
+										/>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<Modal
+						show={state.showModal}
+						onClosed={() => setState({ showModal: false })}
+						text="Your email has been succesfully send"
+						titleModal=""
+						confirmation="Back"
+						classNameEmail="ButtonBlueModal"
+					/>
 				</div>
 			</>
 		);

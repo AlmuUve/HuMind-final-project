@@ -4,12 +4,26 @@ import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../../styles/index.scss";
 
+import { Modal } from "../component/modal.jsx";
+
 export const UserLogIn = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const history = useHistory();
+
+	const [state, setState] = useState({
+		showModal: false
+	});
+
+	const [show, setShow] = useState(false);
+
+	const handleShow = () => setShow(true);
+
+	useEffect(() => {
+		store.wrongLoging == false ? setState({ showModal: true }) : setState({ showModal: false });
+	}, [store.wrongLoging]);
 
 	return (
 		<div className="logIn_body d-flex justify-content-center ">
@@ -56,6 +70,17 @@ export const UserLogIn = props => {
 			<div className="logIn_rightColumn col-md-2 col-sm-0 ">
 				<h1>HuMind</h1>
 			</div>
+			<Modal
+				show={state.showModal}
+				onClosed={() => {
+					setState({ showModal: false });
+					actions.setWrongLoging(true);
+				}}
+				text="Your email doesnt exists"
+				titleModal="SOMETHING IS WRONG"
+				confirmation="Back"
+				classNameEmail="ButtonBlueModal"
+			/>
 		</div>
 	);
 };
