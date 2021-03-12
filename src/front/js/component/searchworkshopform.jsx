@@ -8,6 +8,7 @@ import { BlueButton } from "./blueButton.jsx";
 export const Searchworkshopform = () => {
 	const { actions, store } = useContext(Context);
 	const [searchWorkshop, setSearchWorkshop] = useState({
+		title: store.currentWorkshop.title,
 		category: store.currentWorkshop.category,
 		duration: store.currentWorkshop.duration,
 		price: store.currentWorkshop.price,
@@ -117,6 +118,26 @@ export const Searchworkshopform = () => {
 		<Fragment>
 			<form className="container formAddWorkshop">
 				<div className="row">
+					<div className="col-lg-12 col-sm-12 inputLabel">
+						<label htmlFor="title" className="titleInputs">
+							<p>title</p>
+						</label>
+						<input
+							className="workshopInput form-control"
+							type="text"
+							onChange={e => {
+								inputChange(e);
+								// settitle(e.target.value);
+							}}
+							placeholder="In minutes"
+							name="title"
+							id="title"
+							defaultValue={store.currentWorkshop ? store.currentWorkshop.title : ""}
+							required
+						/>
+					</div>
+				</div>
+				<div className="row">
 					<div className="col-lg-6 col-sm-12 inputLabel">
 						<label htmlFor="duration" className="titleInputs">
 							<p>Duration</p>
@@ -157,7 +178,7 @@ export const Searchworkshopform = () => {
 				<div className="row">
 					<div className="col-lg-6 col-sm-12 inputLabel">
 						<label htmlFor="dates" className="titleInputs">
-							<p>Desirable Dates</p>
+							<p>Available Dates</p>
 						</label>
 						<input
 							className="workshopInput form-control"
@@ -174,7 +195,7 @@ export const Searchworkshopform = () => {
 					</div>
 					<div className="col-lg-6 col-sm-12 inputLabel">
 						<label htmlFor="max_people" className="titleInputs">
-							<p>Maximun participants</p>
+							<p>Maximum number of participants</p>
 						</label>
 						<input
 							className="workshopInput form-control"
@@ -207,7 +228,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Estres
+										Stress Management
 									</label>
 								</div>
 								<div>
@@ -220,7 +241,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category2" className="ml-3">
-										Ansiedad
+										Anxiety Therapy
 									</label>
 								</div>
 								<div>
@@ -248,7 +269,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Gestion de equipos
+										Team Management
 									</label>
 								</div>
 								<div>
@@ -261,7 +282,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Risoterapia
+										Laughter Therapy
 									</label>
 								</div>
 								<div>
@@ -274,7 +295,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Sueño
+										Sleep Disorders Therapy
 									</label>
 								</div>
 							</div>
@@ -289,7 +310,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category2" className="ml-3">
-										Somos la ostia
+										Leadership Therapy
 									</label>
 								</div>
 								<div>
@@ -302,7 +323,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Terminamos mañana
+										Time Management
 									</label>
 								</div>
 								<div>
@@ -315,7 +336,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Psicologia positiva
+										Positive Psychology
 									</label>
 								</div>
 							</div>
@@ -330,7 +351,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Gestión del tiempo
+										Interpersonal Therapy
 									</label>
 								</div>
 								<div>
@@ -343,7 +364,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Gestión del tiempo
+										Humanistic therapy
 									</label>
 								</div>
 								<div>
@@ -356,7 +377,7 @@ export const Searchworkshopform = () => {
 										onClick={inputChange}
 									/>
 									<label htmlFor="category1" className="ml-3">
-										Gestión del tiempo
+										Psychodynamic therapy
 									</label>
 								</div>
 							</div>

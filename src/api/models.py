@@ -231,6 +231,7 @@ class Category(db.Model):
 class Search_workshop(db.Model):
     __tablename__ = 'search_workshop'
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.VARCHAR)
     duration = db.Column(db.VARCHAR)
     max_price = db.Column(db.Float)
     date = db.Column(db.Date)
@@ -247,6 +248,7 @@ class Search_workshop(db.Model):
         new_category = Category.get_by_id(self.category_id)
         return {
             "id": self.id,
+            "title": self.title,
             "duration": self.duration,
             "max_price": self.max_price,
             "price": self.max_price,
@@ -270,13 +272,20 @@ class Search_workshop(db.Model):
     def get_all(cls):
         search_workshops = cls.query.all()
         return search_workshops
+    
+    @classmethod
+    def get_search_workshop_for_search_bar(cls, search):
+        search_workshops = cls.query.filter(cls.title.like(f'%{search}%')).all()
+        return search_workshops
 
     def update_search_workshop(self, 
+                            new_title,
                             new_duration, 
                             new_price, 
                             new_date, 
                             new_max_people, 
                             new_category):
+        self.title = new_title
         self.duration = new_duration
         self.max_price = new_price
         self.date = new_date
@@ -353,6 +362,12 @@ class Workshop(db.Model):
         workshop_by_psychologist_id = cls.query.filter_by(user_psychologist_id = id)
         return workshop_by_psychologist_id
 
+    @classmethod
+    def get_workshop_for_search_bar(cls, search):
+        workshops = cls.query.filter(cls.title.like(f'%{search}%')).all()
+        return workshops
+        
+    
     def update_workshop(self, 
                         new_title, 
                         new_duration, 
