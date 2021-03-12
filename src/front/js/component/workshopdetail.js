@@ -7,8 +7,8 @@ import { YellowButton } from "./yellowButton";
 import { Categorylabel } from "./categorylabel";
 
 export const WorkshopDetail = () => {
-    const { actions, store } = useContext(Context);
-    
+	const { actions, store } = useContext(Context);
+
 	let workshopDetailCategory =
 		store.categories.length != 0
 			? store.categories.map((item, index) => {

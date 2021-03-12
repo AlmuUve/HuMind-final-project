@@ -10,7 +10,7 @@ export const ViewWorkshopDetail = () => {
 			<div className="row">
 				<Navbarpage />
 			</div>
-            <div className="imgProfile">
+			<div className="imgProfile">
 				<img
 					className="avatar"
 					src="https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
@@ -25,7 +25,7 @@ export const ViewWorkshopDetail = () => {
 				<div className="bottomCard">
 					<i className="fas fa-envelope fa-2x" href={store.user.email} />
 				</div>
-            </div>
+			</div>
 			<div className="row">
 				<WorkshopDetail />
 			</div>

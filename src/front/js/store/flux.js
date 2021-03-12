@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
-const url = "https://3001-lavender-ox-oako0jr3.ws-eu03.gitpod.io";
+const url = "https://3001-beige-dolphin-6no6q9xr.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://3001-fuchsia-ant-6ar0auww.ws-eu03.gitpod.io/user/" +
+					"https://3001-beige-dolphin-6no6q9xr.ws-eu03.gitpod.io/user/" +
 						getStore().LoggedUser.user_id +
 						"/search_for_workshop",
 					{
@@ -50,7 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-fuchsia-ant-6ar0auww.ws-eu03.gitpod.io/search_workshop").then(async res => {
+				fetch("https://3001-beige-dolphin-6no6q9xr.ws-eu03.gitpod.io/search_workshop").then(async res => {
 					const response = await res.json();
 					console.log(response, "@@@@@@@@@@@@@");
 					getStore({ allWorkshops: response });
@@ -59,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getWorkshops: () => {
-				fetch("https://3001-fuchsia-ant-6ar0auww.ws-eu03.gitpod.io/user/company/1/workshops").then(
+				fetch("https://3001-beige-dolphin-6no6q9xr.ws-eu03.gitpod.io/user/company/1/workshops").then(
 					async res => {
 						const response = await res.json();
 						setStore({ searchWorkshops: response });

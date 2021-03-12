@@ -198,7 +198,7 @@ h3{
 }
 .coverPhotoPsy {
     height: 20rem;
-    background-image: url("https://images.pexels.com/photos/3184423/pexels-photo-3184423.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+    background-image: url("https://images.pexels.com/photos/3184427/pexels-photo-3184427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -365,7 +365,7 @@ h3{
 
 .signUp_body{
     display: flex;
-    margin-top: 2rem;
+    margin-top: 7.5rem;
     margin-bottom: 2rem;
 }
 
@@ -379,6 +379,7 @@ h3{
     background-image: url(https://i.imgur.com/Uukdhv3.png);
     background-repeat: no-repeat;
     background-size: cover;
+    box-shadow: 3px 3px 3px 3px rgb(221, 221, 221);
 }
 
 @media (max-width: 768px) {
@@ -389,6 +390,7 @@ h3{
 
 .signUp_rightColumn{
     background-color: white;
+    box-shadow: 3px 3px 3px 3px rgb(221, 221, 221);
 }
 
 .signUp_buttons{
@@ -565,7 +567,7 @@ h3{
 
 .logIn_body{
     display: flex;
-    margin-top: 2rem;
+    margin-top: 7.5rem;
     margin-bottom: 2rem;
 }
 
@@ -579,6 +581,7 @@ h3{
     background-image: url(https://images.unsplash.com/photo-1573497620166-aef748c8c792?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=634&q=80);
     background-repeat: no-repeat;
     background-size: cover;
+    box-shadow: 3px 3px 3px 3px rgb(221, 221, 221);
 }
 
 @media (max-width: 768px) {
@@ -589,12 +592,18 @@ h3{
 
 .logIn_lefttColumn{
     background-color: white;
+    box-shadow: 3px 3px 3px 3px rgb(221, 221, 221);
 }
 
 .logIn_buttons{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.buttonBackLogin{
+    display: flex;
+    justify-content: left;
 }
 
 .logIn_form{
