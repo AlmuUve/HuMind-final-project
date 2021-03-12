@@ -6,8 +6,8 @@ export const Footer = () => {
 		<Fragment>
 			<div className="container-fluid footer">
 				<div className="row  footer_row">
-					<div className="col-4 footer_column">
-						<h2>HuMind</h2>
+					<div className="col-md-12 col-lg-3 footer_column">
+						<h2 className="footerTitle">HuMind</h2>
 						<div className="footer_column_div">
 							<p>What Do We Do?</p>
 							<p>Corporate Psychology Services</p>
@@ -16,16 +16,16 @@ export const Footer = () => {
 							<p>Contact Us</p>
 						</div>
 					</div>
-					<div className="col-4 footer_column">
-						<h2>Legal</h2>
+					<div className="col-md-12 col-lg-3 footer_column">
+						<h2 className="footerTitle">Legal</h2>
 						<div className="footer_column_div">
 							<p>Legal Notice</p>
 							<p>Cookies Policy</p>
 							<p>Privacy Policy</p>
 						</div>
 					</div>
-					<div className="col-4 footer_column">
-						<h2>Connect</h2>
+					<div className="col-md-12 col-lg-3 footer_column">
+						<h2 className="footerTitle">Conecta</h2>
 						<div className="footer_column_img">
 							<i className="fab fa-linkedin footer_img" />
 							<i className="fab fa-facebook footer_img" />

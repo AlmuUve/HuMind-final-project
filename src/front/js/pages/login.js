@@ -27,8 +27,8 @@ export const UserLogIn = props => {
 
 	return (
 		<div className="logIn_body d-flex justify-content-center ">
-			<div className="logIn_leftColumn col-md-5 col-sm-12">
-				<Link to={"/"}>
+			<div className="logIn_lefttColumn col-md-5 col-sm-12">
+				<Link to={"/"} className="buttonBackLogin">
 					<i className="fas fa-times" />
 				</Link>
 				<h2>Log In</h2>
@@ -68,7 +68,6 @@ export const UserLogIn = props => {
 				</form>
 			</div>
 			<div className="logIn_rightColumn col-md-2 col-sm-0 ">
-				<h1>HuMind</h1>
 			</div>
 			<Modal
 				show={state.showModal}

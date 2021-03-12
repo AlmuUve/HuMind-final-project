@@ -92,9 +92,7 @@ export const UserSignUp = props => {
 
 	return (
 		<div className="signUp_body">
-			<div className="signUp_leftColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0">
-				<h1>HuMind</h1>
-			</div>
+			<div className="signUp_leftColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0"></div>
 			<div className="signUp_rightColumn col-md-5 col-sm-12">
 				<Link to={"/"}>
 					<i className="fas fa-times" />

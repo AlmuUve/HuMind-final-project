@@ -45,6 +45,13 @@ $title_font:   'Oswald', sans-serif;
     margin-top: 9rem;
 }
 
+@media (max-width: 576px) {
+    .coverText {
+        margin-top: 13rem;
+        font-size: 3rem;
+    }
+}
+
 .landingDescription{
     display: flex;
     align-items: center;
@@ -61,10 +68,32 @@ $title_font:   'Oswald', sans-serif;
 
 }
 
+@media (max-width: 992px) {
+    .motto {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .motto {
+        font-size: 2rem;
+        text-align: center;
+        border: none;
+    }
+}
+
 .description{
     margin-left: 2rem;
     font-family: $text_font;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+}
+
+@media (max-width: 768px) {
+    .description {
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
 }
 
 .blueSpan{
@@ -190,6 +219,10 @@ $title_font:   'Oswald', sans-serif;
     font-size: 1.5rem;
     text-align: center;
     align-self: center;
+}
+
+.linkToLanding:hover{
+    text-decoration: none;
 }
 
 /* Psychologist Resgistration */

@@ -47,7 +47,7 @@ export const CompanyRegistrationForm = () => {
 						/>
 					</div>
 					<div className="row">
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="company_name" className="titleInputs">
 								<b>Company Name</b>
 							</label>
@@ -65,7 +65,7 @@ export const CompanyRegistrationForm = () => {
 								required
 							/>
 						</div>
-						<div className="col-6 inputLabel">
+						<div className="col-lg-6 col-md-12 inputLabel">
 							<label htmlFor="company_number" className="titleInputs">
 								<b>Company Number</b>
 							</label>

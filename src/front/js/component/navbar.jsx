@@ -150,7 +150,7 @@ export const Navbarpage = props => {
 
 	return (
 		<>
-			<div className="container-fluid">
+			<div className="container-fluid fixed-top">
 				<Navbar className="col-12" expand="lg">
 					<Container>
 						<Link to="/">
