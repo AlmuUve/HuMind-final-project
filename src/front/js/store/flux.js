@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import { Modal } from "react-bootstrap";
 
 const pathProfile = "/profile/";
-const url = "https://3001-blue-slug-9o5zbg5q.ws-eu03.gitpod.io";
+const url = "https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -25,6 +25,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 
 		actions: {
+			getSearchResults: async keyword => {
+				let response = await fetch(
+					"https://3001-red-ostrich-muigemvc.ws-eu03.gitpod.io/user/" +
+						getStore().LoggedUser.user_id +
+						"/search_for_workshop",
+					{
+						method: "POST",
+						headers: new Headers({
+							"Content-Type": "application/json"
+						}),
+						body: JSON.stringify({
+							search: keyword
+						})
+					}
+				);
+				response = await response.json();
+				console.log(response, "RESPONSE");
+				if (getStore().LoggedUser.is_psychologist) {
+					setStore({ allSearchWorkshops: response });
+				} else {
+					setStore({ allWorkshops: response });
+				}
+			},
+
+			getAllWorkshops: () => {
+				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/search_workshop").then(async res => {
+					const response = await res.json();
+					console.log(response, "@@@@@@@@@@@@@");
+					getStore({ allWorkshops: response });
+					console.log(getStore().allWorkshop, "soy un console log de fluxxxx");
+				});
+			},
+
+			getWorkshops: () => {
+				fetch("https://3001-blush-swordtail-mz6wgoei.ws-eu03.gitpod.io/user/company/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ searchWorkshops: response });
+					}
+				);
+			},
+
 			//FUNCTIONS FOR PATHS PROFILE\\
 
 			setpathProfilePsychologist: (newName, newLastname) => {
@@ -200,6 +242,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
+						title: searchWorkshop.title,
 						category_id: parseInt(searchWorkshop.category),
 						duration: searchWorkshop.duration,
 						price: searchWorkshop.price,
@@ -384,6 +427,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let response = await fetch(url + "/company/" + idCom + "/search_workshop/" + id, {
 					method: "PUT",
 					body: JSON.stringify({
+						title: search_workshop.title,
 						duration: search_workshop.duration,
 						price: search_workshop.price,
 						date: search_workshop.date,
@@ -437,6 +481,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteSearchWorkshop: async (searchWorkshop, idCom) => {
+				console.log(searchWorkshop, "searchWorkshop");
 				setStore({ searchWorkshops: getStore().searchWorkshops.filter(index => index !== searchWorkshop) });
 				let response = await fetch(url + "/company/" + idCom + "/workshop/" + searchWorkshop.id, {
 					method: "DELETE",

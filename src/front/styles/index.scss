@@ -95,8 +95,12 @@ h3{
     font-size: 3rem;
     width: 30%;
     height: 5rem;
+    text-decoration: none;
 }
 
+.landingButton:active{
+    text-decoration: none;
+}
 // NAVBAR \\
 
 .navbarLogo{
@@ -877,6 +881,39 @@ h3{
     background-color: #d6d6d6;
 }
 
+//SEARCHBAR\\
+
+.searchBarDiv{
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+}
+    
+.searchBarInput{
+    height: 2.5rem;
+}
+
+.searchBarIconDiv{
+    background-color: $primary_blue;
+    border-radius: 50%;
+    height: 2.5rem;
+}
+
+.searchBarIconDiv:active{
+    text-decoration: none;
+}
+
+.searchBarIcon{
+    color: $secondary_blue;
+    background-color: $primary_blue;
+}
+
+.searchBarIcon:hover{
+    text-decoration: none;
+}
+
+.searchBarIcon:active{
+    text-decoration: none;
+}
 
 //EDITS AND DELETE BUTTON\\
 

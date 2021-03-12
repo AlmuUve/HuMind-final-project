@@ -55,7 +55,7 @@ $title_font:   'Oswald', sans-serif;
 .motto{
     flex-direction: row-reverse;
     font-family: $title_font;
-    font-size: 2rem;
+    font-size: 3rem;
     text-align: right;
     border-right: 3px solid $primary_yellow;
 
@@ -64,7 +64,7 @@ $title_font:   'Oswald', sans-serif;
 .description{
     margin-left: 2rem;
     font-family: $text_font;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
 }
 
 .blueSpan{

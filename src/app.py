@@ -227,6 +227,7 @@ def add_search_workshop(id):
     body = request.get_json()
 
     new_search_workshop = Search_workshop(
+        title = body.get("title"),
         duration = body.get("duration"),
         max_price = body.get("price"),
         date = body.get("date"),
@@ -279,7 +280,7 @@ def update_search_workshop(com_id, id):
     body = request.get_json()
     search_workshop = Search_workshop.get_by_id(id)
 
-    new_search_workshop = search_workshop.update_search_workshop(body['duration'], 
+    new_search_workshop = search_workshop.update_search_workshop(body['title'], body['duration'], 
     body['price'], body['date'], body['max_people'], body['category_id'])
 
     return jsonify(new_search_workshop.to_dict())
@@ -324,6 +325,23 @@ def send_email():
        subject, 
        message)
     return "hemos mandado algo?", 200
+
+#Search Bar
+
+@app.route('/user/<int:id>/search_for_workshop',  methods=['POST'])
+def search_bar(id):
+    body = request.get_json()
+    title = body.get("search", None)
+    user = User.get_by_id(id)
+    if user.is_psychologist:
+        search_workshops = Search_workshop.get_search_workshop_for_search_bar(title)
+        search_workshops_to_dict = []
+        for search_workshop in search_workshops:
+            search_workshops_to_dict.append(search_workshop.to_dict())
+            
+        return jsonify(search_workshops_to_dict), 200
+    workshops = Workshop.get_workshop_for_search_bar(title)
+    return jsonify([workshop.to_dict() for workshop in workshops]), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
