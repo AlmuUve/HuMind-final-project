@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-moccasin-iguana-xk2ufqzm.ws-eu03.gitpod.io";
+const url = "https://3001-blush-wildcat-cexmd835.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -432,6 +432,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
+				getActions().logout();
 			},
 
 			deleteWorkshop: async (workshop, idPsy) => {

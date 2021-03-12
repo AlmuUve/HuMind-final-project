@@ -8,7 +8,11 @@ import { NavbarButtons } from "./navbarbuttons.jsx";
 export const Navbarpage = props => {
 	const [navbarAvatar, setNavbarAvatar] = useState("");
 	const { store, actions } = useContext(Context);
-	const [navbar, setNavbar] = useState(
+	const [navbar, setNavbar] = useState();
+
+	const history = useHistory();
+
+	const navbarLogOut = (
 		<Nav className="ml-auto">
 			<a href="#ancla1" className="buttonNavbar">
 				<NavbarButtons text="What do we do?" />
@@ -27,8 +31,6 @@ export const Navbarpage = props => {
 			</Link>
 		</Nav>
 	);
-
-	const history = useHistory();
 
 	const navbarLog = (
 		<Nav className="ml-auto">
@@ -101,9 +103,7 @@ export const Navbarpage = props => {
 	);
 
 	useEffect(() => {
-		if (store.LoggedUser.id > 0) {
-			setNavbar(navbarLog);
-		}
+		store.LoggedUser.id > 0 ? setNavbar(navbarLog) : setNavbar(navbarLogOut);
 	}, [store.LoggedUser]);
 
 	useEffect(() => {

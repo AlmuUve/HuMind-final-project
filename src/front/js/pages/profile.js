@@ -154,7 +154,6 @@ export const Profile = () => {
 										<Email
 											onClickEmail={() => {
 												setState({ showModal: true });
-												console.log("llego");
 											}}
 										/>
 									</div>
@@ -236,7 +235,6 @@ export const Profile = () => {
 										<Email
 											onClickEmail={() => {
 												setState({ showModal: true });
-												console.log("llego");
 											}}
 										/>
 									</div>

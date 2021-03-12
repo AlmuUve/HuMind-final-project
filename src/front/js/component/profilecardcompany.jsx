@@ -5,6 +5,7 @@ import { YellowButton } from "./yellowButton.js";
 import { DeleteButton } from "./deleteButton";
 import "../../styles/index.scss";
 import { useEffect } from "react";
+import { Modaldelete } from "./modaldelete.jsx";
 
 export const Profiletemplatecompany = props => {
 	const { store, actions } = useContext(Context);
@@ -15,6 +16,14 @@ export const Profiletemplatecompany = props => {
 		</Link>
 	);
 
+	const [state, setState] = useState({
+		showModal: false
+	});
+
+	// const [show, setShow] = useState(false);
+
+	// const handleShow = () => setShow(true);
+
 	useEffect(() => {
 		store.user != null
 			? seteditButton("")
@@ -23,10 +32,7 @@ export const Profiletemplatecompany = props => {
 						<Link to="/edit_profile">
 							<YellowButton text="Edit Profile"></YellowButton>
 						</Link>
-						<DeleteButton
-							onClickDelete={() => actions.deleteProfile(store.LoggedUser.user_id)}
-							className="deleteProfile"
-						/>
+						<DeleteButton onClickDelete={() => setState({ showModal: true })} className="deleteProfile" />
 					</div>
 			  );
 	}, [store.user]);
@@ -75,6 +81,14 @@ export const Profiletemplatecompany = props => {
 				</div>
 				{editButton}
 			</div>
+			<Modaldelete
+				show={state.showModal}
+				onClosed={() => setState({ showModal: false })}
+				text="You are very close to leave the colest platform in the world"
+				titleModal="Are you sure?"
+				confirmation="DO IT!"
+				classNameEmail="ButtonBlue"
+			/>
 		</>
 	);
 };
