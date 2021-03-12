@@ -32,16 +32,16 @@ export const WorkshopDetail = () => {
 					{store.workshop.name} {store.workshop.lastname} {store.workshop.title}
 				</p>
 				<div className="workshopDetailDetails">
-					<span className="categories">
+					<p className="categoryLabel">
 						Category:
 						{workshopDetailCategory}
-					</span>
-					<span className="date">Date: {store.workshop.date}</span>
-					<span className="duration">Duration: {store.workshop.duration}</span>
-					<span className="maxPeople">Pax: {store.workshop.max_people}</span>
-					<span className="description">Description: {store.workshop.description}</span>
+					</p>
+					<p className="date">Date: {store.workshop.date}</p>
+					<p className="duration">Duration: {store.workshop.duration}</p>
+					<p className="maxPeople">Pax: {store.workshop.max_people}</p>
+					<p className="description">Description: {store.workshop.description}</p>
 					<iframe className="video" width="420" height="315" src="https://youtu.be/N6pji9kEO10"></iframe>
-					<YellowButton className="workshopDetail_contactButton" text="Contact" />
+					<YellowButton text="Contact" />
 				</div>
 			</div>
 		</div>
