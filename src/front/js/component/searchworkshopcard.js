@@ -42,9 +42,9 @@ export const SearchWorkshopCard = props => {
 				</div>
 				<div className="bodySearchWorkshop">
 					<p>Date: {props.item.date}</p>
-					<p>Duration: {props.item.duration}</p>
+					<p>Duration: {props.item.duration} Hours</p>
 					<p>Maximum number of persons: {props.item.max_people}</p>
-					<p>Maximum price {props.item.max_price} €</p>
+					<p>Maximum price: {props.item.max_price} €</p>
 				</div>
 				<div className="row d-flex justify-content-between mx-1">
 					<p className="categoryLabelSearch">{props.item.category}</p>

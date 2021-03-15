@@ -29,6 +29,7 @@ body{
     color: white;
     width: 7rem;
     height: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 .fas{
@@ -253,15 +254,22 @@ h3{
 
 .lastChildDescription { 
     text-align: left !important;
+    padding-left: 1rem;
+    margin-top: 1rem;
 }
 
 .bottomCard {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 1rem;
 }
 
 // CSS PARA VIEW FEED Y COMPONENTES \\
+.bodyFeed{
+    margin-top: 5rem;
+    // margin-bottom: 2rem;
+}
 
 .templateWorkshop {
     border: 1px solid $background_color;
@@ -689,6 +697,7 @@ h3{
     font-family: $text_font;
     font-size: 1.2rem;
     color: $text_color;
+    margin-top: 5rem;
 }
 
 .inputLabel{
@@ -840,7 +849,9 @@ h3{
     color: $text_color;
     font-size: 0.8rem;
 }
-
+.workshopDetail{
+    margin-top: 5rem;
+}
 .buttons_workshopCard{
     width: 30%;
     position: relative;

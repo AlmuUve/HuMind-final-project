@@ -344,6 +344,7 @@ class Workshop(db.Model):
             "user_psychologist_id": self.user_psychologist_id,
             "owner_name": user.name,
             "owner_lastname": user.lastname,
+            "user_id": user.user_id,
             "categories": list(map(lambda category: category.category_name, self.category_info))
         }
 

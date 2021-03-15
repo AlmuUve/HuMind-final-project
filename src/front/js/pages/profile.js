@@ -25,9 +25,9 @@ export const Profile = () => {
 
 	//LOCALSTORAGE\\
 
-	useEffect(() => {
-		actions.decode();
-	}, []);
+	// useEffect(() => {
+	// 	actions.decode();
+	// }, []);
 
 	//MODAL FUNCTIONS\\
 

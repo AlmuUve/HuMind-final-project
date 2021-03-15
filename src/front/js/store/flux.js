@@ -112,8 +112,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
-			getOneWorkshop: () => {
-				fetch(url + "/workshop/" + getStore().workshop.id, {
+			getOneWorkshop: id => {
+				fetch(url + "/workshop/" + id, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`

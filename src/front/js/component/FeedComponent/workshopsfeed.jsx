@@ -50,7 +50,7 @@ export const Workshops = props => {
 					<p>Date: {props.item.date}</p>
 					<p>Duration: {props.item.duration}</p>
 					<p>Maximum number of persons: {props.item.max_people}</p>
-					<p>Price {props.item.price} €</p>
+					<p>Price: {props.item.price} €</p>
 				</div>
 				<div className="descriptionWorkshop">
 					<p>{cutDescription(props.item.description)}</p>
@@ -59,7 +59,13 @@ export const Workshops = props => {
 					<div className="col-lg-8 col-sm-12 d-flex flex-wrap">{categoryLabels}</div>
 					<div className="col-lg-4 col-sm-12 d-flex justify-content-lg-end justify-content-center">
 						<Link to="/workshopdetail">
-							<YellowButton text="View More" />
+							<YellowButton
+								onClickForm={() => {
+									actions.getOneWorkshop(props.item.id);
+									actions.getUser(props.item.user_id);
+								}}
+								text="View more"
+							/>
 						</Link>
 					</div>
 				</div>
