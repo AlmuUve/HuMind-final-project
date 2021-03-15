@@ -120,7 +120,7 @@ export const Searchworkshopform = () => {
 				<div className="row">
 					<div className="col-lg-12 col-sm-12 inputLabel">
 						<label htmlFor="title" className="titleInputs">
-							<p>title</p>
+							<p>Title</p>
 						</label>
 						<input
 							className="workshopInput form-control"
@@ -149,7 +149,7 @@ export const Searchworkshopform = () => {
 								inputChange(e);
 								setDuration(e.target.value);
 							}}
-							placeholder="In minutes"
+							placeholder="In hours"
 							name="duration"
 							id="duration"
 							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}

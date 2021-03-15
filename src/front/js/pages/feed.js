@@ -25,7 +25,7 @@ export const Feed = () => {
 	if (!store.LoggedUser.is_psychologist) {
 		return (
 			<>
-				<div className="container-fluid">
+				<div className="container-fluid bodyFeed">
 					<div className="row d-felx justify-content-center">
 						<Profilefeed />
 						<div className="col-lg-8 col-sm-12 bg-succes">{listAllWorkshops}</div>
@@ -36,7 +36,7 @@ export const Feed = () => {
 	} else {
 		return (
 			<>
-				<div className="container-fluid">
+				<div className="container-fluid bodyFeed">
 					<div className="row d-felx justify-content-center">
 						<Profilefeed />
 						<div className="col-lg-8 col-sm-12 bg-succes">{listAllSearchWorkshops}</div>

@@ -74,10 +74,10 @@ export const Profiletemplatecompany = props => {
 				</div>
 				<div className="descriptionCard">
 					<p>{store.user ? store.user.speciality : store.LoggedUser.company_number}</p>
+					<p>{store.user ? store.user.association_number : ""}</p>
 					<p className="lastChildDescription">
-						{store.user ? store.user.association_number : store.LoggedUser.description}
+						{store.user ? store.user.description : store.LoggedUser.description}
 					</p>
-					<p className="lastChildDescription">{store.user ? store.user.description : ""}</p>
 				</div>
 				{editButton}
 			</div>
