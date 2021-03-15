@@ -7,10 +7,14 @@ import { DeleteButton } from "./deleteButton";
 import { EditButton } from "./editButton";
 import { Link } from "react-router-dom";
 import { Categorylabel } from "./FeedComponent/categoryinworkshops.jsx";
+import { Modaldelete } from "./modaldelete.jsx";
 
 export const WorkshopCard = props => {
 	const { actions, store } = useContext(Context);
 	const [editAndDeleteButton, setEditAndDeleteButton] = useState();
+	const [state, setState] = useState({
+		showModal: false
+	});
 
 	useEffect(() => {
 		store.user != null
@@ -25,10 +29,7 @@ export const WorkshopCard = props => {
 								}}
 							/>
 						</Link>
-						<DeleteButton
-							className="deleteButton"
-							onClickDelete={() => actions.deleteWorkshop(props.item, store.LoggedUser.id)}
-						/>
+						<DeleteButton className="deleteButton" onClickDelete={() => setState({ showModal: true })} />
 					</div>
 			  );
 	}, [store.user]);
@@ -58,6 +59,16 @@ export const WorkshopCard = props => {
 					</Link>
 				</div>
 			</div>
+			<Modaldelete
+				show={state.showModal}
+				onClosed={() => setState({ showModal: false })}
+				text="You are very close to leave the colest platform in the world"
+				getMeBack="GO BACK"
+				titleModal="Be careful! You may not be able to get back in."
+				confirmation="DO IT!"
+				classNameEmail="ButtonBlue"
+				classNameBack="ButtonBlueModal"
+			/>
 		</div>
 	);
 };

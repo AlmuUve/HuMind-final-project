@@ -5,11 +5,15 @@ import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
 import { SearchBar } from "../component/searchBar";
+import { Modaldelete } from "./modaldelete.jsx";
 
 export const Navbarpage = props => {
 	const [navbarAvatar, setNavbarAvatar] = useState("");
 	const { store, actions } = useContext(Context);
 	const [navbar, setNavbar] = useState();
+	const [state, setState] = useState({
+		showModal: false
+	});
 
 	const history = useHistory();
 
@@ -100,6 +104,14 @@ export const Navbarpage = props => {
 						/>
 					</Dropdown.ItemText>
 				</Link>
+				<Dropdown.ItemText className="buttonDropDownDelete">
+					<NavbarButtons
+						text="Danger Zone"
+						onClickNavbar={() => {
+							setState({ showModal: true });
+						}}
+					/>
+				</Dropdown.ItemText>
 			</DropdownButton>
 		</Nav>
 	);
@@ -163,6 +175,16 @@ export const Navbarpage = props => {
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="basic-navbar-nav">{navbar}</Navbar.Collapse>
 					</Container>
+					<Modaldelete
+						show={state.showModal}
+						onClosed={() => setState({ showModal: false })}
+						text="You are very close to leave the colest platform in the world"
+						getMeBack="GO BACK"
+						titleModal="Be careful! You may not be able to get back in."
+						confirmation="DO IT!"
+						classNameEmail="ButtonBlue"
+						classNameBack="ButtonBlueModal"
+					/>
 				</Navbar>
 			</div>
 		</>

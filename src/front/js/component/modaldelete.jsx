@@ -14,12 +14,12 @@ export const Modaldelete = props => {
 			<div className="modal-dialog" role="document">
 				<div className="modal-content ">
 					<div className="modal-header modalHeader">
-						<h5 className="modal-title modalTitle ">{props.titleModal}</h5>
+						<h5 className="modal-title modalTitle">{props.titleModal}</h5>
 						{props.onClosed ? (
 							<button
 								onClick={() => props.onClosed()}
 								type="button"
-								className="close"
+								className="close ml-0"
 								data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
@@ -32,8 +32,13 @@ export const Modaldelete = props => {
 						<p>{props.text}</p>
 					</div>
 					<div className="modal-footer modalFooter">
-						<button type="button" className="btn btn-primary">
-							Oh no!
+						<button
+							type="button"
+							className={props.classNameBack}
+							onClick={() => {
+								props.onClosed();
+							}}>
+							{props.getMeBack}
 						</button>
 						<button
 							type="button"
@@ -60,5 +65,7 @@ Modaldelete.propTypes = {
 	text: PropTypes.string,
 	titleModal: PropTypes.string,
 	confirmation: PropTypes.string,
-	classNameEmail: PropTypes.string
+	classNameEmail: PropTypes.string,
+	getMeBack: PropTypes.string,
+	classNameBack: PropTypes.string
 };

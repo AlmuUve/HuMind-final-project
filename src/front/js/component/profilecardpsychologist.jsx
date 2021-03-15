@@ -10,19 +10,10 @@ import { Modaldelete } from "./modaldelete.jsx";
 export const Profiletemplatepsy = props => {
 	const { store, actions } = useContext(Context);
 	const [avatar, setAvatar] = useState("");
-	const [editButton, seteditButton] = useState(
-		<Link to="/edit_profile">
-			<YellowButton text="Edit Profile"></YellowButton>
-		</Link>
-	);
-
+	const [editButton, seteditButton] = useState();
 	const [state, setState] = useState({
 		showModal: false
 	});
-
-	// const [show, setShow] = useState(false);
-
-	// const handleShow = () => setShow(true);
 
 	useEffect(() => {
 		store.user != null
@@ -32,7 +23,6 @@ export const Profiletemplatepsy = props => {
 						<Link to="/edit_profile">
 							<YellowButton text="Edit Profile"></YellowButton>
 						</Link>
-						<DeleteButton onClickDelete={() => setState({ showModal: true })} className="deleteProfile" />
 					</div>
 			  );
 	}, [store.user]);
@@ -86,14 +76,6 @@ export const Profiletemplatepsy = props => {
 				</div>
 				{editButton}
 			</div>
-			<Modaldelete
-				show={state.showModal}
-				onClosed={() => setState({ showModal: false })}
-				text="You are very close to leave the colest platform in the world"
-				titleModal="Are you sure?"
-				confirmation="DO IT!"
-				classNameEmail="ButtonBlue"
-			/>
 		</>
 	);
 };

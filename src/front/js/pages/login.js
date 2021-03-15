@@ -67,8 +67,7 @@ export const UserLogIn = props => {
 					</Link>
 				</form>
 			</div>
-			<div className="logIn_rightColumn col-md-2 col-sm-0 ">
-			</div>
+			<div className="logIn_rightColumn col-md-2 col-sm-0 "></div>
 			<Modal
 				show={state.showModal}
 				onClosed={() => {

@@ -17,7 +17,7 @@ export const Modal = props => {
 							<button
 								onClick={() => props.onClosed()}
 								type="button"
-								className="close"
+								className="close ml-0"
 								data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
