@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const pathProfile = "/profile/";
-const url = "https://3001-gray-sheep-fw8fvyug.ws-eu03.gitpod.io";
+const url = "https://3001-jade-zebra-aak9bwvy.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -17,8 +16,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			LoggedUser: {},
 			password: "",
 			email: "",
-			pathProfilePsychologist: "",
-			pathProfileCompany: "",
 			currentWorkshop: "",
 			subjectEmail: "",
 			wrongLoging: true
@@ -60,15 +57,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await res.json();
 					setStore({ searchWorkshops: response });
 				});
-			},
-
-			//FUNCTIONS FOR PATHS PROFILE\\
-
-			setpathProfilePsychologist: (newName, newLastname) => {
-				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
-			},
-			setpathProfileCompany: newName => {
-				setStore({ pathProfileCompany: pathProfile.concat(newName) });
 			},
 
 			//AUX FUNCTIONS\\
@@ -270,18 +258,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let token = await response.json();
 					localStorage.setItem("token", token.token);
 					getActions().decode();
-					if (getStore().LoggedUser.is_psychologist) {
-						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
-						getActions().setpathProfilePsychologist(
-							getStore().LoggedUser.name.replace(" ", "_"),
-							getStore().LoggedUser.lastname.replace(" ", "_")
-						);
-						getActions().getWorkshops(getStore().LoggedUser.id);
-					} else {
-						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
-						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
-						getActions().getSearchWorkshops(getStore().LoggedUser.id);
-					}
+					localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 				} catch {
 					setStore({ wrongLoging: false });
 				}

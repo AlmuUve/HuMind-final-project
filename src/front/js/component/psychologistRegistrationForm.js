@@ -54,10 +54,7 @@ export const PsychologistRegistrationForm = props => {
 							</label>
 							<input
 								type="text"
-								onChange={e => {
-									inputChange(e);
-									actions.setpathProfilePsychologist(e.target.value, user.lastname);
-								}}
+								onChange={inputChange}
 								className="workshopInput form-control"
 								placeholder="Enter your name here"
 								name="name"
@@ -72,10 +69,7 @@ export const PsychologistRegistrationForm = props => {
 							</label>
 							<input
 								type="text"
-								onChange={e => {
-									inputChange(e);
-									actions.setpathProfilePsychologist(user.name, e.target.value);
-								}}
+								onChange={inputChange}
 								className="workshopInput form-control"
 								placeholder="Enter your lastname here"
 								name="lastname"
@@ -227,7 +221,7 @@ export const PsychologistRegistrationForm = props => {
 						</div>
 					</div>
 					<div className="row d-flex justify-content-center mb-5">
-						<Link to={store.pathProfilePsychologist}>
+						<Link to={"/profile/" + user.name.replace(" ", "_") + "_" + user.lastname.replace(" ", "_")}>
 							<YellowButton
 								type="submit"
 								text="Submit"

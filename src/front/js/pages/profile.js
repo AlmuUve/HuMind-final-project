@@ -17,6 +17,8 @@ export const Profile = () => {
 	const [active2, setActive2] = useState("");
 	const [textButton, setTextButton] = useState("pillsButtons");
 	const [textButton2, setTextButton2] = useState("pillsColor");
+	const [ctaWorkshops, setCtaWorkshops] = useState("ctaWorkshops");
+	const [ctaSearch, setCtaSearch] = useState("ctaWorkshops");
 	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
 		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
 			<YellowButton text="ADD" />
@@ -25,9 +27,9 @@ export const Profile = () => {
 
 	//LOCALSTORAGE\\
 
-	// useEffect(() => {
-	// 	actions.decode();
-	// }, []);
+	useEffect(() => {
+		actions.decode();
+	}, []);
 
 	//MODAL FUNCTIONS\\
 
@@ -76,6 +78,20 @@ export const Profile = () => {
 			setAddButtonSearch("");
 		}
 	}, [store.user]);
+
+	// CRETE "CTA" MESSAGE \\
+
+	useEffect(() => {
+		if (store.workshops.length > 0) {
+			setCtaWorkshops("ctaWorkshopsNone");
+		}
+	}, [store.workshops]);
+
+	useEffect(() => {
+		if (store.searchWorkshops.length > 0) {
+			setCtaSearch("ctaWorkshopsNone");
+		}
+	}, [store.searchWorkshops]);
 
 	//MAPING WORKSHOPS\\
 
@@ -141,6 +157,13 @@ export const Profile = () => {
 										aria-labelledby="home-tab">
 										{addButtonWorkshop}
 										{store.user ? listSearchWorkshops : userWorkshops}
+										<div className={ctaWorkshops}>
+											<h5 className="ctaTitle">Please publish your first workshop!</h5>
+											<p className="ctaP">
+												This way you will get more visibility and companies will be able to
+												contact you via email. (use ADD button)
+											</p>
+										</div>
 									</div>
 									<div
 										className={"tab-pane " + active2}
@@ -225,6 +248,14 @@ export const Profile = () => {
 										aria-labelledby="home-tab">
 										{addButtonSearch}
 										{store.user ? userWorkshops : listSearchWorkshops}
+										<div className={ctaSearch}>
+											<h5 className="ctaTitle">Post your first search!</h5>
+											<p className="ctaP">
+												Remember that you can also create ads on the topic you are interested
+												in. This way psychologists will be able to contact you via email. (use
+												ADD button)
+											</p>
+										</div>
 									</div>
 									<div
 										className={"tab-pane " + active2}
