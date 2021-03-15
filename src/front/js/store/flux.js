@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-white-smelt-d6hfj1s0.ws-eu03.gitpod.io";
+const url = "https://humind.herokuapp.com";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://3001-white-smelt-d6hfj1s0.ws-eu03.gitpod.io/user/" +
+					"https://humind.herokuapp.com/user/" +
 						getStore().LoggedUser.user_id +
 						"/search_for_workshop",
 					{
@@ -41,7 +41,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				response = await response.json();
-				console.log(response, "RESPONSE");
 				if (getStore().LoggedUser.is_psychologist) {
 					setStore({ allSearchWorkshops: response });
 				} else {
@@ -50,16 +49,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-white-smelt-d6hfj1s0.ws-eu03.gitpod.io/search_workshop").then(async res => {
+				fetch("https://humind.herokuapp.com/search_workshop").then(async res => {
 					const response = await res.json();
-					console.log(response, "@@@@@@@@@@@@@");
 					getStore({ allWorkshops: response });
-					console.log(getStore().allWorkshop, "soy un console log de fluxxxx");
 				});
 			},
 
 			getWorkshops: () => {
-				fetch("https://3001-white-smelt-d6hfj1s0.ws-eu03.gitpod.io/user/company/1/workshops").then(
+				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(
 					async res => {
 						const response = await res.json();
 						setStore({ searchWorkshops: response });
@@ -492,7 +489,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteSearchWorkshop: async (searchWorkshop, idCom) => {
-				console.log(searchWorkshop, "searchWorkshop");
 				setStore({ searchWorkshops: getStore().searchWorkshops.filter(index => index !== searchWorkshop) });
 				let response = await fetch(url + "/company/" + idCom + "/workshop/" + searchWorkshop.id, {
 					method: "DELETE",

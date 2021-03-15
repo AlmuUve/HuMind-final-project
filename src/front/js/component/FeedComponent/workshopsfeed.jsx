@@ -63,7 +63,6 @@ export const Workshops = props => {
 								onClickForm={() => {
 									actions.getOneWorkshop(props.item.id);
 									actions.getUser(props.item.user_id);
-									console.log(store.user);
 								}}
 								text="View more"
 							/>
