@@ -13,13 +13,12 @@ export const Modaldelete = props => {
 		<div className="modal" tabIndex="-1" role="dialog" style={{ display: props.show ? "inline-block" : "none" }}>
 			<div className="modal-dialog" role="document">
 				<div className="modal-content ">
-					<div className="modal-header modalHeader">
-						<h5 className="modal-title modalTitle">{props.titleModal}</h5>
+					<div className="d-flex justify-content-end mr-3 mt-2">
 						{props.onClosed ? (
 							<button
 								onClick={() => props.onClosed()}
 								type="button"
-								className="close ml-0"
+								className="close"
 								data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
@@ -27,6 +26,9 @@ export const Modaldelete = props => {
 						) : (
 							""
 						)}
+					</div>
+					<div className="modal-header modalHeader">
+						<h5 className="modal-title modalTitle">{props.titleModal}</h5>
 					</div>
 					<div className="modal-body d-flex justify-content-center modalContent">
 						<p>{props.text}</p>
@@ -45,9 +47,7 @@ export const Modaldelete = props => {
 							className={props.classNameEmail}
 							data-dismiss="modal"
 							onClick={() => {
-								props.onClosed();
-								actions.deleteProfile(store.LoggedUser.user_id);
-								history.push("/");
+								props.onClickDelete();
 							}}>
 							{props.confirmation}
 						</button>
@@ -67,5 +67,6 @@ Modaldelete.propTypes = {
 	confirmation: PropTypes.string,
 	classNameEmail: PropTypes.string,
 	getMeBack: PropTypes.string,
-	classNameBack: PropTypes.string
+	classNameBack: PropTypes.string,
+	onClickDelete: PropTypes.string
 };

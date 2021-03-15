@@ -177,13 +177,18 @@ export const Navbarpage = props => {
 					</Container>
 					<Modaldelete
 						show={state.showModal}
-						onClosed={() => setState({ showModal: false })}
 						text="You are very close to leave the colest platform in the world"
 						getMeBack="GO BACK"
 						titleModal="Be careful! You may not be able to get back in."
 						confirmation="DO IT!"
 						classNameEmail="ButtonBlue"
 						classNameBack="ButtonBlueModal"
+						onClickDelete={() => {
+							setState({ showModal: false });
+							actions.deleteProfile(store.LoggedUser.user_id);
+							history.push("/");
+						}}
+						onClosed={() => setState({ showModal: false })}
 					/>
 				</Navbar>
 			</div>

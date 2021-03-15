@@ -52,7 +52,7 @@ export const Searchworkshops = props => {
 							onClickForm={() => {
 								actions.getUser(props.item.user_id);
 								actions.getSearchWorkshops(props.item.user_company_id);
-								actions.setSubjectEmail("SEARCH WORKSHOP OF: " + props.item.category);
+								actions.setSubjectEmail(props.item.title);
 							}}
 							text="Contact"
 						/>

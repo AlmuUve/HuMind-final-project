@@ -52,13 +52,17 @@ export const SearchWorkshopCard = props => {
 			</div>
 			<Modaldelete
 				show={state.showModal}
-				onClosed={() => setState({ showModal: false })}
-				text="You are very close to leave the colest platform in the world"
-				getMeBack="GO BACK"
-				titleModal="Be careful! You may not be able to get back in."
+				text={"I would like to delete my " + props.item.title + " search"}
+				titleModal="Are you sure?"
 				confirmation="DO IT!"
+				getMeBack="GO BACK"
 				classNameEmail="ButtonBlue"
 				classNameBack="ButtonBlueModal"
+				onClickDelete={() => {
+					setState({ showModal: false });
+					actions.deleteSearchWorkshop(props.item, store.LoggedUser.id);
+				}}
+				onClosed={() => setState({ showModal: false })}
 			/>
 		</>
 	);

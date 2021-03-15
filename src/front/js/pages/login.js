@@ -74,7 +74,7 @@ export const UserLogIn = props => {
 					setState({ showModal: false });
 					actions.setWrongLoging(true);
 				}}
-				text="Your email doesnt exists"
+				text="Your email or your passwords does not exist"
 				titleModal="SOMETHING IS WRONG"
 				confirmation="Back"
 				classNameEmail="ButtonBlueModal"

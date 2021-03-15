@@ -35,10 +35,6 @@ export const Profile = () => {
 		showModal: false
 	});
 
-	const [show, setShow] = useState(false);
-
-	const handleShow = () => setShow(true);
-
 	//RENDER BUTTONS AND AVATARES\\
 
 	const [addButtonSearch, setAddButtonSearch] = useState(
@@ -168,6 +164,9 @@ export const Profile = () => {
 						titleModal=""
 						confirmation="Back"
 						classNameEmail="ButtonBlueModal"
+						onSend={() => {
+							actions.setSubjectEmail("");
+						}}
 					/>
 				</div>
 			</>
@@ -249,6 +248,9 @@ export const Profile = () => {
 						titleModal=""
 						confirmation="Back"
 						classNameEmail="ButtonBlueModal"
+						onSend={() => {
+							actions.setSubjectEmail("");
+						}}
 					/>
 				</div>
 			</>
