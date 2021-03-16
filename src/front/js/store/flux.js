@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
+					url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
 					{
 						method: "POST",
 						headers: new Headers({
