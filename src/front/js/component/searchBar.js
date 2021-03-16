@@ -16,7 +16,7 @@ export const SearchBar = () => {
 	};
 
 	return (
-		<div className="input-group  searchBarDiv">
+		<div className="input-group searchBarDiv">
 			<input
 				id="name"
 				onKeyPress={e => {

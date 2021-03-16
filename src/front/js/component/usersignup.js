@@ -91,8 +91,8 @@ export const UserSignUp = props => {
 		<div className="signUp_body">
 			<div className="signUp_leftColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0"></div>
 			<div className="signUp_rightColumn col-md-5 col-sm-12">
-				<Link to={"/"}>
-					<i className="fas fa-times" />
+				<Link to={"/"} className="buttonBackSignUp">
+					<i className="fas fa-times iconButtonBack" />
 				</Link>
 				<h2>Sign Up</h2>
 				<h3>Choose your HuMind account</h3>

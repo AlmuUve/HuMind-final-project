@@ -30,7 +30,6 @@ export const Footer = () => {
 							<i className="fab fa-linkedin footer_img" />
 							<i className="fab fa-facebook footer_img" />
 							<i className="fab fa-instagram footer_img" />
-							{/* <i className="fab fa-instagram-square"></i> */}
 							<i className="fab fa-youtube footer_img" />
 							<i className="fab fa-twitter footer_img" />
 						</div>

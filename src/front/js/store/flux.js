@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io";
+const url = "https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -26,18 +26,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		actions: {
 			getSearchResults: async keyword => {
-				let response = await fetch(
-					url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
-					{
-						method: "POST",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							search: keyword
-						})
-					}
-				);
+				let response = await fetch(url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop", {
+					method: "POST",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						search: keyword
+					})
+				});
 				response = await response.json();
 				if (getStore().LoggedUser.is_psychologist) {
 					setStore({ allSearchWorkshops: response });
@@ -47,17 +44,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io/search_workshop").then(async res => {
+				fetch("https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io/search_workshop").then(async res => {
 					const response = await res.json();
 					getStore({ allWorkshops: response });
 				});
 			},
 
 			getWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(async res => {
-					const response = await res.json();
-					setStore({ searchWorkshops: response });
-				});
+				fetch("https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io/user/company/1/workshops").then(
+					async res => {
+						const response = await res.json();
+						setStore({ searchWorkshops: response });
+					}
+				);
 			},
 
 			//FUNCTIONS FOR PATHS PROFILE\\
