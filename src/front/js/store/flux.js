@@ -27,9 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/user/" +
-						getStore().LoggedUser.user_id +
-						"/search_for_workshop",
+					"https://humind.herokuapp.com/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
 					{
 						method: "POST",
 						headers: new Headers({
@@ -56,12 +54,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ searchWorkshops: response });
-					}
-				);
+				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(async res => {
+					const response = await res.json();
+					setStore({ searchWorkshops: response });
+				});
 			},
 
 			//FUNCTIONS FOR PATHS PROFILE\\
@@ -502,16 +498,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			sendEmail: async email => {
 				let response = await fetch(url + "/contact", {
-					method: "PUT",
+					method: "POST",
+					mode: "cors",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
 					body: JSON.stringify({
 						email_from: email.email_from,
 						email_to: getStore().user.email,
 						subject: email.subject,
-						message: email.message
-					}),
-					headers: {
-						"Content-Type": "application/json"
-					}
+						text: email.message
+					})
 				});
 				response = await response.json();
 			}

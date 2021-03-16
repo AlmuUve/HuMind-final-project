@@ -311,19 +311,19 @@ def delete_one_search_workshop(com_id, id):
 
 # CONTACT FORM
 
-@app.route('/contact', methods=['POST']) ## user/id/contact
+@app.route('/contact', methods=['POST']) 
 # @jwt_required()
 def send_email():
     body = request.get_json()
     email_from = body.get("email_from")
     email_to = body.get("email_to")
     subject = body.get("subject")
-    message = body.get("message")
+    text = body.get("text")
     send_simple_message(
        email_from,
        email_to, 
        subject, 
-       message)
+       text)
     return "hemos mandado algo?", 200
 
 #Search Bar
