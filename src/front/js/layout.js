@@ -11,6 +11,7 @@ import { Addworkshop } from "./pages/addworkshop";
 import { Feed } from "./pages/feed";
 import { ViewWorkshopDetail } from "./pages/viewworkshopdetail";
 import { Footer } from "./component/footer";
+import { View404 } from "./pages/404";
 
 const Layout = () => {
 	const basename = process.env.BASENAME || "";
@@ -45,7 +46,7 @@ const Layout = () => {
 						<ViewWorkshopDetail />
 					</Route>
 					<Route>
-						<h1>Not found!</h1>
+						<View404 />
 					</Route>
 				</Switch>
 				<Footer />

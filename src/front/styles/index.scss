@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Oswald&display=swap");
 
+
 /* Color Palette */
 $primary_blue: #47b4d2;
 $secondary_blue: #ECF7FA;
@@ -1123,4 +1124,19 @@ h3{
 
 .ctaWorkshopsNone{
     display: none; 
+}
+
+.page404{
+    position: relative;
+    background-image: url("https://i.imgur.com/DKPFstt.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 45rem;
+    margin-top: 2rem;
+}
+
+.backButton{
+    position: relative;
+    margin: -2rem 0 2rem 0;
 }
