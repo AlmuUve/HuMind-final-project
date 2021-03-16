@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 const pathProfile = "/profile/";
-const url = "https://humind.herokuapp.com";
+const url = "https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://humind.herokuapp.com/user/" +
+					"https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io/user/" +
 						getStore().LoggedUser.user_id +
 						"/search_for_workshop",
 					{
@@ -49,14 +49,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://humind.herokuapp.com/search_workshop").then(async res => {
+				fetch("https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io/search_workshop").then(async res => {
 					const response = await res.json();
 					getStore({ allWorkshops: response });
 				});
 			},
 
 			getWorkshops: () => {
-				fetch("https://humind.herokuapp.com/user/company/1/workshops").then(
+				fetch("https://3001-aqua-cephalopod-wo9z4u3f.ws-eu03.gitpod.io/user/company/1/workshops").then(
 					async res => {
 						const response = await res.json();
 						setStore({ searchWorkshops: response });

@@ -10,6 +10,10 @@ $background_color: #f5f5f5;
     padding: 0;
 }
 
+html{
+    overflow-x: hidden;
+}
+
 /* Fonts */
 $text_font: 'Montserrat', sans-serif;
 $title_font:   'Oswald', sans-serif;
@@ -438,14 +442,10 @@ h3{
 }
 
 .isPsychologist{
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.signUp_psycologist_button:focus{
     outline: none;
     background-image: none;
     background-color: $primary_yellow;
+
 }
 
 .signUp_company_button{
@@ -473,10 +473,6 @@ h3{
 }
 
 .isCompany{
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.signUp_company_button:focus{
     outline: none;
     background-image: none;
     background-color: $primary_blue;
@@ -760,6 +756,7 @@ h3{
 .footer{
     background-color: $text_color;
     color: $background_color;
+    padding-left: 9rem;
 }
 
 .footer_row{
@@ -781,6 +778,12 @@ h3{
 .footerTitle{
     display: flex;
     align-self: flex-start;
+}
+
+.footerTitleConect{
+    display: flex;
+    align-self: flex-start;
+    margin-left: 4rem;
 }
 
 .footer_column_div{
@@ -926,6 +929,14 @@ h3{
     display: flex;
     flex-direction: column;
     text-align: left;
+}
+
+.detailCategory{
+    margin-top: 1rem;
+}
+
+.youTubeVideo{
+    margin-top: 2rem;
 }
 
 .WorkDescription{
