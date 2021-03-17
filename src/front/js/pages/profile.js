@@ -75,6 +75,7 @@ export const Profile = () => {
 		} else {
 			changeViewPills1();
 			changeTextButtonColor2();
+			setTextButton2("disabled");
 		}
 	}, [store.user]);
 
@@ -145,10 +146,12 @@ export const Profile = () => {
 													aria-selected="true"
 													aria-pressed="true"
 													onClick={() => {
-														changeViewPills1();
-														changeTextButtonColor2();
+														if (store.user != null) {
+															changeViewPills1();
+															changeTextButtonColor2();
+														}
 													}}>
-													{store.user ? "SEARCHWORKSHOPS" : "WORKSHOPS"}
+													{store.user ? "SEARCHS" : "WORKSHOPS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -159,8 +162,10 @@ export const Profile = () => {
 													aria-controls="menu2"
 													aria-selected="false"
 													onClick={() => {
-														changeViewPills2();
-														changeTextButtonColor();
+														if (store.user != null) {
+															changeViewPills2();
+															changeTextButtonColor();
+														}
 													}}>
 													CONTACT
 												</button>
@@ -237,10 +242,12 @@ export const Profile = () => {
 													aria-selected="true"
 													aria-pressed="true"
 													onClick={() => {
-														changeViewPills1();
-														changeTextButtonColor2();
+														if (store.user != null) {
+															changeViewPills1();
+															changeTextButtonColor2();
+														}
 													}}>
-													{store.user ? "WORKSHOPS" : "SEARCHWORKSHOPS"}
+													{store.user ? "WORKSHOPS" : "SEARCHS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -251,8 +258,10 @@ export const Profile = () => {
 													aria-controls="menu2"
 													aria-selected="false"
 													onClick={() => {
-														changeViewPills2();
-														changeTextButtonColor();
+														if (store.user != null) {
+															changeViewPills2();
+															changeTextButtonColor();
+														}
 													}}>
 													CONTACT
 												</button>
