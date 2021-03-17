@@ -49,6 +49,8 @@ export const Navbarpage = props => {
 					<NavbarButtons
 						text="Profile"
 						onClickNavbar={() => {
+							actions.setUser(null);
+							actions.setSubjectEmail(null);
 							history.push(
 								store.LoggedUser.is_psychologist
 									? "/profile/" +
@@ -57,7 +59,6 @@ export const Navbarpage = props => {
 											store.LoggedUser.lastname.replace(" ", "_")
 									: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
 							);
-							actions.setUser(null);
 							localStorage.removeItem("userVisited");
 						}}
 					/>
@@ -70,6 +71,7 @@ export const Navbarpage = props => {
 								actions.getAllSearchWorkshops();
 								actions.getAllWorkshops();
 								actions.setUser(null);
+								actions.setSubjectEmail(null);
 							}}
 						/>
 					</Dropdown.ItemText>
@@ -150,12 +152,10 @@ export const Navbarpage = props => {
 				setNavbarAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
 			} else if (store.LoggedUser.id == 3) {
 				setNavbarAvatar(
-					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEWSMfzARBIUA3oobW0k9WNZW6ifFck41q0OaWBFMwhh59AZg5niIQzkrwc56_6oVLFSE&usqp=CAU"
-				);
-			} else {
-				setNavbarAvatar(
 					"https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg"
 				);
+			} else {
+				setNavbarAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
 			}
 		}
 	}, [store.LoggedUser]);

@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const url = "https://3001-amaranth-cheetah-2irn6ly4.ws-eu03.gitpod.io";
+const url = "https://3001-purple-lemming-n1fallyr.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -17,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			password: "",
 			email: "",
 			currentWorkshop: "",
-			subjectEmail: "",
+			subjectEmail: null,
 			wrongLoging: true
 		},
 

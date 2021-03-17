@@ -34,11 +34,9 @@ export const Profiletemplatepsy = props => {
 			} else if (store.user.id == 2) {
 				setAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
 			} else if (store.user.id == 3) {
-				setAvatar(
-					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEWSMfzARBIUA3oobW0k9WNZW6ifFck41q0OaWBFMwhh59AZg5niIQzkrwc56_6oVLFSE&usqp=CAU"
-				);
-			} else {
 				setAvatar("https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg");
+			} else {
+				setAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
 			}
 		}
 	}, [store.user]);
@@ -55,7 +53,7 @@ export const Profiletemplatepsy = props => {
 				setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
 			}
 		}
-	}, [store.user]);
+	}, [store.user, store.LoggedUser]);
 
 	return (
 		<>

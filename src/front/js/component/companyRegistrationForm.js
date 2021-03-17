@@ -43,7 +43,7 @@ export const CompanyRegistrationForm = () => {
 					<div className="row d-flex justify-content-center mb-5">
 						<img
 							className="formAvatar"
-							src="https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+							src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14048.jpg"
 						/>
 					</div>
 					<div className="row">

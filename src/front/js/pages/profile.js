@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../styles/index.scss";
 import { Profiletemplatepsy } from "../component/profilecardpsychologist.jsx";
 import { Profiletemplatecompany } from "../component/profilecardcompany.jsx";
@@ -19,17 +19,14 @@ export const Profile = () => {
 	const [textButton2, setTextButton2] = useState("pillsColor");
 	const [ctaWorkshops, setCtaWorkshops] = useState("ctaWorkshops");
 	const [ctaSearch, setCtaSearch] = useState("ctaWorkshops");
-	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
-		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
-			<YellowButton text="ADD" />
-		</Link>
-	);
+
+	const history = useHistory();
 
 	//LOCALSTORAGE\\
 
-	useEffect(() => {
-		actions.decode();
-	}, []);
+	// useEffect(() => {
+	// 	actions.decode();
+	// }, []);
 
 	//MODAL FUNCTIONS\\
 
@@ -38,6 +35,12 @@ export const Profile = () => {
 	});
 
 	//RENDER BUTTONS AND AVATARES\\
+
+	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
 
 	const [addButtonSearch, setAddButtonSearch] = useState(
 		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
@@ -69,6 +72,9 @@ export const Profile = () => {
 		if (store.user != null) {
 			changeViewPills2();
 			changeTextButtonColor();
+		} else {
+			changeViewPills1();
+			changeTextButtonColor2();
 		}
 	}, [store.user]);
 
@@ -76,6 +82,19 @@ export const Profile = () => {
 		if (store.user != null) {
 			setAddButtonWorkshop("");
 			setAddButtonSearch("");
+		} else {
+			setAddButtonWorkshop(
+				<Link
+					className="addWorkshop"
+					to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+					<YellowButton text="ADD" />
+				</Link>
+			);
+			setAddButtonSearch(
+				<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
+					<YellowButton text="ADD" />
+				</Link>
+			);
 		}
 	}, [store.user]);
 
@@ -185,10 +204,11 @@ export const Profile = () => {
 						onClosed={() => setState({ showModal: false })}
 						text="Your email has been succesfully send"
 						titleModal=""
-						confirmation="Back"
+						confirmation="Go Feed"
 						classNameEmail="ButtonBlueModal"
 						onSend={() => {
-							actions.setSubjectEmail("");
+							history.push("/feed");
+							actions.setSubjectEmail(null);
 						}}
 					/>
 				</div>
@@ -277,10 +297,11 @@ export const Profile = () => {
 						onClosed={() => setState({ showModal: false })}
 						text="Your email has been succesfully send"
 						titleModal=""
-						confirmation="Back"
+						confirmation="Go Feed"
 						classNameEmail="ButtonBlueModal"
 						onSend={() => {
-							actions.setSubjectEmail("");
+							history.push("/feed");
+							actions.setSubjectEmail(null);
 						}}
 					/>
 				</div>

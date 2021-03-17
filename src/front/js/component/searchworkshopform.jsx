@@ -129,7 +129,7 @@ export const Searchworkshopform = () => {
 								inputChange(e);
 								// settitle(e.target.value);
 							}}
-							placeholder="In minutes"
+							placeholder="Title"
 							name="title"
 							id="title"
 							defaultValue={store.currentWorkshop ? store.currentWorkshop.title : ""}

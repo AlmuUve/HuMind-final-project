@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import React, { useContext, useState, Fragment, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -35,7 +35,7 @@ export const Email = props => {
 							placeholder="Type your subject here..."
 							name="subject"
 							id="subjecte"
-							defaultValue={store.subjectEmail}
+							defaultValue={store.subjectEmail ? store.subjectEmail : ""}
 							required
 						/>
 					</div>
@@ -64,8 +64,7 @@ export const Email = props => {
 							e.preventDefault();
 							props.onClickEmail();
 							actions.sendEmail(email);
-							actions.setSubjectEmail("");
-							setEmail("");
+							actions.setSubjectEmail(null);
 						}}
 					/>
 				</div>
@@ -74,5 +73,6 @@ export const Email = props => {
 	);
 };
 Email.propTypes = {
-	onClickEmail: PropTypes.func
+	onClickEmail: PropTypes.func,
+	subject: PropTypes.string
 };

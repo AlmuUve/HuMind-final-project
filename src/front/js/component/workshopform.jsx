@@ -206,7 +206,7 @@ export const Workshopform = () => {
 								inputChange(e);
 								setDuration(e.target.value);
 							}}
-							placeholder="In minutes"
+							placeholder="In hours"
 							name="duration"
 							id="duration"
 							defaultValue={store.currentWorkshop ? store.currentWorkshop.duration : ""}
