@@ -8,11 +8,18 @@ import "../../styles/home.scss";
 export const Email = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState({
-		email_from: store.LoggedUser.name + " " + store.LoggedUser.lastname + "from HUMIND, <" + store.LoggedUser.email + ">",
+		email_from: name + "from HUMIND, <" + store.LoggedUser.email + ">",
 		email_to: "",
 		subject: store.subjectEmail,
 		message: ""
-	});
+    });
+    const [name, setName] = useState("");
+    
+    useEffect(() => {
+		store.LoggedUser.is_psychologist
+			? setName(toUpperCase(store.LoggedUser.name) + " " + toUpperCase(store.LoggedUser.lastname))
+			: setName(toUpperCase(store.LoggedUser.company_name));
+	}, [store.LoggedUser]);
 
 	const inputChange = event => {
 		setEmail({ ...email, [event.target.name]: event.target.value });
