@@ -139,7 +139,7 @@ def update_users(id):
         return jsonify(user_comp.to_dict())
 
 @app.route('/user/<int:id>', methods=['DELETE']) 
-@jwt_required()
+#@jwt_required()
 def delete_one_user(id):
     user_target = User.delete(id)
     return "Your profile has been deleted", 200
