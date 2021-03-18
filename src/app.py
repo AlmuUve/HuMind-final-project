@@ -296,7 +296,7 @@ def update_workshop(psy_id, id):
     return jsonify(new_workshop.to_dict())
   
 @app.route('/psychologist/<int:psy_id>/workshop/<int:id>', methods=['DELETE'])
-@jwt_required()
+#@jwt_required()
 def delete_one_workshop(psy_id, id):
     workshop = Workshop.get_by_id(id)
     workshop.delete()
