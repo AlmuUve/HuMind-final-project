@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { Context } from "../store/appContext";
@@ -7,8 +7,11 @@ import { YellowButton } from "./yellowButton";
 import { Categorylabel } from "./categorylabel";
 import { Profilefeed } from "../component/FeedComponent/profilefeed.jsx";
 
+import "../../styles/index.scss";
+
 export const WorkshopDetail = () => {
 	const { actions, store } = useContext(Context);
+	const [avatar, setAvatar] = useState("");
 	const history = useHistory();
 
 	let workshopDetailCategory =
@@ -18,16 +21,31 @@ export const WorkshopDetail = () => {
 			  })
 			: "loading";
 
+	useEffect(() => {
+		if (store.user) {
+			if (store.user.id == 1) {
+				setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg");
+			} else if (store.user.id == 2) {
+				setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg");
+			} else if (store.user.id == 3) {
+				setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14046.jpg");
+			} else {
+				setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
+			}
+		}
+	}, [store.user]);
+
 	return (
 		<div className="container-fluid workshopDetail row">
 			<Profilefeed />
 			<div className="workshopDetailCard col-md-7 col-xs-12">
-				<Link to={"/"}>
+				<Link to={"/feed"}>
 					<i className="fas fa-times crossButton" />
 				</Link>
-				<p className="workshopTitle">
+				<div className="ownerWorkshop d-flex flex-direction-wrap align-items-center">
+					<img className="avatarWorkshop" src={avatar} />
 					{store.workshop.owner_name} {store.workshop.owner_lastname} {store.workshop.title}
-				</p>
+				</div>
 				<div className="workshopDetailDetails">
 					<div className="bodyWorkshop">
 						<p>Date: {store.workshop.date}</p>
@@ -49,6 +67,7 @@ export const WorkshopDetail = () => {
 							text="Contact"
 							onClickForm={() => {
 								actions.setSubjectEmail(store.workshop.title);
+								actions.getWorkshops(store.user.id);
 								history.push("/profile/" + store.user.name);
 							}}
 						/>

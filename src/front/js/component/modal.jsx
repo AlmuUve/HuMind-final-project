@@ -60,5 +60,5 @@ Modal.propTypes = {
 	titleModal: PropTypes.string,
 	confirmation: PropTypes.string,
 	classNameEmail: PropTypes.string,
-	onSend: PropTypes.string
+	onSend: PropTypes.func
 };

@@ -24,7 +24,7 @@ export const Searchworkshops = props => {
 			setAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
 		} else if (props.item.user_company_id == 3) {
 			setAvatar("https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg");
-		} else if (store.LoggedUser.id == 4) {
+		} else {
 			setAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
 		}
 	}, []);

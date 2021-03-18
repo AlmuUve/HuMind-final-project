@@ -68,5 +68,5 @@ Modaldelete.propTypes = {
 	classNameEmail: PropTypes.string,
 	getMeBack: PropTypes.string,
 	classNameBack: PropTypes.string,
-	onClickDelete: PropTypes.string
+	onClickDelete: PropTypes.func
 };

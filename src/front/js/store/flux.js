@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const url = "https://humind.herokuapp.com";
+const url = "https://3001-bronze-marmot-s1vgikxt.ws-eu03.gitpod.io";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -18,7 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			email: "",
 			currentWorkshop: "",
 			subjectEmail: null,
-			wrongLoging: true
+			wrongLoging: true,
+			nameEmail: ""
 		},
 
 		actions: {
@@ -480,6 +481,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			sendEmail: async email => {
+				getStore().LoggedUser.is_psychologist
+					? setStore({ nameEmail: getStore().LoggedUser.name + " " + getStore().LoggedUser.lastname })
+					: setStore({ nameEmail: getStore().LoggedUser.company_name });
 				let response = await fetch(url + "/contact", {
 					method: "POST",
 					mode: "cors",
@@ -487,7 +491,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					}),
 					body: JSON.stringify({
-						email_from: email.email_from,
+						email_from: getStore().nameEmail + email.email_from,
 						email_to: getStore().user.email,
 						subject: email.subject,
 						text: email.message

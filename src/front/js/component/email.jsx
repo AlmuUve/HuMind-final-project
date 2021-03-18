@@ -8,7 +8,7 @@ import "../../styles/home.scss";
 export const Email = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState({
-		email_from: store.LoggedUser.name + " " + store.LoggedUser.lastname + "from HUMIND, <" + store.LoggedUser.email + ">",
+		email_from: " from HUMIND, <" + store.LoggedUser.email + ">",
 		email_to: "",
 		subject: store.subjectEmail,
 		message: ""
