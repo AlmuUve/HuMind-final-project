@@ -14,8 +14,6 @@ export const Feed = () => {
 		actions.decode();
 	}, []);
 
-	console.log(store.allWorkshops);
-
 	let listAllWorkshops = store.allWorkshops.map((item, index) => {
 		return <Workshops item={item} key={index.toString()} />;
 	});

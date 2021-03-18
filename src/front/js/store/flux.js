@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const url = "https://3001-bronze-marmot-s1vgikxt.ws-eu03.gitpod.io";
+const url = "https://humind.herokuapp.com";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -39,7 +39,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} else {
 					setStore({ allWorkshops: response });
 				}
-				console.log(getStore().allWorkshops);
 			},
 
 			getAllWorkshops: () => {
