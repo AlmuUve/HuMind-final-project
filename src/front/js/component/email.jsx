@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import React, { useContext, useState, Fragment, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -8,11 +8,18 @@ import "../../styles/home.scss";
 export const Email = props => {
 	const { actions, store } = useContext(Context);
 	const [email, setEmail] = useState({
-		email_from: store.LoggedUser.name + " " + store.LoggedUser.lastname + ", <" + store.LoggedUser.email + ">",
+		email_from: name + "from HUMIND, <" + store.LoggedUser.email + ">",
 		email_to: "",
 		subject: store.subjectEmail,
 		message: ""
-	});
+    });
+    const [name, setName] = useState("");
+    
+    useEffect(() => {
+		store.LoggedUser.is_psychologist
+			? setName(toUpperCase(store.LoggedUser.name) + " " + toUpperCase(store.LoggedUser.lastname))
+			: setName(toUpperCase(store.LoggedUser.company_name));
+	}, [store.LoggedUser]);
 
 	const inputChange = event => {
 		setEmail({ ...email, [event.target.name]: event.target.value });
@@ -35,7 +42,7 @@ export const Email = props => {
 							placeholder="Type your subject here..."
 							name="subject"
 							id="subjecte"
-							defaultValue={store.subjectEmail}
+							defaultValue={store.subjectEmail ? store.subjectEmail : ""}
 							required
 						/>
 					</div>
@@ -64,8 +71,7 @@ export const Email = props => {
 							e.preventDefault();
 							props.onClickEmail();
 							actions.sendEmail(email);
-							actions.setSubjectEmail("");
-							setEmail("");
+							actions.setSubjectEmail(null);
 						}}
 					/>
 				</div>
@@ -74,5 +80,6 @@ export const Email = props => {
 	);
 };
 Email.propTypes = {
-	onClickEmail: PropTypes.func
+	onClickEmail: PropTypes.func,
+	subject: PropTypes.string
 };

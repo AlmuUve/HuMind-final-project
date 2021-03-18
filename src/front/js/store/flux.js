@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const pathProfile = "/profile/";
-const url = "https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io";
+const url = "https://humind.herokuapp.com";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -17,10 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			LoggedUser: {},
 			password: "",
 			email: "",
-			pathProfilePsychologist: "",
-			pathProfileCompany: "",
 			currentWorkshop: "",
-			subjectEmail: "",
+			subjectEmail: null,
 			wrongLoging: true
 		},
 
@@ -44,19 +41,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io/search_workshop").then(async res => {
+				fetch(url + "/search_workshop").then(async res => {
 					const response = await res.json();
 					getStore({ allWorkshops: response });
 				});
 			},
 
 			getWorkshops: () => {
-				fetch("https://3001-bronze-goldfish-l7dx6xee.ws-eu03.gitpod.io/user/company/1/workshops").then(
-					async res => {
-						const response = await res.json();
-						setStore({ searchWorkshops: response });
-					}
-				);
+				fetch(url + "/user/company/1/workshops").then(async res => {
+					const response = await res.json();
+					setStore({ searchWorkshops: response });
+				});
 			},
 
 			//FUNCTIONS FOR PATHS PROFILE\\
@@ -267,18 +262,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let token = await response.json();
 					localStorage.setItem("token", token.token);
 					getActions().decode();
-					if (getStore().LoggedUser.is_psychologist) {
-						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
-						getActions().setpathProfilePsychologist(
-							getStore().LoggedUser.name.replace(" ", "_"),
-							getStore().LoggedUser.lastname.replace(" ", "_")
-						);
-						getActions().getWorkshops(getStore().LoggedUser.id);
-					} else {
-						localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
-						getActions().setpathProfileCompany(getStore().LoggedUser.company_name.replace(" ", "_"));
-						getActions().getSearchWorkshops(getStore().LoggedUser.id);
-					}
+					localStorage.setItem("loggedUser", JSON.stringify(getStore().LoggedUser));
 				} catch {
 					setStore({ wrongLoging: false });
 				}
@@ -460,6 +444,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteProfile: async id => {
+				getActions().logout();
 				let response = await fetch(url + "/user/" + id, {
 					method: "DELETE",
 					headers: new Headers({
@@ -468,7 +453,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				});
 				response = await response.json();
-				getActions().logout();
 			},
 
 			deleteWorkshop: async (workshop, idPsy) => {

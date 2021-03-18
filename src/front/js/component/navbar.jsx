@@ -5,11 +5,15 @@ import { Navbar, Container, Nav, DropdownButton, Dropdown, Button } from "react-
 import "../../styles/index.scss";
 import { NavbarButtons } from "./navbarbuttons.jsx";
 import { SearchBar } from "../component/searchBar";
+import { Modaldelete } from "./modaldelete.jsx";
 
 export const Navbarpage = props => {
 	const [navbarAvatar, setNavbarAvatar] = useState("");
 	const { store, actions } = useContext(Context);
 	const [navbar, setNavbar] = useState();
+	const [state, setState] = useState({
+		showModal: false
+	});
 
 	const history = useHistory();
 
@@ -45,6 +49,8 @@ export const Navbarpage = props => {
 					<NavbarButtons
 						text="Profile"
 						onClickNavbar={() => {
+							actions.setUser(null);
+							actions.setSubjectEmail(null);
 							history.push(
 								store.LoggedUser.is_psychologist
 									? "/profile/" +
@@ -53,7 +59,6 @@ export const Navbarpage = props => {
 											store.LoggedUser.lastname.replace(" ", "_")
 									: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
 							);
-							actions.setUser(null);
 							localStorage.removeItem("userVisited");
 						}}
 					/>
@@ -66,6 +71,7 @@ export const Navbarpage = props => {
 								actions.getAllSearchWorkshops();
 								actions.getAllWorkshops();
 								actions.setUser(null);
+								actions.setSubjectEmail(null);
 							}}
 						/>
 					</Dropdown.ItemText>
@@ -100,6 +106,14 @@ export const Navbarpage = props => {
 						/>
 					</Dropdown.ItemText>
 				</Link>
+				<Dropdown.ItemText className="buttonDropDownDelete">
+					<NavbarButtons
+						text="Danger Zone"
+						onClickNavbar={() => {
+							setState({ showModal: true });
+						}}
+					/>
+				</Dropdown.ItemText>
 			</DropdownButton>
 		</Nav>
 	);
@@ -138,12 +152,10 @@ export const Navbarpage = props => {
 				setNavbarAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
 			} else if (store.LoggedUser.id == 3) {
 				setNavbarAvatar(
-					"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEWSMfzARBIUA3oobW0k9WNZW6ifFck41q0OaWBFMwhh59AZg5niIQzkrwc56_6oVLFSE&usqp=CAU"
-				);
-			} else {
-				setNavbarAvatar(
 					"https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg"
 				);
+			} else {
+				setNavbarAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
 			}
 		}
 	}, [store.LoggedUser]);
@@ -163,6 +175,21 @@ export const Navbarpage = props => {
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="basic-navbar-nav">{navbar}</Navbar.Collapse>
 					</Container>
+					<Modaldelete
+						show={state.showModal}
+						text="You are very close to leave the colest platform in the world"
+						getMeBack="GO BACK"
+						titleModal="Be careful! You may not be able to get back in."
+						confirmation="DO IT!"
+						classNameEmail="ButtonBlue"
+						classNameBack="ButtonBlueModal"
+						onClickDelete={() => {
+							setState({ showModal: false });
+							actions.deleteProfile(store.LoggedUser.user_id);
+							history.push("/");
+						}}
+						onClosed={() => setState({ showModal: false })}
+					/>
 				</Navbar>
 			</div>
 		</>

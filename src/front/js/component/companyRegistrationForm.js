@@ -41,7 +41,7 @@ export const CompanyRegistrationForm = () => {
 					<div className="row d-flex justify-content-center mb-5">
 						<img
 							className="formAvatar"
-							src="https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+							src="https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14048.jpg"
 						/>
 					</div>
 					<div className="row">
@@ -51,10 +51,7 @@ export const CompanyRegistrationForm = () => {
 							</label>
 							<input
 								type="text"
-								onChange={e => {
-									inputChange(e);
-									actions.setpathProfileCompany(e.target.value);
-								}}
+								onChange={inputChange}
 								className="workshopInput form-control"
 								placeholder="Enter Your Company Name Here"
 								name="company_name"
@@ -172,7 +169,7 @@ export const CompanyRegistrationForm = () => {
 						</div>
 					</div>
 					<div className="row d-flex justify-content-center mb-5">
-						<Link to={store.pathProfileCompany}>
+						<Link to={"/profile/" + user.company_name.replace(" ", "_")}>
 							<YellowButton
 								type="submit"
 								text="Submit"

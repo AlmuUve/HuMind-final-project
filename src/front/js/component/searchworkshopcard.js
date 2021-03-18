@@ -6,10 +6,14 @@ import PropTypes from "prop-types";
 import { YellowButton } from "./yellowButton.js";
 import { EditButton } from "./editButton.js";
 import { DeleteButton } from "./deleteButton.js";
+import { Modaldelete } from "./modaldelete.jsx";
 
 export const SearchWorkshopCard = props => {
 	const { actions, store } = useContext(Context);
 	const [editAndDeleteButton, setEditAndDeleteButton] = useState();
+	const [state, setState] = useState({
+		showModal: false
+	});
 
 	useEffect(() => {
 		store.user != null
@@ -24,10 +28,7 @@ export const SearchWorkshopCard = props => {
 								}}
 							/>
 						</Link>
-						<DeleteButton
-							className="deleteButton"
-							onClickDelete={() => actions.deleteSearchWorkshop(props.item, store.LoggedUser.id)}
-						/>
+						<DeleteButton className="deleteButton" onClickDelete={() => setState({ showModal: true })} />
 					</div>
 			  );
 	}, [store.user]);
@@ -49,6 +50,20 @@ export const SearchWorkshopCard = props => {
 					<p className="categoryLabelSearch">{props.item.category}</p>
 				</div>
 			</div>
+			<Modaldelete
+				show={state.showModal}
+				text={"I would like to delete my " + props.item.title + " search"}
+				titleModal="Are you sure?"
+				confirmation="DO IT!"
+				getMeBack="GO BACK"
+				classNameEmail="ButtonBlue"
+				classNameBack="ButtonBlueModal"
+				onClickDelete={() => {
+					setState({ showModal: false });
+					actions.deleteSearchWorkshop(props.item, store.LoggedUser.id);
+				}}
+				onClosed={() => setState({ showModal: false })}
+			/>
 		</>
 	);
 };

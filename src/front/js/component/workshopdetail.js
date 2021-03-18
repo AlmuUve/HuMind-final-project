@@ -9,7 +9,6 @@ import { Profilefeed } from "../component/FeedComponent/profilefeed.jsx";
 
 export const WorkshopDetail = () => {
 	const { actions, store } = useContext(Context);
-
 	const history = useHistory();
 
 	let workshopDetailCategory =
@@ -61,6 +60,5 @@ export const WorkshopDetail = () => {
 };
 
 WorkshopDetail.propTypes = {
-	// item: PropTypes.object,
 	yellowButtonText: PropTypes.string
 };

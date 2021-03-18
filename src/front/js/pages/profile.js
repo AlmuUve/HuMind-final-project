@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "../../styles/index.scss";
 import { Profiletemplatepsy } from "../component/profilecardpsychologist.jsx";
 import { Profiletemplatecompany } from "../component/profilecardcompany.jsx";
@@ -17,11 +17,10 @@ export const Profile = () => {
 	const [active2, setActive2] = useState("");
 	const [textButton, setTextButton] = useState("pillsButtons");
 	const [textButton2, setTextButton2] = useState("pillsColor");
-	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
-		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
-			<YellowButton text="ADD" />
-		</Link>
-	);
+	const [ctaWorkshops, setCtaWorkshops] = useState("ctaWorkshops");
+	const [ctaSearch, setCtaSearch] = useState("ctaWorkshops");
+
+	const history = useHistory();
 
 	//LOCALSTORAGE\\
 
@@ -35,11 +34,13 @@ export const Profile = () => {
 		showModal: false
 	});
 
-	const [show, setShow] = useState(false);
-
-	const handleShow = () => setShow(true);
-
 	//RENDER BUTTONS AND AVATARES\\
+
+	const [addButtonWorkshop, setAddButtonWorkshop] = useState(
+		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+			<YellowButton text="ADD" />
+		</Link>
+	);
 
 	const [addButtonSearch, setAddButtonSearch] = useState(
 		<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
@@ -71,6 +72,10 @@ export const Profile = () => {
 		if (store.user != null) {
 			changeViewPills2();
 			changeTextButtonColor();
+		} else {
+			changeViewPills1();
+			changeTextButtonColor2();
+			setTextButton2("disabled");
 		}
 	}, [store.user]);
 
@@ -78,8 +83,35 @@ export const Profile = () => {
 		if (store.user != null) {
 			setAddButtonWorkshop("");
 			setAddButtonSearch("");
+		} else {
+			setAddButtonWorkshop(
+				<Link
+					className="addWorkshop"
+					to={"/add_workshop/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname}>
+					<YellowButton text="ADD" />
+				</Link>
+			);
+			setAddButtonSearch(
+				<Link className="addWorkshop" to={"/add_workshop/" + store.LoggedUser.company_name}>
+					<YellowButton text="ADD" />
+				</Link>
+			);
 		}
 	}, [store.user]);
+
+	// CRETE "CTA" MESSAGE \\
+
+	useEffect(() => {
+		if (store.workshops.length > 0) {
+			setCtaWorkshops("ctaWorkshopsNone");
+		}
+	}, [store.workshops]);
+
+	useEffect(() => {
+		if (store.searchWorkshops.length > 0) {
+			setCtaSearch("ctaWorkshopsNone");
+		}
+	}, [store.searchWorkshops]);
 
 	//MAPING WORKSHOPS\\
 
@@ -114,10 +146,12 @@ export const Profile = () => {
 													aria-selected="true"
 													aria-pressed="true"
 													onClick={() => {
-														changeViewPills1();
-														changeTextButtonColor2();
+														if (store.user != null) {
+															changeViewPills1();
+															changeTextButtonColor2();
+														}
 													}}>
-													{store.user ? "SEARCHWORKSHOPS" : "WORKSHOPS"}
+													{store.user ? "SEARCHS" : "WORKSHOPS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -128,8 +162,10 @@ export const Profile = () => {
 													aria-controls="menu2"
 													aria-selected="false"
 													onClick={() => {
-														changeViewPills2();
-														changeTextButtonColor();
+														if (store.user != null) {
+															changeViewPills2();
+															changeTextButtonColor();
+														}
 													}}>
 													CONTACT
 												</button>
@@ -145,6 +181,13 @@ export const Profile = () => {
 										aria-labelledby="home-tab">
 										{addButtonWorkshop}
 										{store.user ? listSearchWorkshops : userWorkshops}
+										<div className={ctaWorkshops}>
+											<h5 className="ctaTitle">Please publish your first workshop!</h5>
+											<p className="ctaP">
+												This way you will get more visibility and companies will be able to
+												contact you via email. (use ADD button)
+											</p>
+										</div>
 									</div>
 									<div
 										className={"tab-pane " + active2}
@@ -166,8 +209,12 @@ export const Profile = () => {
 						onClosed={() => setState({ showModal: false })}
 						text="Your email has been succesfully send"
 						titleModal=""
-						confirmation="Back"
+						confirmation="Go Feed"
 						classNameEmail="ButtonBlueModal"
+						onSend={() => {
+							history.push("/feed");
+							actions.setSubjectEmail(null);
+						}}
 					/>
 				</div>
 			</>
@@ -195,10 +242,12 @@ export const Profile = () => {
 													aria-selected="true"
 													aria-pressed="true"
 													onClick={() => {
-														changeViewPills1();
-														changeTextButtonColor2();
+														if (store.user != null) {
+															changeViewPills1();
+															changeTextButtonColor2();
+														}
 													}}>
-													{store.user ? "WORKSHOPS" : "SEARCHWORKSHOPS"}
+													{store.user ? "WORKSHOPS" : "SEARCHS"}
 												</button>
 											</li>
 											<li className="nav-item">
@@ -209,8 +258,10 @@ export const Profile = () => {
 													aria-controls="menu2"
 													aria-selected="false"
 													onClick={() => {
-														changeViewPills2();
-														changeTextButtonColor();
+														if (store.user != null) {
+															changeViewPills2();
+															changeTextButtonColor();
+														}
 													}}>
 													CONTACT
 												</button>
@@ -226,6 +277,14 @@ export const Profile = () => {
 										aria-labelledby="home-tab">
 										{addButtonSearch}
 										{store.user ? userWorkshops : listSearchWorkshops}
+										<div className={ctaSearch}>
+											<h5 className="ctaTitle">Post your first search!</h5>
+											<p className="ctaP">
+												Remember that you can also create ads on the topic you are interested
+												in. This way psychologists will be able to contact you via email. (use
+												ADD button)
+											</p>
+										</div>
 									</div>
 									<div
 										className={"tab-pane " + active2}
@@ -247,8 +306,12 @@ export const Profile = () => {
 						onClosed={() => setState({ showModal: false })}
 						text="Your email has been succesfully send"
 						titleModal=""
-						confirmation="Back"
+						confirmation="Go Feed"
 						classNameEmail="ButtonBlueModal"
+						onSend={() => {
+							history.push("/feed");
+							actions.setSubjectEmail(null);
+						}}
 					/>
 				</div>
 			</>
