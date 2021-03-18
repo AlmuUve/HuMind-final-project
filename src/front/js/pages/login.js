@@ -3,7 +3,6 @@ import { Context } from "../store/appContext";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../../styles/index.scss";
-
 import { Modal } from "../component/modal.jsx";
 
 export const UserLogIn = props => {
@@ -29,9 +28,9 @@ export const UserLogIn = props => {
 		<div className="logIn_body d-flex justify-content-center ">
 			<div className="logIn_lefttColumn col-md-5 col-sm-12">
 				<Link to={"/"} className="buttonBackLogin">
-					<i className="fas fa-times" />
+					<i className="fas fa-times iconButtonBack" />
 				</Link>
-				<h2>Log In</h2>
+				<h2 className="logInTitle">Log In</h2>
 				<h3>Use your HuMind account</h3>
 				<form className="logIn_form">
 					<label className="logIn_label_email">Email address:</label>
@@ -67,7 +66,7 @@ export const UserLogIn = props => {
 					</Link>
 				</form>
 			</div>
-			<div className="logIn_rightColumn col-md-2 col-sm-0 "></div>
+			<div className="logIn_rightColumn col-md-3 col-sm-0 "></div>
 			<Modal
 				show={state.showModal}
 				onClosed={() => {

@@ -13,7 +13,6 @@ export const UserSignUp = props => {
 		isPsychologist: "isPsychologistOff",
 		isCompany: "isCompanyOff"
 	});
-	const [show, setShow] = useState("notShow");
 	const [showError, setShowError] = useState("notShowError");
 
 	const [email, setEmail] = useState(null);
@@ -54,10 +53,8 @@ export const UserSignUp = props => {
 
 	const checkEmail = (value, input) => {
 		let myRegexEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		if (value != null) {
-			if (value.length > 0 && myRegexEmail) {
-				isValid(input);
-			}
+		if (value.length > 0 && myRegexEmail.test(value) && value != null) {
+			isValid(input);
 		} else {
 			isInvalid(input);
 			isInvalidList.push(value);
@@ -66,11 +63,11 @@ export const UserSignUp = props => {
 
 	const checkPassword = (value, input) => {
 		let myRegexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-		if (value != null) {
-			if (value > 0 && myRegexPassword) {
-				isValid(input);
-			}
+		if (value.length > 0 && myRegexPassword.test(value) && value != null) {
+			console.log("@@@@@@@@@@@@@@");
+			isValid(input);
 		} else {
+			console.log(value, myRegexPassword.test(value));
 			isInvalid(input);
 			isInvalidList.push(value);
 		}
@@ -94,8 +91,8 @@ export const UserSignUp = props => {
 		<div className="signUp_body">
 			<div className="signUp_leftColumn offset-md-2 col-md-3 offset-sm-0 col-sm-0"></div>
 			<div className="signUp_rightColumn col-md-5 col-sm-12">
-				<Link to={"/"}>
-					<i className="fas fa-times" />
+				<Link to={"/"} className="buttonBackSignUp">
+					<i className="fas fa-times iconButtonBack" />
 				</Link>
 				<h2>Sign Up</h2>
 				<h3>Choose your HuMind account</h3>

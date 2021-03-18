@@ -5,7 +5,7 @@ export const Footer = () => {
 	return (
 		<Fragment>
 			<div className="container-fluid footer">
-				<div className="row  footer_row">
+				<div className="row p-0 py-5">
 					<div className="col-md-12 col-lg-3 footer_column">
 						<h2 className="footerTitle">HuMind</h2>
 						<div className="footer_column_div">
@@ -25,12 +25,11 @@ export const Footer = () => {
 						</div>
 					</div>
 					<div className="col-md-12 col-lg-3 footer_column">
-						<h2 className="footerTitle">Conecta</h2>
+						<h2 className="footerTitleConect">Conecta</h2>
 						<div className="footer_column_img">
 							<i className="fab fa-linkedin footer_img" />
 							<i className="fab fa-facebook footer_img" />
-							{/* <i className="fab fa-instagram footer_img" /> */}
-							<i className="fab fa-instagram-square"></i>
+							<i className="fab fa-instagram footer_img" />
 							<i className="fab fa-youtube footer_img" />
 							<i className="fab fa-twitter footer_img" />
 						</div>

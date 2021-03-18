@@ -23,18 +23,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		actions: {
 			getSearchResults: async keyword => {
-				let response = await fetch(
-					url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
-					{
-						method: "POST",
-						headers: new Headers({
-							"Content-Type": "application/json"
-						}),
-						body: JSON.stringify({
-							search: keyword
-						})
-					}
-				);
+				let response = await fetch(url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop", {
+					method: "POST",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
+					body: JSON.stringify({
+						search: keyword
+					})
+				});
 				response = await response.json();
 				if (getStore().LoggedUser.is_psychologist) {
 					setStore({ allSearchWorkshops: response });

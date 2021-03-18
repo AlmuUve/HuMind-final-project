@@ -29,21 +29,30 @@ export const WorkshopDetail = () => {
 					{store.workshop.owner_name} {store.workshop.owner_lastname} {store.workshop.title}
 				</p>
 				<div className="workshopDetailDetails">
-					<p>{workshopDetailCategory}</p>
 					<div className="bodyWorkshop">
 						<p>Date: {store.workshop.date}</p>
 						<p>Duration: {store.workshop.duration}</p>
 						<p>Pax: {store.workshop.max_people}</p>
 						<p>Description: {store.workshop.description}</p>
-						<iframe width="420" height="315" src="https://youtu.be/N6pji9kEO10"></iframe>
 					</div>
-					<YellowButton
-						text="Contact"
-						onClickForm={() => {
-							actions.setSubjectEmail(store.workshop.title);
-							history.push("/profile/" + store.user.name);
-						}}
-					/>
+					<p className="detailCategory">{workshopDetailCategory}</p>
+					<iframe
+						width="560"
+						height="315"
+						className="youTubeVideo"
+						src="https://www.youtube.com/embed/F-W3SFUUq4o"
+						frameBorder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowFullScreen></iframe>
+					<div className="d-flex justify-content-center pt-5">
+						<YellowButton
+							text="Contact"
+							onClickForm={() => {
+								actions.setSubjectEmail(store.workshop.title);
+								history.push("/profile/" + store.user.name);
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

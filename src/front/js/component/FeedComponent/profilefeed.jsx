@@ -50,7 +50,7 @@ export const Profilefeed = () => {
 	}, [store.LoggedUser]);
 
 	return (
-		<div className="col-lg-3 col-sm-12 profileFeed">
+		<div className="col-lg-4 col-sm-12 profileFeed">
 			<div className="imgProfileFeed">
 				<img className="avatar" src={avatar} />
 			</div>

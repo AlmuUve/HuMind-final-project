@@ -6,9 +6,15 @@ $primary_blue: #47b4d2;
 $secondary_blue: #ECF7FA;
 $primary_yellow: #FEE440;
 $text_color: #231F20;
-$background_color: #f5f5f5;
+// $background_color: #f5f5f5;
+$background_color: rgb(238, 243, 245);
+
 .container-fluid{
     padding: 0;
+}
+
+html{
+    overflow-x: hidden;
 }
 
 /* Fonts */
@@ -274,8 +280,13 @@ h3{
 
 .templateWorkshop {
     border: 1px solid $background_color;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1rem;
+    margin-right: 1rem;
     margin: 1rem 0 1rem 0;
+}
+
+div.templateWorkshop {
+    margin-right: 0.5rem;
 }
 
 .ownerWorkshop {
@@ -357,13 +368,12 @@ h3{
 
 .profileFeed {
     background-color: $background_color;
-    margin-top: 1rem;
 }
 
 .imgProfileFeed{
     display: flex;
     justify-content: center; 
-    margin-top: 1rem;
+    margin-top: 2.5rem;
 }
 
 .bodyCardFeed {
@@ -446,14 +456,10 @@ h3{
 }
 
 .isPsychologist{
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.signUp_psycologist_button:focus{
     outline: none;
     background-image: none;
     background-color: $primary_yellow;
+
 }
 
 .signUp_company_button{
@@ -481,10 +487,6 @@ h3{
 }
 
 .isCompany{
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.signUp_company_button:focus{
     outline: none;
     background-image: none;
     background-color: $primary_blue;
@@ -559,6 +561,10 @@ h3{
     background-color: #288aa5;
 }
 
+.buttonBackSignUp:hover{
+    text-decoration: none;
+}
+
 @media (max-width: 768px) {
     .signUp_label_email {
         margin-left: 0;
@@ -588,9 +594,13 @@ h3{
 }
 
 @media (max-width: 768px) {
-    .signUp_body {
+    .logIn_body {
         flex-direction: column;
     }
+}
+
+.logInTitle{
+    margin-top: 1.5rem;
 }
 
 .logIn_rightColumn{
@@ -622,10 +632,18 @@ h3{
     justify-content: left;
 }
 
+.buttonBackLogin:hover{
+    text-decoration: none;
+}
+
+.iconButtonBack{
+    color: $secondary_blue;
+}
+
 .logIn_form{
     display: flex;
     flex-direction: column;
-    margin-top: 2rem;
+    margin-top: 3.5rem;
 }
 
 .logIn_label_email{
@@ -654,8 +672,8 @@ h3{
 }
 
 .logIn_submit{
-    margin-top: 3rem;
-    margin-bottom: 2rem;
+    margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
     margin-left: 3rem;
     margin-right: 3rem;
     border: none;
@@ -767,6 +785,7 @@ h3{
 .footer{
     background-color: $text_color;
     color: $background_color;
+    padding-left: 9rem;
 }
 
 .footer_row{
@@ -788,6 +807,12 @@ h3{
 .footerTitle{
     display: flex;
     align-self: flex-start;
+}
+
+.footerTitleConect{
+    display: flex;
+    align-self: flex-start;
+    margin-left: 4rem;
 }
 
 .footer_column_div{
@@ -935,6 +960,14 @@ h3{
     text-align: left;
 }
 
+.detailCategory{
+    margin-top: 1rem;
+}
+
+.youTubeVideo{
+    margin-top: 2rem;
+}
+
 .WorkDescription{
     margin-left: 0%;
 }
@@ -951,6 +984,7 @@ h3{
     font-family: $text_font;
     font-size: 1rem;
     color: $text_color;
+    margin-right: 0.5rem;
 }
 
 .emailTextArea{
@@ -1020,7 +1054,11 @@ h3{
 
 .addWorkshop {
     display: flex;
-    justify-content: end;
+    justify-content: right;
+}
+
+.addWorkshop:hover{
+    text-decoration: none;
 }
 
 .ButtonBlue{
@@ -1095,7 +1133,7 @@ h3{
 }
 
 .searchBarIcon{
-    color: $secondary_blue;
+    color: white;
     background-color: $primary_blue;
 }
 
