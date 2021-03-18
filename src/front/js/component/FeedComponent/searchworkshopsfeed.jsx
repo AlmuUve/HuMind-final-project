@@ -27,7 +27,7 @@ export const Searchworkshops = props => {
 		} else {
 			setAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
 		}
-	}, []);
+	}, [store.allSearchWorkshops]);
 
 	return (
 		<>

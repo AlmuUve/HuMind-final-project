@@ -32,7 +32,7 @@ export const Workshops = props => {
 		} else {
 			setAvatar("https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg");
 		}
-	}, []);
+	}, [store.allWorkshops]);
 
 	let categoryLabels = props.item.categories.map((item, index) => {
 		return <Categorylabel item={item} key={index.toString()} />;
