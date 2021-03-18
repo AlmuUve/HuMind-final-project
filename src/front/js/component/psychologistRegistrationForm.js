@@ -9,8 +9,6 @@ export const PsychologistRegistrationForm = props => {
 	const { actions, store } = useContext(Context);
 	const tokenInStorage = localStorage.getItem("token");
 
-	console.log(tokenInStorage);
-
 	const [user, setUser] = useState({
 		email: store.email,
 		password: store.password,

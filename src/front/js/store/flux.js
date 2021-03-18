@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 
-const url = "https://3001-moccasin-galliform-8092hzny.ws-eu03.gitpod.io";
+const url = "https://humind.herokuapp.com";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -24,9 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			getSearchResults: async keyword => {
 				let response = await fetch(
-					"https://3001-gray-sheep-fw8fvyug.ws-eu03.gitpod.io/user/" +
-						getStore().LoggedUser.user_id +
-						"/search_for_workshop",
+					url + "/user/" + getStore().LoggedUser.user_id + "/search_for_workshop",
 					{
 						method: "POST",
 						headers: new Headers({
@@ -46,17 +44,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getAllWorkshops: () => {
-				fetch("https://3001-gray-sheep-fw8fvyug.ws-eu03.gitpod.io/search_workshop").then(async res => {
+				fetch(url + "/search_workshop").then(async res => {
 					const response = await res.json();
 					getStore({ allWorkshops: response });
 				});
 			},
 
 			getWorkshops: () => {
-				fetch("https://3001-gray-sheep-fw8fvyug.ws-eu03.gitpod.io/user/company/1/workshops").then(async res => {
+				fetch(url + "/user/company/1/workshops").then(async res => {
 					const response = await res.json();
 					setStore({ searchWorkshops: response });
 				});
+			},
+
+			//FUNCTIONS FOR PATHS PROFILE\\
+
+			setpathProfilePsychologist: (newName, newLastname) => {
+				setStore({ pathProfilePsychologist: pathProfile.concat(newName, "_", newLastname) });
+			},
+			setpathProfileCompany: newName => {
+				setStore({ pathProfileCompany: pathProfile.concat(newName) });
 			},
 
 			//AUX FUNCTIONS\\
@@ -477,16 +484,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			sendEmail: async email => {
 				let response = await fetch(url + "/contact", {
-					method: "PUT",
+					method: "POST",
+					mode: "cors",
+					headers: new Headers({
+						"Content-Type": "application/json"
+					}),
 					body: JSON.stringify({
 						email_from: email.email_from,
 						email_to: getStore().user.email,
 						subject: email.subject,
-						message: email.message
-					}),
-					headers: {
-						"Content-Type": "application/json"
-					}
+						text: email.message
+					})
 				});
 				response = await response.json();
 			}
