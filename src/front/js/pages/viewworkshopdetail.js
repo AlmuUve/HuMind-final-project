@@ -6,7 +6,9 @@ export const ViewWorkshopDetail = () => {
 	return (
 		<>
 			<div className="row">
-				<WorkshopDetail />
+				<div className="col-lg-12 col-sm-12">
+					<WorkshopDetail />
+				</div>
 			</div>
 		</>
 	);

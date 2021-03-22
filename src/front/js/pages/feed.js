@@ -28,7 +28,7 @@ export const Feed = () => {
 				<div className="container-fluid bodyFeed">
 					<div className="row d-felx justify-content-center">
 						<Profilefeed />
-						<div className="col-lg-8 col-sm-12 bg-succes">{listAllWorkshops}</div>
+						<div className="col-lg-8 col-sm-12 px-0">{listAllWorkshops}</div>
 					</div>
 				</div>
 			</>
@@ -39,7 +39,7 @@ export const Feed = () => {
 				<div className="container-fluid bodyFeed">
 					<div className="row d-felx justify-content-center">
 						<Profilefeed />
-						<div className="col-lg-8 col-sm-12 bg-succes">{listAllSearchWorkshops}</div>
+						<div className="col-lg-8 col-sm-12 px-0">{listAllSearchWorkshops}</div>
 					</div>
 				</div>
 			</>

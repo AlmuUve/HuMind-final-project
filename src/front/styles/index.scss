@@ -281,8 +281,7 @@ h3{
 .templateWorkshop {
     border: 3px solid $background_color;
     padding: 1rem;
-    margin-right: 1rem;
-    margin: 1rem 0 1rem 0;
+    margin: 1rem 2rem 1rem 2rem;
 }
 
 div.templateWorkshop {
@@ -758,14 +757,14 @@ div.templateWorkshop {
     display: flex;
     justify-content: center;
     font-family: $title_font;
-    margin-top: 7.5rem;
+    margin: 7.5rem 0 2rem 0;
 }
 
 .titleAddSearchWorkshop{
     display: flex;
     justify-content: center;
     font-family: $title_font;
-    margin-top: 7.5rem;
+    margin: 7.5rem 0 2rem 0;
 }
 
 .notShow {
@@ -1021,6 +1020,16 @@ div.templateWorkshop {
 }
 
 // BOTONES NAV PILLS \\
+
+.viewPills{
+    margin: 0 0.5rem 0.5rem 0.4rem;
+    padding: 0 0.5rem 0 0.4rem;
+}
+
+.pillsMenu {
+    margin-left: 0.5rem;
+    padding-left: 0.5rem;
+}
 
 .pillsButtons {
     font-family: $title_font;

@@ -102,16 +102,24 @@ export const Profile = () => {
 	// CRETE "CTA" MESSAGE \\
 
 	useEffect(() => {
-		if (store.workshops.length > 0) {
+		if (store.user != null) {
 			setCtaWorkshops("ctaWorkshopsNone");
+		} else if (store.user == null) {
+			if (store.workshops.length > 0) {
+				setCtaWorkshops("ctaWorkshopsNone");
+			}
 		}
-	}, [store.workshops]);
+	}, [store.workshops, store.user]);
 
 	useEffect(() => {
-		if (store.searchWorkshops.length > 0) {
+		if (store.user != null) {
 			setCtaSearch("ctaWorkshopsNone");
+		} else if (store.user == null) {
+			if (store.searchWorkshops.length > 0) {
+				setCtaSearch("ctaWorkshopsNone");
+			}
 		}
-	}, [store.searchWorkshops]);
+	}, [store.searchWorkshops, store.user]);
 
 	//MAPING WORKSHOPS\\
 
@@ -135,7 +143,7 @@ export const Profile = () => {
 							</div>
 							<div className="col-lg-8 col-sm-12">
 								<div className="container-fluid">
-									<div className="row">
+									<div className="row pillsMenu">
 										<ul className="nav nav-pills">
 											<li className="nav-item">
 												<button
@@ -173,7 +181,7 @@ export const Profile = () => {
 										</ul>
 									</div>
 								</div>
-								<div className="tab-content">
+								<div className="tab-content viewPills">
 									<div
 										className={"tab-pane" + active1}
 										id="home"
@@ -231,7 +239,7 @@ export const Profile = () => {
 							</div>
 							<div className="col-lg-8 col-sm-12">
 								<div className="container-fluid">
-									<div className="row">
+									<div className="row pillsMenu">
 										<ul className="nav nav-pills">
 											<li className="nav-item">
 												<button
@@ -269,7 +277,7 @@ export const Profile = () => {
 										</ul>
 									</div>
 								</div>
-								<div className="tab-content">
+								<div className="tab-content viewPills">
 									<div
 										className={"tab-pane" + active1}
 										id="home"

@@ -38,7 +38,7 @@ export const WorkshopDetail = () => {
 	return (
 		<div className="container-fluid workshopDetail row">
 			<Profilefeed />
-			<div className="workshopDetailCard col-md-7 col-xs-12">
+			<div className="workshopDetailCard col-lg-7 col-sm-12">
 				<Link to={"/feed"}>
 					<i className="fas fa-times crossButton" />
 				</Link>
