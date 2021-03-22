@@ -10,9 +10,9 @@ import { Searchworkshops } from "../component/FeedComponent/searchworkshopsfeed.
 export const Feed = () => {
 	const { store, actions } = useContext(Context);
 
-	useEffect(() => {
-		actions.decode();
-	}, []);
+	// useEffect(() => {
+	// 	actions.decode();
+	// }, []);
 
 	let listAllWorkshops = store.allWorkshops.map((item, index) => {
 		return <Workshops item={item} key={index.toString()} />;
