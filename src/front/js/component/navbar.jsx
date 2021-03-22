@@ -17,6 +17,44 @@ export const Navbarpage = props => {
 
 	const history = useHistory();
 
+	useEffect(() => {
+		if (store.LoggedUser.is_psychologist) {
+			if (store.LoggedUser.id == 1) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
+				);
+			} else if (store.LoggedUser.id == 2) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
+				);
+			} else if (store.LoggedUser.id == 3) {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14046.jpg"
+				);
+			} else {
+				setNavbarAvatar(
+					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg"
+				);
+			}
+		}
+	}, [store.LoggedUser]);
+
+	useEffect(() => {
+		if (store.LoggedUser.is_psychologist == false) {
+			if (store.LoggedUser.id == 1) {
+				setNavbarAvatar("https://assets.breatheco.de/apis/img/icon/4geeks.png");
+			} else if (store.LoggedUser.id == 2) {
+				setNavbarAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
+			} else if (store.LoggedUser.id == 3) {
+				setNavbarAvatar(
+					"https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg"
+				);
+			} else {
+				setNavbarAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
+			}
+		}
+	}, [store.LoggedUser]);
+
 	const navbarLogOut = (
 		<Nav className="ml-auto">
 			<a href="#anchor" className="buttonNavbar">
@@ -120,44 +158,6 @@ export const Navbarpage = props => {
 
 	useEffect(() => {
 		store.LoggedUser.id > 0 ? setNavbar(navbarLog) : setNavbar(navbarLogOut);
-	}, [store.LoggedUser]);
-
-	useEffect(() => {
-		if (store.LoggedUser.is_psychologist) {
-			if (store.LoggedUser.id == 1) {
-				setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14049.jpg"
-				);
-			} else if (store.LoggedUser.id == 2) {
-				setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-mujer-icono-redondo_24640-14042.jpg"
-				);
-			} else if (store.LoggedUser.id == 3) {
-				setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14046.jpg"
-				);
-			} else {
-				setNavbarAvatar(
-					"https://image.freepik.com/vector-gratis/perfil-avatar-hombre-icono-redondo_24640-14044.jpg"
-				);
-			}
-		}
-	}, [store.LoggedUser]);
-
-	useEffect(() => {
-		if (store.LoggedUser.is_psychologist == false) {
-			if (store.LoggedUser.id == 1) {
-				setNavbarAvatar("https://assets.breatheco.de/apis/img/icon/4geeks.png");
-			} else if (store.LoggedUser.id == 2) {
-				setNavbarAvatar("https://talenthackers.s3.amazonaws.com/media/square-talenthackers.png");
-			} else if (store.LoggedUser.id == 3) {
-				setNavbarAvatar(
-					"https://ardgowanhospice.org.uk/wp-content/uploads/2018/09/1920x1080-brands-amazon-logo.jpg"
-				);
-			} else {
-				setNavbarAvatar("https://foroalfa.org/imagenes/ilustraciones/g-1.jpg");
-			}
-		}
 	}, [store.LoggedUser]);
 
 	return (

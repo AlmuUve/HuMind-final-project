@@ -201,6 +201,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 				response = await response.json();
 				setStore({ LoggedUser: response });
+				localStorage.setItem("loggedUser", JSON.stringify(response));
 			},
 
 			addNewWorkshop: async (workshop, id) => {

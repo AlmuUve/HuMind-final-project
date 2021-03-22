@@ -58,12 +58,7 @@ export const Profilefeed = () => {
 				<div className="titleCardFeed">{name}</div>
 			</div>
 			<div className="d-flex justify-content-center mt-2">
-				<Link
-					to={
-						store.LoggedUser.is_psychologist
-							? "/profile/" + store.LoggedUser.name + "_" + store.LoggedUser.lastname
-							: "/profile/" + store.LoggedUser.company_name.replace(" ", "_")
-					}>
+				<Link to={store.LoggedUser.is_psychologist ? "/profile/" + name.replace(" ", "_") : "/profile/" + name}>
 					<YellowButton text="Go to profile" onClickForm={() => actions.setUser(null)} />
 				</Link>
 			</div>
